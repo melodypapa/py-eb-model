@@ -1,0 +1,7 @@
+build
+py_eb_model.egg-info
+*.log
+.pytest_cache
+__pycache__
+archive
+data
