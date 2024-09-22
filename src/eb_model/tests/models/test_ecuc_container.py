@@ -1,6 +1,6 @@
 
-from py_eb_model.models.abstract import EcucContainer, EcucObject
-from py_eb_model.models.eb_doc import EBModel
+from ...models.eb_doc import EBModel
+from ...models.abstract import EcucContainer, EcucObject
 
 class TestEcucContainer:
 

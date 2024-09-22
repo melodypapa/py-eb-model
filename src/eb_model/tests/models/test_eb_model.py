@@ -1,5 +1,5 @@
 import pytest
-from py_eb_model.models.eb_doc import EBModel
+from ...models.eb_doc import EBModel
 
 class TestEBModel:
 

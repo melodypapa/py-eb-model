@@ -23,7 +23,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'os-xdm-xlsx  = py_eb_model.cli.os_xdm_2_xls_cli:main',
+            'os-xdm-xlsx  = eb_model.cli.os_xdm_2_xls_cli:main',
         ]
     }
 )
