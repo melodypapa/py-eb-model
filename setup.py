@@ -2,11 +2,25 @@
 
 from setuptools import setup, find_packages
 
+with open("README.md", "r") as fh:
+    long_description = fh.read() 
+
 setup(
     name='py_eb_model',
-    version = '1.0.0',
+    version = '0.8.0',
     license = 'proprietary',
     description="The parser for EB XDM file",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+
+    classifiers=[
+        'Development Status :: 1 - Planning',
+        'Environment :: Console',
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],  # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+    keywords='EB Tresos XDM', 
 
     author = 'melodypapa',
     author_email = "melodypapa@outlook.com",
