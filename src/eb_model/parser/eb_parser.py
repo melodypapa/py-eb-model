@@ -1,20 +1,25 @@
-#from xml.etree import cElementTree as ET
+import logging
 import xml.etree.ElementTree as ET
 import re
 
 from abc import ABCMeta
 from typing import List
 
-class EBModelParser(metaclass = ABCMeta):
+from ..models.eb_doc import EBModel
+from ..models.abstract import EcucRefType
+
+class AbstractEbModelParser(metaclass = ABCMeta):
 
     def __init__(self) -> None:
-        self.ns = {}
+        self.nsmap = {}
 
-        if type(self) == "EBModelParser":
+        self.logger = logging.getLogger()
+
+        if type(self) == "AbstractEBModelParser":
             raise ValueError("Abstract EBModelParser cannot be initialized.")
 
     def validate_root(self, element: ET.Element):
-        if (element.tag != "{%s}%s" % (self.ns[''], "datamodel")):
+        if (element.tag != "{%s}%s" % (self.nsmap[''], "datamodel")):
             raise ValueError("This document <%s> is not EB xdm format" % element.tag)
 
     def read_ref_raw_value(self, value):
@@ -27,10 +32,7 @@ class EBModelParser(metaclass = ABCMeta):
             return match.group(1)
         return value
 
-    def read_value(self, parent: ET.Element, name: str) -> str:
-        tag = parent.find(".//d:var[@name='%s']" % name, self.ns)
-        if tag == None:
-            raise KeyError("XPath d:var[@name='%s'] is invalid" % name)
+    def _convert_value(self, tag):
         if (tag.attrib['type'] == 'INTEGER'):
             return int(tag.attrib['value'])
         elif (tag.attrib['type'] == "FLOAT"):
@@ -43,50 +45,60 @@ class EBModelParser(metaclass = ABCMeta):
         else:
             return tag.attrib['value']
 
+    def read_value(self, parent: ET.Element, name: str) -> str:
+        tag = parent.find(".//d:var[@name='%s']" % name, self.nsmap)
+        if tag == None:
+            raise KeyError("XPath d:var[@name='%s'] is invalid" % name)
+        return self._convert_value(tag)
+
     def read_optional_value(self, parent: ET.Element, name: str, default_value = None) -> str:
-        tag = parent.find(".//d:var[@name='%s']" % name, self.ns)
+        tag = parent.find(".//d:var[@name='%s']" % name, self.nsmap)
         if tag is None:
             return default_value
         if ('value' not in tag.attrib):
             return default_value
-        return tag.attrib['value']
+        enable = self.read_attrib(tag, 'ENABLE')
+        if (enable == 'false'):
+            return default_value
+        return self._convert_value(tag)
 
     def find_choice_tag(self, parent: ET.Element, name: str) -> ET.Element:
-        return parent.find(".//d:chc[@name='%s']" % name, self.ns)
+        return parent.find(".//d:chc[@name='%s']" % name, self.nsmap)
 
     def read_choice_value(self, parent: ET.Element, name: str) -> str:
         tag = self.find_choice_tag(parent, name)
         return tag.attrib['value']
 
-    def read_ref_value(self, parent: ET.Element, name: str) -> str:
-        tag = parent.find(".//d:ref[@name='%s']" % name, self.ns)
-        return self.read_ref_raw_value(tag.attrib['value'])
+    def read_ref_value(self, parent: ET.Element, name: str) -> EcucRefType:
+        tag = parent.find(".//d:ref[@name='%s']" % name, self.nsmap)
+        if tag is None:
+             raise KeyError("XPath d:ref[@name='%s'] is invalid" % name)
+        return EcucRefType(self.read_ref_raw_value(tag.attrib['value']))
 
-    def read_optional_ref_value(self, parent: ET.Element, name: str) -> str:
-        tag = parent.find(".//d:ref[@name='%s']" % name, self.ns)
+    def read_optional_ref_value(self, parent: ET.Element, name: str) -> EcucRefType:
+        tag = parent.find(".//d:ref[@name='%s']" % name, self.nsmap)
         enable = self.read_attrib(tag, 'ENABLE')
         if (enable == 'false'):
-            return ""
-        return self.read_ref_raw_value(tag.attrib['value'])
+            return None
+        return EcucRefType(self.read_ref_raw_value(tag.attrib['value']))
 
-    def read_ref_value_list(self, parent: ET.Element, name: str) -> List[str]:
+    def read_ref_value_list(self, parent: ET.Element, name: str) -> List[EcucRefType]:
         ref_value_list = []
-        for tag in parent.findall(".//d:lst[@name='%s']/d:ref" % name, self.ns):
-            ref_value_list.append(
-                self.read_ref_raw_value(tag.attrib['value']))
+        for tag in parent.findall(".//d:lst[@name='%s']/d:ref" % name, self.nsmap):
+            ref_value_list.append(EcucRefType(self.read_ref_raw_value(tag.attrib['value'])))
         return ref_value_list
 
     def find_ctr_tag_list(self, parent: ET.Element, name: str) -> List[ET.Element]:
-        return parent.findall(".//d:lst[@name='%s']/d:ctr" % name, self.ns)
+        return parent.findall(".//d:lst[@name='%s']/d:ctr" % name, self.nsmap)
     
     def find_chc_tag_list(self, parent: ET.Element, name: str) -> List[ET.Element]:
-        return parent.findall(".//d:lst[@name='%s']/d:chc" % name, self.ns)
+        return parent.findall(".//d:lst[@name='%s']/d:chc" % name, self.nsmap)
 
     def find_ctr_tag(self, parent: ET.Element, name: str) -> ET.Element:
         '''
         Read the child ctr tag. 
         '''
-        tag = parent.find(".//d:ctr[@name='%s']" % name, self.ns)
+        tag = parent.find(".//d:ctr[@name='%s']" % name, self.nsmap)
         if tag is None:
             return None
         enable = self.read_attrib(tag, 'ENABLE')
@@ -133,15 +145,36 @@ class EBModelParser(metaclass = ABCMeta):
             ref_tag.attrib['value'] = "ASPath:%s" % ref
             lst_tag.append(ref_tag)
         return lst_tag
+    
+    def get_component_name(self, parent: ET.Element) -> str:
+        tag = parent.find(".//d:chc[@type='AR-ELEMENT'][@value='MODULE-CONFIGURATION']", self.nsmap)
+        return tag.attrib['name']
 
     def find_lst_tag(self, parent: ET.Element, name: str) -> ET.Element:
-        return parent.find(".//d:lst[@name='%s']" % name, self.ns)
+        return parent.find(".//d:lst[@name='%s']" % name, self.nsmap)
 
     def read_attrib(self, parent: ET.Element, name: str) -> str:
-        attrib_tag = parent.find(".//a:a[@name='%s']" % name, self.ns)
+        attrib_tag = parent.find(".//a:a[@name='%s']" % name, self.nsmap)
         if attrib_tag is None:
             return None
         return attrib_tag.attrib['value']
 
-    def _read_namespaces(self, xdm: str):
-        self.ns = dict([node for _, node in ET.iterparse(xdm, events=['start-ns'])])
+    def read_namespaces(self, xdm: str):
+        self.nsmap = dict([node for _, node in ET.iterparse(xdm, events=['start-ns'])])
+
+    def parse(self, element: ET.Element, doc: EBModel):
+        pass
+
+    def load_xdm(self, filename: str) -> ET.Element:
+        self.logger.info("Loading <%s>" % filename)
+
+        self.read_namespaces(filename)
+        tree = ET.parse(filename)
+        self.root_tag = tree.getroot()
+        self.validate_root(self.root_tag)
+
+        return self.root_tag
+
+    def parse_xdm(self, filename: str, doc: EBModel):
+        root_tag = self.load_xdm(filename)
+        self.parse(root_tag, doc)

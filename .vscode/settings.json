@@ -6,6 +6,7 @@
         "isrs",
         "levelname",
         "melodypapa",
+        "nsmap",
         "openpyxl",
         "ostask",
         "preemptable",

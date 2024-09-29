@@ -1,6 +1,4 @@
-
-from typing import List
-
+from .rte_xdm import Rte
 from .os_xdm import Os
 from .abstract import EcucContainer, EcucObject
 
@@ -22,7 +20,7 @@ class EBModel(EcucContainer):
         EBModel.__instance = self
 
     def getFullName(self):
-        return self.Name
+        return self.name
 
     def clear(self):
         self.elements = {}
@@ -43,10 +41,10 @@ class EBModel(EcucContainer):
         container = EcucContainer(self, "Os")
         os = Os(container)
         return self.find("/Os/Os")
-        
-
     
-
-        
-
+    def getRte(self) -> Rte:
+        container = EcucContainer(self, "Rte")
+        rte = Rte(container)
+        return self.find("/Rte/Rte")
+    
     

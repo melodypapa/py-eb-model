@@ -26,17 +26,48 @@ os-xdm-xlsx data/Os.xdm data/Os.xlsx
 
 1. OsIsrs
 
-![](doc/ox-xdm-xlsx/excel_os_isrs.png)
+![](doc/os-xdm-xlsx/os_isr_in_excel.png)
 
-2. OsTasks
+1. OsTasks
 
-![](doc/ox-xdm-xlsx/excel_os_tasks.png)
+![](doc/os-xdm-xlsx/os_task_in_excel.png)
+
+3. OsScheduleTable
+
+![](doc/os-xdm-xlsx/os_schedule_table_in_excel.png)
+
+4. OsCounter
+
+![](doc/os-xdm-xlsx/os_counter_in_excel.png)
+
+## 3.2. rte-task-xls
+
+Extract the Rte Configuration information from rte.xdm and then report all to Excel file.
+
+1. Export the Rte Configuration information to excel file
+
+```bash
+rte-xdm-xlsx data/Rte.xdm data/Rte.xlsx
+```
+
+2. Export the Runnable Entities information to excel file
+
+```bash
+rte-xdm-xlsx -r data/Rte.xdm data/Os.xdm data/Runnable.xlsx
+```
 
 
 # 4. Change History
 
-**Version 1.0.0** 
+**Version 0.8.0** 
 
 1. Create the basic model for EB xdm. (Issue #1)
 2. Support to extract the Os Tasks/Isrs from EB xdm and store them in the excel files. (Issue #1)
 
+**Version 1.0.1**
+
+1. Change the attribute to start with lowercase 
+2. *read_ref_value* and *read_optional_ref_value* method returns EcucRefType.
+3. Read the OsScheduleTable and export to excel
+4. REad the OsCounter and export to excel
+   
