@@ -1,220 +1,792 @@
 from typing import List
 
-from ..models.abstract import EcucObject
+from ..models.abstract import EcucContainer, EcucObject, EcucRefType
 
-class OsApplication:
+
+class OsAlarmAction(EcucContainer):
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+
+class OsAlarmAutostart(EcucContainer):
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osAlarmAlarmTime = None
+        self.osAlarmAutostartType = None
+        self.osAlarmCycleTime = None
+        self.osAlarmAppModeRefs = []
+
+    def getOsAlarmAlarmTime(self):
+        return self.osAlarmAlarmTime
+
+    def setOsAlarmAlarmTime(self, value):
+        self.osAlarmAlarmTime = value
+
+    def getOsAlarmAutostartType(self):
+        return self.osAlarmAutostartType
+
+    def setOsAlarmAutostartType(self, value):
+        self.osAlarmAutostartType = value
+
+    def getOsAlarmCycleTime(self):
+        return self.osAlarmCycleTime
+
+    def setOsAlarmCycleTime(self, value):
+        self.osAlarmCycleTime = value
+
+    def getOsAlarmAppModeRefs(self) -> List[EcucRefType]:
+        return self.osAlarmAppModeRefs
+
+    def addOsAlarmAppModeRef(self, ref: EcucRefType):
+        self.osAlarmAppModeRefs.append(ref)
+
+
+class OsAlarmActivateTask(OsAlarmAction):
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osAlarmActivateTaskRef = None
+
+    def getOsAlarmActivateTaskRef(self) -> EcucRefType:
+        return self.osAlarmActivateTaskRef
+
+    def setOsAlarmActivateTaskRef(self, value: EcucRefType):
+        self.osAlarmActivateTaskRef = value
+
+
+class OsAlarmCallback(OsAlarmAction):
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osAlarmCallbackName = None
+        self.osMemoryMappingCodeLocationRef = None
+
+    def getOsAlarmCallbackName(self):
+        return self.osAlarmCallbackName
+
+    def setOsAlarmCallbackName(self, value):
+        self.osAlarmCallbackName = value
+
+    def getOsMemoryMappingCodeLocationRef(self):
+        return self.osMemoryMappingCodeLocationRef
+
+    def setOsMemoryMappingCodeLocationRef(self, value):
+        self.osMemoryMappingCodeLocationRef = value
+
+
+class OsAlarmIncrementCounter(OsAlarmAction):
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osAlarmIncrementCounterRef = None
+
+    def getOsAlarmIncrementCounterRef(self):
+        return self.osAlarmIncrementCounterRef
+
+    def setOsAlarmIncrementCounterRef(self, value):
+        self.osAlarmIncrementCounterRef = value
+
+
+class OsAlarmSetEvent(OsAlarmAction):
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osAlarmSetEventRef = None
+        self.osAlarmSetEventTaskRef = None
+
+    def getOsAlarmSetEventRef(self) -> EcucRefType:
+        return self.osAlarmSetEventRef
+
+    def setOsAlarmSetEventRef(self, value: EcucRefType):
+        self.osAlarmSetEventRef = value
+        return self
+
+    def getOsAlarmSetEventTaskRef(self) -> EcucRefType:
+        return self.osAlarmSetEventTaskRef
+
+    def setOsAlarmSetEventTaskRef(self, value: EcucRefType):
+        self.osAlarmSetEventTaskRef = value
+        return self
+
+
+class OsAlarm(EcucContainer):
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osAlarmAccessingApplicationRefs = []   # type: List[EcucRefType]
+        self.osAlarmCounterRef = None
+        self.osAlarmAction = None                   # type: OsAlarmAction
+        self.osAlarmAutostart = None
+
+    def getOsAlarmAccessingApplicationRefList(self) -> List[EcucRefType]:
+        return self.osAlarmAccessingApplicationRefs
+
+    def addOsAlarmAccessingApplicationRef(self, ref: EcucRefType):
+        self.osAlarmAccessingApplicationRefs.append(ref)
+        return self
+
+    def getOsAlarmCounterRef(self) -> EcucRefType:
+        return self.osAlarmCounterRef
+
+    def setOsAlarmCounterRef(self, value: EcucRefType):
+        self.osAlarmCounterRef = value
+        return self
+
+    def getOsAlarmAction(self) -> OsAlarmAction:
+        return self.osAlarmAction
+
+    def setOsAlarmAction(self, value: OsAlarmAction):
+        self.osAlarmAction = value
+        return self
+
+    def getOsAlarmAutostart(self) -> OsAlarmAutostart:
+        return self.osAlarmAutostart
+
+    def setOsAlarmAutostart(self, value: OsAlarmAutostart):
+        self.osAlarmAutostart = value
+        return self
+
+    def __str__(self) -> str:
+        result = []
+        result.append("Name                        : %s" % self.getName())
+        result.append("Full Name                   : %s" % self.getFullName())
+        result.append("OsAlarmCounterRef           : %s" %
+                      self.getOsAlarmCounterRef())
+        result.append("OsAlarmAccessingApplication :")
+        for ref in self.getOsAlarmAccessingApplicationRefList():
+            result.append("    - %s" % ref)
+
+        return "\n".join(result)
+
+
+class OsApplication(EcucContainer):
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+
+class OsDriver(EcucContainer):
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osGptChannelRef = None
+
+    def getOsGptChannelRef(self) -> EcucRefType:
+        '''
+        Multiplicity: 0..1
+        '''
+        return self.osGptChannelRef
+
+    def setOsGptChannelRef(self, value: EcucRefType):
+        '''
+        Multiplicity: 0..1
+        '''
+        self.osGptChannelRef = value
+        return self
+
+
+class OsTimeConstant(EcucContainer):
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osTimeValue = None
+
+    def getOsTimeValue(self):
+        '''
+        Multiplicity: 1
+        '''
+        return self.osTimeValue
+
+    def setOsTimeValue(self, value):
+        '''
+        Multiplicity: 1
+        '''
+        self.osTimeValue = value
+        return self
+
+class OsCounter(EcucContainer):
+
+    OS_COUNTER_TYPE_HARDWARE = "HARDWARE"
+    OS_COUNTER_TYPE_SOFTWARE = "SOFTWARE"
+
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osCounterMaxAllowedValue = None        # 
+        self.osCounterMinCycle = None               # 
+        self.osCounterTicksPerBase = None           # 
+        self.osCounterType = None                   # 
+        self.osSecondsPerTick = None                # 
+        self.osCounterAccessingApplications = []    # 
+        self.osDriver = None                        # Multiplicity: 0..1
+        self.osTimeConstants = []                   # Multiplicity: 0..*
+
+    def getOsCounterMaxAllowedValue(self):
+        return self.osCounterMaxAllowedValue
+
+    def setOsCounterMaxAllowedValue(self, value):
+        '''
+        Multiplicity: 1
+        '''
+        self.osCounterMaxAllowedValue = value
+        return self
+
+    def getOsCounterMinCycle(self):
+        '''
+        Multiplicity: 1
+        '''
+        return self.osCounterMinCycle
+
+    def setOsCounterMinCycle(self, value):
+        '''
+        Multiplicity: 1
+        '''
+        self.osCounterMinCycle = value
+        return self
+
+    def getOsCounterTicksPerBase(self):
+        '''
+        Multiplicity: 1
+        '''
+        return self.osCounterTicksPerBase
+
+    def setOsCounterTicksPerBase(self, value):
+        '''
+        Multiplicity: 1
+        '''
+        self.osCounterTicksPerBase = value
+        return self
+
+    def getOsCounterType(self):
+        return self.osCounterType
+
+    def setOsCounterType(self, value):
+        '''
+        Multiplicity: 1
+        '''
+        self.osCounterType = value
+        return self
+
+    def getOsSecondsPerTick(self):
+        return self.osSecondsPerTick
+
+    def setOsSecondsPerTick(self, value):
+        '''
+        Multiplicity: 0..1
+        '''
+        self.osSecondsPerTick = value
+        return self
+
+    def getOsCounterAccessingApplicationList(self):
+        '''
+        Multiplicity: 0..*
+        '''
+        return self.osCounterAccessingApplications
+
+    def setOsCounterAccessingApplications(self, value):
+        self.osCounterAccessingApplications.append(value)
+        return self
+
+    def getOsDriver(self):
+        return self.osDriver
+
+    def setOsDriver(self, value):
+        self.osDriver = value
+        return self
+
+    def getOsTimeConstants(self):
+        return self.osTimeConstants
+
+    def setOsTimeConstants(self, value):
+        self.osTimeConstants = value
+        return self
+
+
+
+class OsResource(EcucContainer):
     def __init__(self) -> None:
         pass
 
-class OsCounter:
-    def __init__(self) -> None:
-        pass
 
-class OsResource:
+class OsIsrResourceLock(EcucContainer):
     def __init__(self) -> None:
-        pass
-
-class OsIsrResourceLock:
-    def __init__(self) -> None:
-        self.OsIsrResourceLockBudget = None
-        self.OsIsrResourceLockResourceRef = None
+        self.osIsrResourceLockBudget = None
+        self.osIsrResourceLockResourceRef = None
 
 
-class OsIsrTimingProtection:
+class OsIsrTimingProtection(EcucObject):
     def __init__(self) -> None:
-        self.OsIsrAllInterruptLockBudget = None
-        self.OsIsrExecutionBudget = None
-        self.OsIsrOsInterruptLockBudget = None
-        self.OsIsrTimeFrame = None                 
-        self.OsIsrResourceLock = OsIsrResourceLock()
+        self.osIsrAllInterruptLockBudget = None
+        self.osIsrExecutionBudget = None
+        self.osIsrOsInterruptLockBudget = None
+        self.osIsrTimeFrame = None
+        self.osIsrResourceLock = OsIsrResourceLock()
+
 
 class OsIsr(EcucObject):
     '''
     The OsIsr container represents an ISO 17356 interrupt service routine.
     '''
-    
+
     OS_ISR_CATEGORY_1 = "CATEGORY_1"       # Interrupt is of category 1
     OS_ISR_CATEGORY_2 = "CATEGORY_2"       # Interrupt is of category 2
 
-    def __init__(self) -> None:
-        self.OsIsrCategory = None
-        self.OsIsrPeriod = None
-        self.OsIsrResourceRef = None
-        self.OsMemoryMappingCodeLocationRef = None
-        self.OsIsrTimingProtection = OsIsrTimingProtection()    # type: OsIsrTimingProtection
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
 
-        self.OsIsrPriority = None
-        self.OsStacksize = None
+        self.osIsrCategory = None
+        self.osIsrPeriod = None
+        self.osIsrResourceRef = None
+        self.osMemoryMappingCodeLocationRef = None
+        self.osIsrTimingProtection = OsIsrTimingProtection()
+
+        self.osIsrPriority = None
+        self.osStacksize = None
 
     def getOsIsrCategory(self):
-        return self.OsIsrCategory
+        return self.osIsrCategory
 
     def setOsIsrCategory(self, value):
-        self.OsIsrCategory = value
+        self.osIsrCategory = value
         return self
 
     def getOsIsrPeriod(self):
-        return self.OsIsrPeriod
+        return self.osIsrPeriod
 
     def setOsIsrPeriod(self, value):
-        self.OsIsrPeriod = value
+        self.osIsrPeriod = value
         return self
 
     def getOsIsrResourceRef(self):
-        return self.OsIsrResourceRef
+        return self.osIsrResourceRef
 
     def setOsIsrResourceRef(self, value):
-        self.OsIsrResourceRef = value
+        self.osIsrResourceRef = value
         return self
 
     def getOsMemoryMappingCodeLocationRef(self):
-        return self.OsMemoryMappingCodeLocationRef
+        return self.osMemoryMappingCodeLocationRef
 
     def setOsMemoryMappingCodeLocationRef(self, value):
-        self.OsMemoryMappingCodeLocationRef = value
+        self.osMemoryMappingCodeLocationRef = value
         return self
 
     def getOsIsrTimingProtection(self):
-        return self.OsIsrTimingProtection
+        return self.osIsrTimingProtection
 
     def setOsIsrTimingProtection(self, value):
-        self.OsIsrTimingProtection = value
+        self.osIsrTimingProtection = value
         return self
-    
+
     def getOsIsrPriority(self):
-        return self.OsIsrPriority
+        return self.osIsrPriority
 
     def setOsIsrPriority(self, value):
-        self.OsIsrPriority = value
+        self.osIsrPriority = value
         return self
 
     def getOsStacksize(self):
-        return self.OsStacksize
+        return self.osStacksize
 
     def setOsStacksize(self, value):
-        self.OsStacksize = value
+        self.osStacksize = value
         return self
 
-class OsTaskAutostart:
-    def __init__(self) -> None:
-        self.OsTaskAppModeRef = None
 
-class OsTaskResourceLock:
-    def __init__(self) -> None:
-        self.OsTaskResourceLockBudget = None
+class OsTaskAutostart(EcucObject):
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
 
-class OsTaskTimingProtection:
-    def __init__(self) -> None:
-        self.OsTaskAllInterruptLockBudget = None
-        self.OsTaskExecutionBudget = None
-        self.OsTaskOsInterruptLockBudget = None
-        self.OsTaskTimeFrame = None
+        self.osTaskAppModeRef = None
 
-class OsTimeConstant:
+
+class OsTaskResourceLock(EcucObject):
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osTaskResourceLockBudget = None
+
+
+class OsTaskTimingProtection(EcucObject):
     def __init__(self) -> None:
-        self.OsTimeValue
+        self.osTaskAllInterruptLockBudget = None
+        self.osTaskExecutionBudget = None
+        self.osTaskOsInterruptLockBudget = None
+        self.osTaskTimeFrame = None
+
+
+class OsTimeConstant(EcucObject):
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osTimeValue = None
+
 
 class OsTask(EcucObject):
 
     FULL = "FULL"   # Task is preemptable.
-    NON  = "NON"    # Task is not preemptable.
+    NON = "NON"    # Task is not preemptable.
 
-    def __init__(self) -> None:
-        self.OsTaskActivation = None                    # type: int 
-        self.OsTaskPeriod = 0.0                         # type: float
-        self.OsTaskPriority = None                      # type: int
-        self.OsTaskSchedule = ""
-        self.OsStacksize = 0                            # type: int
-        self.OsMemoryMappingCodeLocationRef = None
-        self.OsTaskAccessingApplication = None
-        self.OsTaskEventRef = None
-        self.OsTaskResourceRef = None
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osTaskActivation = None                    # type: int
+        self.osTaskPeriod = 0.0                         # type: float
+        self.osTaskPriority = None                      # type: int
+        self.osTaskSchedule = ""
+        self.osStacksize = 0                            # type: int
+        self.osMemoryMappingCodeLocationRef = None
+        self.osTaskAccessingApplication = None
+        self.osTaskEventRef = None
+        self.osTaskResourceRefs = []                    # type: List[EcucRefType]
 
     def getOsTaskActivation(self):
-        return self.OsTaskActivation
+        return self.osTaskActivation
 
     def setOsTaskActivation(self, value):
-        self.OsTaskActivation = value
+        self.osTaskActivation = value
         return self
 
     def getOsTaskPeriod(self):
-        return self.OsTaskPeriod
+        return self.osTaskPeriod
 
     def setOsTaskPeriod(self, value):
-        self.OsTaskPeriod = value
+        self.osTaskPeriod = value
         return self
 
     def getOsTaskPriority(self):
-        return self.OsTaskPriority
+        return self.osTaskPriority
 
     def setOsTaskPriority(self, value):
-        self.OsTaskPriority = value
+        self.osTaskPriority = value
         return self
 
     def getOsTaskSchedule(self):
-        return self.OsTaskSchedule
+        return self.osTaskSchedule
 
     def setOsTaskSchedule(self, value):
-        self.OsTaskSchedule = value
+        self.osTaskSchedule = value
         return self
-    
-    def getOsStacksize(self):
-        return self.OsStacksize
 
-    def setOsStacksize(self, value):
-        self.OsStacksize = value
+    def getOsStacksize(self) -> int:
+        return self.osStacksize
+
+    def setOsStacksize(self, value: int):
+        self.osStacksize = value
         return self
 
     def getOsMemoryMappingCodeLocationRef(self):
-        return self.OsMemoryMappingCodeLocationRef
+        return self.osMemoryMappingCodeLocationRef
 
     def setOsMemoryMappingCodeLocationRef(self, value):
-        self.OsMemoryMappingCodeLocationRef = value
+        self.osMemoryMappingCodeLocationRef = value
         return self
 
     def getOsTaskAccessingApplication(self):
-        return self.OsTaskAccessingApplication
+        return self.osTaskAccessingApplication
 
     def setOsTaskAccessingApplication(self, value):
-        self.OsTaskAccessingApplication = value
+        self.osTaskAccessingApplication = value
         return self
 
     def getOsTaskEventRef(self):
-        return self.OsTaskEventRef
+        return self.osTaskEventRef
 
     def setOsTaskEventRef(self, value):
-        self.OsTaskEventRef = value
+        self.osTaskEventRef = value
         return self
 
-    def getOsTaskResourceRef(self):
-        return self.OsTaskResourceRef
+    def getOsTaskResourceRefList(self) -> List[EcucRefType]:
+        return self.osTaskResourceRefs
 
-    def setOsTaskResourceRef(self, value):
-        self.OsTaskResourceRef = value
+    def addOsTaskResourceRef(self, value: EcucRefType):
+        self.osTaskResourceRefs.append(value)
         return self
-    
+
     def IsPreemptable(self) -> bool:
-        if self.OsTaskSchedule == OsTask.FULL:
+        if self.osTaskSchedule == OsTask.FULL:
             return True
         return False
 
-class Os(EcucObject):
+
+class OsScheduleTableAutostart(EcucContainer):
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osScheduleTableAutostartType = None        # Multiplicity: 1
+        self.osScheduleTableStartValue = None           # Multiplicity: 0..1
+        self.osScheduleTableAppModeRef = None           # Multiplicity: 1..*
+
+    def getOsScheduleTableAutostartType(self):
+        return self.osScheduleTableAutostartType
+
+    def setOsScheduleTableAutostartType(self, value):
+        self.osScheduleTableAutostartType = value
+        return self
+
+    def getOsScheduleTableStartValue(self):
+        return self.osScheduleTableStartValue
+
+    def setOsScheduleTableStartValue(self, value):
+        self.osScheduleTableStartValue = value
+        return self
+
+    def getOsScheduleTableAppModeRef(self):
+        return self.osScheduleTableAppModeRef
+
+    def setOsScheduleTableAppModeRef(self, value):
+        self.osScheduleTableAppModeRef = value
+        return self
+
+
+class OsScheduleTableEventSetting(EcucContainer):
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osScheduleTableSetEventRef = None          # Multiplicity: 1
+        self.osScheduleTableSetEventTaskRef = None      # Multiplicity: 1
+
+    def getOsScheduleTableSetEventRef(self):
+        return self.osScheduleTableSetEventRef
+
+    def setOsScheduleTableSetEventRef(self, value):
+        self.osScheduleTableSetEventRef = value
+        return self
+
+    def getOsScheduleTableSetEventTaskRef(self):
+        return self.osScheduleTableSetEventTaskRef
+
+    def setOsScheduleTableSetEventTaskRef(self, value):
+        self.osScheduleTableSetEventTaskRef = value
+        return self
+
+
+class OsScheduleTblAdjustableExpPoint(EcucContainer):
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osScheduleTableMaxLengthen = None          # Multiplicity: 1
+        self.osScheduleTableMaxShorten = None           # Multiplicity: 1
+
+    def getOsScheduleTableMaxLengthen(self) -> int:
+        return self.osScheduleTableMaxLengthen
+
+    def setOsScheduleTableMaxLengthen(self, value: int):
+        self.osScheduleTableMaxLengthen = value
+        return self
+
+    def getOsScheduleTableMaxShorten(self) -> int:
+        return self.osScheduleTableMaxShorten
+
+    def setOsScheduleTableMaxShorten(self, value: int):
+        self.osScheduleTableMaxShorten = value
+        return self
+
+
+class OsScheduleTableTaskActivation(EcucContainer):
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osScheduleTableActivateTaskRef = None      # Multiplicity: 1
+
+    def getOsScheduleTableActivateTaskRef(self) -> EcucRefType:
+        return self.osScheduleTableActivateTaskRef
+
+    def setOsScheduleTableActivateTaskRef(self, value: EcucRefType):
+        self.osScheduleTableActivateTaskRef = value
+        return self
+
+
+class OsScheduleTableEventSetting(EcucContainer):
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        # Multiplicity: 1       Reference to OsEvent
+        self.osScheduleTableSetEventRef = None
+        # Multiplicity: 1       Reference to OsTask
+        self.osScheduleTableSetEventTaskRef = None
+
+    def getOsScheduleTableSetEventRef(self):
+        return self.osScheduleTableSetEventRef
+
+    def setOsScheduleTableSetEventRef(self, value):
+        self.osScheduleTableSetEventRef = value
+        return self
+
+    def getOsScheduleTableSetEventTaskRef(self):
+        return self.osScheduleTableSetEventTaskRef
+
+    def setOsScheduleTableSetEventTaskRef(self, value):
+        self.osScheduleTableSetEventTaskRef = value
+        return self
+
+
+class OsScheduleTableExpiryPoint(EcucContainer):
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osScheduleTblExpPointOffset = None         # Multiplicity: 1
+        self.osScheduleTableEventSettings = []          # Multiplicity: 0..*
+        self.osScheduleTableTaskActivations = []        # Multiplicity: 0..*
+        self.osScheduleTblAdjustableExpPoint = None     # Multiplicity: 0..1
+
+    def getOsScheduleTblExpPointOffset(self):
+        return self.osScheduleTblExpPointOffset
+
+    def setOsScheduleTblExpPointOffset(self, value):
+        self.osScheduleTblExpPointOffset = value
+        return self
+
+    def getOsScheduleTableEventSettingList(self) -> List[OsScheduleTableEventSetting]:
+        return self.osScheduleTableEventSettings
+
+    def addOsScheduleTableEventSetting(self, value: OsScheduleTableEventSetting):
+        self.addElement(value)
+        self.osScheduleTableEventSettings.append(value)
+        return self
+
+    def getOsScheduleTableTaskActivationList(self) -> List[OsScheduleTableTaskActivation]:
+        return self.osScheduleTableTaskActivations
+
+    def addOsScheduleTableTaskActivation(self, value: OsScheduleTableTaskActivation):
+        self.addElement(value)
+        self.osScheduleTableTaskActivations.append(value)
+        return self
+
+    def getOsScheduleTblAdjustableExpPoint(self) -> OsScheduleTblAdjustableExpPoint:
+        return self.osScheduleTblAdjustableExpPoint
+
+    def setOsScheduleTblAdjustableExpPoint(self, value: OsScheduleTblAdjustableExpPoint):
+        self.osScheduleTblAdjustableExpPoint = value
+        return self
+
+
+class OsScheduleTable(EcucContainer):
+
+    OS_TIME_UNIT_NANOSECONDS = "NANOSECONDS"
+    OS_TIME_UNIT_TICKS = "TICKS"
+
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osScheduleTableDuration = None             # Multiplicity: 1
+        self.osScheduleTableRepeating = None            # Multiplicity: 1
+        self.osScheduleTableCounterRef = None           # Multiplicity: 1
+        self.osSchTblAccessingApplications = []         # Multiplicity: 0..*
+        self.osTimeUnit = None                          # Multiplicity: 0..1
+
+        self.osScheduleTableAutostart = None            # Multiplicity: 0..1
+        self.osScheduleTableExpiryPoints = []           # Multiplicity: 1..*
+        self.osScheduleTableSync = None                 # Multiplicity: 0..1
+
+    def getOsScheduleTableDuration(self):
+        return self.osScheduleTableDuration
+
+    def setOsScheduleTableDuration(self, value):
+        self.osScheduleTableDuration = value
+        return self
+
+    def getOsScheduleTableRepeating(self):
+        return self.osScheduleTableRepeating
+
+    def setOsScheduleTableRepeating(self, value):
+        self.osScheduleTableRepeating = value
+        return self
+
+    def getOsScheduleTableCounterRef(self) -> EcucRefType:
+        return self.osScheduleTableCounterRef
+
+    def setOsScheduleTableCounterRef(self, value: EcucRefType):
+        self.osScheduleTableCounterRef = value
+        return self
+
+    def getOsSchTblAccessingApplicationList(self):
+        return self.osSchTblAccessingApplications
+
+    def addOsSchTblAccessingApplication(self, value):
+        self.osSchTblAccessingApplications.append(value)
+        return self
+
+    def getOsTimeUnit(self) -> str:
+        return self.osTimeUnit
+
+    def setOsTimeUnit(self, value: str):
+        if value is not None:
+            if value not in [OsScheduleTable.OS_TIME_UNIT_NANOSECONDS, OsScheduleTable.OS_TIME_UNIT_TICKS]:
+                raise ValueError("Invalid OsTimeUnit <%s>" % value)
+        self.osTimeUnit = value     # set to None if the value is None
+        return self
+
+    def getOsScheduleTableAutostart(self):
+        return self.osScheduleTableAutostart
+
+    def setOsScheduleTableAutostart(self, value):
+        self.osScheduleTableAutostart = value
+        return self
+
+    def getOsScheduleTableExpiryPointList(self) -> List[OsScheduleTableExpiryPoint]:
+        return self.osScheduleTableExpiryPoints
+
+    def addOsScheduleTableExpiryPoint(self, value: OsScheduleTableExpiryPoint):
+        self.addElement(value
+                        )
+        self.osScheduleTableExpiryPoints.append(value)
+        return self
+
+    def getOsScheduleTableSync(self):
+        return self.osScheduleTableSync
+
+    def setOsScheduleTableSync(self, value):
+        self.osScheduleTableSync = value
+        return self
+
+
+class Os(EcucContainer):
     def __init__(self, parent) -> None:
         super().__init__(parent, "Os")
 
         self.osTasks = []                               # type: List[OsTask]
         self.osIsrs = []                                # type: List[OsIsr]
+        self.osAlarms = []                              # type: List[OsAlarm]
+        self.osScheduleTables = []                      # type: List[OsScheduleTable]
+        self.osCounters = []                            # type: List[OsCounter]
 
     def getOsTaskList(self) -> List[OsTask]:
-        return self.osTasks
-    
+        return list(sorted(filter(lambda a: isinstance(a, OsTask), self.elements.values()), key=lambda o: o.name))
+
     def addOsTask(self, os_task: OsTask):
+        self.addElement(os_task)
         self.osTasks.append(os_task)
         return self
 
     def getOsIsrList(self) -> List[OsIsr]:
-        return self.osIsrs
-    
+        return list(sorted(filter(lambda a: isinstance(a, OsIsr), self.elements.values()), key=lambda o: o.name))
+
     def addOsIsr(self, os_isr: OsIsr):
+        self.addElement(os_isr)
         self.osIsrs.append(os_isr)
+        return self
+
+    def getOsAlarmList(self) -> List[OsAlarm]:
+        return list(sorted(filter(lambda a: isinstance(a, OsAlarm), self.elements.values()), key=lambda o: o.name))
+
+    def addOsAlarm(self, os_alarm: OsAlarm):
+        self.addElement(os_alarm)
+        self.osAlarms.append(os_alarm)
+        return self
+
+    def getOsScheduleTableList(self) -> List[OsScheduleTable]:
+        return list(sorted(filter(lambda a: isinstance(a, OsScheduleTable), self.elements.values()), key=lambda o: o.name))
+
+    def addOsScheduleTable(self, os_schedule_table: OsScheduleTable):
+        self.addElement(os_schedule_table)
+        self.osScheduleTables.append(os_schedule_table)
+        return self
+
+    def getOsCounterList(self) -> List[OsCounter]:
+        return list(sorted(filter(lambda a: isinstance(a, OsCounter), self.elements.values()), key=lambda o: o.name))
+
+    def addOsCounter(self, os_counter: OsCounter):
+        self.addElement(os_counter)
+        self.osCounters.append(os_counter)
         return self

@@ -23,3 +23,8 @@ class TestEBModel:
         document = EBModel.getInstance()
         os = document.getOs()
         assert (os.getFullName() == "/Os/Os")
+
+    def test_ebmodel_get_rte(self):
+        document = EBModel.getInstance()
+        rte = document.getRte()
+        assert (rte.getFullName() == "/Rte/Rte")

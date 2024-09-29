@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='py_eb_model',
-    version = '0.8.0',
+    version = '1.0.1',
     license = 'proprietary',
     description="The parser for EB XDM file",
     long_description=long_description,
@@ -37,7 +37,8 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'os-xdm-xlsx  = eb_model.cli.os_xdm_2_xls_cli:main',
+            'os-xdm-xlsx   = eb_model.cli.os_xdm_2_xls_cli:main',
+            'rte-xdm-xlsx  = eb_model.cli.rte_xdm_2_xls_cli:main',
         ]
     }
 )

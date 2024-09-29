@@ -4,29 +4,32 @@ import logging
 import sys
 import os.path
 
-from ..parser import OsXdmParser
+from eb_model.parser.eb_parser_factory import EbParserFactory
+
+from ..reporter.excel_reporter.rte_xdm import RteRunnableEntityXlsWriter, RteXdmXlsWriter
+from ..parser.rte_xdm_parser import RteXdmParser
 from ..models import EBModel
-from ..reporter import OsXdmXlsWriter
 
 def main():
     version = pkg_resources.require("py_eb_model")[0].version
 
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--verbose", required= False, help= "Print debug information", action= "store_true")
-    ap.add_argument("INPUT", help = "The path of Os.xdm.")
+    ap.add_argument("-r", "--runnable", required= False, help= "Export the runnable entities", action= "store_true")
+    ap.add_argument("INPUT", help = "The path of xdm file.", nargs='+')
     ap.add_argument("OUTPUT", help = "The path of excel file.")
 
     args = ap.parse_args()
 
     logger = logging.getLogger()
     
-    formatter = logging.Formatter('[%(levelname)s] : %(message)s')
+    formatter = logging.Formatter('[%(levelname)s] [%(asctime)s]: %(message)s')
 
     stdout_handler = logging.StreamHandler(sys.stderr)
     stdout_handler.setFormatter(formatter)
 
     base_path = os.path.dirname(args.OUTPUT)
-    log_file = os.path.join(base_path, 'os_xdm_2_xls.log')
+    log_file = os.path.join(base_path, 'rte_xdm_2_xls.log')
 
     if os.path.exists(log_file):
         os.remove(log_file)
@@ -48,12 +51,17 @@ def main():
 
     try:
         doc = EBModel.getInstance()
-        
-        parser = OsXdmParser()
-        parser.parse_xdm(args.INPUT, doc)
 
-        writer = OsXdmXlsWriter()
-        writer.write(args.OUTPUT, doc)
+        for input_file in args.INPUT:
+            parser = EbParserFactory.create(input_file)
+            parser.parse_xdm(input_file, doc)
+
+        if args.runnable:
+            writer = RteRunnableEntityXlsWriter()
+            writer.write(args.OUTPUT, doc)
+        else:
+            writer = RteXdmXlsWriter()
+            writer.write(args.OUTPUT, doc)
         
     except Exception as e:
         logger.error(e)
