@@ -4,7 +4,6 @@ from ..models.rte_xdm import Rte, RteBswEventToTaskMapping, RteBswModuleInstance
 from ..models.eb_doc import EBModel
 from .eb_parser import AbstractEbModelParser
 
-
 class RteXdmParser(AbstractEbModelParser):
     def __init__(self, ) -> None:
         super().__init__()

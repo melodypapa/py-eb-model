@@ -159,10 +159,178 @@ class OsAlarm(EcucContainer):
 
         return "\n".join(result)
 
+class OsApplicationHooks(EcucContainer):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
 
+        self.OsAppErrorHook = False                                     # type: bool
+        self.OsAppShutdownHook = False                                  # type: bool
+        self.OsAppStartupHook = False                                   # type: bool
+        self.OsMemoryMappingCodeLocationRef = None                      # type: EcucRefType
+
+    def getOsAppErrorHook(self):
+        return self.OsAppErrorHook
+
+    def setOsAppErrorHook(self, value):
+        self.OsAppErrorHook = value
+        return self
+
+    def getOsAppShutdownHook(self):
+        return self.OsAppShutdownHook
+
+    def setOsAppShutdownHook(self, value):
+        self.OsAppShutdownHook = value
+        return self
+
+    def getOsAppStartupHook(self):
+        return self.OsAppStartupHook
+
+    def setOsAppStartupHook(self, value):
+        self.OsAppStartupHook = value
+        return self
+
+    def getOsMemoryMappingCodeLocationRef(self):
+        return self.OsMemoryMappingCodeLocationRef
+
+    def setOsMemoryMappingCodeLocationRef(self, value):
+        self.OsMemoryMappingCodeLocationRef = value
+        return self
+
+class OsApplicationTrustedFunction(EcucContainer):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
+
+        self.OsTrustedFunctionName = None                               # type: str
+        self.OsMemoryMappingCodeLocationRef = None                      # type: EcucRefType
+
+    def getOsTrustedFunctionName(self):
+        return self.OsTrustedFunctionName
+
+    def setOsTrustedFunctionName(self, value):
+        self.OsTrustedFunctionName = value
+        return self
+
+    def getOsMemoryMappingCodeLocationRef(self):
+        return self.OsMemoryMappingCodeLocationRef
+
+    def setOsMemoryMappingCodeLocationRef(self, value):
+        self.OsMemoryMappingCodeLocationRef = value
+        return self
+class OsAppMode(EcucContainer):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
 class OsApplication(EcucContainer):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
+
+        self.OsTrusted = False                                          # type: bool
+        self.OsTrustedApplicationDelayTimingViolationCall = False       # type: bool
+        self.OsTrustedApplicationWithProtection = False                 # type: bool
+        self.OsAppAlarmRefs = []                                        # type: List[EcucRefType]
+        self.OsAppCounterRefs = []                                      # type: List[EcucRefType]
+        self.OsAppEcucPartitionRefs = []                                # type: List[EcucRefType]
+        self.OsAppIsrRefs = []                                          # type: List[EcucRefType]
+        self.OsApplicationCoreRefs = []                                 # type: List[EcucRefType]
+        self.OsAppScheduleTableRefs = []                                # type: List[EcucRefType]
+        self.OsAppTaskRefs = []                                         # type: List[EcucRefType]
+        self.OsMemoryMappingCodeLocationRef = None                      # type: EcucRefType
+        self.OsRestartTask = None                                       # type: EcucRefType
+
+        '''
+        EB Tresos
+        '''
+        self.OsAppResourceRefs = []                                     # type: List[EcucRefType] 
+
+    def getOsTrusted(self):
+        return self.OsTrusted
+
+    def setOsTrusted(self, value):
+        self.OsTrusted = value
+        return self
+
+    def getOsTrustedApplicationDelayTimingViolationCall(self):
+        return self.OsTrustedApplicationDelayTimingViolationCall
+
+    def setOsTrustedApplicationDelayTimingViolationCall(self, value):
+        self.OsTrustedApplicationDelayTimingViolationCall = value
+        return self
+
+    def getOsTrustedApplicationWithProtection(self):
+        return self.OsTrustedApplicationWithProtection
+
+    def setOsTrustedApplicationWithProtection(self, value):
+        self.OsTrustedApplicationWithProtection = value
+        return self
+
+    def getOsAppAlarmRefs(self):
+        return self.OsAppAlarmRefs
+
+    def addOsAppAlarmRef(self, value):
+        self.OsAppAlarmRefs.append(value)
+        return self
+
+    def getOsAppCounterRefs(self):
+        return self.OsAppCounterRefs
+
+    def addOsAppCounterRefs(self, value):
+        self.OsAppCounterRefs.append(value)
+        return self
+
+    def getOsAppEcucPartitionRefs(self):
+        return self.OsAppEcucPartitionRefs
+
+    def addOsAppEcucPartitionRefs(self, value):
+        self.OsAppEcucPartitionRefs.append(value)
+        return self
+
+    def getOsAppIsrRefs(self):
+        return self.OsAppIsrRefs
+
+    def addOsAppIsrRefs(self, value):
+        self.OsAppIsrRefs.append(value)
+        return self
+
+    def getOsApplicationCoreRefs(self):
+        return self.OsApplicationCoreRefs
+
+    def addOsApplicationCoreRefs(self, value):
+        self.OsApplicationCoreRefs.append(value)
+        return self
+
+    def getOsAppScheduleTableRefs(self):
+        return self.OsAppScheduleTableRefs
+
+    def addOsAppScheduleTableRef(self, value):
+        self.OsAppScheduleTableRefs.append(value)
+        return self
+
+    def getOsAppTaskRefs(self):
+        return self.OsAppTaskRefs
+
+    def addOsAppTaskRefs(self, value):
+        self.OsAppTaskRefs.append(value)
+        return self
+
+    def getOsMemoryMappingCodeLocationRef(self):
+        return self.OsMemoryMappingCodeLocationRef
+
+    def setOsMemoryMappingCodeLocationRef(self, value):
+        self.OsMemoryMappingCodeLocationRef = value
+        return self
+
+    def getOsRestartTask(self):
+        return self.OsRestartTask
+
+    def setOsRestartTask(self, value):
+        self.OsRestartTask = value
+        return self
+    
+    def getOsAppResourceRefs(self):
+        return self.OsAppResourceRefs
+
+    def addOsAppResourceRef(self, value):
+        self.OsAppResourceRefs.append(value)
+        return self
 
 
 class OsDriver(EcucContainer):
@@ -750,6 +918,7 @@ class Os(EcucContainer):
         self.osAlarms = []                              # type: List[OsAlarm]
         self.osScheduleTables = []                      # type: List[OsScheduleTable]
         self.osCounters = []                            # type: List[OsCounter]
+        self.osApplications = []                        # type: List[OsApplication]
 
     def getOsTaskList(self) -> List[OsTask]:
         return list(sorted(filter(lambda a: isinstance(a, OsTask), self.elements.values()), key=lambda o: o.name))
@@ -789,4 +958,12 @@ class Os(EcucContainer):
     def addOsCounter(self, os_counter: OsCounter):
         self.addElement(os_counter)
         self.osCounters.append(os_counter)
+        return self
+    
+    def getOsApplicationList(self) -> List[OsApplication]:
+        return list(sorted(filter(lambda a: isinstance(a, OsApplication), self.elements.values()), key=lambda o: o.name))
+
+    def addOsApplication(self, value):
+        self.addElement(value)
+        self.osApplications.append(value)
         return self
