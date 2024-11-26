@@ -603,9 +603,9 @@ class OsTask(EcucObject):
         self.osTaskPriority = None                      # type: int
         self.osTaskSchedule = ""
         self.osStacksize = 0                            # type: int
-        self.osMemoryMappingCodeLocationRef = None
+        self.osMemoryMappingCodeLocationRef = None      # type: EcucRefType
         self.osTaskAccessingApplication = None
-        self.osTaskEventRef = None
+        self.osTaskEventRef = None                      # type: EcucRefType
         self.osTaskResourceRefs = []                    # type: List[EcucRefType]
 
     def getOsTaskActivation(self):

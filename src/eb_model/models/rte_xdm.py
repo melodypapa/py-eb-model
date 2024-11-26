@@ -402,11 +402,11 @@ class RteBswModuleInstance(AbstractRteInstance):
         self.rteBswImplementationRef = None
         self.rteBswModuleConfigurationRefs = []
         self.rteBswEventToIsrMappings = []
-        self.rteBswEventToTaskMappings = []                     # List[RteBswEventToTaskMapping]
+        self.rteBswEventToTaskMappings = []                     # type: List[RteBswEventToTaskMapping]
         self.rteBswExclusiveAreaImpls = []
         self.rteBswExternalTriggerConfigs = []
         self.rteBswInternalTriggerConfigs = []
-        self.rteMappedToOsApplicationRef = None
+        self.rteMappedToOsApplicationRef = None                 # type: EcucRefType
         self.rteBswModeMachineInstanceConfigs = []
         self.rteBswRequiredClientServerConnections = []
         self.rteBswRequiredModeGroupConnections = []
@@ -515,7 +515,7 @@ class Rte(EcucContainer):
         self.elements[value.getName()] = value
 
     def getRteSwComponentInstanceList(self) -> List[RteSwComponentInstance]:
-        return list(sorted(filter(lambda a: isinstance(a, RteBswModuleInstance), self.elements.values()), key= lambda o:o.name))
+        return list(sorted(filter(lambda a: isinstance(a, RteSwComponentInstance), self.elements.values()), key= lambda o:o.name))
 
     def addRteSwComponentInstance(self, value: RteSwComponentInstance):
         self.elements[value.getName()] = value
