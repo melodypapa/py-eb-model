@@ -69,5 +69,8 @@ rte-xdm-xlsx -r data/Rte.xdm data/Os.xdm data/Runnable.xlsx
 1. Change the attribute to start with lowercase 
 2. *read_ref_value* and *read_optional_ref_value* method returns EcucRefType.
 3. Read the OsScheduleTable and export to excel
-4. REad the OsCounter and export to excel
-   
+4. Read the OsCounter and export to excel
+
+**Version 1.0.2**
+
+1. Fix the setOsAlarmCallbackName bug

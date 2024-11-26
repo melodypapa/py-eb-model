@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 from ..models.eb_doc import EBModel
-from ..models.os_xdm import Os, OsAlarm, OsAlarmActivateTask, OsAlarmCallback, OsAlarmIncrementCounter, OsAlarmSetEvent, OsCounter, OsScheduleTable, OsScheduleTableEventSetting, OsScheduleTableExpiryPoint, OsScheduleTableTaskActivation, OsScheduleTblAdjustableExpPoint, 
+from ..models.os_xdm import Os, OsAlarm, OsAlarmActivateTask, OsAlarmCallback, OsAlarmIncrementCounter, OsAlarmSetEvent, OsCounter, OsScheduleTable, OsScheduleTableEventSetting, OsScheduleTableExpiryPoint, OsScheduleTableTaskActivation, OsScheduleTblAdjustableExpPoint
 from ..models.os_xdm import OsTask, OsIsr, OsApplication
 from .eb_parser import AbstractEbModelParser
 
@@ -62,7 +62,7 @@ class OsXdmParser(AbstractEbModelParser):
                 .setOsAlarmSetEventTaskRef(self.read_ref_value(element, "OsAlarmSetEventTaskRef"))
         elif chc == "OsAlarmCallback":
             os_alarm_action = OsAlarmCallback(os_alarm, "OsAlarmCallback") \
-                .setOsAlarmCallbackName(self.read_value(os_alarm, "OsAlarmCallbackName"))
+                .setOsAlarmCallbackName(self.read_value(element, "OsAlarmCallbackName"))
         else:
             raise ValueError("Unsupported OsAlarmAction <%s>" % chc)
         os_alarm.setOsAlarmAction(os_alarm_action)
@@ -142,7 +142,7 @@ class OsXdmParser(AbstractEbModelParser):
             os.addOsScheduleTable(counter)
 
     def read_os_applications(self, element: ET.Element, os: Os):
-        for ctr_tag in self.find_chc_tag_list(element, "OsApplication"):
+        for ctr_tag in self.find_ctr_tag_list(element, "OsApplication"):
             os_app = OsApplication(os, ctr_tag.attrib["name"]) \
                 .setOsTrusted(self.read_value(ctr_tag, "OsTrusted")) 
             
