@@ -321,7 +321,7 @@ class RteSwComponentInstance(AbstractRteInstance):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
-        self.nappedToOsApplicationRef = None
+        self.mappedToOsApplicationRef = None                # type: EcucRefType
         self.rteSoftwareComponentInstanceRef = None
 
         self.rteEventToIsrMappings = []
@@ -333,10 +333,10 @@ class RteSwComponentInstance(AbstractRteInstance):
         self.rteNvRamAllocations = []
     
     def getMappedToOsApplicationRef(self):
-        return self.nappedToOsApplicationRef
+        return self.mappedToOsApplicationRef
 
     def setMappedToOsApplicationRef(self, value):
-        self.nappedToOsApplicationRef = value
+        self.mappedToOsApplicationRef = value
         return self
 
     def getRteSoftwareComponentInstanceRef(self) -> EcucRefType:

@@ -5,7 +5,7 @@ import re
 from abc import ABCMeta
 from typing import List
 
-from ..models.eb_doc import EBModel
+from ..models.eb_doc import EBModel, PreferenceModel
 from ..models.abstract import EcucRefType
 
 class AbstractEbModelParser(metaclass = ABCMeta):
@@ -33,17 +33,17 @@ class AbstractEbModelParser(metaclass = ABCMeta):
         return value
 
     def _convert_value(self, tag):
-        if (tag.attrib['type'] == 'INTEGER'):
-            return int(tag.attrib['value'])
-        elif (tag.attrib['type'] == "FLOAT"):
-            return float(tag.attrib['value'])
-        elif (tag.attrib['type'] == 'BOOLEAN'):
-            if (tag.attrib['value'] == 'true'):
-                return True
-            else:
-                return False
-        else:
-            return tag.attrib['value']
+        if 'type' in tag.attrib:
+            if (tag.attrib['type'] == 'INTEGER'):
+                return int(tag.attrib['value'])
+            elif (tag.attrib['type'] == "FLOAT"):
+                return float(tag.attrib['value'])
+            elif (tag.attrib['type'] == 'BOOLEAN'):
+                if (tag.attrib['value'] == 'true'):
+                    return True
+                else:
+                    return False
+        return tag.attrib['value']
 
     def read_value(self, parent: ET.Element, name: str) -> str:
         tag = parent.find(".//d:var[@name='%s']" % name, self.nsmap)
@@ -165,6 +165,9 @@ class AbstractEbModelParser(metaclass = ABCMeta):
     def parse(self, element: ET.Element, doc: EBModel):
         pass
 
+    def parse_preference(self, element: ET.Element, doc: PreferenceModel):
+        pass
+
     def load_xdm(self, filename: str) -> ET.Element:
         self.logger.info("Loading <%s>" % filename)
 
@@ -178,3 +181,7 @@ class AbstractEbModelParser(metaclass = ABCMeta):
     def parse_xdm(self, filename: str, doc: EBModel):
         root_tag = self.load_xdm(filename)
         self.parse(root_tag, doc)
+
+    def parse_preference_xdm(self, filename: str, doc: EBModel):
+        root_tag = self.load_xdm(filename)
+        self.parse_preference(root_tag, doc)
