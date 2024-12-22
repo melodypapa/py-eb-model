@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 from ..models.eb_doc import EBModel
-from ..models.os_xdm import Os, OsAlarm, OsAlarmActivateTask, OsAlarmCallback, OsAlarmIncrementCounter, OsAlarmSetEvent, OsCounter, OsScheduleTable, OsScheduleTableEventSetting, OsScheduleTableExpiryPoint, OsScheduleTableTaskActivation, OsScheduleTblAdjustableExpPoint
+from ..models.os_xdm import Os, OsAlarm, OsAlarmActivateTask, OsAlarmCallback, OsAlarmIncrementCounter, OsAlarmSetEvent, OsCounter, OsScheduleTable, OsScheduleTableEventSetting, OsScheduleTableExpiryPoint, OsScheduleTableTaskActivation, OsScheduleTblAdjustableExpPoint, OsTaskAutostart
 from ..models.os_xdm import OsTask, OsIsr, OsApplication
 from .eb_parser import AbstractEbModelParser
 
@@ -21,16 +21,27 @@ class OsXdmParser(AbstractEbModelParser):
         self.read_os_counters(element, os)
         self.read_os_applications(element, os)
 
+    def read_os_task_autostart(self, element: ET.Element, os_task: OsTask):
+        ctr_tag = self.find_ctr_tag(element, "OsTaskAutostart")
+        if ctr_tag is not None:
+            autostart = OsTaskAutostart(os_task, ctr_tag.attrib["name"])
+            for app_mode_ref in self.read_ref_value_list(ctr_tag, "OsTaskAppModeRef"):
+                autostart.addOsTaskAppModeRef(app_mode_ref)
+            os_task.setOsTaskAutostart(autostart)
+
     def read_os_tasks(self, element: ET.Element, os: Os):
         for ctr_tag in self.find_ctr_tag_list(element, "OsTask"):
             os_task = OsTask(os, ctr_tag.attrib["name"])
             os_task.setOsTaskPriority(int(self.read_value(ctr_tag, "OsTaskPriority"))) \
                 .setOsTaskActivation(self.read_value(ctr_tag, "OsTaskActivation")) \
                 .setOsTaskSchedule(self.read_value(ctr_tag, "OsTaskSchedule")) \
+                .setOsTaskType(self.read_value(ctr_tag, "OsTaskType")) \
                 .setOsStacksize(int(self.read_optional_value(ctr_tag, "OsStacksize", 0)))
 
             for resource_ref in self.read_ref_value_list(ctr_tag, "OsTaskResourceRef"):
                 os_task.addOsTaskResourceRef(resource_ref)
+
+            self.read_os_task_autostart(ctr_tag, os_task)
 
             self.logger.debug("Read OsTask <%s>" % os_task.getName())
             os.addOsTask(os_task)

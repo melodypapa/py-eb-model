@@ -1,5 +1,5 @@
 import pytest
-from ...models.eb_doc import EBModel
+from ...models.eb_doc import EBModel, PreferenceModel
 
 class TestEBModel:
 
@@ -28,3 +28,16 @@ class TestEBModel:
         document = EBModel.getInstance()
         rte = document.getRte()
         assert (rte.getFullName() == "/Rte/Rte")
+
+class TestPreferenceModel:
+
+    def test_mode_get_system_description_importer(self):
+        document = PreferenceModel.getInstance()
+        importer = document.getSystemDescriptionImporter()
+        assert (importer.getFullName() == "/ImporterExporterAdditions/SystemDescriptionImporters")
+
+        importer = document.find("/ImporterExporterAdditions/SystemDescriptionImporters")
+        assert (importer.getFullName() == "/ImporterExporterAdditions/SystemDescriptionImporters")
+
+        importer = document.getSystemDescriptionImporter()
+        assert (importer.getFullName() == "/ImporterExporterAdditions/SystemDescriptionImporters")

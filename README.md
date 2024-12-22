@@ -56,6 +56,13 @@ rte-xdm-xlsx data/Rte.xdm data/Rte.xlsx
 rte-xdm-xlsx -r data/Rte.xdm data/Os.xdm data/Runnable.xlsx
 ```
 
+## 3.3. pref-system-importer
+
+Read the EB preference XDM and generate the file list into text file.
+
+```bash
+pref-system-importer .prefs/pref_imp_exp_Imp_System.xdm data/output.lst --base-path /c/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rte
+```
 
 # 4. Change History
 
@@ -74,3 +81,9 @@ rte-xdm-xlsx -r data/Rte.xdm data/Os.xdm data/Runnable.xlsx
 **Version 1.0.2**
 
 1. Fix the setOsAlarmCallbackName bug
+
+**Version 1.0.3**
+
+1. Generate the System import file list based on EB preference Xdm.
+2. Add the support to read OsTaskAutostart element.
+3. Add the support to read OsTaskType element.

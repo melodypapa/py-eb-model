@@ -565,8 +565,14 @@ class OsTaskAutostart(EcucObject):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
-        self.osTaskAppModeRef = None
+        self.osTaskAppModeRefs = []                                     # type: List[EcucRefType]             
 
+    def getOsTaskAppModeRefList(self):
+        return self.osTaskAppModeRefs
+
+    def addOsTaskAppModeRef(self, value):
+        self.osTaskAppModeRefs.append(value)
+        return self
 
 class OsTaskResourceLock(EcucObject):
     def __init__(self, parent, name) -> None:
@@ -602,11 +608,13 @@ class OsTask(EcucObject):
         self.osTaskPeriod = 0.0                         # type: float
         self.osTaskPriority = None                      # type: int
         self.osTaskSchedule = ""
+        self.OsTaskType = None                          # type: str
         self.osStacksize = 0                            # type: int
         self.osMemoryMappingCodeLocationRef = None      # type: EcucRefType
         self.osTaskAccessingApplication = None
         self.osTaskEventRef = None                      # type: EcucRefType
         self.osTaskResourceRefs = []                    # type: List[EcucRefType]
+        self.osTaskAutostart = None                     # type: OsTaskAutostart
 
     def getOsTaskActivation(self):
         return self.osTaskActivation
@@ -635,6 +643,14 @@ class OsTask(EcucObject):
     def setOsTaskSchedule(self, value):
         self.osTaskSchedule = value
         return self
+    
+    def getOsTaskType(self):
+        return self.OsTaskType
+
+    def setOsTaskType(self, value):
+        self.OsTaskType = value
+        return self
+
 
     def getOsStacksize(self) -> int:
         return self.osStacksize
@@ -675,6 +691,14 @@ class OsTask(EcucObject):
         if self.osTaskSchedule == OsTask.FULL:
             return True
         return False
+    
+    def getOsTaskAutostart(self):
+        return self.osTaskAutostart
+
+    def setOsTaskAutostart(self, value):
+        self.osTaskAutostart = value
+        return self
+
 
 
 class OsScheduleTableAutostart(EcucContainer):
