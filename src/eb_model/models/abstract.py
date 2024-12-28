@@ -1,7 +1,6 @@
 from abc import ABCMeta
-from typing import Dict, List
+from typing import Dict
 import re
-
 
 class EcucObject(metaclass=ABCMeta):
     def __init__(self, parent, name) -> None:

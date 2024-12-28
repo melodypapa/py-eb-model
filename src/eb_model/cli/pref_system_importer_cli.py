@@ -3,8 +3,9 @@ import pkg_resources
 import logging
 import sys
 import os.path
+import re
 
-from ..writer import TextPreferenceModelWriter
+from ..writer import TextPreferenceModelWriter, ABProjectWriter
 from ..parser import PerfXdmParser
 from ..models import PreferenceModel
 
@@ -12,10 +13,12 @@ def main():
     version = pkg_resources.require("py_eb_model")[0].version
 
     ap = argparse.ArgumentParser()
-    ap.add_argument("-v", "--verbose", required= False, help = "Print debug information", action = "store_true")
-    ap.add_argument("--file-list", required=False, help = "Generate the file list (Default)", action = "store_true")
-    ap.add_argument("--ab-project", required=False, help = "Generate the AUTOSAR builder project", action = "store_true")
-    ap.add_argument("--base-path", required=False, help="Base Path for EB tresos")
+    ap.add_argument("-v", "--verbose", required= False, help = "print debug information.", action = "store_true")
+    ap.add_argument("--file-list", required=False, help = "generate the file list (Default)", action = "store_true")
+    ap.add_argument("--ab-project", required=False, help = "generate the AUTOSAR builder project", action = "store_true")
+    ap.add_argument("--base-path", required=False, help="base Path for EB tresos")
+    ap.add_argument("--env", required=False, help="specify the environment variable", nargs='+')
+    ap.add_argument("--project", required=False, help="specify the project name")
     ap.add_argument("INPUTS", nargs='+', help = "The path of perf_imp_xxx.xdm.")
     ap.add_argument("OUTPUT", help = "The path of output file.")
 
@@ -34,18 +37,20 @@ def main():
     if os.path.exists(log_file):
         os.remove(log_file)
 
-    file_handler = logging.FileHandler(log_file)
-    file_handler.setFormatter(formatter)
+    if args.verbose:
+        file_handler = logging.FileHandler(log_file)
+        file_handler.setFormatter(formatter)
+        file_handler.setLevel(logging.DEBUG)
 
     logger.setLevel(logging.DEBUG)
-    file_handler.setLevel(logging.DEBUG)
 
     if args.verbose:
         stdout_handler.setLevel(logging.DEBUG)
     else:
         stdout_handler.setLevel(logging.INFO)
-
-    logger.addHandler(file_handler)
+    
+    if args.verbose:
+        logger.addHandler(file_handler)
     logger.addHandler(stdout_handler)
 
     format = "file_list"
@@ -63,12 +68,24 @@ def main():
                 file_name = file
             parser.parse_preference_xdm(file_name, doc)
 
+        params = {}
+        params['base_path'] = args.base_path
+        params['wildcard'] = True
+        params['project'] = args.project
+
+        if args.env is not None:
+            for env in args.env:
+                m = re.match(r'(\w+)=([:\/\\\.\w]+)', env)
+                if m:
+                    params["env_var:%s" % m.group(1)] = m.group(2)
+        #params['tresos_output_base_dir'] = args.TRESOS_OUTPUT_BASE_DIR
+
         if format == "file_list":
             writer = TextPreferenceModelWriter()
-            writer.writer_import_files(args.OUTPUT, doc.getSystemDescriptionImporter(), {
-                'base_path': args.base_path,
-                'wildcard':  True,
-            })
+            writer.writer_import_files(args.OUTPUT, doc.getSystemDescriptionImporter(), params)
+        elif format == "ab_project":
+            writer = ABProjectWriter()
+            writer.writer_import_files(args.OUTPUT, doc.getSystemDescriptionImporter(), params)
         
     except Exception as e:
         logger.error(e)
