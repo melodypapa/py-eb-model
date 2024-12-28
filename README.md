@@ -56,12 +56,82 @@ rte-xdm-xlsx data/Rte.xdm data/Rte.xlsx
 rte-xdm-xlsx -r data/Rte.xdm data/Os.xdm data/Runnable.xlsx
 ```
 
-## 3.3. pref-system-importer
+## 3.3. PrefSystemImporter
 
-Read the EB preference XDM and generate the file list into text file.
+Read the EB preference XDM and generate the ARXML file list into text file or create the AUTOSAR builder project file.
 
 ```bash
-pref-system-importer .prefs/pref_imp_exp_Imp_System.xdm data/output.lst --base-path /c/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rte
+$ pref-system-importer.exe -h
+usage: pref-system-importer [-h] [-v] [--file-list] [--ab-project] [--base-path BASE_PATH] [--TRESOS_OUTPUT_BASE_DIR TRESOS_OUTPUT_BASE_DIR] [--project PROJECT] INPUTS [INPUTS ...] OUTPUT
+
+positional arguments:
+  INPUTS                The path of perf_imp_xxx.xdm.
+  OUTPUT                The path of output file.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -v, --verbose         print debug information.
+  --file-list           generate the file list (Default)
+  --ab-project          generate the AUTOSAR builder project
+  --base-path BASE_PATH
+                        base Path for EB tresos
+  --env ENV [ENV ...]   specify the environment variable
+  --project PROJECT     specify the project name
+```
+### 3.3.1. Configuration
+
+**h, help**
+> Show the usage information 
+
+**-v, --verbose**
+> Print the extra debug information during execution.
+
+**--file-list or --ab-project**
+> Generate ARXML file list text file or AUTOSAR builder project.
+
+**--base-path**
+> Base path for the EB tresos project. **For example**: c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rte
+>
+> If the base path is specified, all input preference XDM configuration files will be based on this BasePath, which can solve the problem of the input preference configuration file name being too long.
+
+**--project**
+
+> The project name will be generate in the AUTOSAR build project. 
+>
+> It is meaningless if you choose to generate ARXML file list text file.
+
+**--env**
+
+> Replace the variable definition of ${env_var:xxx} which is defined in the EB preference XDM file.
+
+### 3.3.2. Example
+
+**To generate the ARXML file list:**
+
+* Base path: c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rte
+* INPUT: 
+  * c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rte/.prefs/pref_imp_exp_Imp_System.xdm 
+* OUTPUT: output.lst
+
+```bash
+PrefSystemImporter --base-path c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rte .prefs/pref_imp_exp_Imp_System.xdm output.lst 
+```
+
+**To generate the AUTOSAR builder project:**
+
+All ARXML files in the .project file will use relative path names, so it is recommended to run PrefSystemImporter in the directory where the .project is located.
+
+* Base Path: c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rte
+* INPUTs:
+  *  c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rte/.prefs/pref_imp_exp_Bswm_rte.xdm 
+  *  c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rte/.prefs/pref_imp_exp_Imp_System.xdm
+* OUTPUT
+  * c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rte/ab_project/.project
+* Project Name: SimpleDemoRte
+
+```bash
+cd c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rte/ab_project
+PrefSystemImporter --base-path c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rte --ab-project --project SimpleDemoRte .prefs/pref_imp_exp_Bswm_rte.xdm .prefs/pref_imp_exp_Imp_System.xdm .project 
 ```
 
 # 4. Change History
@@ -87,3 +157,6 @@ pref-system-importer .prefs/pref_imp_exp_Imp_System.xdm data/output.lst --base-p
 1. Generate the System import file list based on EB preference Xdm.
 2. Add the support to read OsTaskAutostart element.
 3. Add the support to read OsTaskType element.
+
+**Version 1.1.0**
+
