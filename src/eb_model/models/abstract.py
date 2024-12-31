@@ -81,3 +81,59 @@ class EcucRefType:
         if m:
             return m.group(1)
         return self.value
+    
+class Version:
+    def __init__(self):
+        self.majorVersion = None
+        self.minorVersion = None
+        self.patchVersion = None
+
+    def getMajorVersion(self):
+        return self.majorVersion
+
+    def setMajorVersion(self, value):
+        if value is not None:
+            self.majorVersion = value
+        return self
+
+    def getMinorVersion(self):
+        return self.minorVersion
+
+    def setMinorVersion(self, value):
+        if value is not None:
+            self.minorVersion = value
+        return self
+
+    def getPatchVersion(self):
+        return self.patchVersion
+
+    def setPatchVersion(self, value):
+        if value is not None:
+            self.patchVersion = value
+        return self
+    
+    def getVersion(self) -> str:
+        return "%d.%d.%d" % (self.majorVersion, self.minorVersion, self.patchVersion)
+
+class Module(EcucContainer):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
+
+        self.arVersion = Version()
+        self.swVersion = Version()
+
+    def getArVersion(self):
+        return self.arVersion
+
+    def setArVersion(self, value):
+        if value is not None:
+            self.arVersion = value
+        return self
+
+    def getSwVersion(self):
+        return self.swVersion
+
+    def setSwVersion(self, value):
+        if value is not None:
+            self.swVersion = value
+        return self

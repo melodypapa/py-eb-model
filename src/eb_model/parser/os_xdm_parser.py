@@ -8,11 +8,20 @@ class OsXdmParser(AbstractEbModelParser):
     def __init__(self, ) -> None:
         super().__init__()
 
+        self.os = None
+
     def parse(self, element: ET.Element, doc: EBModel):
         if self.get_component_name(element) != "Os":
             raise ValueError("Invalid <%s> xdm file" % "Os")
 
         os = doc.getOs()
+
+        self.read_version(element, os)
+
+        self.logger.info("Parse Rte ARVersion:<%s> SwVersion:<%s>" % 
+                         (os.getArVersion().getVersion(), os.getSwVersion().getVersion()))
+        
+        self.os = os
 
         self.read_os_tasks(element, os)
         self.read_os_isrs(element, os)
@@ -35,7 +44,7 @@ class OsXdmParser(AbstractEbModelParser):
             os_task.setOsTaskPriority(int(self.read_value(ctr_tag, "OsTaskPriority"))) \
                 .setOsTaskActivation(self.read_value(ctr_tag, "OsTaskActivation")) \
                 .setOsTaskSchedule(self.read_value(ctr_tag, "OsTaskSchedule")) \
-                .setOsTaskType(self.read_value(ctr_tag, "OsTaskType")) \
+                .setOsTaskType(self.read_optional_value(ctr_tag, "OsTaskType")) \
                 .setOsStacksize(int(self.read_optional_value(ctr_tag, "OsStacksize", 0)))
 
             for resource_ref in self.read_ref_value_list(ctr_tag, "OsTaskResourceRef"):

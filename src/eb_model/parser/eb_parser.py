@@ -6,7 +6,7 @@ from abc import ABCMeta
 from typing import List
 
 from ..models.eb_doc import EBModel, PreferenceModel
-from ..models.abstract import EcucRefType
+from ..models.abstract import EcucRefType, Module
 
 class AbstractEbModelParser(metaclass = ABCMeta):
 
@@ -17,10 +17,23 @@ class AbstractEbModelParser(metaclass = ABCMeta):
 
         if type(self) == "AbstractEBModelParser":
             raise ValueError("Abstract EBModelParser cannot be initialized.")
-
+        
     def validate_root(self, element: ET.Element):
         if (element.tag != "{%s}%s" % (self.nsmap[''], "datamodel")):
             raise ValueError("This document <%s> is not EB xdm format" % element.tag)
+        
+    def read_version(self, parent: ET.Element, module: Module):
+        ctr_tag = self.find_ctr_tag(parent, "CommonPublishedInformation")
+        if ctr_tag is not None:
+            ar_version = module.getArVersion()
+            ar_version.setMajorVersion(self.read_value(ctr_tag, "ArMajorVersion"))
+            ar_version.setMinorVersion(self.read_value(ctr_tag, "ArMinorVersion"))
+            ar_version.setPatchVersion(self.read_value(ctr_tag, "ArPatchVersion"))
+
+            sw_version = module.getSwVersion()
+            sw_version.setMajorVersion(self.read_value(ctr_tag, "SwMajorVersion"))
+            sw_version.setMinorVersion(self.read_value(ctr_tag, "SwMinorVersion"))
+            sw_version.setPatchVersion(self.read_value(ctr_tag, "SwPatchVersion"))
 
     def read_ref_raw_value(self, value):
         '''
@@ -32,7 +45,7 @@ class AbstractEbModelParser(metaclass = ABCMeta):
             return match.group(1)
         return value
 
-    def _convert_value(self, tag):
+    def _convert_value(self, tag: ET.Element):
         if 'type' in tag.attrib:
             if (tag.attrib['type'] == 'INTEGER'):
                 return int(tag.attrib['value'])

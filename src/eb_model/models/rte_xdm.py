@@ -1,6 +1,5 @@
 from typing import Dict, List
-from .abstract import EcucContainer, EcucRefType
-
+from ..models.abstract import EcucContainer, EcucRefType, Module
 class RteEventToIsrMapping(EcucContainer):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
@@ -35,7 +34,7 @@ class RteEventToTaskMapping(AbstractEventToTaskMapping):
         self.rteServerNumberOfRequestProcessing = None
         self.rteServerQueueLength = None
         self.rteEventPredecessorSyncPointRef = None
-        self.rteEventRef = None
+        
         self.rteEventSuccessorSyncPointRef = None
         self.rteMappedToTaskRef = None
         self.rtePeriod = None
@@ -98,13 +97,6 @@ class RteEventToTaskMapping(AbstractEventToTaskMapping):
 
     def setRteEventPredecessorSyncPointRef(self, value):
         self.rteEventPredecessorSyncPointRef = value
-        return self
-
-    def getRteEventRef(self) -> EcucRefType:
-        return self.rteEventRef
-
-    def setRteEventRef(self, value: EcucRefType):
-        self.rteEventRef = value
         return self
 
     def getRteEventSuccessorSyncPointRef(self):
@@ -183,6 +175,38 @@ class RteEventToTaskMapping(AbstractEventToTaskMapping):
     def setRteVirtuallyMappedToTaskRef(self, value):
         self.rteVirtuallyMappedToTaskRef = value
         return self   
+    
+class RteEventToTaskMappingV3(RteEventToTaskMapping):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
+
+        self.rteEventRef = None
+
+    def getRteEventRef(self) -> EcucRefType:
+        return self.rteEventRef
+
+    def setRteEventRef(self, value: EcucRefType):
+        self.rteEventRef = value
+        return self
+
+class RteEventToTaskMappingV4(RteEventToTaskMapping):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
+
+        self.rteEventRefs = []
+
+    def getRteEventRefs(self):
+        return self.rteEventRefs
+
+    def addRteEventRef(self, value):
+        if value is not None:
+            self.rteEventRefs.append(value)
+        return self
+    
+    def getRteEventRef(self):
+        if len(self.rteEventRefs) != 1:
+            raise ValueError("Unsupported RteEventRef of RteEventToTaskMapping <%s> " % self.name)
+        return self.rteEventRefs[0]
 
 class RteBswEventToTaskMapping(AbstractEventToTaskMapping):
     def __init__(self, parent, name) -> None:
@@ -196,7 +220,7 @@ class RteBswEventToTaskMapping(AbstractEventToTaskMapping):
         self.rteBswServerQueueLength = None
         self.rteOsSchedulePoint = None
         self.rteBswEventPredecessorSyncPointRef = None
-        self.rteBswEventRef = None
+       
         self.rteBswMappedToTaskRef = None
         self.rteBswUsedOsAlarmRef = None
         self.rteBswUsedOsEventRef = None
@@ -263,13 +287,6 @@ class RteBswEventToTaskMapping(AbstractEventToTaskMapping):
         self.rteBswEventPredecessorSyncPointRef = value
         return self
 
-    def getRteBswEventRef(self) -> EcucRefType:
-        return self.rteBswEventRef
-
-    def setRteBswEventRef(self, value: EcucRefType):
-        self.rteBswEventRef = value
-        return self
-
     def getRteBswMappedToTaskRef(self) -> EcucRefType:
         return self.rteBswMappedToTaskRef
 
@@ -312,6 +329,37 @@ class RteBswEventToTaskMapping(AbstractEventToTaskMapping):
         self.rteRipsFlushRoutineRef = value
         return self
 
+class RteBswEventToTaskMappingV3(RteBswEventToTaskMapping):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
+
+        self.rteBswEventRef = None                                      # type: EcucRefType
+
+    def getRteBswEventRef(self):
+        return self.rteBswEventRef
+
+    def setRteBswEventRef(self, value):
+        if value is not None:
+            self.rteBswEventRef = value
+        return self
+
+class RteBswEventToTaskMappingV4(RteBswEventToTaskMapping):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
+        
+        self.rteBswEventRefs = []                                       # type: List[EcucRefType]
+
+    def getRteBswEventRefs(self) -> EcucRefType:
+        return self.rteBswEventRefs
+
+    def addRteBswEventRef(self, value: EcucRefType):
+        self.rteBswEventRefs.append(value)
+        return self
+    
+    def getRteBswEventRef(self):
+        if len(self.rteBswEventRefs) != 1:
+            raise ValueError("Unsupported RteEventRef of RteEventToTaskMapping <%s> " % self.name)
+        return self.rteBswEventRefs[0]
 
 class AbstractRteInstance(EcucContainer):
     def __init__(self, parent, name) -> None:
@@ -503,8 +551,8 @@ class RteBswModuleInstance(AbstractRteInstance):
     def setRteMappedToOsApplicationRef(self, value):
         self.rteMappedToOsApplicationRef = value
         return self
-
-class Rte(EcucContainer):
+    
+class Rte(Module):
     def __init__(self, parent) -> None:
         super().__init__(parent, "Rte")
 

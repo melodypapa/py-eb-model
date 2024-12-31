@@ -1,7 +1,6 @@
 from typing import List
 
-from ..models.abstract import EcucContainer, EcucObject, EcucRefType
-
+from ..models.abstract import EcucContainer, EcucObject, EcucRefType, Module
 
 class OsAlarmAction(EcucContainer):
     def __init__(self, parent, name) -> None:
@@ -933,7 +932,7 @@ class OsScheduleTable(EcucContainer):
         return self
 
 
-class Os(EcucContainer):
+class Os(Module):
     def __init__(self, parent) -> None:
         super().__init__(parent, "Os")
 
