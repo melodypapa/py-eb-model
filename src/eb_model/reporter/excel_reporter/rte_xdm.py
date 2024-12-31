@@ -62,7 +62,7 @@ class RteRunnableEntityXlsWriter(ExcelReporter):
                 if isinstance(mapping, RteBswEventToTaskMapping):
                     self.logger.debug("Write Mapping %s" % mapping.getName())
                     instance = mapping.getRteBswModuleInstance()
-                    self.write_cell(sheet, row, 2, mapping.getRteBswEventRef().getShortName())
+                    self.write_cell(sheet, row, 2, mapping.getRteBswEventRefs().getShortName())
                     self.write_cell(sheet, row, 5, instance.getRteBswImplementationRef().getValue())
                     self.write_cell(sheet, row, 6, mapping.getRteBswPositionInTask())
                     self.write_cell(sheet, row, 7, mapping.getRteBswActivationOffset())
