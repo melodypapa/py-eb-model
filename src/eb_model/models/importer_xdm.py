@@ -18,6 +18,7 @@ class SystemDescriptionImporter(EcucObject):
         return self.inputFiles
 
     def addInputFile(self, value: str):
+        self.logger.debug("Add the file <%s>" % value)
         self.inputFiles.append(value)
         return self
     

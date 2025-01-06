@@ -158,5 +158,9 @@ PrefSystemImporter --base-path c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rt
 2. Add the support to read OsTaskAutostart element.
 3. Add the support to read OsTaskType element.
 
-**Version 1.1.0**
+**Version 1.1.1**
+
+1. PrefSystemImporter
+  * Add the support to append SystemMod/EcuExtract.arxml into list automatically.
+
 
