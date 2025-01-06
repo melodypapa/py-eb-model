@@ -16,7 +16,7 @@ def main():
     ap.add_argument("-v", "--verbose", required= False, help = "print debug information.", action = "store_true")
     ap.add_argument("--file-list", required=False, help = "generate the file list (Default)", action = "store_true")
     ap.add_argument("--ab-project", required=False, help = "generate the AUTOSAR builder project", action = "store_true")
-    ap.add_argument("--base-path", required=False, help="base Path for EB tresos")
+    ap.add_argument("--base-path", required=True, help="base Path for EB tresos")
     ap.add_argument("--env", required=False, help="specify the environment variable", nargs='+')
     ap.add_argument("--project", required=False, help="specify the project name")
     ap.add_argument("INPUTS", nargs='+', help = "The path of perf_imp_xxx.xdm.")
@@ -60,6 +60,11 @@ def main():
     try:
         doc = PreferenceModel.getInstance()
 
+        params = {}
+        params['base_path'] = args.base_path
+        params['wildcard'] = True
+        params['project'] = args.project
+
         parser = PerfXdmParser()
         for file in args.INPUTS:
             if args.base_path is not None:
@@ -68,10 +73,7 @@ def main():
                 file_name = file
             parser.parse_preference_xdm(file_name, doc)
 
-        params = {}
-        params['base_path'] = args.base_path
-        params['wildcard'] = True
-        params['project'] = args.project
+        parser.add_ecu_extract(doc, params)
 
         if args.env is not None:
             for env in args.env:

@@ -2,6 +2,7 @@ from typing import List
 from xml.dom import minidom
 import xml.etree.ElementTree as ET
 import logging
+import os
 
 from ..models.eclipse_project import Link
 from ..models.importer_xdm import SystemDescriptionImporter
@@ -62,7 +63,6 @@ class ABProjectWriter(EclipseProjectWriter):
 
         with open(filename, "w", encoding="utf-8") as f_out:
             f_out.write(xml.decode())
-        
 
     def writer_import_files(self, filename: str, importer: SystemDescriptionImporter, params = {'base_path': None, 'wildcard': None, "project": None}):
         self.logger.info("Generate AB project <%s>" % filename)

@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
 import logging
+import os
 from ..models.eb_doc import PreferenceModel
 from ..models.importer_xdm import SystemDescriptionImporter
 from . import AbstractEbModelParser
@@ -23,3 +24,13 @@ class PerfXdmParser(AbstractEbModelParser):
             self.logger.info("Parse SystemDescriptionImporters: <%s>" % ctr_tag.attrib["name"])
             self.parse_input_files(ctr_tag, importer)
             #importer.addInputFile()
+
+    def add_ecu_extract(self, doc: PreferenceModel, params = {'base_path': None, 'wildcard': None, "project": None}):
+        importer = doc.getSystemDescriptionImporter()
+
+        #if params['base_path'] is None:
+        #    raise ValueError("Please specify the base path")
+        
+        #ecu_extract_path = os.path.join(params['base_path'], '')
+        
+        importer.addInputFile('systemmod/EcuExtract.arxml')
