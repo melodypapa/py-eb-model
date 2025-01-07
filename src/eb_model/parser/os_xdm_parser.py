@@ -166,8 +166,24 @@ class OsXdmParser(AbstractEbModelParser):
             os_app = OsApplication(os, ctr_tag.attrib["name"]) \
                 .setOsTrusted(self.read_value(ctr_tag, "OsTrusted")) 
             
+            for ref in self.read_ref_value_list(ctr_tag, "OsAppAlarmRef"):
+                os_app.addOsAppAlarmRef(ref)
+
+            for ref in self.read_ref_value_list(ctr_tag, "OsAppCounterRef"):
+                os_app.addOsAppCounterRefs(ref)
+
+            for ref in self.read_ref_value_list(ctr_tag, "OsAppScheduleTableRef"):
+                os_app.addOsAppScheduleTableRef(ref)
+            
             for ref in self.read_ref_value_list(ctr_tag, "OsAppResourceRef"):
                 os_app.addOsAppResourceRef(ref)
+
+            for ref in self.read_ref_value_list(ctr_tag, "OsAppTaskRef"):
+                os_app.addOsAppTaskRefs(ref)
+
+            for ref in self.read_ref_value_list(ctr_tag, "OsAppIsrRef"):
+                os_app.addOsAppIsrRefs(ref)
+
 
             self.logger.debug("Read OsApplication <%s>" % os_app.getName())
             os.addOsApplication(os_app)

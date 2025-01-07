@@ -160,7 +160,10 @@ PrefSystemImporter --base-path c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rt
 
 **Version 1.1.1**
 
-1. PrefSystemImporter
-  * Add the support to append SystemMod/EcuExtract.arxml into list automatically.
+1. Add the support to append SystemMod/EcuExtract.arxml into list automatically for PrefSystemImporter.
+
+**Version 1.1.2**
+
+1. Read the OsAppAlarmRef/OsAppTaskRef/OsAppScheduleTableRef/OsAppResourceRef/OsAppIsrRef from OsApplication.
 
 
