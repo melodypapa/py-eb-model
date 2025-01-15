@@ -164,6 +164,10 @@ PrefSystemImporter --base-path c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rt
 
 **Version 1.1.2**
 
-1. Read the OsAppAlarmRef/OsAppTaskRef/OsAppScheduleTableRef/OsAppResourceRef/OsAppIsrRef from OsApplication.
+1. Read the OsAppTaskRef from OsApplication.
 
+**Version 1.1.3**
 
+1. Support to read Isr Priority and Vector for R52+ core.
+2. Export the Isr Priority and Vector to Excel.
+3. Read the OsAppResourceRef, OsAppIsrRef from OsApplication.
