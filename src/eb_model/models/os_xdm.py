@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List                                                       # noqa F401
 import logging
 from ..models.abstract import EcucContainer, EcucObject, EcucRefType, Module
 
@@ -635,7 +635,7 @@ class OsTask(EcucObject):
         self.osTaskAccessingApplication = None
         self.osTaskEventRef = None                      # type: EcucRefType
         self.osTaskResourceRefs = []                    # type: List[EcucRefType]
-        self.osTaskAutostart = None                     # type: bool
+        self.osTaskAutostart = None                     # type: OsTaskAutostart
 
     def getOsTaskActivation(self):
         return self.osTaskActivation
@@ -664,7 +664,7 @@ class OsTask(EcucObject):
     def setOsTaskSchedule(self, value):
         self.osTaskSchedule = value
         return self
-    
+
     def getOsTaskType(self):
         return self.OsTaskType
 
@@ -716,8 +716,12 @@ class OsTask(EcucObject):
         return self.osTaskAutostart
 
     def setOsTaskAutostart(self, value):
-        self.osTaskAutostart = value
+        if value is not None:
+            self.osTaskAutostart = value
         return self
+    
+    def isOsTaskAutostart(self) -> bool:
+        return self.osTaskAutostart is not None
 
 
 class OsScheduleTableAutostart(EcucContainer):

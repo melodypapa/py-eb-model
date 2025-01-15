@@ -23,7 +23,7 @@ class OsXdmXlsWriter(ExcelReporter):
             self.write_cell(sheet, row, 2, os_app.getName())
             self.write_cell(sheet, row, 3, os_task.getOsTaskActivation())
             self.write_cell(sheet, row, 4, os_task.getOsTaskPriority())
-            self.write_cell(sheet, row, 5, os_task.getOsTaskAutostart())
+            self.write_cell(sheet, row, 5, os_task.isOsTaskAutostart())
 
             self.write_cell(sheet, row, 6, os_task.getOsTaskSchedule())
             self.write_cell(sheet, row, 7, os_task.getOsStacksize())
