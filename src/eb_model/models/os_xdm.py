@@ -1,6 +1,7 @@
-from typing import List
-
+from typing import Dict, List
+import logging
 from ..models.abstract import EcucContainer, EcucObject, EcucRefType, Module
+
 
 class OsAlarmAction(EcucContainer):
     def __init__(self, parent, name) -> None:
@@ -158,6 +159,7 @@ class OsAlarm(EcucContainer):
 
         return "\n".join(result)
 
+
 class OsApplicationHooks(EcucContainer):
     def __init__(self, parent, name):
         super().__init__(parent, name)
@@ -195,6 +197,7 @@ class OsApplicationHooks(EcucContainer):
         self.OsMemoryMappingCodeLocationRef = value
         return self
 
+
 class OsApplicationTrustedFunction(EcucContainer):
     def __init__(self, parent, name):
         super().__init__(parent, name)
@@ -215,9 +218,13 @@ class OsApplicationTrustedFunction(EcucContainer):
     def setOsMemoryMappingCodeLocationRef(self, value):
         self.OsMemoryMappingCodeLocationRef = value
         return self
+
+
 class OsAppMode(EcucContainer):
     def __init__(self, parent, name):
         super().__init__(parent, name)
+
+
 class OsApplication(EcucContainer):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
@@ -238,7 +245,7 @@ class OsApplication(EcucContainer):
         '''
         EB Tresos
         '''
-        self.OsAppResourceRefs = []                                     # type: List[EcucRefType] 
+        self.OsAppResourceRefs = []                                     # type: List[EcucRefType]
 
     def getOsTrusted(self):
         return self.OsTrusted
@@ -278,15 +285,17 @@ class OsApplication(EcucContainer):
     def getOsAppEcucPartitionRefs(self):
         return self.OsAppEcucPartitionRefs
 
-    def addOsAppEcucPartitionRefs(self, value):
-        self.OsAppEcucPartitionRefs.append(value)
+    def addOsAppEcucPartitionRef(self, value):
+        if value is not None:
+            self.OsAppEcucPartitionRefs.append(value)
         return self
 
     def getOsAppIsrRefs(self):
         return self.OsAppIsrRefs
 
-    def addOsAppIsrRefs(self, value):
-        self.OsAppIsrRefs.append(value)
+    def addOsAppIsrRef(self, value):
+        if value is not None:
+            self.OsAppIsrRefs.append(value)
         return self
 
     def getOsApplicationCoreRefs(self):
@@ -300,14 +309,16 @@ class OsApplication(EcucContainer):
         return self.OsAppScheduleTableRefs
 
     def addOsAppScheduleTableRef(self, value):
-        self.OsAppScheduleTableRefs.append(value)
+        if value is not None:
+            self.OsAppScheduleTableRefs.append(value)
         return self
 
     def getOsAppTaskRefs(self):
         return self.OsAppTaskRefs
 
-    def addOsAppTaskRefs(self, value):
-        self.OsAppTaskRefs.append(value)
+    def addOsAppTaskRef(self, value):
+        if value is not None:
+            self.OsAppTaskRefs.append(value)
         return self
 
     def getOsMemoryMappingCodeLocationRef(self):
@@ -328,7 +339,8 @@ class OsApplication(EcucContainer):
         return self.OsAppResourceRefs
 
     def addOsAppResourceRef(self, value):
-        self.OsAppResourceRefs.append(value)
+        if value is not None:
+            self.OsAppResourceRefs.append(value)
         return self
 
 
@@ -371,6 +383,7 @@ class OsTimeConstant(EcucContainer):
         self.osTimeValue = value
         return self
 
+
 class OsCounter(EcucContainer):
 
     OS_COUNTER_TYPE_HARDWARE = "HARDWARE"
@@ -379,14 +392,14 @@ class OsCounter(EcucContainer):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
-        self.osCounterMaxAllowedValue = None        # 
-        self.osCounterMinCycle = None               # 
-        self.osCounterTicksPerBase = None           # 
-        self.osCounterType = None                   # 
-        self.osSecondsPerTick = None                # 
-        self.osCounterAccessingApplications = []    # 
-        self.osDriver = None                        # Multiplicity: 0..1
-        self.osTimeConstants = []                   # Multiplicity: 0..*
+        self.osCounterMaxAllowedValue = None                    # type: int
+        self.osCounterMinCycle = None                           # type: int
+        self.osCounterTicksPerBase = None                       # type: int
+        self.osCounterType = None                               # type: str
+        self.osSecondsPerTick = None                            # type: float
+        self.osCounterAccessingApplications = []                # type: List[EcucRefType]
+        self.osDriver = None                                    # Multiplicity: 0..1
+        self.osTimeConstants = []                               # Multiplicity: 0..*
 
     def getOsCounterMaxAllowedValue(self):
         return self.osCounterMaxAllowedValue
@@ -469,7 +482,6 @@ class OsCounter(EcucContainer):
         return self
 
 
-
 class OsResource(EcucContainer):
     def __init__(self) -> None:
         pass
@@ -509,54 +521,70 @@ class OsIsr(EcucObject):
 
         self.osIsrPriority = None
         self.osStacksize = None
+        self.osIsrVector = None
 
     def getOsIsrCategory(self):
         return self.osIsrCategory
 
     def setOsIsrCategory(self, value):
-        self.osIsrCategory = value
+        if value is not None:
+            self.osIsrCategory = value
         return self
 
     def getOsIsrPeriod(self):
         return self.osIsrPeriod
 
     def setOsIsrPeriod(self, value):
-        self.osIsrPeriod = value
+        if value is not None:
+            self.osIsrPeriod = value
         return self
 
     def getOsIsrResourceRef(self):
         return self.osIsrResourceRef
 
     def setOsIsrResourceRef(self, value):
-        self.osIsrResourceRef = value
+        if value is not None:
+            self.osIsrResourceRef = value
         return self
 
     def getOsMemoryMappingCodeLocationRef(self):
         return self.osMemoryMappingCodeLocationRef
 
     def setOsMemoryMappingCodeLocationRef(self, value):
-        self.osMemoryMappingCodeLocationRef = value
+        if value is not None:
+            self.osMemoryMappingCodeLocationRef = value
         return self
 
     def getOsIsrTimingProtection(self):
         return self.osIsrTimingProtection
 
     def setOsIsrTimingProtection(self, value):
-        self.osIsrTimingProtection = value
+        if value is not None:
+            self.osIsrTimingProtection = value
         return self
 
     def getOsIsrPriority(self):
         return self.osIsrPriority
 
     def setOsIsrPriority(self, value):
-        self.osIsrPriority = value
+        if value is not None:
+            self.osIsrPriority = value
         return self
 
     def getOsStacksize(self):
         return self.osStacksize
 
     def setOsStacksize(self, value):
-        self.osStacksize = value
+        if value is not None:
+            self.osStacksize = value
+        return self
+    
+    def getOsIsrVector(self):
+        return self.osIsrVector
+
+    def setOsIsrVector(self, value):
+        if value is not None:
+            self.osIsrVector = value
         return self
 
 
@@ -564,7 +592,7 @@ class OsTaskAutostart(EcucObject):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
-        self.osTaskAppModeRefs = []                                     # type: List[EcucRefType]             
+        self.osTaskAppModeRefs = []                                     # type: List[EcucRefType]
 
     def getOsTaskAppModeRefList(self):
         return self.osTaskAppModeRefs
@@ -572,6 +600,7 @@ class OsTaskAutostart(EcucObject):
     def addOsTaskAppModeRef(self, value):
         self.osTaskAppModeRefs.append(value)
         return self
+
 
 class OsTaskResourceLock(EcucObject):
     def __init__(self, parent, name) -> None:
@@ -586,13 +615,6 @@ class OsTaskTimingProtection(EcucObject):
         self.osTaskExecutionBudget = None
         self.osTaskOsInterruptLockBudget = None
         self.osTaskTimeFrame = None
-
-
-class OsTimeConstant(EcucObject):
-    def __init__(self, parent, name) -> None:
-        super().__init__(parent, name)
-
-        self.osTimeValue = None
 
 
 class OsTask(EcucObject):
@@ -613,7 +635,7 @@ class OsTask(EcucObject):
         self.osTaskAccessingApplication = None
         self.osTaskEventRef = None                      # type: EcucRefType
         self.osTaskResourceRefs = []                    # type: List[EcucRefType]
-        self.osTaskAutostart = None                     # type: OsTaskAutostart
+        self.osTaskAutostart = None                     # type: bool
 
     def getOsTaskActivation(self):
         return self.osTaskActivation
@@ -649,7 +671,6 @@ class OsTask(EcucObject):
     def setOsTaskType(self, value):
         self.OsTaskType = value
         return self
-
 
     def getOsStacksize(self) -> int:
         return self.osStacksize
@@ -699,7 +720,6 @@ class OsTask(EcucObject):
         return self
 
 
-
 class OsScheduleTableAutostart(EcucContainer):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
@@ -727,28 +747,6 @@ class OsScheduleTableAutostart(EcucContainer):
 
     def setOsScheduleTableAppModeRef(self, value):
         self.osScheduleTableAppModeRef = value
-        return self
-
-
-class OsScheduleTableEventSetting(EcucContainer):
-    def __init__(self, parent, name) -> None:
-        super().__init__(parent, name)
-
-        self.osScheduleTableSetEventRef = None          # Multiplicity: 1
-        self.osScheduleTableSetEventTaskRef = None      # Multiplicity: 1
-
-    def getOsScheduleTableSetEventRef(self):
-        return self.osScheduleTableSetEventRef
-
-    def setOsScheduleTableSetEventRef(self, value):
-        self.osScheduleTableSetEventRef = value
-        return self
-
-    def getOsScheduleTableSetEventTaskRef(self):
-        return self.osScheduleTableSetEventTaskRef
-
-    def setOsScheduleTableSetEventTaskRef(self, value):
-        self.osScheduleTableSetEventTaskRef = value
         return self
 
 
@@ -943,6 +941,12 @@ class Os(Module):
         self.osCounters = []                            # type: List[OsCounter]
         self.osApplications = []                        # type: List[OsApplication]
 
+        # extended attributes to speed up performance
+        self.osIsrToOsAppMappings = {}                  # type: Dict[str, OsApplication]
+        self.osTaskToOsAppMappings = {}                 # typeL Dict[str, OsApplication]
+
+        self.logger = logging.getLogger()
+
     def getOsTaskList(self) -> List[OsTask]:
         return list(sorted(filter(lambda a: isinstance(a, OsTask), self.elements.values()), key=lambda o: o.name))
 
@@ -986,7 +990,26 @@ class Os(Module):
     def getOsApplicationList(self) -> List[OsApplication]:
         return list(sorted(filter(lambda a: isinstance(a, OsApplication), self.elements.values()), key=lambda o: o.name))
 
-    def addOsApplication(self, value):
+    def addOsApplication(self, value: OsApplication):
         self.addElement(value)
         self.osApplications.append(value)
+        
+        for isr_ref in value.getOsAppIsrRefs():
+            self.logger.debug("Create OsISR <%s> -> OsApp <%s> Mapping." % (isr_ref.getShortName(), value.getName))
+            self.osIsrToOsAppMappings[isr_ref.getShortName()] = value
+
+        for task_ref in value.getOsAppTaskRefs():
+            self.logger.debug("Create OsTask <%s> -> OsApp <%s> Mapping." % (task_ref.getShortName(), value.getName))
+            self.osTaskToOsAppMappings[task_ref.getShortName()] = value
+
         return self
+    
+    def getOsIsrOsApplication(self, isr_name: str) -> OsApplication:
+        if isr_name in self.osIsrToOsAppMappings:
+            return self.osIsrToOsAppMappings[isr_name]
+        return None
+    
+    def getOsTaskOsApplication(self, isr_name: str) -> OsApplication:
+        if isr_name in self.osTaskToOsAppMappings:
+            return self.osTaskToOsAppMappings[isr_name]
+        return None

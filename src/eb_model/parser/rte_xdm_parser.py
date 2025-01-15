@@ -24,6 +24,8 @@ class RteXdmParser(AbstractEbModelParser):
         self.read_rte_bsw_module_instances(element, rte)
         self.read_rte_sw_component_instances(element, rte)
 
+        
+
     def read_rte_bsw_module_instance_event_to_task_mappings(self, element: ET.Element, instance: RteBswModuleInstance):
         for ctr_tag in self.find_ctr_tag_list(element, "RteBswEventToTaskMapping"):
             self.logger.debug("Read RteBswEventToTaskMapping <%s>" % ctr_tag.attrib['name'])

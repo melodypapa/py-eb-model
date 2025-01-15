@@ -1,8 +1,10 @@
 import xml.etree.ElementTree as ET
 from ..models.eb_doc import EBModel
-from ..models.os_xdm import Os, OsAlarm, OsAlarmActivateTask, OsAlarmCallback, OsAlarmIncrementCounter, OsAlarmSetEvent, OsCounter, OsScheduleTable, OsScheduleTableEventSetting, OsScheduleTableExpiryPoint, OsScheduleTableTaskActivation, OsScheduleTblAdjustableExpPoint, OsTaskAutostart
-from ..models.os_xdm import OsTask, OsIsr, OsApplication
-from .eb_parser import AbstractEbModelParser
+from ..models.os_xdm import Os, OsAlarm, OsAlarmActivateTask, OsAlarmCallback, OsAlarmIncrementCounter, OsAlarmSetEvent, OsCounter, OsScheduleTable
+from ..models.os_xdm import OsTask, OsIsr, OsApplication, OsScheduleTableEventSetting, OsScheduleTableExpiryPoint, OsScheduleTableTaskActivation
+from ..models.os_xdm import OsScheduleTblAdjustableExpPoint, OsTaskAutostart
+from ..parser.eb_parser import AbstractEbModelParser
+
 
 class OsXdmParser(AbstractEbModelParser):
     def __init__(self, ) -> None:
@@ -18,8 +20,7 @@ class OsXdmParser(AbstractEbModelParser):
 
         self.read_version(element, os)
 
-        self.logger.info("Parse Rte ARVersion:<%s> SwVersion:<%s>" % 
-                         (os.getArVersion().getVersion(), os.getSwVersion().getVersion()))
+        self.logger.info("Parse Rte ARVersion:<%s> SwVersion:<%s>" % (os.getArVersion().getVersion(), os.getSwVersion().getVersion()))
         
         self.os = os
 
@@ -36,7 +37,9 @@ class OsXdmParser(AbstractEbModelParser):
             autostart = OsTaskAutostart(os_task, ctr_tag.attrib["name"])
             for app_mode_ref in self.read_ref_value_list(ctr_tag, "OsTaskAppModeRef"):
                 autostart.addOsTaskAppModeRef(app_mode_ref)
-            os_task.setOsTaskAutostart(autostart)
+            os_task.setOsTaskAutostart(True)
+        else:
+            os_task.setOsTaskAutostart(False)
 
     def read_os_tasks(self, element: ET.Element, os: Os):
         for ctr_tag in self.find_ctr_tag_list(element, "OsTask"):
@@ -62,6 +65,12 @@ class OsXdmParser(AbstractEbModelParser):
                 .setOsIsrPeriod(self.read_optional_value(ctr_tag, "OsIsrPeriod", 0.0)) \
                 .setOsStacksize(int(self.read_value(ctr_tag, "OsStacksize"))) \
                 .setOsIsrPriority(self.read_optional_value(ctr_tag, "OsIsrPriority"))
+            
+            # patch for the infineon Aurix
+            os_isr.setOsIsrPriority(self.read_optional_value(ctr_tag, "OsTricoreIrqLevel"))
+            # patch for the ARM
+            os_isr.setOsIsrPriority(self.read_optional_value(ctr_tag, "OsARMIrqLevel"))
+            os_isr.setOsIsrVector(self.read_optional_value(ctr_tag, "OsARMVector"))
 
             self.logger.debug("Read OsIsr <%s>" % os_isr.getName())
             os.addOsIsr(os_isr)
@@ -111,7 +120,7 @@ class OsXdmParser(AbstractEbModelParser):
     def read_os_schedule_table_task_activations(self, element: ET.Element, expiry_point: OsScheduleTableExpiryPoint):
         for ctr_tag in self.find_ctr_tag_list(element, "OsScheduleTableTaskActivation"):
             activation = OsScheduleTableTaskActivation(expiry_point, ctr_tag.attrib["name"]) \
-                .setOsScheduleTableActivateTaskRef(self.read_ref_value(ctr_tag, "OsScheduleTableActivateTaskRef")) 
+                .setOsScheduleTableActivateTaskRef(self.read_ref_value(ctr_tag, "OsScheduleTableActivateTaskRef"))
 
             expiry_point.addOsScheduleTableTaskActivation(activation)
 
@@ -164,26 +173,16 @@ class OsXdmParser(AbstractEbModelParser):
     def read_os_applications(self, element: ET.Element, os: Os):
         for ctr_tag in self.find_ctr_tag_list(element, "OsApplication"):
             os_app = OsApplication(os, ctr_tag.attrib["name"]) \
-                .setOsTrusted(self.read_value(ctr_tag, "OsTrusted")) 
-            
-            for ref in self.read_ref_value_list(ctr_tag, "OsAppAlarmRef"):
-                os_app.addOsAppAlarmRef(ref)
-
-            for ref in self.read_ref_value_list(ctr_tag, "OsAppCounterRef"):
-                os_app.addOsAppCounterRefs(ref)
-
-            for ref in self.read_ref_value_list(ctr_tag, "OsAppScheduleTableRef"):
-                os_app.addOsAppScheduleTableRef(ref)
+                .setOsTrusted(self.read_value(ctr_tag, "OsTrusted"))
             
             for ref in self.read_ref_value_list(ctr_tag, "OsAppResourceRef"):
                 os_app.addOsAppResourceRef(ref)
 
             for ref in self.read_ref_value_list(ctr_tag, "OsAppTaskRef"):
-                os_app.addOsAppTaskRefs(ref)
+                os_app.addOsAppTaskRef(ref)
 
             for ref in self.read_ref_value_list(ctr_tag, "OsAppIsrRef"):
-                os_app.addOsAppIsrRefs(ref)
-
+                os_app.addOsAppIsrRef(ref)
 
             self.logger.debug("Read OsApplication <%s>" % os_app.getName())
             os.addOsApplication(os_app)

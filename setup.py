@@ -3,12 +3,12 @@
 from setuptools import setup, find_packages
 
 with open("README.md", "r") as fh:
-    long_description = fh.read() 
+    long_description = fh.read()
 
 setup(
     name='py_eb_model',
-    version = '1.1.2',
-    license = 'proprietary',
+    version='1.1.3',
+    license='proprietary',
     description="The parser for EB XDM file",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -20,19 +20,19 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],  # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
-    keywords='EB Tresos XDM', 
+    keywords='EB Tresos XDM',
 
-    author = 'melodypapa',
-    author_email = "melodypapa@outlook.com",
+    author='melodypapa',
+    author_email="melodypapa@outlook.com",
     url="",
 
-    packages = find_packages(where='src'),
-    package_dir= {'': 'src'},
+    packages=find_packages(where='src'),
+    package_dir={'': 'src'},
 
     install_requires=['openpyxl'],
 
     include_package_data=True,
-    
+
     extras_require={'pytest': 'pytest-cov'},
 
     entry_points={

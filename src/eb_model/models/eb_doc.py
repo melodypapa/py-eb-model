@@ -3,6 +3,7 @@ from .rte_xdm import Rte
 from .os_xdm import Os
 from .abstract import EcucContainer, EcucObject
 
+
 class AbstractModel(EcucContainer):
     def getFullName(self):
         return self.name
@@ -10,14 +11,14 @@ class AbstractModel(EcucContainer):
     def clear(self):
         self.elements = {}
 
-    def find_object(self, referred_name:str, element:EcucContainer) -> EcucObject:
+    def find_object(self, referred_name: str, element: EcucContainer) -> EcucObject:
         name_list = referred_name.split("/")
-        #element = EBModel.getInstance()
+        # element = EBModel.getInstance()
         for name in name_list:
             if (name == ""):
                 continue
             element = element.getElement(name)
-            if (element == None):
+            if (element is None):
                 return element
             #    raise ValueError("The %s of reference <%s> does not exist." % (short_name, referred_name))
         return element
@@ -28,12 +29,12 @@ class EBModel(AbstractModel):
 
     @staticmethod
     def getInstance():
-        if (EBModel.__instance == None):
+        if (EBModel.__instance is None):
             EBModel()
         return EBModel.__instance
 
     def __init__(self):
-        if (EBModel.__instance != None):
+        if (EBModel.__instance is not None):
             raise Exception("The EBModel is singleton!")
         
         EcucContainer.__init__(self, None, "")
@@ -44,25 +45,26 @@ class EBModel(AbstractModel):
 
     def getOs(self) -> Os:
         container = EcucContainer(self, "Os")
-        os = Os(container)
+        Os(container)
         return self.find("/Os/Os")
     
     def getRte(self) -> Rte:
         container = EcucContainer(self, "Rte")
-        rte = Rte(container)
+        Rte(container)
         return self.find("/Rte/Rte")
+
 
 class PreferenceModel(AbstractModel):
     __instance = None
 
     @staticmethod
     def getInstance():
-        if (PreferenceModel.__instance == None):
+        if (PreferenceModel.__instance is None):
             PreferenceModel()
         return PreferenceModel.__instance
 
     def __init__(self):
-        if (PreferenceModel.__instance != None):
+        if (PreferenceModel.__instance is not None):
             raise Exception("The PreferenceModel is singleton!")
         
         EcucContainer.__init__(self, None, "")

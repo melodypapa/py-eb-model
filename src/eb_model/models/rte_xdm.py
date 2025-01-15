@@ -1,4 +1,3 @@
-from abc import ABCMeta
 from typing import Dict, List
 from ..models.abstract import EcucContainer, EcucRefType, Module
 class RteEventToIsrMapping(EcucContainer):
@@ -11,11 +10,8 @@ class RteEventToIsrMapping(EcucContainer):
         self.RteRipsFillRoutineRef = None
         self.RteRipsFlushRoutineRef = None
 
-class AbstractEventToTaskMapping(EcucContainer, metaclass = ABCMeta):
+class AbstractEventToTaskMapping(EcucContainer):
     def __init__(self, parent, name) -> None:
-        if type(self) == AbstractEventToTaskMapping:
-            raise ValueError("RteEventToTaskMapping is an abstract class.")
-        
         super().__init__(parent, name)
 
         self.rtePositionInTask = None
@@ -27,11 +23,8 @@ class AbstractEventToTaskMapping(EcucContainer, metaclass = ABCMeta):
         self.rtePositionInTask = value
         return self
 
-class RteEventToTaskMapping(AbstractEventToTaskMapping, metaclass = ABCMeta):
+class RteEventToTaskMapping(AbstractEventToTaskMapping):
     def __init__(self, parent, name) -> None:
-        if type(self) == RteEventToTaskMapping:
-            raise ValueError("RteEventToTaskMapping is an abstract class.")
-
         super().__init__(parent, name)
         
         self.rteActivationOffset = None
@@ -181,11 +174,7 @@ class RteEventToTaskMapping(AbstractEventToTaskMapping, metaclass = ABCMeta):
 
     def setRteVirtuallyMappedToTaskRef(self, value):
         self.rteVirtuallyMappedToTaskRef = value
-        return self
-    
-    # abstract method
-    def getRteEventRef(self) -> EcucRefType:
-        pass
+        return self   
     
 class RteEventToTaskMappingV3(RteEventToTaskMapping):
     def __init__(self, parent, name):
