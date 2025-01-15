@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='py_eb_model',
-    version='1.1.3',
+    version='1.1.4',
     license='proprietary',
     description="The parser for EB XDM file",
     long_description=long_description,

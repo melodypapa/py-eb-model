@@ -21,7 +21,7 @@ class OsXdmParser(AbstractEbModelParser):
         self.read_version(element, os)
 
         self.logger.info("Parse Rte ARVersion:<%s> SwVersion:<%s>" % (os.getArVersion().getVersion(), os.getSwVersion().getVersion()))
-        
+
         self.os = os
 
         self.read_os_tasks(element, os)
@@ -37,9 +37,7 @@ class OsXdmParser(AbstractEbModelParser):
             autostart = OsTaskAutostart(os_task, ctr_tag.attrib["name"])
             for app_mode_ref in self.read_ref_value_list(ctr_tag, "OsTaskAppModeRef"):
                 autostart.addOsTaskAppModeRef(app_mode_ref)
-            os_task.setOsTaskAutostart(True)
-        else:
-            os_task.setOsTaskAutostart(False)
+            os_task.setOsTaskAutostart(autostart)
 
     def read_os_tasks(self, element: ET.Element, os: Os):
         for ctr_tag in self.find_ctr_tag_list(element, "OsTask"):

@@ -171,3 +171,9 @@ PrefSystemImporter --base-path c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rt
 1. Support to read Isr Priority and Vector for R52+ core.
 2. Export the Isr Priority and Vector to Excel.
 3. Read the OsAppResourceRef, OsAppIsrRef from OsApplication.
+
+**Version 1.1.4**
+
+1. Fix the incorrect attribute of osTaskAutostart.
+2. Add the isOsTaskAutostart method to get the enabled flag of osTaskAutostart.
+3. Add the flake8 change rules.
