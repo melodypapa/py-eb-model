@@ -2,15 +2,16 @@ from abc import ABCMeta
 from typing import Dict
 import re
 
+
 class EcucObject(metaclass=ABCMeta):
     def __init__(self, parent, name) -> None:
-        if type(self) == EcucObject:
+        if type(self) is EcucObject:
             raise ValueError("Abstract EcucObject cannot be initialized.")
         
         self.name = name
         self.parent = parent                # type: EcucObject
 
-        if isinstance(parent, EcucContainer):
+        if isinstance(parent, EcucParamConfContainerDef):
             parent.addElement(self)
 
     def getName(self):
@@ -30,14 +31,15 @@ class EcucObject(metaclass=ABCMeta):
     def getFullName(self) -> str:
         return self.parent.getFullName() + "/" + self.name
 
-class EcucContainer(EcucObject):
+
+class EcucParamConfContainerDef(EcucObject):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
         self.elements = {}                  # type: Dict[str, EcucObject]
 
     def getTotalElement(self) -> int:
-        #return len(list(filter(lambda a: not isinstance(a, ARPackage) , self.elements.values())))
+        # return len(list(filter(lambda a: not isinstance(a, ARPackage) , self.elements.values())))
         return len(self.elements)
     
     def addElement(self, object: EcucObject):
@@ -60,6 +62,7 @@ class EcucContainer(EcucObject):
             return None
         return self.elements[name]
 
+
 class EcucRefType:
     def __init__(self, value: str) -> None:
         self.value = value
@@ -81,6 +84,7 @@ class EcucRefType:
         if m:
             return m.group(1)
         return self.value
+    
     
 class Version:
     def __init__(self):
@@ -115,7 +119,8 @@ class Version:
     def getVersion(self) -> str:
         return "%d.%d.%d" % (self.majorVersion, self.minorVersion, self.patchVersion)
 
-class Module(EcucContainer):
+
+class Module(EcucParamConfContainerDef):
     def __init__(self, parent, name):
         super().__init__(parent, name)
 

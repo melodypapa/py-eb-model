@@ -1,6 +1,8 @@
 from typing import Dict, List
-from ..models.abstract import EcucContainer, EcucRefType, Module
-class RteEventToIsrMapping(EcucContainer):
+from ..models.abstract import EcucParamConfContainerDef, EcucRefType, Module
+
+
+class RteEventToIsrMapping(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
         
@@ -10,7 +12,8 @@ class RteEventToIsrMapping(EcucContainer):
         self.RteRipsFillRoutineRef = None
         self.RteRipsFlushRoutineRef = None
 
-class AbstractEventToTaskMapping(EcucContainer):
+
+class AbstractEventToTaskMapping(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
@@ -22,6 +25,7 @@ class AbstractEventToTaskMapping(EcucContainer):
     def setRtePositionInTask(self, value):
         self.rtePositionInTask = value
         return self
+
 
 class RteEventToTaskMapping(AbstractEventToTaskMapping):
     def __init__(self, parent, name) -> None:
@@ -174,8 +178,9 @@ class RteEventToTaskMapping(AbstractEventToTaskMapping):
 
     def setRteVirtuallyMappedToTaskRef(self, value):
         self.rteVirtuallyMappedToTaskRef = value
-        return self   
-    
+        return self
+
+
 class RteEventToTaskMappingV3(RteEventToTaskMapping):
     def __init__(self, parent, name):
         super().__init__(parent, name)
@@ -188,6 +193,7 @@ class RteEventToTaskMappingV3(RteEventToTaskMapping):
     def setRteEventRef(self, value: EcucRefType):
         self.rteEventRef = value
         return self
+
 
 class RteEventToTaskMappingV4(RteEventToTaskMapping):
     def __init__(self, parent, name):
@@ -207,6 +213,7 @@ class RteEventToTaskMappingV4(RteEventToTaskMapping):
         if len(self.rteEventRefs) != 1:
             raise ValueError("Unsupported RteEventRef of RteEventToTaskMapping <%s> " % self.name)
         return self.rteEventRefs[0]
+
 
 class RteBswEventToTaskMapping(AbstractEventToTaskMapping):
     def __init__(self, parent, name) -> None:
@@ -329,6 +336,7 @@ class RteBswEventToTaskMapping(AbstractEventToTaskMapping):
         self.rteRipsFlushRoutineRef = value
         return self
 
+
 class RteBswEventToTaskMappingV3(RteBswEventToTaskMapping):
     def __init__(self, parent, name):
         super().__init__(parent, name)
@@ -342,6 +350,7 @@ class RteBswEventToTaskMappingV3(RteBswEventToTaskMapping):
         if value is not None:
             self.rteBswEventRef = value
         return self
+
 
 class RteBswEventToTaskMappingV4(RteBswEventToTaskMapping):
     def __init__(self, parent, name):
@@ -361,9 +370,11 @@ class RteBswEventToTaskMappingV4(RteBswEventToTaskMapping):
             raise ValueError("Unsupported RteEventRef of RteEventToTaskMapping <%s> " % self.name)
         return self.rteBswEventRefs[0]
 
-class AbstractRteInstance(EcucContainer):
+
+class AbstractRteInstance(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
+
 
 class RteSwComponentInstance(AbstractRteInstance):
     def __init__(self, parent, name) -> None:
@@ -442,6 +453,7 @@ class RteSwComponentInstance(AbstractRteInstance):
     def addRteNvRamAllocation(self, value):
         self.rteNvRamAllocations.append(value)
         return self
+
 
 class RteBswModuleInstance(AbstractRteInstance):
     def __init__(self, parent, name) -> None:
@@ -551,25 +563,43 @@ class RteBswModuleInstance(AbstractRteInstance):
     def setRteMappedToOsApplicationRef(self, value):
         self.rteMappedToOsApplicationRef = value
         return self
-    
+
+
 class Rte(Module):
     def __init__(self, parent) -> None:
         super().__init__(parent, "Rte")
 
+        self.rteBswModuleInstances = []                                         # type: List[RteBswModuleInstance]
+        self.rteSwComponentInstances = []                                       # type: List[RteSwComponentInstance]
+
+    def getRteBswModuleInstance(self, name: str) -> RteBswModuleInstance:
+        result = list(filter(lambda a: a.name == name, self.rteBswModuleInstances))
+        if len(result) > 0:
+            return result[0]
+        return None
+
     def getRteBswModuleInstanceList(self) -> List[RteBswModuleInstance]:
-        return list(sorted(filter(lambda a: isinstance(a, RteBswModuleInstance), self.elements.values()), key= lambda o:o.name))
+        return list(sorted(self.rteBswModuleInstances, key=lambda o: o.name))
 
     def addRteBswModuleInstance(self, value: RteBswModuleInstance):
         self.elements[value.getName()] = value
+        self.rteBswModuleInstances.append(value)
+
+    def getRteSwComponentInstance(self, name: str) -> RteSwComponentInstance:
+        result = list(filter(lambda a: a.name == name, self.rteSwComponentInstances))
+        if len(result) > 0:
+            return result[0]
+        return None
 
     def getRteSwComponentInstanceList(self) -> List[RteSwComponentInstance]:
-        return list(sorted(filter(lambda a: isinstance(a, RteSwComponentInstance), self.elements.values()), key= lambda o:o.name))
+        return list(sorted(self.rteSwComponentInstances, key=lambda o: o.name))
 
     def addRteSwComponentInstance(self, value: RteSwComponentInstance):
         self.elements[value.getName()] = value
+        self.rteSwComponentInstances.append(value)
 
     def getRteModuleInstanceList(self) -> List[AbstractRteInstance]:
-        return list(sorted(filter(lambda a: isinstance(a, AbstractRteInstance), self.elements.values()), key= lambda o:o.name))
+        return list(sorted(filter(lambda a: isinstance(a, AbstractRteInstance), self.elements.values()), key=lambda o: o.name))
     
     def _addToRteEventToOsTasks(self, mapping: AbstractEventToTaskMapping, os_tasks: Dict[str, List[AbstractEventToTaskMapping]]):
         if isinstance(mapping, RteBswEventToTaskMapping):

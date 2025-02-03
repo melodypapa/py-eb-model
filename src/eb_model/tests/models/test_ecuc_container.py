@@ -1,12 +1,12 @@
 
 from ...models.eb_doc import EBModel
-from ...models.abstract import EcucContainer, EcucObject
+from ...models.abstract import EcucParamConfContainerDef, EcucObject
 
 class TestEcucContainer:
 
     def test_create_container(self):
         document = EBModel.getInstance()
-        os_container = EcucContainer(document, "Os")
+        os_container = EcucParamConfContainerDef(document, "Os")
 
         assert (os_container.getFullName() == "/Os")
         assert (os_container.getParent() == document)
@@ -18,5 +18,5 @@ class TestEcucContainer:
         assert (container.getParent() == document)
         assert (container.getName() == "Os")
 
-        assert(isinstance(container, EcucContainer))
+        assert(isinstance(container, EcucParamConfContainerDef))
         assert(isinstance(container, EcucObject))

@@ -1,9 +1,12 @@
 {
     "cSpell.words": [
         "Aurix",
+        "bdist",
+        "Bswm",
         "datamodel",
         "ebmodel",
         "Ecuc",
+        "Impls",
         "infineon",
         "isrs",
         "levelname",
@@ -12,6 +15,8 @@
         "openpyxl",
         "ostask",
         "preemptable",
+        "prefs",
+        "pypi",
         "Stacksize",
         "Tresos",
         "Tricore"

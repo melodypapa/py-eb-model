@@ -177,3 +177,9 @@ PrefSystemImporter --base-path c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rt
 1. Fix the incorrect attribute of osTaskAutostart.
 2. Add the isOsTaskAutostart method to get the enabled flag of osTaskAutostart.
 3. Add the flake8 change rules.
+
+**Version 1.1.5**
+
+1. Add the new interfaces to support to get the instance by name.
+   * Rte::getRteBswModuleInstance
+   * Rte::getRteBswModuleInstance

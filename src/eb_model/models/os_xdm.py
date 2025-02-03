@@ -1,14 +1,14 @@
 from typing import Dict, List                                                       # noqa F401
 import logging
-from ..models.abstract import EcucContainer, EcucObject, EcucRefType, Module
+from ..models.abstract import EcucParamConfContainerDef, EcucObject, EcucRefType, Module
 
 
-class OsAlarmAction(EcucContainer):
+class OsAlarmAction(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
 
-class OsAlarmAutostart(EcucContainer):
+class OsAlarmAutostart(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
@@ -110,7 +110,7 @@ class OsAlarmSetEvent(OsAlarmAction):
         return self
 
 
-class OsAlarm(EcucContainer):
+class OsAlarm(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
@@ -160,7 +160,7 @@ class OsAlarm(EcucContainer):
         return "\n".join(result)
 
 
-class OsApplicationHooks(EcucContainer):
+class OsApplicationHooks(EcucParamConfContainerDef):
     def __init__(self, parent, name):
         super().__init__(parent, name)
 
@@ -198,7 +198,7 @@ class OsApplicationHooks(EcucContainer):
         return self
 
 
-class OsApplicationTrustedFunction(EcucContainer):
+class OsApplicationTrustedFunction(EcucParamConfContainerDef):
     def __init__(self, parent, name):
         super().__init__(parent, name)
 
@@ -220,12 +220,12 @@ class OsApplicationTrustedFunction(EcucContainer):
         return self
 
 
-class OsAppMode(EcucContainer):
+class OsAppMode(EcucParamConfContainerDef):
     def __init__(self, parent, name):
         super().__init__(parent, name)
 
 
-class OsApplication(EcucContainer):
+class OsApplication(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
@@ -344,7 +344,7 @@ class OsApplication(EcucContainer):
         return self
 
 
-class OsDriver(EcucContainer):
+class OsDriver(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
@@ -364,7 +364,7 @@ class OsDriver(EcucContainer):
         return self
 
 
-class OsTimeConstant(EcucContainer):
+class OsTimeConstant(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
@@ -384,7 +384,7 @@ class OsTimeConstant(EcucContainer):
         return self
 
 
-class OsCounter(EcucContainer):
+class OsCounter(EcucParamConfContainerDef):
 
     OS_COUNTER_TYPE_HARDWARE = "HARDWARE"
     OS_COUNTER_TYPE_SOFTWARE = "SOFTWARE"
@@ -482,12 +482,12 @@ class OsCounter(EcucContainer):
         return self
 
 
-class OsResource(EcucContainer):
+class OsResource(EcucParamConfContainerDef):
     def __init__(self) -> None:
         pass
 
 
-class OsIsrResourceLock(EcucContainer):
+class OsIsrResourceLock(EcucParamConfContainerDef):
     def __init__(self) -> None:
         self.osIsrResourceLockBudget = None
         self.osIsrResourceLockResourceRef = None
@@ -724,7 +724,7 @@ class OsTask(EcucObject):
         return self.osTaskAutostart is not None
 
 
-class OsScheduleTableAutostart(EcucContainer):
+class OsScheduleTableAutostart(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
@@ -754,7 +754,7 @@ class OsScheduleTableAutostart(EcucContainer):
         return self
 
 
-class OsScheduleTblAdjustableExpPoint(EcucContainer):
+class OsScheduleTblAdjustableExpPoint(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
@@ -776,7 +776,7 @@ class OsScheduleTblAdjustableExpPoint(EcucContainer):
         return self
 
 
-class OsScheduleTableTaskActivation(EcucContainer):
+class OsScheduleTableTaskActivation(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
@@ -790,7 +790,7 @@ class OsScheduleTableTaskActivation(EcucContainer):
         return self
 
 
-class OsScheduleTableEventSetting(EcucContainer):
+class OsScheduleTableEventSetting(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
@@ -814,7 +814,7 @@ class OsScheduleTableEventSetting(EcucContainer):
         return self
 
 
-class OsScheduleTableExpiryPoint(EcucContainer):
+class OsScheduleTableExpiryPoint(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
@@ -854,7 +854,7 @@ class OsScheduleTableExpiryPoint(EcucContainer):
         return self
 
 
-class OsScheduleTable(EcucContainer):
+class OsScheduleTable(EcucParamConfContainerDef):
 
     OS_TIME_UNIT_NANOSECONDS = "NANOSECONDS"
     OS_TIME_UNIT_TICKS = "TICKS"
