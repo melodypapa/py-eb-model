@@ -1,17 +1,17 @@
 from .importer_xdm import SystemDescriptionImporter
 from .rte_xdm import Rte
 from .os_xdm import Os
-from .abstract import EcucContainer, EcucObject
+from .abstract import EcucParamConfContainerDef, EcucObject
 
 
-class AbstractModel(EcucContainer):
+class AbstractModel(EcucParamConfContainerDef):
     def getFullName(self):
         return self.name
 
     def clear(self):
         self.elements = {}
 
-    def find_object(self, referred_name: str, element: EcucContainer) -> EcucObject:
+    def find_object(self, referred_name: str, element: EcucParamConfContainerDef) -> EcucObject:
         name_list = referred_name.split("/")
         # element = EBModel.getInstance()
         for name in name_list:
@@ -37,19 +37,19 @@ class EBModel(AbstractModel):
         if (EBModel.__instance is not None):
             raise Exception("The EBModel is singleton!")
         
-        EcucContainer.__init__(self, None, "")
+        EcucParamConfContainerDef.__init__(self, None, "")
         EBModel.__instance = self
 
     def find(self, referred_name: str) -> EcucObject:
         return self.find_object(referred_name, EBModel.getInstance())
 
     def getOs(self) -> Os:
-        container = EcucContainer(self, "Os")
+        container = EcucParamConfContainerDef(self, "Os")
         Os(container)
         return self.find("/Os/Os")
     
     def getRte(self) -> Rte:
-        container = EcucContainer(self, "Rte")
+        container = EcucParamConfContainerDef(self, "Rte")
         Rte(container)
         return self.find("/Rte/Rte")
 
@@ -67,10 +67,10 @@ class PreferenceModel(AbstractModel):
         if (PreferenceModel.__instance is not None):
             raise Exception("The PreferenceModel is singleton!")
         
-        EcucContainer.__init__(self, None, "")
+        EcucParamConfContainerDef.__init__(self, None, "")
         PreferenceModel.__instance = self
 
-        container = EcucContainer(self, "ImporterExporterAdditions")
+        container = EcucParamConfContainerDef(self, "ImporterExporterAdditions")
         SystemDescriptionImporter(container, "SystemDescriptionImporters")
 
     def find(self, referred_name: str) -> EcucObject:

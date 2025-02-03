@@ -7,6 +7,7 @@ import os
 import re
 import logging
 
+
 class SystemDescriptionImporter(EcucObject):
     def __init__(self, parent, name):
         super().__init__(parent, name)
@@ -28,7 +29,7 @@ class SystemDescriptionImporter(EcucObject):
             file_list.append(file)
         return file_list
     
-    def getParsedInputFiles(self, params = {}) -> List[str]:
+    def getParsedInputFiles(self, params={}) -> List[str]:
         file_list = []
         for input_file in self.inputFiles:
             m = re.match(r'\$\{(env_var:\w+)\}(.*)', input_file)
@@ -50,7 +51,7 @@ class SystemDescriptionImporter(EcucObject):
                 file_list.append(input_file)
         return file_list
     
-    def getAllPaths(self, path :str) -> List[str]:
+    def getAllPaths(self, path: str) -> List[str]:
         path_segments = path.split("/")
 
         result = []
@@ -61,11 +62,11 @@ class SystemDescriptionImporter(EcucObject):
             if long_path == "":
                 long_path = path_segment
             else:
-                long_path = long_path +"/" + path_segment
+                long_path = long_path + "/" + path_segment
             result.append(long_path)
         return result
     
-    def getNameByPath(self, path : str):              
+    def getNameByPath(self, path: str):
         path_segments = path.split("/")
 
         result = []
@@ -76,10 +77,10 @@ class SystemDescriptionImporter(EcucObject):
             else:
                 result.append(path_segment)
         
-        return (count , "/".join(result))
+        return (count, "/".join(result))
     
     def getLinks(self, file_list: List[str]) -> List[Link]:
-        path_sets = {}             # type: Dict[str, List[str]] 
+        path_sets = {}                              # type: Dict[str, List[str]]
         path_segment_sets = []
 
         for file in file_list:
@@ -111,5 +112,3 @@ class SystemDescriptionImporter(EcucObject):
                 links.append(link)
         
         return links
-
-
