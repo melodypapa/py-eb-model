@@ -44,6 +44,9 @@ class EBModel(AbstractModel):
         return self.find_object(referred_name, EBModel.getInstance())
 
     def getOs(self) -> Os:
+        '''
+            get the Os Container
+        '''
         container = EcucParamConfContainerDef(self, "Os")
         Os(container)
         return self.find("/Os/Os")

@@ -30,6 +30,11 @@ class EcucObject(metaclass=ABCMeta):
 
     def getFullName(self) -> str:
         return self.parent.getFullName() + "/" + self.name
+    
+
+class EcucEnumerationParamDef(EcucObject):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
 
 
 class EcucParamConfContainerDef(EcucObject):

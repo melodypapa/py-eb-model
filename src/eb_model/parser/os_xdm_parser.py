@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 from ..models.eb_doc import EBModel
-from ..models.os_xdm import Os, OsAlarm, OsAlarmActivateTask, OsAlarmCallback, OsAlarmIncrementCounter, OsAlarmSetEvent, OsCounter, OsScheduleTable
+from ..models.os_xdm import Os, OsAlarm, OsAlarmActivateTask, OsAlarmCallback, OsAlarmIncrementCounter, OsAlarmSetEvent, OsCounter, OsResource
+from ..models.os_xdm import OsScheduleTable
 from ..models.os_xdm import OsTask, OsIsr, OsApplication, OsScheduleTableEventSetting, OsScheduleTableExpiryPoint, OsScheduleTableTaskActivation
 from ..models.os_xdm import OsScheduleTblAdjustableExpPoint, OsTaskAutostart
 from ..parser.eb_parser import AbstractEbModelParser
@@ -20,7 +21,7 @@ class OsXdmParser(AbstractEbModelParser):
 
         self.read_version(element, os)
 
-        self.logger.info("Parse Rte ARVersion:<%s> SwVersion:<%s>" % (os.getArVersion().getVersion(), os.getSwVersion().getVersion()))
+        self.logger.info("Parse Os ARVersion:<%s> SwVersion:<%s>" % (os.getArVersion().getVersion(), os.getSwVersion().getVersion()))
 
         self.os = os
 
@@ -30,6 +31,7 @@ class OsXdmParser(AbstractEbModelParser):
         self.read_os_schedule_tables(element, os)
         self.read_os_counters(element, os)
         self.read_os_applications(element, os)
+        self.read_os_resources(element, os)
 
     def read_os_task_autostart(self, element: ET.Element, os_task: OsTask):
         ctr_tag = self.find_ctr_tag(element, "OsTaskAutostart")
@@ -184,3 +186,13 @@ class OsXdmParser(AbstractEbModelParser):
 
             self.logger.debug("Read OsApplication <%s>" % os_app.getName())
             os.addOsApplication(os_app)
+
+    def read_os_resources(self, element: ET.Element, os: Os):
+        for ctr_tag in self.find_ctr_tag_list(element, "OsResource"):
+            os_res = OsResource(os, ctr_tag.attrib["name"])
+            os_res.setOsResourceProperty(self.read_value(ctr_tag, "OsResourceProperty"))
+
+            for ref in self.read_ref_value_list(ctr_tag, "OsResourceAccessingApplication"):
+                os_res.addOsResourceAccessingApplicationRefs(ref)
+
+            os.addOsResource(os_res)

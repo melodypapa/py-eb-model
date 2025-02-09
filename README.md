@@ -183,3 +183,6 @@ PrefSystemImporter --base-path c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rt
 1. Add the new interfaces to support to get the instance by name.
    * Rte::getRteBswModuleInstance
    * Rte::getRteBswModuleInstance
+2. Add the OsResource support in Os Module:
+   * Os::getOsResourceList
+   * Os::addOsResource
