@@ -1,6 +1,6 @@
 from typing import Dict, List                                                       # noqa F401
 import logging
-from ..models.abstract import EcucParamConfContainerDef, EcucObject, EcucRefType, Module
+from ..models.abstract import EcucEnumerationParamDef, EcucParamConfContainerDef, EcucObject, EcucRefType, Module
 
 
 class OsAlarmAction(EcucParamConfContainerDef):
@@ -483,10 +483,38 @@ class OsCounter(EcucParamConfContainerDef):
 
 
 class OsResource(EcucParamConfContainerDef):
-    def __init__(self) -> None:
-        pass
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
 
+        self.osResourceProperty = None                                  # type: EcucEnumerationParamDef
+        self.osResourceAccessingApplicationRefs = []                    # type: List[EcucRefType]
+        self.osResourceLinkedResourceRefs = []                          # type: List[EcucRefType]
 
+    def getOsResourceProperty(self):
+        return self.osResourceProperty
+
+    def setOsResourceProperty(self, value):
+        if value is not None:
+            self.osResourceProperty = value
+        return self
+
+    def getOsResourceAccessingApplicationRefs(self):
+        return self.osResourceAccessingApplicationRefs
+
+    def addOsResourceAccessingApplicationRefs(self, value):
+        if value is not None:
+            self.osResourceAccessingApplicationRefs.append(value)
+        return self
+
+    def getOsResourceLinkedResourceRefs(self):
+        return self.osResourceLinkedResourceRefs
+
+    def setOsResourceLinkedResourceRefs(self, value):
+        if value is not None:
+            self.osResourceLinkedResourceRefs = value
+        return self
+
+    
 class OsIsrResourceLock(EcucParamConfContainerDef):
     def __init__(self) -> None:
         self.osIsrResourceLockBudget = None
@@ -944,6 +972,7 @@ class Os(Module):
         self.osScheduleTables = []                      # type: List[OsScheduleTable]
         self.osCounters = []                            # type: List[OsCounter]
         self.osApplications = []                        # type: List[OsApplication]
+        self.osResources = []                           # type: List[OsResource]
 
         # extended attributes to speed up performance
         self.osIsrToOsAppMappings = {}                  # type: Dict[str, OsApplication]
@@ -992,20 +1021,28 @@ class Os(Module):
         return self
     
     def getOsApplicationList(self) -> List[OsApplication]:
-        return list(sorted(filter(lambda a: isinstance(a, OsApplication), self.elements.values()), key=lambda o: o.name))
+        return list(sorted(filter(lambda a: isinstance(a, OsApplication), self.elements.values()), key=lambda o: o.getName()))
 
     def addOsApplication(self, value: OsApplication):
         self.addElement(value)
         self.osApplications.append(value)
         
         for isr_ref in value.getOsAppIsrRefs():
-            self.logger.debug("Create OsISR <%s> -> OsApp <%s> Mapping." % (isr_ref.getShortName(), value.getName))
+            self.logger.debug("Create OsISR <%s> -> OsApp <%s> Mapping." % (isr_ref.getShortName(), value.getName()))
             self.osIsrToOsAppMappings[isr_ref.getShortName()] = value
 
         for task_ref in value.getOsAppTaskRefs():
-            self.logger.debug("Create OsTask <%s> -> OsApp <%s> Mapping." % (task_ref.getShortName(), value.getName))
+            self.logger.debug("Create OsTask <%s> -> OsApp <%s> Mapping." % (task_ref.getShortName(), value.getName()))
             self.osTaskToOsAppMappings[task_ref.getShortName()] = value
 
+        return self
+    
+    def getOsResourceList(self) -> List[OsResource]:
+        return list(sorted(filter(lambda a: isinstance(a, OsResource), self.elements.values()), key=lambda o: o.getName()))
+
+    def addOsResource(self, os_task: OsResource):
+        self.addElement(os_task)
+        self.osResources.append(os_task)
         return self
     
     def getOsIsrOsApplication(self, isr_name: str) -> OsApplication:
