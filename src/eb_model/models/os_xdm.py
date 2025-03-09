@@ -114,9 +114,9 @@ class OsAlarm(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
-        self.osAlarmAccessingApplicationRefs = []   # type: List[EcucRefType]
+        self.osAlarmAccessingApplicationRefs: List[EcucRefType] = []
         self.osAlarmCounterRef = None
-        self.osAlarmAction = None                   # type: OsAlarmAction
+        self.osAlarmAction: OsAlarmAction = None
         self.osAlarmAutostart = None
 
     def getOsAlarmAccessingApplicationRefList(self) -> List[EcucRefType]:
@@ -164,10 +164,10 @@ class OsApplicationHooks(EcucParamConfContainerDef):
     def __init__(self, parent, name):
         super().__init__(parent, name)
 
-        self.OsAppErrorHook = False                                     # type: bool
-        self.OsAppShutdownHook = False                                  # type: bool
-        self.OsAppStartupHook = False                                   # type: bool
-        self.OsMemoryMappingCodeLocationRef = None                      # type: EcucRefType
+        self.OsAppErrorHook: bool = False
+        self.OsAppShutdownHook: bool = False
+        self.OsAppStartupHook: bool = False
+        self.OsMemoryMappingCodeLocationRef: EcucRefType = None
 
     def getOsAppErrorHook(self):
         return self.OsAppErrorHook
@@ -202,8 +202,8 @@ class OsApplicationTrustedFunction(EcucParamConfContainerDef):
     def __init__(self, parent, name):
         super().__init__(parent, name)
 
-        self.OsTrustedFunctionName = None                               # type: str
-        self.OsMemoryMappingCodeLocationRef = None                      # type: EcucRefType
+        self.OsTrustedFunctionName: str = None
+        self.OsMemoryMappingCodeLocationRef: EcucRefType = None
 
     def getOsTrustedFunctionName(self):
         return self.OsTrustedFunctionName
@@ -229,23 +229,23 @@ class OsApplication(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
-        self.OsTrusted = False                                          # type: bool
-        self.OsTrustedApplicationDelayTimingViolationCall = False       # type: bool
-        self.OsTrustedApplicationWithProtection = False                 # type: bool
-        self.OsAppAlarmRefs = []                                        # type: List[EcucRefType]
-        self.OsAppCounterRefs = []                                      # type: List[EcucRefType]
-        self.OsAppEcucPartitionRefs = []                                # type: List[EcucRefType]
-        self.OsAppIsrRefs = []                                          # type: List[EcucRefType]
-        self.OsApplicationCoreRefs = []                                 # type: List[EcucRefType]
-        self.OsAppScheduleTableRefs = []                                # type: List[EcucRefType]
-        self.OsAppTaskRefs = []                                         # type: List[EcucRefType]
-        self.OsMemoryMappingCodeLocationRef = None                      # type: EcucRefType
-        self.OsRestartTask = None                                       # type: EcucRefType
+        self.OsTrusted: bool = False
+        self.OsTrustedApplicationDelayTimingViolationCall: bool = False
+        self.OsTrustedApplicationWithProtection: bool = False
+        self.OsAppAlarmRefs: List[EcucRefType] = []
+        self.OsAppCounterRefs: List[EcucRefType] = []
+        self.OsAppEcucPartitionRefs: List[EcucRefType] = []
+        self.OsAppIsrRefs: List[EcucRefType] = []
+        self.OsApplicationCoreRefs: List[EcucRefType] = []
+        self.OsAppScheduleTableRefs: List[EcucRefType] = []
+        self.OsAppTaskRefs: List[EcucRefType] = []
+        self.OsMemoryMappingCodeLocationRef: EcucRefType = None
+        self.OsRestartTask: EcucRefType = None
 
         '''
         EB Tresos
         '''
-        self.OsAppResourceRefs = []                                     # type: List[EcucRefType]
+        self.OsAppResourceRefs: List[EcucRefType] = []
 
     def getOsTrusted(self):
         return self.OsTrusted
@@ -334,7 +334,7 @@ class OsApplication(EcucParamConfContainerDef):
     def setOsRestartTask(self, value):
         self.OsRestartTask = value
         return self
-    
+
     def getOsAppResourceRefs(self):
         return self.OsAppResourceRefs
 
@@ -348,7 +348,7 @@ class OsDriver(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
-        self.osGptChannelRef = None
+        self.osGptChannelRef: EcucRefType = None
 
     def getOsGptChannelRef(self) -> EcucRefType:
         '''
@@ -397,7 +397,7 @@ class OsCounter(EcucParamConfContainerDef):
         self.osCounterTicksPerBase = None                       # type: int
         self.osCounterType = None                               # type: str
         self.osSecondsPerTick = None                            # type: float
-        self.osCounterAccessingApplications = []                # type: List[EcucRefType]
+        self.osCounterAccessingApplications: List[EcucRefType] = []
         self.osDriver = None                                    # Multiplicity: 0..1
         self.osTimeConstants = []                               # Multiplicity: 0..*
 
@@ -486,9 +486,9 @@ class OsResource(EcucParamConfContainerDef):
     def __init__(self, parent, name):
         super().__init__(parent, name)
 
-        self.osResourceProperty = None                                  # type: EcucEnumerationParamDef
-        self.osResourceAccessingApplicationRefs = []                    # type: List[EcucRefType]
-        self.osResourceLinkedResourceRefs = []                          # type: List[EcucRefType]
+        self.osResourceProperty: EcucEnumerationParamDef = None
+        self.osResourceAccessingApplicationRefs: List[EcucRefType] = []
+        self.osResourceLinkedResourceRefs: List[EcucRefType] = []
 
     def getOsResourceProperty(self):
         return self.osResourceProperty
@@ -514,7 +514,7 @@ class OsResource(EcucParamConfContainerDef):
             self.osResourceLinkedResourceRefs = value
         return self
 
-    
+
 class OsIsrResourceLock(EcucParamConfContainerDef):
     def __init__(self) -> None:
         self.osIsrResourceLockBudget = None
@@ -541,15 +541,26 @@ class OsIsr(EcucObject):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
-        self.osIsrCategory = None
-        self.osIsrPeriod = None
-        self.osIsrResourceRef = None
-        self.osMemoryMappingCodeLocationRef = None
+        self.osIsrCategory: str = None
+        self.osIsrPeriod: int = None
+        self.osIsrResourceRef: EcucRefType = None
+        self.osMemoryMappingCodeLocationRef: EcucRefType = None
         self.osIsrTimingProtection = OsIsrTimingProtection()
 
-        self.osIsrPriority = None
-        self.osStacksize = None
-        self.osIsrVector = None
+        self.osIsrPriority: int = None
+        self.osStacksize: int = None
+        self.osIsrVector: str = None
+
+        # Infineon Aurix Tricore
+        self.osTricoreIrqLevel: str = None
+        self.osTricoreVector: str = None
+
+        # ARM core
+        self.osARMIrqLevel: str = None
+        self.osARMVector: str = None
+
+        # EB Safety OS
+        self.osIsrMkMemoryRegionRefs: List[EcucRefType] = []
 
     def getOsIsrCategory(self):
         return self.osIsrCategory
@@ -606,7 +617,7 @@ class OsIsr(EcucObject):
         if value is not None:
             self.osStacksize = value
         return self
-    
+
     def getOsIsrVector(self):
         return self.osIsrVector
 
@@ -614,13 +625,56 @@ class OsIsr(EcucObject):
         if value is not None:
             self.osIsrVector = value
         return self
+    
+    # Infineon AURIX Tricore
+    def getOsTricoreIrqLevel(self) -> str:
+        return self.osTricoreIrqLevel
+
+    def setOsTricoreIrqLevel(self, value: str):
+        if value is not None:
+            self.osTricoreIrqLevel = value
+        return self
+
+    def getOsTricoreVector(self) -> str:
+        return self.osTricoreVector
+
+    def setOsTricoreVector(self, value: str):
+        if value is not None:
+            self.osTricoreVector = value
+        return self
+    
+    # ARM core
+    def getOsARMIrqLevel(self) -> str:
+        return self.osARMIrqLevel
+
+    def setOsARMIrqLevel(self, value: str):
+        if value is not None:
+            self.osARMIrqLevel = value
+        return self
+
+    def getOsARMVector(self) -> str:
+        return self.osARMVector
+
+    def setOsARMVector(self, value: str):
+        if value is not None:
+            self.osARMVector = value
+        return self
+
+    # EB Safety OS
+    def getOsIsrMkMemoryRegionRefs(self) -> List[EcucRefType]:
+        return self.osIsrMkMemoryRegionRefs
+
+    def addOsIsrMkMemoryRegionRef(self, value: List[EcucRefType]):
+        if value is not None:
+            self.osIsrMkMemoryRegionRefs.append(value)
+        return self
 
 
 class OsTaskAutostart(EcucObject):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
-        self.osTaskAppModeRefs = []                                     # type: List[EcucRefType]
+        self.osTaskAppModeRefs: List[EcucRefType] = []
 
     def getOsTaskAppModeRefList(self):
         return self.osTaskAppModeRefs
@@ -739,7 +793,7 @@ class OsTask(EcucObject):
         if self.osTaskSchedule == OsTask.FULL:
             return True
         return False
-    
+
     def getOsTaskAutostart(self):
         return self.osTaskAutostart
 
@@ -747,7 +801,7 @@ class OsTask(EcucObject):
         if value is not None:
             self.osTaskAutostart = value
         return self
-    
+
     def isOsTaskAutostart(self) -> bool:
         return self.osTaskAutostart is not None
 
@@ -962,21 +1016,222 @@ class OsScheduleTable(EcucParamConfContainerDef):
         return self
 
 
+class MkMemoryRegion(EcucObject):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
+
+        self.mkMemoryRegionFlags: str = None
+        self.mkMemoryRegionInitialize: bool = None
+        self.mkMemoryRegionGlobal: bool = None
+        self.mkMemoryRegionInitThreadAccess: bool = None
+        self.mkMemoryRegionIdleThreadAccess: bool = None
+        self.mkMemoryRegionOsThreadAccess: bool = None
+        self.mkMemoryRegionErrorHookAccess: bool = None
+        self.mkMemoryRegionProtHookAccess: bool = None
+        self.mkMemoryRegionShutdownHookAccess: bool = None
+        self.mkMemoryRegionShutdownAccess: bool = None
+        self.mkMemoryRegionKernelAccess: bool = None
+        self.mkMemoryRegionInitializePerCore: bool = None
+
+    def getMkMemoryRegionFlags(self) -> str:
+        return self.mkMemoryRegionFlags
+
+    def setMkMemoryRegionFlags(self, value: str):
+        if value is not None:
+            self.mkMemoryRegionFlags = value
+        return self
+
+    def getMkMemoryRegionInitialize(self) -> bool:
+        return self.mkMemoryRegionInitialize
+
+    def setMkMemoryRegionInitialize(self, value: bool):
+        if value is not None:
+            self.mkMemoryRegionInitialize = value
+        return self
+
+    def getMkMemoryRegionGlobal(self) -> bool:
+        return self.mkMemoryRegionGlobal
+
+    def setMkMemoryRegionGlobal(self, value: bool):
+        if value is not None:
+            self.mkMemoryRegionGlobal = value
+        return self
+
+    def getMkMemoryRegionInitThreadAccess(self) -> bool:
+        return self.mkMemoryRegionInitThreadAccess
+
+    def setMkMemoryRegionInitThreadAccess(self, value: bool):
+        if value is not None:
+            self.mkMemoryRegionInitThreadAccess = value
+        return self
+
+    def getMkMemoryRegionIdleThreadAccess(self) -> bool:
+        return self.mkMemoryRegionIdleThreadAccess
+
+    def setMkMemoryRegionIdleThreadAccess(self, value: bool):
+        if value is not None:
+            self.mkMemoryRegionIdleThreadAccess = value
+        return self
+
+    def getMkMemoryRegionOsThreadAccess(self) -> bool:
+        return self.mkMemoryRegionOsThreadAccess
+
+    def setMkMemoryRegionOsThreadAccess(self, value: bool):
+        if value is not None:
+            self.mkMemoryRegionOsThreadAccess = value
+        return self
+
+    def getMkMemoryRegionErrorHookAccess(self) -> bool:
+        return self.mkMemoryRegionErrorHookAccess
+
+    def setMkMemoryRegionErrorHookAccess(self, value: bool):
+        if value is not None:
+            self.mkMemoryRegionErrorHookAccess = value
+        return self
+
+    def getMkMemoryRegionProtHookAccess(self) -> bool:
+        return self.mkMemoryRegionProtHookAccess
+
+    def setMkMemoryRegionProtHookAccess(self, value: bool):
+        if value is not None:
+            self.mkMemoryRegionProtHookAccess = value
+        return self
+
+    def getMkMemoryRegionShutdownHookAccess(self) -> bool:
+        return self.mkMemoryRegionShutdownHookAccess
+
+    def setMkMemoryRegionShutdownHookAccess(self, value: bool):
+        if value is not None:
+            self.mkMemoryRegionShutdownHookAccess = value
+        return self
+
+    def getMkMemoryRegionShutdownAccess(self) -> bool:
+        return self.mkMemoryRegionShutdownAccess
+
+    def setMkMemoryRegionShutdownAccess(self, value: bool):
+        if value is not None:
+            self.mkMemoryRegionShutdownAccess = value
+        return self
+
+    def getMkMemoryRegionKernelAccess(self) -> bool:
+        return self.mkMemoryRegionKernelAccess
+
+    def setMkMemoryRegionKernelAccess(self, value: bool):
+        if value is not None:
+            self.mkMemoryRegionKernelAccess = value
+        return self
+
+    def getMkMemoryRegionInitializePerCore(self) -> bool:
+        return self.mkMemoryRegionInitializePerCore
+
+    def setMkMemoryRegionInitializePerCore(self, value: bool):
+        if value is not None:
+            self.mkMemoryRegionInitializePerCore = value
+        return self
+
+
+class MkMemoryProtection(EcucParamConfContainerDef):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
+
+        self.mkMemoryRegions: List[MkMemoryRegion] = []
+
+    def getMkMemoryRegionList(self) -> List[MkMemoryRegion]:
+        return self.mkMemoryRegions
+
+    def addMkMemoryRegion(self, value: MkMemoryRegion):
+        if value is not None:
+            self.mkMemoryRegions.append(value)
+        return self
+
+
+class MkFunction(EcucParamConfContainerDef):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
+
+
+class MkStack(EcucParamConfContainerDef):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
+
+
+class MkThreadCustomization(EcucParamConfContainerDef):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
+
+
+class MkOptimization(EcucParamConfContainerDef):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
+
+
+class OsMicrokernel(EcucParamConfContainerDef):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
+
+        self.mkFunction: MkFunction = None
+        self.mkStack: MkStack = None
+        self.mkMemoryProtection: MkMemoryProtection = None
+        self.mkOptimization: MkOptimization = None
+        self.mkThreadCustomization: MkThreadCustomization = None
+
+    def getMkFunction(self) -> MkFunction:
+        return self.mkFunction
+
+    def setMkFunction(self, value: MkFunction):
+        if value is not None:
+            self.mkFunction = value
+        return self
+
+    def getMkStack(self) -> MkStack:
+        return self.mkStack
+
+    def setMkStack(self, value: MkStack):
+        if value is not None:
+            self.mkStack = value
+        return self
+
+    def getMkMemoryProtection(self) -> MkMemoryProtection:
+        return self.mkMemoryProtection
+
+    def setMkMemoryProtection(self, value: MkMemoryProtection):
+        if value is not None:
+            self.mkMemoryProtection = value
+        return self
+
+    def getMkOptimization(self) -> MkOptimization:
+        return self.mkOptimization
+
+    def setMkOptimization(self, value: MkOptimization):
+        if value is not None:
+            self.mkOptimization = value
+        return self
+
+    def getMkThreadCustomization(self) -> MkThreadCustomization:
+        return self.mkThreadCustomization
+
+    def setMkThreadCustomization(self, value: MkThreadCustomization):
+        if value is not None:
+            self.mkThreadCustomization = value
+        return self
+
+
 class Os(Module):
     def __init__(self, parent) -> None:
         super().__init__(parent, "Os")
 
-        self.osTasks = []                               # type: List[OsTask]
-        self.osIsrs = []                                # type: List[OsIsr]
-        self.osAlarms = []                              # type: List[OsAlarm]
-        self.osScheduleTables = []                      # type: List[OsScheduleTable]
-        self.osCounters = []                            # type: List[OsCounter]
-        self.osApplications = []                        # type: List[OsApplication]
-        self.osResources = []                           # type: List[OsResource]
+        self.osTasks: List[OsTask] = []
+        self.osIsrs: List[OsIsr] = []
+        self.osAlarms: List[OsAlarm] = []
+        self.osScheduleTables: List[OsScheduleTable] = []
+        self.osCounters: List[OsCounter] = []
+        self.osApplications: List[OsApplication] = []
+        self.osResources: List[OsResource] = []
+        self.osMicrokernel: OsMicrokernel = None
 
         # extended attributes to speed up performance
-        self.osIsrToOsAppMappings = {}                  # type: Dict[str, OsApplication]
-        self.osTaskToOsAppMappings = {}                 # typeL Dict[str, OsApplication]
+        self.osIsrToOsAppMappings: Dict[str, OsApplication] = {}
+        self.osTaskToOsAppMappings: Dict[str, OsApplication] = {}
 
         self.logger = logging.getLogger()
 
@@ -1019,24 +1274,26 @@ class Os(Module):
         self.addElement(os_counter)
         self.osCounters.append(os_counter)
         return self
-    
+
     def getOsApplicationList(self) -> List[OsApplication]:
         return list(sorted(filter(lambda a: isinstance(a, OsApplication), self.elements.values()), key=lambda o: o.getName()))
 
     def addOsApplication(self, value: OsApplication):
         self.addElement(value)
         self.osApplications.append(value)
-        
+
         for isr_ref in value.getOsAppIsrRefs():
-            self.logger.debug("Create OsISR <%s> -> OsApp <%s> Mapping." % (isr_ref.getShortName(), value.getName()))
+            self.logger.debug("Create OsISR <%s> -> OsApp <%s> Mapping." %
+                              (isr_ref.getShortName(), value.getName()))
             self.osIsrToOsAppMappings[isr_ref.getShortName()] = value
 
         for task_ref in value.getOsAppTaskRefs():
-            self.logger.debug("Create OsTask <%s> -> OsApp <%s> Mapping." % (task_ref.getShortName(), value.getName()))
+            self.logger.debug("Create OsTask <%s> -> OsApp <%s> Mapping." %
+                              (task_ref.getShortName(), value.getName()))
             self.osTaskToOsAppMappings[task_ref.getShortName()] = value
 
         return self
-    
+
     def getOsResourceList(self) -> List[OsResource]:
         return list(sorted(filter(lambda a: isinstance(a, OsResource), self.elements.values()), key=lambda o: o.getName()))
 
@@ -1044,13 +1301,21 @@ class Os(Module):
         self.addElement(os_task)
         self.osResources.append(os_task)
         return self
-    
+
     def getOsIsrOsApplication(self, isr_name: str) -> OsApplication:
         if isr_name in self.osIsrToOsAppMappings:
             return self.osIsrToOsAppMappings[isr_name]
         return None
-    
+
     def getOsTaskOsApplication(self, isr_name: str) -> OsApplication:
         if isr_name in self.osTaskToOsAppMappings:
             return self.osTaskToOsAppMappings[isr_name]
         return None
+
+    def getOsMicrokernel(self) -> OsMicrokernel:
+        return self.osMicrokernel
+
+    def setOsMicrokernel(self, value: OsMicrokernel):
+        if value is not None:
+            self.osMicrokernel = value
+        return self

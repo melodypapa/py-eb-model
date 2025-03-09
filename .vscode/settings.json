@@ -1,6 +1,8 @@
 {
     "cSpell.words": [
+        "ARXML",
         "Aurix",
+        "AUTOSAR",
         "bdist",
         "Bswm",
         "datamodel",
@@ -11,6 +13,7 @@
         "isrs",
         "levelname",
         "melodypapa",
+        "Microkernel",
         "nsmap",
         "openpyxl",
         "ostask",
@@ -23,6 +26,6 @@
     ],
     "flake8.args": [
         "--max-line-length=150",
-        "--ignore=F401,W293"
+        "--ignore=F401,W293,F403"
     ]    
 }

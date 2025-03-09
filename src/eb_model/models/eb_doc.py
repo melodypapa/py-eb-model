@@ -1,7 +1,8 @@
-from .importer_xdm import SystemDescriptionImporter
-from .rte_xdm import Rte
-from .os_xdm import Os
-from .abstract import EcucParamConfContainerDef, EcucObject
+from ..models.nvm_xdm import NvM
+from ..models.importer_xdm import SystemDescriptionImporter
+from ..models.rte_xdm import Rte
+from ..models.os_xdm import Os
+from ..models.abstract import EcucParamConfContainerDef, EcucObject
 
 
 class AbstractModel(EcucParamConfContainerDef):
@@ -55,6 +56,11 @@ class EBModel(AbstractModel):
         container = EcucParamConfContainerDef(self, "Rte")
         Rte(container)
         return self.find("/Rte/Rte")
+    
+    def getNvM(self) -> NvM:
+        container = EcucParamConfContainerDef(self, "NvM")
+        NvM(container)
+        return self.find("/NvM/NvM")
 
 
 class PreferenceModel(AbstractModel):

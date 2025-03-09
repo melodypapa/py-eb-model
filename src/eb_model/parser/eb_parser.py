@@ -86,7 +86,9 @@ class AbstractEbModelParser(metaclass = ABCMeta):
         tag = parent.find(".//d:ref[@name='%s']" % name, self.nsmap)
         if tag is None:
              raise KeyError("XPath d:ref[@name='%s'] is invalid" % name)
-        return EcucRefType(self.read_ref_raw_value(tag.attrib['value']))
+        if 'value' in tag.attrib:
+            return EcucRefType(self.read_ref_raw_value(tag.attrib['value']))
+        return None
 
     def read_optional_ref_value(self, parent: ET.Element, name: str) -> EcucRefType:
         tag = parent.find(".//d:ref[@name='%s']" % name, self.nsmap)
