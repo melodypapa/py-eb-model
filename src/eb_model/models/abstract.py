@@ -8,7 +8,7 @@ class EcucObject(metaclass=ABCMeta):
         if type(self) is EcucObject:
             raise ValueError("Abstract EcucObject cannot be initialized.")
         
-        self.name = name
+        self.name = name                    # type: str
         self.parent = parent                # type: EcucObject
 
         if isinstance(parent, EcucParamConfContainerDef):

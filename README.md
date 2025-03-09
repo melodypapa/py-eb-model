@@ -14,7 +14,7 @@ And more details can be found at https://packaging.python.org/
 
 # 3. CLI 
 
-## 3.1. os-task-xlsx
+## 3.1. os-xdm-xlsx
 
 Extract the Os Task information from os.xdm and then report all to Excel file.
 
@@ -40,7 +40,7 @@ os-xdm-xlsx data/Os.xdm data/Os.xlsx
 
 ![](doc/os-xdm-xlsx/os_counter_in_excel.png)
 
-## 3.2. rte-task-xls
+## 3.2. rte-xdm-xlsx
 
 Extract the Rte Configuration information from rte.xdm and then report all to Excel file.
 
@@ -54,6 +54,16 @@ rte-xdm-xlsx data/Rte.xdm data/Rte.xlsx
 
 ```bash
 rte-xdm-xlsx -r data/Rte.xdm data/Os.xdm data/Runnable.xlsx
+```
+
+# nvm-xdm-xlsx
+
+Extract the NvM Configuration information from nvm.xdm and then report all to Excel file.
+
+1. Export the Nvm Configuration information to excel file
+
+```bash
+nvm-xdm-xlsx data/NvM.xdm data/NvM.xlsx
 ```
 
 ## 3.3. PrefSystemImporter
@@ -183,6 +193,12 @@ PrefSystemImporter --base-path c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rt
 1. Add the new interfaces to support to get the instance by name.
    * Rte::getRteBswModuleInstance
    * Rte::getRteBswModuleInstance
-2. Add the OsResource support in Os Module:
+
+
+**Version 1.1.6**
+
+1. Add the OsResource support in Os Module:
    * Os::getOsResourceList
    * Os::addOsResource
+2. Read the NvMBlockDescriptor List
+3. Add the MkMemoryRegion support in Os Module:

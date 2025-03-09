@@ -3,7 +3,7 @@ from ..models.eb_doc import EBModel
 from ..models.os_xdm import Os, OsAlarm, OsAlarmActivateTask, OsAlarmCallback, OsAlarmIncrementCounter, OsAlarmSetEvent, OsCounter, OsResource
 from ..models.os_xdm import OsScheduleTable
 from ..models.os_xdm import OsTask, OsIsr, OsApplication, OsScheduleTableEventSetting, OsScheduleTableExpiryPoint, OsScheduleTableTaskActivation
-from ..models.os_xdm import OsScheduleTblAdjustableExpPoint, OsTaskAutostart
+from ..models.os_xdm import OsScheduleTblAdjustableExpPoint, OsTaskAutostart, OsMicrokernel, MkMemoryProtection, MkMemoryRegion
 from ..parser.eb_parser import AbstractEbModelParser
 
 
@@ -32,6 +32,7 @@ class OsXdmParser(AbstractEbModelParser):
         self.read_os_counters(element, os)
         self.read_os_applications(element, os)
         self.read_os_resources(element, os)
+        self.read_os_microkernel(element, os)
 
     def read_os_task_autostart(self, element: ET.Element, os_task: OsTask):
         ctr_tag = self.find_ctr_tag(element, "OsTaskAutostart")
@@ -66,11 +67,21 @@ class OsXdmParser(AbstractEbModelParser):
                 .setOsStacksize(int(self.read_value(ctr_tag, "OsStacksize"))) \
                 .setOsIsrPriority(self.read_optional_value(ctr_tag, "OsIsrPriority"))
             
-            # patch for the infineon Aurix
+            # Infineon Aurix Tricore
             os_isr.setOsIsrPriority(self.read_optional_value(ctr_tag, "OsTricoreIrqLevel"))
-            # patch for the ARM
+            os_isr.setOsIsrVector(self.read_optional_value(ctr_tag, "OsTricoreVector"))
+            os_isr.setOsTricoreIrqLevel(self.read_optional_value(ctr_tag, "OsTricoreIrqLevel"))
+            os_isr.setOsTricoreVector(self.read_optional_value(ctr_tag, "OsTricoreVector"))
+            
+            # ARM Core
             os_isr.setOsIsrPriority(self.read_optional_value(ctr_tag, "OsARMIrqLevel"))
             os_isr.setOsIsrVector(self.read_optional_value(ctr_tag, "OsARMVector"))
+            os_isr.setOsARMIrqLevel(self.read_optional_value(ctr_tag, "OsARMIrqLevel"))
+            os_isr.setOsARMVector(self.read_optional_value(ctr_tag, "OsARMVector"))
+
+            # EB Safety OS
+            for ref in self.read_ref_value_list(ctr_tag, "OsIsrMkMemoryRegionRef"):
+                os_isr.addOsIsrMkMemoryRegionRef(ref)
 
             self.logger.debug("Read OsIsr <%s>" % os_isr.getName())
             os.addOsIsr(os_isr)
@@ -196,3 +207,35 @@ class OsXdmParser(AbstractEbModelParser):
                 os_res.addOsResourceAccessingApplicationRefs(ref)
 
             os.addOsResource(os_res)
+
+    def read_mk_memory_regions(self, element: ET.Element, protection: MkMemoryProtection):
+        for ctr_tag in self.find_ctr_tag_list(element, "MkMemoryRegion"):
+            # self.logger.info("Read MkMemoryRegion %s" % ctr_tag.attrib["name"])
+            region = MkMemoryRegion(protection, ctr_tag.attrib["name"])
+            region.setMkMemoryRegionFlags(self.read_value(ctr_tag, "MkMemoryRegionFlags"))
+            region.setMkMemoryRegionInitialize(self.read_value(ctr_tag, "MkMemoryRegionInitialize"))
+            region.setMkMemoryRegionGlobal(self.read_value(ctr_tag, "MkMemoryRegionGlobal"))
+            region.setMkMemoryRegionInitThreadAccess(self.read_value(ctr_tag, "MkMemoryRegionInitThreadAccess"))
+            region.setMkMemoryRegionIdleThreadAccess(self.read_value(ctr_tag, "MkMemoryRegionIdleThreadAccess"))
+            region.setMkMemoryRegionOsThreadAccess(self.read_value(ctr_tag, "MkMemoryRegionOsThreadAccess"))
+            region.setMkMemoryRegionErrorHookAccess(self.read_value(ctr_tag, "MkMemoryRegionErrorHookAccess"))
+            region.setMkMemoryRegionProtHookAccess(self.read_value(ctr_tag, "MkMemoryRegionProtHookAccess"))
+            region.setMkMemoryRegionShutdownHookAccess(self.read_value(ctr_tag, "MkMemoryRegionShutdownHookAccess"))
+            region.setMkMemoryRegionShutdownAccess(self.read_value(ctr_tag, "MkMemoryRegionShutdownAccess"))
+            region.setMkMemoryRegionInitializePerCore(self.read_value(ctr_tag, "MkMemoryRegionInitializePerCore"))
+            protection.addMkMemoryRegion(region)
+
+    def read_mk_memory_protection(self, element: ET.Element, kernel: OsMicrokernel):
+        ctr_tag = self.find_ctr_tag(element, "MkMemoryProtection")
+        if ctr_tag is not None:
+            # self.logger.info("Read MkMemoryProtection")
+            protection = MkMemoryProtection(kernel, ctr_tag.attrib["name"])
+            self.read_mk_memory_regions(ctr_tag, protection)
+            kernel.setMkMemoryProtection(protection)
+
+    def read_os_microkernel(self, element: ET.Element, os: Os):
+        ctr_tag = self.find_ctr_tag(element, "OsMicrokernel")
+        if ctr_tag is not None:
+            kernel = OsMicrokernel(os, ctr_tag.attrib["name"])
+            self.read_mk_memory_protection(ctr_tag, kernel)
+            os.setOsMicrokernel(kernel)

@@ -2,6 +2,7 @@ from ...models.rte_xdm import RteBswEventToTaskMapping, RteBswModuleInstance, Rt
 from ...models.eb_doc import EBModel
 from .abstract import ExcelReporter
 
+
 class RteXdmXlsWriter(ExcelReporter):
     def __init__(self) -> None:
         super().__init__()
@@ -45,6 +46,7 @@ class RteXdmXlsWriter(ExcelReporter):
 
         self.save(filename)
 
+
 class RteRunnableEntityXlsWriter(ExcelReporter):
     def __init__(self) -> None:
         super().__init__()
@@ -57,7 +59,7 @@ class RteRunnableEntityXlsWriter(ExcelReporter):
 
         row = 2
         for os_task, mappings in doc.getRte().getMappedEvents().items():
-            for mapping in sorted(mappings, key = lambda a:a.getRtePositionInTask()):
+            for mapping in sorted(mappings, key=lambda a: a.getRtePositionInTask()):
                 self.write_cell(sheet, row, 1, os_task)
                 if isinstance(mapping, RteBswEventToTaskMapping):
                     self.logger.debug("Write Mapping %s" % mapping.getName())
@@ -68,7 +70,7 @@ class RteRunnableEntityXlsWriter(ExcelReporter):
                     self.write_cell(sheet, row, 7, mapping.getRteBswActivationOffset())
                 elif isinstance(mapping, RteEventToTaskMapping):
                     self.logger.debug("Write Mapping %s" % mapping.getName())
-                    instance = mapping.getRteSwComponentInstance() 
+                    instance = mapping.getRteSwComponentInstance()
                     self.write_cell(sheet, row, 2, mapping.getRteEventRef().getShortName())
                     self.write_cell(sheet, row, 5, instance.getRteSoftwareComponentInstanceRef().getValue())
                     self.write_cell(sheet, row, 6, mapping.getRtePositionInTask())
