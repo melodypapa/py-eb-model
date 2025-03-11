@@ -8,14 +8,15 @@ from typing import List
 from ..models.eb_doc import EBModel, PreferenceModel
 from ..models.abstract import EcucRefType, Module
 
-class AbstractEbModelParser(metaclass = ABCMeta):
+
+class AbstractEbModelParser(metaclass=ABCMeta):
 
     def __init__(self) -> None:
         self.nsmap = {}
 
         self.logger = logging.getLogger()
 
-        if type(self) == "AbstractEBModelParser":
+        if type(self) is AbstractEbModelParser:
             raise ValueError("Abstract EBModelParser cannot be initialized.")
         
     def validate_root(self, element: ET.Element):
@@ -39,7 +40,6 @@ class AbstractEbModelParser(metaclass = ABCMeta):
         '''
             Internal function and please call _read_ref_value instead of it
         '''
-        #match = re.match(r'ASPath.*\/(.*)', value)
         match = re.match(r'ASPath:(.*)', value)
         if (match):
             return match.group(1)
@@ -60,18 +60,20 @@ class AbstractEbModelParser(metaclass = ABCMeta):
 
     def read_value(self, parent: ET.Element, name: str) -> str:
         tag = parent.find(".//d:var[@name='%s']" % name, self.nsmap)
-        if tag == None:
+        if tag is None:
             raise KeyError("XPath d:var[@name='%s'] is invalid" % name)
         return self._convert_value(tag)
 
-    def read_optional_value(self, parent: ET.Element, name: str, default_value = None) -> str:
+    def read_optional_value(self, parent: ET.Element, name: str, default_value=None) -> str:
         tag = parent.find(".//d:var[@name='%s']" % name, self.nsmap)
         if tag is None:
             return default_value
-        if ('value' not in tag.attrib):
+        if 'value' not in tag.attrib:
             return default_value
         enable = self.read_attrib(tag, 'ENABLE')
-        if (enable == 'false'):
+        if enable is None:
+            return default_value
+        if enable.upper() == "FALSE":
             return default_value
         return self._convert_value(tag)
 
@@ -85,7 +87,7 @@ class AbstractEbModelParser(metaclass = ABCMeta):
     def read_ref_value(self, parent: ET.Element, name: str) -> EcucRefType:
         tag = parent.find(".//d:ref[@name='%s']" % name, self.nsmap)
         if tag is None:
-             raise KeyError("XPath d:ref[@name='%s'] is invalid" % name)
+            raise KeyError("XPath d:ref[@name='%s'] is invalid" % name)
         if 'value' in tag.attrib:
             return EcucRefType(self.read_ref_raw_value(tag.attrib['value']))
         return None
@@ -93,8 +95,11 @@ class AbstractEbModelParser(metaclass = ABCMeta):
     def read_optional_ref_value(self, parent: ET.Element, name: str) -> EcucRefType:
         tag = parent.find(".//d:ref[@name='%s']" % name, self.nsmap)
         enable = self.read_attrib(tag, 'ENABLE')
-        if (enable == 'false'):
+        if enable is None:
             return None
+        if enable.upper() == "FALSE":
+            return None
+        
         return EcucRefType(self.read_ref_raw_value(tag.attrib['value']))
 
     def read_ref_value_list(self, parent: ET.Element, name: str) -> List[EcucRefType]:
@@ -102,7 +107,7 @@ class AbstractEbModelParser(metaclass = ABCMeta):
         for tag in parent.findall(".//d:lst[@name='%s']/d:ref" % name, self.nsmap):
             ref_value_list.append(EcucRefType(self.read_ref_raw_value(tag.attrib['value'])))
         return ref_value_list
-
+    
     def find_ctr_tag_list(self, parent: ET.Element, name: str) -> List[ET.Element]:
         return parent.findall(".//d:lst[@name='%s']/d:ctr" % name, self.nsmap)
     
@@ -111,26 +116,26 @@ class AbstractEbModelParser(metaclass = ABCMeta):
 
     def find_ctr_tag(self, parent: ET.Element, name: str) -> ET.Element:
         '''
-        Read the child ctr tag. 
+        Read the child ctr tag.
         '''
         tag = parent.find(".//d:ctr[@name='%s']" % name, self.nsmap)
         if tag is None:
             return None
         enable = self.read_attrib(tag, 'ENABLE')
-        # ctr has the value if 
+        # ctr has the value if
         #   1. enable attribute do not exist
         #   2. enable attribute is not false
-        if enable is not None and enable == "false":    
+        if enable is not None and enable.upper() == "FALSE":
             return None
         return tag
 
-    def create_ctr_tag(self, name: str, type: str)-> ET.Element:
+    def create_ctr_tag(self, name: str, type: str) -> ET.Element:
         ctr_tag = ET.Element("d:ctr")
         ctr_tag.attrib['name'] = name
         ctr_tag.attrib['type'] = type
         return ctr_tag
 
-    def create_ref_tag(self, name:str, type: str, value = "")-> ET.Element:
+    def create_ref_tag(self, name: str, type: str, value: str = "") -> ET.Element:
         ref_tag = ET.Element("d:ref")
         ref_tag.attrib['name'] = name
         ref_tag.attrib['type'] = type
@@ -138,20 +143,20 @@ class AbstractEbModelParser(metaclass = ABCMeta):
             ref_tag.attrib['value'] = "ASPath:%s" % value
         return ref_tag
 
-    def create_choice_tag(self, name:str, type:str, value: str)-> ET.Element:
+    def create_choice_tag(self, name: str, type: str, value: str) -> ET.Element:
         choice_tag = ET.Element("d:chc")
         choice_tag.attrib['name'] = name
         choice_tag.attrib['type'] = type
         choice_tag.attrib['value'] = value
         return choice_tag
 
-    def create_attrib_tag(self, name:str, value: str) -> ET.Element:
+    def create_attrib_tag(self, name: str, value: str) -> ET.Element:
         attrib_tag = ET.Element("a:a")
         attrib_tag.attrib['name'] = name
         attrib_tag.attrib['value'] = value
         return attrib_tag
 
-    def create_ref_lst_tag(self, name:str, type:str = "", ref_list: List[str] = []) -> ET.Element:
+    def create_ref_lst_tag(self, name: str, type: str = "", ref_list: List[str] = []) -> ET.Element:
         lst_tag = ET.Element("d:lst")
         lst_tag.attrib['name'] = name
         for ref in ref_list:

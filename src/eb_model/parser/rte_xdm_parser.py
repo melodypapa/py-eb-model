@@ -1,8 +1,10 @@
 import xml.etree.ElementTree as ET
 
-from ..models.rte_xdm import Rte, RteBswEventToTaskMapping, RteBswEventToTaskMappingV3, RteBswEventToTaskMappingV4, RteBswModuleInstance, RteEventToTaskMapping, RteEventToTaskMappingV3, RteEventToTaskMappingV4, RteSwComponentInstance
+from ..models.rte_xdm import Rte, RteBswEventToTaskMapping, RteBswEventToTaskMappingV3, RteBswEventToTaskMappingV4, RteBswModuleInstance
+from ..models.rte_xdm import RteEventToTaskMapping, RteEventToTaskMappingV3, RteEventToTaskMappingV4, RteSwComponentInstance
 from ..models.eb_doc import EBModel
 from ..parser.eb_parser import AbstractEbModelParser
+
 
 class RteXdmParser(AbstractEbModelParser):
     def __init__(self, ) -> None:
@@ -16,15 +18,11 @@ class RteXdmParser(AbstractEbModelParser):
         rte = doc.getRte()
         self.read_version(element, rte)
 
-        self.logger.info("Parse Rte ARVersion:<%s> SwVersion:<%s>" % 
-                         (rte.getArVersion().getVersion(), rte.getSwVersion().getVersion()))
-        
+        self.logger.info("Parse Rte ARVersion:<%s> SwVersion:<%s>" % (rte.getArVersion().getVersion(), rte.getSwVersion().getVersion()))
         self.rte = rte
 
         self.read_rte_bsw_module_instances(element, rte)
         self.read_rte_sw_component_instances(element, rte)
-
-        
 
     def read_rte_bsw_module_instance_event_to_task_mappings(self, element: ET.Element, instance: RteBswModuleInstance):
         for ctr_tag in self.find_ctr_tag_list(element, "RteBswEventToTaskMapping"):
@@ -38,7 +36,7 @@ class RteXdmParser(AbstractEbModelParser):
             mapping.setRteBswActivationOffset(self.read_optional_value(ctr_tag, "RteBswActivationOffset")) \
                 .setRteBswEventPeriod(self.read_optional_value(ctr_tag, "RteBswPeriod")) \
                 .setRteBswPositionInTask(self.read_optional_value(ctr_tag, "RteBswPositionInTask")) \
-                .setRteBswServerQueueLength(self.read_optional_value(ctr_tag, "RteBswServerQueueLength")) 
+                .setRteBswServerQueueLength(self.read_optional_value(ctr_tag, "RteBswServerQueueLength"))
             
             if isinstance(mapping, RteBswEventToTaskMappingV4):
                 for resource_ref in self.read_ref_value_list(ctr_tag, "RteBswEventRef"):
@@ -56,7 +54,7 @@ class RteXdmParser(AbstractEbModelParser):
             instance = RteBswModuleInstance(rte, ctr_tag.attrib['name'])
             instance.setRteBswImplementationRef(self.read_ref_value(ctr_tag, "RteBswImplementationRef")) \
                 .setRteMappedToOsApplicationRef(self.read_optional_ref_value(ctr_tag, "RteMappedToOsApplicationRef"))
-
+            
             self.read_rte_bsw_module_instance_event_to_task_mappings(ctr_tag, instance)
             rte.addRteBswModuleInstance(instance)
 
@@ -71,7 +69,7 @@ class RteXdmParser(AbstractEbModelParser):
             mapping.setRteActivationOffset(self.read_optional_value(ctr_tag, "RteActivationOffset")) \
                 .setRtePeriod(self.read_optional_value(ctr_tag, "RtePeriod")) \
                 .setRtePositionInTask(self.read_optional_value(ctr_tag, "RtePositionInTask")) \
-                .setRteServerQueueLength(self.read_optional_value(ctr_tag, "RteServerQueueLength")) 
+                .setRteServerQueueLength(self.read_optional_value(ctr_tag, "RteServerQueueLength"))
             
             if isinstance(mapping, RteEventToTaskMappingV4):
                 for resource_ref in self.read_ref_value_list(ctr_tag, "RteEventRef"):
@@ -80,6 +78,8 @@ class RteXdmParser(AbstractEbModelParser):
                 mapping.setRteEventRef(self.read_ref_value(ctr_tag, "RteEventRef"))
 
             mapping.setRteMappedToTaskRef(self.read_optional_ref_value(ctr_tag, "RteMappedToTaskRef"))
+
+            self.logger.debug("Rte Event %s" % mapping.getRteEventRef().getShortName())
             
             instance.addRteEventToTaskMapping(mapping)
 
@@ -89,7 +89,7 @@ class RteXdmParser(AbstractEbModelParser):
 
             instance = RteSwComponentInstance(rte, ctr_tag.attrib['name'])
             instance.setMappedToOsApplicationRef(self.read_optional_ref_value(ctr_tag, "MappedToOsApplicationRef")) \
-                .setRteSoftwareComponentInstanceRef(self.read_optional_ref_value(ctr_tag, "RteSoftwareComponentInstanceRef"))
+                    .setRteSoftwareComponentInstanceRef(self.read_optional_ref_value(ctr_tag, "RteSoftwareComponentInstanceRef"))
             
             self.read_rte_sw_component_instance_event_to_task_mappings(ctr_tag, instance)
             rte.addRteSwComponentInstance(instance)
