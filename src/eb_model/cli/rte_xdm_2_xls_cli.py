@@ -10,45 +10,46 @@ from ..reporter.excel_reporter.rte_xdm import RteRunnableEntityXlsWriter, RteXdm
 from ..parser.rte_xdm_parser import RteXdmParser
 from ..models import EBModel
 
-def main():
-    version = pkg_resources.require("py_eb_model")[0].version
 
-    ap = argparse.ArgumentParser()
-    ap.add_argument("-v", "--verbose", required= False, help= "Print debug information", action= "store_true")
-    ap.add_argument("-r", "--runnable", required= False, help= "Export the runnable entities", action= "store_true")
-    ap.add_argument("INPUT", help = "The path of xdm file.", nargs='+')
-    ap.add_argument("OUTPUT", help = "The path of excel file.")
-
-    args = ap.parse_args()
-
+def process_logger(args):
     logger = logging.getLogger()
+    formatter = logging.Formatter('[%(levelname)s] : %(message)s')
+    logger.setLevel(logging.DEBUG)
     
-    formatter = logging.Formatter('[%(levelname)s] [%(asctime)s]: %(message)s')
+    if args.verbose:
+        log_level = logging.DEBUG
+    else:
+        log_level = logging.INFO
 
     stdout_handler = logging.StreamHandler(sys.stderr)
     stdout_handler.setFormatter(formatter)
+    stdout_handler.setLevel(log_level)
+    logger.addHandler(stdout_handler)
 
-    base_path = os.path.dirname(args.OUTPUT)
-    log_file = os.path.join(base_path, 'rte_xdm_2_xls.log')
+    if args.log:
+        if os.path.exists(args.log):
+            os.remove(args.log)
 
-    if os.path.exists(log_file):
-        os.remove(log_file)
+        file_handler = logging.FileHandler(args.log)
+        file_handler.setFormatter(formatter)
+        file_handler.setLevel(log_level)
+        logger.addHandler(file_handler)
+    return logger
 
-    file_handler = logging.FileHandler(log_file)
-    file_handler.setFormatter(formatter)
 
-    logger.setLevel(logging.DEBUG)
-    file_handler.setLevel(logging.DEBUG)
+def main():
+    # version = pkg_resources.require("py_eb_model")[0].version
 
-    if args.verbose:
-        stdout_handler.setLevel(logging.DEBUG)
-        
-    else:
-        stdout_handler.setLevel(logging.INFO)
+    ap = argparse.ArgumentParser()
+    ap.add_argument("-v", "--verbose", required=False, help="Print debug information", action="store_true")
+    ap.add_argument("-r", "--runnable", required=False, help="Export the runnable entities", action="store_true")
+    ap.add_argument("--log", required=False, help="The Log file name.")
+    ap.add_argument("INPUT", help="The path of xdm file.", nargs='+')
+    ap.add_argument("OUTPUT", help="The path of excel file.")
 
-    logger.addHandler(file_handler)
-    logger.addHandler(stdout_handler)    
-
+    args = ap.parse_args()
+    logger = process_logger(args)
+    
     try:
         doc = EBModel.getInstance()
 

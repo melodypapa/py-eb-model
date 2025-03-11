@@ -201,3 +201,7 @@ PrefSystemImporter --base-path c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rt
    * Os::getOsResourceList
    * Os::addOsResource
 2. Read the NvMBlockDescriptor List
+
+**Version 1.1.7**
+
+1. Solve the case issue of read_optional_value enables attribute.

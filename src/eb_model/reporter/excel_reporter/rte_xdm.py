@@ -1,4 +1,5 @@
-from ...models.rte_xdm import RteBswEventToTaskMapping, RteBswModuleInstance, RteEventToTaskMapping, RteSwComponentInstance
+from ...models.rte_xdm import RteBswEventToTaskMapping, RteBswEventToTaskMappingV3, RteBswEventToTaskMappingV4, RteBswModuleInstance
+from ...models.rte_xdm import RteEventToTaskMapping, RteEventToTaskMappingV3, RteEventToTaskMappingV4, RteSwComponentInstance
 from ...models.eb_doc import EBModel
 from .abstract import ExcelReporter
 
@@ -59,19 +60,29 @@ class RteRunnableEntityXlsWriter(ExcelReporter):
 
         row = 2
         for os_task, mappings in doc.getRte().getMappedEvents().items():
-            for mapping in sorted(mappings, key=lambda a: a.getRtePositionInTask()):
+            for mapping in sorted(mappings, key=lambda a: a.getRtePositionInTaskNumber()):
                 self.write_cell(sheet, row, 1, os_task)
                 if isinstance(mapping, RteBswEventToTaskMapping):
                     self.logger.debug("Write Mapping %s" % mapping.getName())
                     instance = mapping.getRteBswModuleInstance()
-                    self.write_cell(sheet, row, 2, mapping.getRteBswEventRefs().getShortName())
+                    if isinstance(mapping, RteBswEventToTaskMappingV3):
+                        self.write_cell(sheet, row, 2, mapping.getRteBswEventRef().getShortName())
+                    elif isinstance(mapping, RteBswEventToTaskMappingV4):
+                        self.write_cell(sheet, row, 2, " ".join(map(lambda i: i.getShortName(), mapping.getRteBswEventRefs())))
+                    else:
+                        raise NotImplementedError("Unsupported RteEventToTaskMapping")
                     self.write_cell(sheet, row, 5, instance.getRteBswImplementationRef().getValue())
                     self.write_cell(sheet, row, 6, mapping.getRteBswPositionInTask())
                     self.write_cell(sheet, row, 7, mapping.getRteBswActivationOffset())
                 elif isinstance(mapping, RteEventToTaskMapping):
                     self.logger.debug("Write Mapping %s" % mapping.getName())
                     instance = mapping.getRteSwComponentInstance()
-                    self.write_cell(sheet, row, 2, mapping.getRteEventRef().getShortName())
+                    if isinstance(mapping, RteEventToTaskMappingV3):
+                        self.write_cell(sheet, row, 2, mapping.getRteEventRef().getShortName())
+                    elif instance(mapping, RteEventToTaskMappingV4):
+                        self.write_cell(sheet, row, 2, " ".join(map(lambda i: i.getShortName(), mapping.getRteEventRefs())))
+                    else:
+                        raise NotImplementedError("Unsupported RteEventToTaskMapping")
                     self.write_cell(sheet, row, 5, instance.getRteSoftwareComponentInstanceRef().getValue())
                     self.write_cell(sheet, row, 6, mapping.getRtePositionInTask())
                     self.write_cell(sheet, row, 7, mapping.getRteActivationOffset())
