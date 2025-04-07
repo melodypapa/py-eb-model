@@ -5,3 +5,4 @@ py_eb_model.egg-info
 __pycache__
 archive
 data
+.coverage

@@ -135,15 +135,15 @@ class Module(EcucParamConfContainerDef):
     def getArVersion(self):
         return self.arVersion
 
-    def setArVersion(self, value):
-        if value is not None:
-            self.arVersion = value
-        return self
+    # def setArVersion(self, value):
+    #    if value is not None:
+    #        self.arVersion = value
+    #    return self
 
     def getSwVersion(self):
         return self.swVersion
 
-    def setSwVersion(self, value):
-        if value is not None:
-            self.swVersion = value
-        return self
+    # def setSwVersion(self, value):
+    #    if value is not None:
+    #        self.swVersion = value
+    #    return self
