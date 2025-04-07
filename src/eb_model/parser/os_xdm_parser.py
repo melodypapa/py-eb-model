@@ -201,6 +201,7 @@ class OsXdmParser(AbstractEbModelParser):
     def read_os_resources(self, element: ET.Element, os: Os):
         for ctr_tag in self.find_ctr_tag_list(element, "OsResource"):
             os_res = OsResource(os, ctr_tag.attrib["name"])
+            os_res.setImporterInfo(self.read_attrib(ctr_tag, "IMPORTER_INFO"))
             os_res.setOsResourceProperty(self.read_value(ctr_tag, "OsResourceProperty"))
 
             for ref in self.read_ref_value_list(ctr_tag, "OsResourceAccessingApplication"):

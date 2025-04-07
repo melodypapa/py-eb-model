@@ -174,13 +174,16 @@ class AbstractEbModelParser(metaclass=ABCMeta):
         return parent.find(".//d:lst[@name='%s']" % name, self.nsmap)
 
     def read_attrib(self, parent: ET.Element, name: str) -> str:
-        attrib_tag = parent.find(".//a:a[@name='%s']" % name, self.nsmap)
+        attrib_tag = parent.find("a:a[@name='%s']" % name, self.nsmap)
         if attrib_tag is None:
             return None
         return attrib_tag.attrib['value']
 
     def read_namespaces(self, xdm: str):
         self.nsmap = dict([node for _, node in ET.iterparse(xdm, events=['start-ns'])])
+
+    # def set_namespace(self, key: str, value: str):
+    #    self.nsmap[key] = value
 
     def parse(self, element: ET.Element, doc: EBModel):
         pass
