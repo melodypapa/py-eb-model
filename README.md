@@ -205,3 +205,5 @@ PrefSystemImporter --base-path c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rt
 **Version 1.1.7**
 
 1. Solve the case issue of read_optional_value enables attribute.
+2. Support to read IMPORT_INFO for OsResource.
+3. Add the test cases for OsXdmParser.

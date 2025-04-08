@@ -41,6 +41,7 @@ class EcucParamConfContainerDef(EcucObject):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
+        self.importerInfo: str = None
         self.elements = {}                  # type: Dict[str, EcucObject]
 
     def getTotalElement(self) -> int:
@@ -66,6 +67,17 @@ class EcucParamConfContainerDef(EcucObject):
         if (name not in self.elements):
             return None
         return self.elements[name]
+    
+    def getImporterInfo(self) -> str:
+        return self.importerInfo
+    
+    def setImporterInfo(self, value: str) -> None:
+        self.importerInfo = value
+
+    def isCalculatedSvcAs(self) -> bool:
+        if self.importerInfo is not None and self.importerInfo.startswith("@CALC(SvcAs"):
+            return True
+        return False
 
 
 class EcucRefType:
