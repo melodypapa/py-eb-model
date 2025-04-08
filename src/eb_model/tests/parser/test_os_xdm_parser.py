@@ -63,6 +63,7 @@ class TestOsXdmParser:
         resource1 = resources[0]
         assert resource1.getName() == "Resource1"
         assert resource1.getImporterInfo() == "@CALC(SvcAs,os.resources,1)"
+        assert resource1.isCalculatedSvcAs() is True
         assert resource1.getOsResourceProperty() == "STANDARD"
         assert len(resource1.getOsResourceAccessingApplicationRefs()) == 1
         for ref in resource1.getOsResourceAccessingApplicationRefs():
@@ -71,6 +72,7 @@ class TestOsXdmParser:
         resource2 = resources[1]
         assert resource2.getName() == "Resource2"
         assert resource2.getImporterInfo() is None
+        assert resource2.isCalculatedSvcAs() is False
         assert resource2.getOsResourceProperty() == "INTERNAL"
         assert len(resource2.getOsResourceAccessingApplicationRefs()) == 0
 
@@ -145,4 +147,4 @@ class TestOsXdmParser:
         assert len(app2.getOsAppResourceRefs()) == 0
         assert len(app2.getOsAppTaskRefs()) == 0
         assert len(app2.getOsAppIsrRefs()) == 0
-    ''' # noqa: E501
+     noqa: E501 '''

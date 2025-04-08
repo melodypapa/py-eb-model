@@ -486,17 +486,9 @@ class OsResource(EcucParamConfContainerDef):
     def __init__(self, parent, name):
         super().__init__(parent, name)
 
-        self.importerInfo: str = None
-
         self.osResourceProperty: EcucEnumerationParamDef = None
         self.osResourceAccessingApplicationRefs: List[EcucRefType] = []
         self.osResourceLinkedResourceRefs: List[EcucRefType] = []
-
-    def getImporterInfo(self) -> str:
-        return self.importerInfo
-    
-    def setImporterInfo(self, value: str) -> None:
-        self.importerInfo = value
 
     def getOsResourceProperty(self):
         return self.osResourceProperty
