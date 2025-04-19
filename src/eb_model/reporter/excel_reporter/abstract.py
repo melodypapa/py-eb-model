@@ -41,11 +41,17 @@ class ExcelReporter:
                 cell.number_format = format['number_format']
         return cell
     
+    def write_cell_center(self, sheet: Worksheet, row: int, column: int, value) -> Cell:
+        self.write_cell(sheet, row, column, value, format={"alignment": Alignment(horizontal="center")})
+    
+    def write_bool_cell(self, sheet: Worksheet, row: int, column: int, value) -> Cell:
+        self.write_cell_center(sheet, row, column, self.format_boolean(value))
+    
     def format_boolean(self, value: bool) -> str:
         if value is True:
             return "Y"
         else:
-            return "N"
+            return ""
 
     def save(self, name: str):
         self.wb.save(name)

@@ -2,18 +2,254 @@ from typing import List
 from ..models.abstract import EcucParamConfContainerDef, Module, EcucRefType
 
 
-class NvM(Module):
-    def __init__(self, parent):
-        super().__init__(parent, "NvM")
+class NvMTargetBlockReference(EcucParamConfContainerDef):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
 
-        self.NvMBlockDescriptors = []                       # type: List[NvMBlockDescriptor]
 
-    def getNvMBlockDescriptorList(self):
-        return self.NvMBlockDescriptors
+class NvMEaRef(NvMTargetBlockReference):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
 
-    def addNvMBlockDescriptor(self, value):
+        self.NvMNameOfEaBlock: EcucRefType = None
+
+    def getNvMNameOfEaBlock(self) -> EcucRefType:
+        return self.NvMNameOfEaBlock
+
+    def setNvMNameOfEaBlock(self, value: EcucRefType):
         if value is not None:
-            self.NvMBlockDescriptors.append(value)
+            self.NvMNameOfEaBlock = value
+        return self
+
+
+class NvMFeeRef(NvMTargetBlockReference):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
+
+        self.NvMNameOfFeeBlock: EcucRefType = None
+
+    def getNvMNameOfFeeBlock(self) -> EcucRefType:
+        return self.NvMNameOfFeeBlock
+
+    def setNvMNameOfFeeBlock(self, value: EcucRefType):
+        if value is not None:
+            self.NvMNameOfFeeBlock = value
+        return self
+
+
+class NvMCommon(EcucParamConfContainerDef):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
+
+        self.NvMApiConfigClass: str = None
+        self.NvMBswMMultiBlockJobStatusInformation: bool = None
+        self.NvMCompiledConfigId: int = None
+        self.NvMCrcNumOfBytes: int = None
+        self.NvMCsmRetryCounter: int = None
+        self.NvMDatasetSelectionBits: int = None
+        self.NvMDevErrorDetect: bool = None
+        self.NvMDynamicConfiguration: bool = None
+        self.NvMJobPrioritization: bool = None
+        self.NvMMainFunctionPeriod: float = None
+        self.NvMMultiBlockCallback: str = None
+        self.NvMPollingMode: bool = None
+        self.NvMRepeatMirrorOperations: int = None
+        self.NvMSetRamBlockStatusApi: bool = None
+        self.NvMSizeImmediateJobQueue: int = None
+        self.NvMSizeStandardJobQueue: int = None
+        self.NvMVersionInfoApi: bool = None
+        self.NvMBufferAlignmentValue: str = None
+        self.NvMEcucPartitionRefs: List[EcucRefType] = []
+        self.NvMMasterEcucPartitionRef: EcucRefType = None
+
+    def getNvMApiConfigClass(self) -> str:
+        return self.NvMApiConfigClass
+
+    def setNvMApiConfigClass(self, value: str):
+        if value is not None:
+            self.NvMApiConfigClass = value
+        return self
+
+    def getNvMBswMMultiBlockJobStatusInformation(self) -> bool:
+        return self.NvMBswMMultiBlockJobStatusInformation
+
+    def setNvMBswMMultiBlockJobStatusInformation(self, value: bool):
+        if value is not None:
+            self.NvMBswMMultiBlockJobStatusInformation = value
+        return self
+
+    def getNvMCompiledConfigId(self) -> int:
+        return self.NvMCompiledConfigId
+
+    def setNvMCompiledConfigId(self, value: int):
+        if value is not None:
+            self.NvMCompiledConfigId = value
+        return self
+
+    def getNvMCrcNumOfBytes(self) -> int:
+        return self.NvMCrcNumOfBytes
+
+    def setNvMCrcNumOfBytes(self, value: int):
+        if value is not None:
+            self.NvMCrcNumOfBytes = value
+        return self
+
+    def getNvMCsmRetryCounter(self) -> int:
+        return self.NvMCsmRetryCounter
+
+    def setNvMCsmRetryCounter(self, value: int):
+        if value is not None:
+            self.NvMCsmRetryCounter = value
+        return self
+
+    def getNvMDatasetSelectionBits(self) -> int:
+        return self.NvMDatasetSelectionBits
+
+    def setNvMDatasetSelectionBits(self, value: int):
+        if value is not None:
+            self.NvMDatasetSelectionBits = value
+        return self
+
+    def getNvMDevErrorDetect(self) -> bool:
+        return self.NvMDevErrorDetect
+
+    def setNvMDevErrorDetect(self, value: bool):
+        if value is not None:
+            self.NvMDevErrorDetect = value
+        return self
+
+    def getNvMDynamicConfiguration(self) -> bool:
+        return self.NvMDynamicConfiguration
+
+    def setNvMDynamicConfiguration(self, value: bool):
+        if value is not None:
+            self.NvMDynamicConfiguration = value
+        return self
+
+    def getNvMJobPrioritization(self) -> bool:
+        return self.NvMJobPrioritization
+
+    def setNvMJobPrioritization(self, value: bool):
+        if value is not None:
+            self.NvMJobPrioritization = value
+        return self
+
+    def getNvMMainFunctionPeriod(self) -> float:
+        return self.NvMMainFunctionPeriod
+
+    def setNvMMainFunctionPeriod(self, value: float):
+        if value is not None:
+            self.NvMMainFunctionPeriod = value
+        return self
+
+    def getNvMMultiBlockCallback(self) -> str:
+        return self.NvMMultiBlockCallback
+
+    def setNvMMultiBlockCallback(self, value: str):
+        if value is not None:
+            self.NvMMultiBlockCallback = value
+        return self
+
+    def getNvMPollingMode(self) -> bool:
+        return self.NvMPollingMode
+
+    def setNvMPollingMode(self, value: bool):
+        if value is not None:
+            self.NvMPollingMode = value
+        return self
+
+    def getNvMRepeatMirrorOperations(self) -> int:
+        return self.NvMRepeatMirrorOperations
+
+    def setNvMRepeatMirrorOperations(self, value: int):
+        if value is not None:
+            self.NvMRepeatMirrorOperations = value
+        return self
+
+    def getNvMSetRamBlockStatusApi(self) -> bool:
+        return self.NvMSetRamBlockStatusApi
+
+    def setNvMSetRamBlockStatusApi(self, value: bool):
+        if value is not None:
+            self.NvMSetRamBlockStatusApi = value
+        return self
+
+    def getNvMSizeImmediateJobQueue(self) -> int:
+        return self.NvMSizeImmediateJobQueue
+
+    def setNvMSizeImmediateJobQueue(self, value: int):
+        if value is not None:
+            self.NvMSizeImmediateJobQueue = value
+        return self
+
+    def getNvMSizeStandardJobQueue(self) -> int:
+        return self.NvMSizeStandardJobQueue
+
+    def setNvMSizeStandardJobQueue(self, value: int):
+        if value is not None:
+            self.NvMSizeStandardJobQueue = value
+        return self
+
+    def getNvMVersionInfoApi(self) -> bool:
+        return self.NvMVersionInfoApi
+
+    def setNvMVersionInfoApi(self, value: bool):
+        if value is not None:
+            self.NvMVersionInfoApi = value
+        return self
+
+    def getNvMBufferAlignmentValue(self) -> str:
+        return self.NvMBufferAlignmentValue
+
+    def setNvMBufferAlignmentValue(self, value: str):
+        if value is not None:
+            self.NvMBufferAlignmentValue = value
+        return self
+
+    def getNvMEcucPartitionRefList(self) -> List[EcucRefType]:
+        return self.NvMEcucPartitionRefs
+
+    def addNvMEcucPartitionRef(self, value: EcucRefType):
+        if value is not None:
+            self.NvMEcucPartitionRefs.append(value)
+        return self
+
+    def getNvMMasterEcucPartitionRef(self) -> EcucRefType:
+        return self.NvMMasterEcucPartitionRef
+
+    def setNvMMasterEcucPartitionRef(self, value: EcucRefType):
+        if value is not None:
+            self.NvMMasterEcucPartitionRef = value
+        return self
+
+
+class NvMSingleBlockCallback(EcucParamConfContainerDef):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
+
+        self.NvMSingleBlockCallbackFnc: str = None
+
+    def getNvMSingleBlockCallbackFnc(self) -> str:
+        return self.NvMSingleBlockCallbackFnc
+
+    def setNvMSingleBlockCallbackFnc(self, value: str):
+        if value is not None:
+            self.NvMSingleBlockCallbackFnc = value
+        return self
+
+
+class NvMInitBlockCallback(EcucParamConfContainerDef):
+    def __init__(self, parent, name):
+        super().__init__(parent, name)
+
+        self.NvMInitBlockCallbackFnc: str = None
+
+    def getNvMInitBlockCallbackFnc(self) -> str:
+        return self.NvMInitBlockCallbackFnc
+
+    def setNvMInitBlockCallbackFnc(self, value: str):
+        if value is not None:
+            self.NvMInitBlockCallbackFnc = value
         return self
 
 
@@ -23,11 +259,11 @@ class NvMBlockDescriptor(EcucParamConfContainerDef):
 
         self.nvMBlockCrcType = None                         # type: str # optional
         self.nvMBlockHeaderInclude = None                   # type: int # optional
-        self.nvMBlockJobPriority = None                     # type: str # required
+        self.nvMBlockJobPriority: int = None
         self.nvMBlockManagementType = None                  # type: str # required
         self.nvMBlockUseAutoValidation = None               # required
         self.nvMBlockUseCompression = None                  # required
-        self.nvMBlockUseCrc = None                          # required
+        self.nvMBlockUseCrc: bool = False
         self.nvMBlockUseCRCCompMechanism = None             # required
         self.NvMBlockUsePort = None                         # required
         self.nvMBlockUseSetRamBlockStatus = None            # required
@@ -44,7 +280,7 @@ class NvMBlockDescriptor(EcucParamConfContainerDef):
         self.nvMNvramDeviceId = None                        # required
         self.nvMRamBlockDataAddress = None                  # optional
         self.nvMReadRamBlockFromNvCallback = None           # optional
-        self.nvMResistantToChangedSw = None                 # required
+        self.nvMResistantToChangedSw: bool = False
         self.nvMRomBlockDataAddress = None                  # optional
         self.nvMRomBlockNum = None                          # required
         self.nvMSelectBlockForFirstInitAll = None           # optional
@@ -56,7 +292,15 @@ class NvMBlockDescriptor(EcucParamConfContainerDef):
         self.nvMWriteVerification = None                    # required
         self.nvMWriteVerificationDataSize = None            # required
         self.nvMBlockCipheringRef = None                    # optional
-        self.nvMBlockEcucPartitionRef = None                # type: EcucRefType # required
+        self.nvMBlockEcucPartitionRef: EcucRefType = None
+
+        self.nvMInitBlockCallback: NvMInitBlockCallback = None
+        self.nvMSingleBlockCallback: NvMSingleBlockCallback = None
+        self.nvMTargetBlockReference: NvMTargetBlockReference = None
+
+        # EB extended
+        self.nvMProvideRteJobFinishedPort: bool = False
+        self.nvMProvideRteServicePort: bool = False
 
     def getNvMBlockCrcType(self):
         return self.nvMBlockCrcType
@@ -344,4 +588,69 @@ class NvMBlockDescriptor(EcucParamConfContainerDef):
     def setNvMBlockEcucPartitionRef(self, value: EcucRefType):
         if value is not None:
             self.nvMBlockEcucPartitionRef = value
+        return self
+
+    def getNvMInitBlockCallback(self) -> NvMInitBlockCallback:
+        return self.nvMInitBlockCallback
+
+    def setNvMInitBlockCallback(self, value: NvMInitBlockCallback):
+        if value is not None:
+            self.nvMInitBlockCallback = value
+        return self
+
+    def getNvMSingleBlockCallback(self) -> NvMSingleBlockCallback:
+        return self.nvMSingleBlockCallback
+
+    def setNvMSingleBlockCallback(self, value: NvMSingleBlockCallback):
+        if value is not None:
+            self.nvMSingleBlockCallback = value
+        return self
+
+    def getNvMTargetBlockReference(self) -> NvMTargetBlockReference:
+        return self.nvMTargetBlockReference
+
+    def setNvMTargetBlockReference(self, value: NvMTargetBlockReference):
+        if value is not None:
+            self.nvMTargetBlockReference = value
+        return self
+
+    def getNvMProvideRteJobFinishedPort(self) -> bool:
+        return self.nvMProvideRteJobFinishedPort
+
+    def setNvMProvideRteJobFinishedPort(self, value: bool):
+        if value is not None:
+            self.nvMProvideRteJobFinishedPort = value
+        return self
+
+    def getNvMProvideRteServicePort(self) -> bool:
+        return self.nvMProvideRteServicePort
+
+    def setNvMProvideRteServicePort(self, value: bool):
+        if value is not None:
+            self.nvMProvideRteServicePort = value
+        return self
+
+
+class NvM(Module):
+    def __init__(self, parent):
+        super().__init__(parent, "NvM")
+
+        # type: List[NvMBlockDescriptor]
+        self.NvMBlockDescriptors = []
+        self.NvMCommon: NvMCommon = None
+
+    def getNvMCommon(self) -> NvMCommon:
+        return self.NvMCommon
+
+    def setNvMCommon(self, value: NvMCommon):
+        if value is not None:
+            self.NvMCommon = value
+        return self
+
+    def getNvMBlockDescriptorList(self) -> List[NvMBlockDescriptor]:
+        return self.NvMBlockDescriptors
+
+    def addNvMBlockDescriptor(self, value: NvMBlockDescriptor):
+        if value is not None:
+            self.NvMBlockDescriptors.append(value)
         return self

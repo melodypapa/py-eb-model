@@ -1,7 +1,7 @@
 import logging
 from typing import List
-
 from ..models.eb_doc import SystemDescriptionImporter
+
 
 class TextWriter:
     def __init__(self):
@@ -12,11 +12,13 @@ class TextWriter:
             for line in lines:
                 f_out.write("%s\n" % line)
 
+
 class TextPreferenceModelWriter(TextWriter):
     def __init__(self):
         super().__init__()
 
-    def writer_import_files(self, filename: str, importer: SystemDescriptionImporter, params = {'base_path': None, 'wildcard': None, "tresos_output_base_dir": None}):
+    def writer_import_files(self, filename: str, importer: SystemDescriptionImporter,
+                            params={'base_path': None, 'wildcard': None, "tresos_output_base_dir": None}):
         self.logger.info("Generate import files list <%s>" % filename)
         lines = []
         for file in sorted(importer.getParsedInputFiles(params)):

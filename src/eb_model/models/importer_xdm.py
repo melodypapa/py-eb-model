@@ -36,12 +36,14 @@ class SystemDescriptionImporter(EcucObject):
             if m and m.group(1) in params:
                 old_input_file = input_file
                 input_file = params[m.group(1)] + m.group(2)
-                self.logger.info("Replace Environment Variable Path: %s => %s" % (old_input_file, os.path.realpath(input_file)))
+                # self.logger.info("Replace Environment Variable Path: %s => %s" % (old_input_file, os.path.realpath(input_file)))
+                self.logger.info("Replace Environment Variable Path: %s => %s" % (old_input_file, input_file))
             if params['base_path'] is not None:
                 if params['wildcard']:
                     m = re.match(r'(.+)\\(\*\.\w+)', input_file)
                     if m:
                         for file_name in self.parseWildcard(os.path.realpath(os.path.join(params['base_path'], input_file))):
+                            # self.logger.info("Add the file <%s>." % file_name)
                             file_list.append(file_name)
                     else:
                         file_list.append(os.path.realpath(os.path.join(params['base_path'], input_file)))

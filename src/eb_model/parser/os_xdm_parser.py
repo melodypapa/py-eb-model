@@ -45,11 +45,11 @@ class OsXdmParser(AbstractEbModelParser):
     def read_os_tasks(self, element: ET.Element, os: Os):
         for ctr_tag in self.find_ctr_tag_list(element, "OsTask"):
             os_task = OsTask(os, ctr_tag.attrib["name"])
-            os_task.setOsTaskPriority(int(self.read_value(ctr_tag, "OsTaskPriority"))) \
-                .setOsTaskActivation(self.read_value(ctr_tag, "OsTaskActivation")) \
-                .setOsTaskSchedule(self.read_value(ctr_tag, "OsTaskSchedule")) \
-                .setOsTaskType(self.read_optional_value(ctr_tag, "OsTaskType")) \
-                .setOsStacksize(int(self.read_optional_value(ctr_tag, "OsStacksize", 0)))
+            os_task.setOsTaskPriority(int(self.read_value(ctr_tag, "OsTaskPriority")))
+            os_task.setOsTaskActivation(self.read_value(ctr_tag, "OsTaskActivation"))
+            os_task.setOsTaskSchedule(self.read_value(ctr_tag, "OsTaskSchedule"))
+            os_task.setOsTaskType(self.read_optional_value(ctr_tag, "OsTaskType"))
+            os_task.setOsStacksize(int(self.read_value(ctr_tag, "OsStacksize")))
 
             for resource_ref in self.read_ref_value_list(ctr_tag, "OsTaskResourceRef"):
                 os_task.addOsTaskResourceRef(resource_ref)
@@ -62,10 +62,10 @@ class OsXdmParser(AbstractEbModelParser):
     def read_os_isrs(self, element: ET.Element, os: Os):
         for ctr_tag in self.find_ctr_tag_list(element, "OsIsr"):
             os_isr = OsIsr(os, ctr_tag.attrib["name"])
-            os_isr.setOsIsrCategory(self.read_value(ctr_tag, "OsIsrCategory")) \
-                .setOsIsrPeriod(self.read_optional_value(ctr_tag, "OsIsrPeriod", 0.0)) \
-                .setOsStacksize(int(self.read_value(ctr_tag, "OsStacksize"))) \
-                .setOsIsrPriority(self.read_optional_value(ctr_tag, "OsIsrPriority"))
+            os_isr.setOsIsrCategory(self.read_value(ctr_tag, "OsIsrCategory"))
+            os_isr.setOsIsrPeriod(self.read_optional_value(ctr_tag, "OsIsrPeriod", 0.0))
+            os_isr.setOsStacksize(int(self.read_value(ctr_tag, "OsStacksize")))
+            os_isr.setOsIsrPriority(self.read_optional_value(ctr_tag, "OsIsrPriority"))
             
             # Infineon Aurix Tricore
             os_isr.setOsIsrPriority(self.read_optional_value(ctr_tag, "OsTricoreIrqLevel"))
