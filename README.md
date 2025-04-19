@@ -207,3 +207,8 @@ PrefSystemImporter --base-path c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rt
 1. Solve the case issue of read_optional_value enables attribute.
 2. Support to read IMPORT_INFO for OsResource.
 3. Add the test cases for OsXdmParser.
+
+**Version 1.1.8**
+
+1. Support to read NvM configuration from EB tresos Xdm file
+2. Export the NvM Configuration to excel file.
