@@ -63,6 +63,12 @@ class AbstractEbModelParser(metaclass=ABCMeta):
         if tag is None:
             raise KeyError("XPath d:var[@name='%s'] is invalid" % name)
         return self._convert_value(tag)
+    
+    def read_eb_origin_value(self, parent: ET.Element, name: str) -> str:
+        tag = parent.find(".//d:var[@name='%s']" % name, self.nsmap)
+        if tag is None:
+            return None
+        return self._convert_value(tag)
 
     def read_optional_value(self, parent: ET.Element, name: str, default_value=None) -> str:
         tag = parent.find(".//d:var[@name='%s']" % name, self.nsmap)

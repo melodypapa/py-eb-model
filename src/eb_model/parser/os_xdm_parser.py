@@ -65,19 +65,19 @@ class OsXdmParser(AbstractEbModelParser):
             os_isr.setOsIsrCategory(self.read_value(ctr_tag, "OsIsrCategory"))
             os_isr.setOsIsrPeriod(self.read_optional_value(ctr_tag, "OsIsrPeriod", 0.0))
             os_isr.setOsStacksize(int(self.read_value(ctr_tag, "OsStacksize")))
-            os_isr.setOsIsrPriority(self.read_optional_value(ctr_tag, "OsIsrPriority"))
+            os_isr.setOsIsrPriority(self.read_eb_origin_value(ctr_tag, "OsIsrPriority"))
             
             # Infineon Aurix Tricore
-            os_isr.setOsIsrPriority(self.read_optional_value(ctr_tag, "OsTricoreIrqLevel"))
-            os_isr.setOsIsrVector(self.read_optional_value(ctr_tag, "OsTricoreVector"))
-            os_isr.setOsTricoreIrqLevel(self.read_optional_value(ctr_tag, "OsTricoreIrqLevel"))
-            os_isr.setOsTricoreVector(self.read_optional_value(ctr_tag, "OsTricoreVector"))
+            os_isr.setOsIsrPriority(self.read_eb_origin_value(ctr_tag, "OsTricoreIrqLevel"))
+            os_isr.setOsIsrVector(self.read_eb_origin_value(ctr_tag, "OsTricoreVector"))
+            os_isr.setOsTricoreIrqLevel(self.read_eb_origin_value(ctr_tag, "OsTricoreIrqLevel"))
+            os_isr.setOsTricoreVector(self.read_eb_origin_value(ctr_tag, "OsTricoreVector"))
             
             # ARM Core
-            os_isr.setOsIsrPriority(self.read_optional_value(ctr_tag, "OsARMIrqLevel"))
-            os_isr.setOsIsrVector(self.read_optional_value(ctr_tag, "OsARMVector"))
-            os_isr.setOsARMIrqLevel(self.read_optional_value(ctr_tag, "OsARMIrqLevel"))
-            os_isr.setOsARMVector(self.read_optional_value(ctr_tag, "OsARMVector"))
+            os_isr.setOsIsrPriority(self.read_eb_origin_value(ctr_tag, "OsARMIrqLevel"))
+            os_isr.setOsIsrVector(self.read_eb_origin_value(ctr_tag, "OsARMVector"))
+            os_isr.setOsARMIrqLevel(self.read_eb_origin_value(ctr_tag, "OsARMIrqLevel"))
+            os_isr.setOsARMVector(self.read_eb_origin_value(ctr_tag, "OsARMVector"))
 
             # EB Safety OS
             for ref in self.read_ref_value_list(ctr_tag, "OsIsrMkMemoryRegionRef"):
@@ -186,14 +186,23 @@ class OsXdmParser(AbstractEbModelParser):
             os_app = OsApplication(os, ctr_tag.attrib["name"]) \
                 .setOsTrusted(self.read_value(ctr_tag, "OsTrusted"))
             
+            for ref in self.read_ref_value_list(ctr_tag, "OsAppAlarmRef"):
+                os_app.addOsAppAlarmRef(ref)
+
+            for ref in self.read_ref_value_list(ctr_tag, "OsAppCounterRef"):
+                os_app.addOsAppCounterRefs(ref)
+            
+            for ref in self.read_ref_value_list(ctr_tag, "OsAppIsrRef"):
+                os_app.addOsAppIsrRef(ref)
+            
             for ref in self.read_ref_value_list(ctr_tag, "OsAppResourceRef"):
                 os_app.addOsAppResourceRef(ref)
 
+            for ref in self.read_ref_value_list(ctr_tag, "OsAppScheduleTableRef"):
+                os_app.addOsAppScheduleTableRef(ref)
+
             for ref in self.read_ref_value_list(ctr_tag, "OsAppTaskRef"):
                 os_app.addOsAppTaskRef(ref)
-
-            for ref in self.read_ref_value_list(ctr_tag, "OsAppIsrRef"):
-                os_app.addOsAppIsrRef(ref)
 
             self.logger.debug("Read OsApplication <%s>" % os_app.getName())
             os.addOsApplication(os_app)
