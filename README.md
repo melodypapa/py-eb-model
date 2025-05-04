@@ -212,3 +212,11 @@ PrefSystemImporter --base-path c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rt
 
 1. Support to read NvM configuration from EB tresos Xdm file
 2. Export the NvM Configuration to excel file.
+
+**Version 1.1.9**
+
+1. Parse the OsAppAlarmRef List of OsApplication
+2. Parse the OsAppCounterRef List of OsApplication
+3. Parse the OsAppScheduleTableRef Lis of OsApplication
+4. Add the **read_eb_origin_value** method to read the optional EB extended configuration
+5. Fix the OsIsrPriority and OsIsrVector issue.
