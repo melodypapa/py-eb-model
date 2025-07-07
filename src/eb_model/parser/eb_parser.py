@@ -56,7 +56,9 @@ class AbstractEbModelParser(metaclass=ABCMeta):
                     return True
                 else:
                     return False
-        return tag.attrib['value']
+        if 'value' in tag.attrib:
+            return tag.attrib['value']
+        return None
 
     def read_value(self, parent: ET.Element, name: str) -> str:
         tag = parent.find(".//d:var[@name='%s']" % name, self.nsmap)
