@@ -220,3 +220,8 @@ PrefSystemImporter --base-path c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rt
 3. Parse the OsAppScheduleTableRef Lis of OsApplication
 4. Add the **read_eb_origin_value** method to read the optional EB extended configuration
 5. Fix the OsIsrPriority and OsIsrVector issue.
+
+**Version 1.2.0**
+
+1. Fix the AbstractEbModelParser::_convert_value error.
+2. Add the structure for Ecuc.xdm and BswM.xdm.

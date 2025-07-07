@@ -43,10 +43,12 @@ class SystemDescriptionImporter(EcucObject):
                     m = re.match(r'(.+)\\(\*\.\w+)', input_file)
                     if m:
                         for file_name in self.parseWildcard(os.path.realpath(os.path.join(params['base_path'], input_file))):
-                            # self.logger.info("Add the file <%s>." % file_name)
+                            self.logger.debug("Add the file <%s>." % file_name)
                             file_list.append(file_name)
                     else:
-                        file_list.append(os.path.realpath(os.path.join(params['base_path'], input_file)))
+                        name = os.path.realpath(os.path.join(params['base_path'], input_file))
+                        # self.logger.debug("Add the file <%s>." % name)
+                        file_list.append(name)
                 else:
                     file_list.append(os.path.realpath(os.path.join(params['base_path'], input_file)))
             else:

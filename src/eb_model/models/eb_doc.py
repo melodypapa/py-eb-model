@@ -1,3 +1,5 @@
+from ..models.bswm_xdm import BswM
+from ..models.ecuc_xdm import EcuC
 from ..models.nvm_xdm import NvM
 from ..models.importer_xdm import SystemDescriptionImporter
 from ..models.rte_xdm import Rte
@@ -61,6 +63,28 @@ class EBModel(AbstractModel):
         container = EcucParamConfContainerDef(self, "NvM")
         NvM(container)
         return self.find("/NvM/NvM")
+    
+    def getEcuC(self) -> EcuC:
+        container = EcucParamConfContainerDef(self, "EcuC")
+        EcuC(container)
+        return self.find("/EcuC/EcuC")
+    
+    def getBswM(self) -> BswM:
+        container = EcucParamConfContainerDef(self, "BswM")
+        BswM(container)
+        return self.find("/BswM/BswM")
+    
+    def addContainer(self, container: EcucParamConfContainerDef):
+        if (container is None):
+            raise ValueError("The container to be added cannot be None.")
+        self.elements[container.name] = container
+        container.parent = self
+        return container
+    
+    def getContainer(self, name: str) -> EcucParamConfContainerDef:
+        if (name not in self.elements):
+            raise KeyError("The container <%s> does not exist." % name)
+        return self.elements[name]
 
 
 class PreferenceModel(AbstractModel):
