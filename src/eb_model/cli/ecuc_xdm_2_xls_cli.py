@@ -5,9 +5,7 @@ import sys
 import os.path
 
 from eb_model.parser.eb_parser_factory import EbParserFactory
-
-from ..reporter.excel_reporter.rte_xdm import RteRunnableEntityXlsWriter, RteXdmXlsWriter
-from ..parser.ecuc_xdm_parser import EcucXdmXlsWriter
+from ..reporter.excel_reporter.ecuc_xdm import EcucXdmXlsWriter
 from ..models import EBModel
 
 
@@ -43,7 +41,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--verbose", required=False, help="Print debug information", action="store_true")
     ap.add_argument("--log", required=False, help="The Log file name.")
-    ap.add_argument("INPUT", help="The path of xdm file.", nargs='+')
+    ap.add_argument("INPUT", help="The path of xdm file.")
     ap.add_argument("OUTPUT", help="The path of excel file.")
 
     args = ap.parse_args()
@@ -52,9 +50,8 @@ def main():
     try:
         doc = EBModel.getInstance()
 
-        for input_file in args.INPUT:
-            parser = EbParserFactory.create(input_file)
-            parser.parse_xdm(input_file, doc)
+        parser = EbParserFactory.create(args.INPUT)
+        parser.parse_xdm(args.INPUT, doc)
 
         writer = EcucXdmXlsWriter()
         writer.write(args.OUTPUT, doc)

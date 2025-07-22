@@ -8,43 +8,43 @@ class EcucXdmXlsWriter(ExcelReporter):
     def __init__(self) -> None:
         super().__init__()
 
-    def write_os_tasks(self, doc: EBModel):
-        sheet = self.wb.create_sheet("OsTask", 0)
+    def write_ecuc_partition_collection(self, doc: EBModel):
+        sheet = self.wb.create_sheet("EcucPartition", 0)
 
-        title_row = ["Name", "OsTaskActivation", "OsTaskPriority", "OsTaskSchedule", "OsStacksize"]
+        title_row = ["EcucPartition", "PartitionCanBeRestarted", "EcucPartitionRef"]
         self.write_title_row(sheet, title_row)
 
         row = 2
-        for os_task in doc.getOs().getOsTaskList():
-            self.write_cell(sheet, row, 1, os_task.getName())
-            self.write_cell(sheet, row, 2, os_task.getOsTaskActivation())
-            self.write_cell(sheet, row, 3, os_task.getOsTaskPriority())
-            self.write_cell(sheet, row, 4, os_task.getOsTaskSchedule())
-            self.write_cell(sheet, row, 5, os_task.getOsStacksize())
+        for partition in doc.getEcuC().getEcucPartitionCollection().getEcucPartitions():
+            self.write_cell(sheet, row, 1, partition.getName())
+            self.write_cell(sheet, row, 2, partition.getPartitionCanBeRestarted())
+            self.write_cell(sheet, row, 3, partition.getEcucPartitionRef())
+
             row += 1
 
         self.auto_width(sheet)
 
-    def write_os_isrs(self, doc: EBModel):
-        sheet = self.wb.create_sheet("OsIsr", 0)
+    def write_ecuc_partition_software_component_instances(self, doc: EBModel):
+        sheet = self.wb.create_sheet("SoftwareComponent", 1)
 
-        title_row = ["Name", "OsIsrCategory", "OsStacksize"]
+        title_row = ["Instance", "EcucPartition"]
         self.write_title_row(sheet, title_row)
 
         row = 2
-        for os_isr in doc.getOs().getOsIsrList():
-            self.write_cell(sheet, row, 1, os_isr.getName())
-            self.write_cell(sheet, row, 2, os_isr.getOsIsrCategory())
-            self.write_cell(sheet, row, 3, os_isr.getOsStacksize())
-            row += 1
+        for partition in doc.getEcuC().getEcucPartitionCollection().getEcucPartitions():
+            # print("EcucPartition <%s>" % partition.getName())
+            for instance in partition.getEcucPartitionSoftwareComponentInstanceRefs():
+                self.write_cell(sheet, row, 1, instance.getTarget().getValue())
+                self.write_cell(sheet, row, 2, partition.getName())
+
+                row += 1
 
         self.auto_width(sheet)
 
     def write(self, filename, doc: EBModel):
         self.logger.info("Writing <%s>" % filename)
-        self.write_os_tasks(doc)
-        self.write_os_isrs(doc)
+
+        self.write_ecuc_partition_collection(doc)
+        self.write_ecuc_partition_software_component_instances(doc)
 
         self.save(filename)
-
-
