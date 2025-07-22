@@ -2,8 +2,10 @@ import logging
 import xml.etree.cElementTree as ET
 
 from .rte_xdm_parser import RteXdmParser
-from .eb_parser import AbstractEbModelParser
+from .ecuc_xdm_parser import EcucXdmParser
 from .os_xdm_parser import OsXdmParser
+from .nvm_xdm_parser import NvMXdmParser
+from .eb_parser import AbstractEbModelParser
 
 
 class EbParserFactory:
@@ -25,5 +27,9 @@ class EbParserFactory:
             return OsXdmParser()
         elif name == "Rte":
             return RteXdmParser()
+        if name == "NvM":
+            return NvMXdmParser()
+        elif name == "EcuC":
+            return EcucXdmParser()
         else:
             raise NotImplementedError("Unsupported EB xdm file <%s>" % name)

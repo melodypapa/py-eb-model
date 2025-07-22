@@ -56,7 +56,7 @@ rte-xdm-xlsx data/Rte.xdm data/Rte.xlsx
 rte-xdm-xlsx -r data/Rte.xdm data/Os.xdm data/Runnable.xlsx
 ```
 
-# nvm-xdm-xlsx
+## 3.3. nvm-xdm-xlsx
 
 Extract the NvM Configuration information from nvm.xdm and then report all to Excel file.
 
@@ -66,7 +66,17 @@ Extract the NvM Configuration information from nvm.xdm and then report all to Ex
 nvm-xdm-xlsx data/NvM.xdm data/NvM.xlsx
 ```
 
-## 3.3. PrefSystemImporter
+## 3.4. ecuc-xdm-xlsx
+
+Extract the EcuC Configuration information from ecuc.xdm and then report all to Excel file.
+
+1. Export the EcuC Configuration information to excel file
+
+```bash
+ecuc-xdm-xlsx data/EcuC.xdm data/EcuC.xlsx
+```
+
+## 3.5. PrefSystemImporter
 
 Read the EB preference XDM and generate the ARXML file list into text file or create the AUTOSAR builder project file.
 
@@ -88,7 +98,7 @@ optional arguments:
   --env ENV [ENV ...]   specify the environment variable
   --project PROJECT     specify the project name
 ```
-### 3.3.1. Configuration
+### 3.5.1. Configuration
 
 **h, help**
 > Show the usage information 
@@ -114,7 +124,7 @@ optional arguments:
 
 > Replace the variable definition of ${env_var:xxx} which is defined in the EB preference XDM file.
 
-### 3.3.2. Example
+### 3.5.2. Example
 
 **To generate the ARXML file list:**
 
@@ -225,3 +235,8 @@ PrefSystemImporter --base-path c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rt
 
 1. Fix the AbstractEbModelParser::_convert_value error.
 2. Add the structure for Ecuc.xdm and BswM.xdm.
+
+**Version 1.2.1**
+
+1. Read the EcucPartition from EcuC.xdm
+2. Read the EcucPartitionSoftwareComponentInstanceRef from EcuC.xdm
