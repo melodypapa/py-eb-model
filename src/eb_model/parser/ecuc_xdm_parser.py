@@ -36,8 +36,9 @@ class EcucXdmParser(AbstractEbModelParser):
         for ctr_tag in self.find_ctr_tag_list(element, "EcucPartitionSoftwareComponentInstanceRef"):
             instance = EcucPartitionSoftwareComponentInstanceRef(ecuc_partition, ctr_tag.attrib['type'])
             instance.setTargetRef(self.read_ref_value(ctr_tag, "TARGET"))
-            self.logger.info("Instance: %s" % instance.getTarget().getShortName())
-            ecuc_partition.addEcucPartitionSoftwareComponentInstanceRef(instance)
+            if instance.getTargetRef() is not None:
+                self.logger.info("Instance: %s" % instance.getTargetRef().getShortName())
+                ecuc_partition.addEcucPartitionSoftwareComponentInstanceRef(instance)
     
     def read_ecuc_partition(self, element: ET.Element, collection: EcucPartitionCollection):
         for ctr_tag in self.find_ctr_tag_list(element, "EcucPartition"):
