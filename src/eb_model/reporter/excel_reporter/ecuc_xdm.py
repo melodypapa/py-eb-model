@@ -34,7 +34,7 @@ class EcucXdmXlsWriter(ExcelReporter):
         for partition in doc.getEcuC().getEcucPartitionCollection().getEcucPartitions():
             # print("EcucPartition <%s>" % partition.getName())
             for instance in partition.getEcucPartitionSoftwareComponentInstanceRefs():
-                self.write_cell(sheet, row, 1, instance.getTarget().getValue())
+                self.write_cell(sheet, row, 1, instance.getTargetRef().getValue())
                 self.write_cell(sheet, row, 2, partition.getName())
 
                 row += 1

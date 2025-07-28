@@ -9,7 +9,7 @@ class EcucPartitionSoftwareComponentInstanceRef(EcucParamConfContainerDef):
 
         self.TargetRef: EcucRefType = None
 
-    def getTarget(self) -> EcucRefType:
+    def getTargetRef(self) -> EcucRefType:
         return self.TargetRef
     
     def setTargetRef(self, target: EcucRefType):

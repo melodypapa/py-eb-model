@@ -240,3 +240,7 @@ PrefSystemImporter --base-path c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rt
 
 1. Read the EcucPartition from EcuC.xdm
 2. Read the EcucPartitionSoftwareComponentInstanceRef from EcuC.xdm
+
+**Version 1.2.2**
+
+1. Fix the TARGET of EcucPartitionSoftwareComponentInstanceRef is empty and skipped to added.
