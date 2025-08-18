@@ -113,6 +113,9 @@ class AbstractEbModelParser(metaclass=ABCMeta):
     def read_ref_value_list(self, parent: ET.Element, name: str) -> List[EcucRefType]:
         ref_value_list = []
         for tag in parent.findall(".//d:lst[@name='%s']/d:ref" % name, self.nsmap):
+            if 'value' not in tag.attrib:
+                self.logger.warning("Reference tag <%s> does not have value attribute." % name)
+                continue
             ref_value_list.append(EcucRefType(self.read_ref_raw_value(tag.attrib['value'])))
         return ref_value_list
     

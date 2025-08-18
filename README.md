@@ -244,3 +244,7 @@ PrefSystemImporter --base-path c:/EB/ACG-8_8_8_WIN32X86/workspace/simple_demo_rt
 **Version 1.2.2**
 
 1. Fix the TARGET of EcucPartitionSoftwareComponentInstanceRef is empty and skipped to added.
+
+**Version 1.2.3**
+
+1. Implement the OsApplication parser.
