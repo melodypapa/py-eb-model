@@ -183,9 +183,11 @@ class OsXdmParser(AbstractEbModelParser):
 
     def read_os_applications(self, element: ET.Element, os: Os):
         for ctr_tag in self.find_ctr_tag_list(element, "OsApplication"):
-            os_app = OsApplication(os, ctr_tag.attrib["name"]) \
-                .setOsTrusted(self.read_value(ctr_tag, "OsTrusted"))
-            
+            os_app = OsApplication(os, ctr_tag.attrib["name"])
+            os_app.setOsTrusted(self.read_value(ctr_tag, "OsTrusted"))
+            os_app.setOsApplicationCoreAssignment(self.read_value(ctr_tag, "OsApplicationCoreAssignment"))
+            os_app.setOsAppEcucPartitionRef(self.read_ref_value(ctr_tag, "OsAppEcucPartitionRef"))
+
             for ref in self.read_ref_value_list(ctr_tag, "OsAppAlarmRef"):
                 os_app.addOsAppAlarmRef(ref)
 

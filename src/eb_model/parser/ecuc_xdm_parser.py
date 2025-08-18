@@ -37,7 +37,7 @@ class EcucXdmParser(AbstractEbModelParser):
             instance = EcucPartitionSoftwareComponentInstanceRef(ecuc_partition, ctr_tag.attrib['type'])
             instance.setTargetRef(self.read_ref_value(ctr_tag, "TARGET"))
             if instance.getTargetRef() is not None:
-                self.logger.info("Instance: %s" % instance.getTargetRef().getShortName())
+                self.logger.debug("Instance: %s" % instance.getTargetRef().getShortName())
                 ecuc_partition.addEcucPartitionSoftwareComponentInstanceRef(instance)
     
     def read_ecuc_partition(self, element: ET.Element, collection: EcucPartitionCollection):

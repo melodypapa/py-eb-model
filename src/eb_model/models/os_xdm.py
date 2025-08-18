@@ -234,9 +234,9 @@ class OsApplication(EcucParamConfContainerDef):
         self.OsTrustedApplicationWithProtection: bool = False
         self.OsAppAlarmRefs: List[EcucRefType] = []
         self.OsAppCounterRefs: List[EcucRefType] = []
-        self.OsAppEcucPartitionRefs: List[EcucRefType] = []
+        self.OsAppEcucPartitionRef: EcucRefType = None
         self.OsAppIsrRefs: List[EcucRefType] = []
-        self.OsApplicationCoreRefs: List[EcucRefType] = []
+        self.OsApplicationCoreAssignment: int = None
         self.OsAppScheduleTableRefs: List[EcucRefType] = []
         self.OsAppTaskRefs: List[EcucRefType] = []
         self.OsMemoryMappingCodeLocationRef: EcucRefType = None
@@ -282,12 +282,12 @@ class OsApplication(EcucParamConfContainerDef):
         self.OsAppCounterRefs.append(value)
         return self
 
-    def getOsAppEcucPartitionRefs(self):
-        return self.OsAppEcucPartitionRefs
+    def getOsAppEcucPartitionRef(self):
+        return self.OsAppEcucPartitionRef
 
-    def addOsAppEcucPartitionRef(self, value):
+    def setOsAppEcucPartitionRef(self, value):
         if value is not None:
-            self.OsAppEcucPartitionRefs.append(value)
+            self.OsAppEcucPartitionRef = value
         return self
 
     def getOsAppIsrRefs(self):
@@ -298,11 +298,12 @@ class OsApplication(EcucParamConfContainerDef):
             self.OsAppIsrRefs.append(value)
         return self
 
-    def getOsApplicationCoreRefs(self):
-        return self.OsApplicationCoreRefs
+    def getOsApplicationCoreAssignment(self) -> int:
+        return self.OsApplicationCoreAssignment
 
-    def addOsApplicationCoreRefs(self, value):
-        self.OsApplicationCoreRefs.append(value)
+    def setOsApplicationCoreAssignment(self, value: int):
+        if value is not None:
+            self.OsApplicationCoreAssignment = value
         return self
 
     def getOsAppScheduleTableRefs(self):
@@ -342,6 +343,15 @@ class OsApplication(EcucParamConfContainerDef):
         if value is not None:
             self.OsAppResourceRefs.append(value)
         return self
+    
+    def __str__(self):
+        lines = []
+        lines.append("Name: {}".format(self.getName()))
+        lines.append("Trusted: {}".format(self.getOsTrusted()))
+        lines.append("EcucPartition References: {}".format(self.getOsAppEcucPartitionRef().getShortName()))
+        lines.append("Core Assignment: {}".format(self.getOsApplicationCoreAssignment()))
+
+        return "\n".join(lines)
 
 
 class OsDriver(EcucParamConfContainerDef):

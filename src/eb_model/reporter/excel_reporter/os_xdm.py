@@ -11,9 +11,8 @@ class OsXdmXlsWriter(ExcelReporter):
     def write_os_tasks(self, doc: EBModel):
         sheet = self.wb.create_sheet("OsTask", 0)
 
-        title_row = [
-            "Name", "OsApplication", "OsTaskActivation", "OsTaskPriority", "OsTaskAutostart",
-            "OsTaskSchedule", "OsStacksize", "OsTaskType", "OsResourceRef"]
+        title_row = ["Name", "OsApplication", "OsTaskActivation", "OsTaskPriority", "OsTaskAutostart",
+                     "OsTaskSchedule", "OsStacksize", "OsTaskType", "OsResourceRef"]
         self.write_title_row(sheet, title_row)
 
         row = 2
@@ -46,12 +45,30 @@ class OsXdmXlsWriter(ExcelReporter):
 
         self.auto_width(sheet)
 
+    def write_os_applications(self, doc: EBModel):
+        sheet = self.wb.create_sheet("OsApplications", 0)
+
+        title_row = ["Name", "OsTrusted", "OsApplicationCoreAssignment", "OsAppEcucPartitionRef"]
+        self.write_title_row(sheet, title_row)
+
+        row = 2
+        for os_app in doc.getOs().getOsApplicationList():
+            self.write_cell(sheet, row, 1, os_app.getName())
+            self.write_cell(sheet, row, 2, os_app.getOsTrusted())
+            self.write_cell(sheet, row, 3, os_app.getOsApplicationCoreAssignment())
+            if os_app.getOsAppEcucPartitionRef() is not None:
+                self.write_cell(sheet, row, 4, os_app.getOsAppEcucPartitionRef().getShortName())
+            # self.write_cell(sheet, row, 5, os_app.getOsAppMkPermitShutdownAllCores())
+            # self.write_cell(sheet, row, 6, os_app.getOsAppMkCreateMemoryRegion())
+
+            self.logger.debug("Write OsApplication <%s>" % os_app.getName())
+
+        self.auto_width(sheet)
+
     def write_os_isrs(self, doc: EBModel):
         sheet = self.wb.create_sheet("OsIsr", 1)
 
-        title_row = [
-            "Name", "OsApplication", "OsIsrCategory", "OsStacksize", "OsIsrPriority",
-            "OsIsrVector", "MkMemoryRegion"]
+        title_row = ["Name", "OsApplication", "OsIsrCategory", "OsStacksize", "OsIsrPriority", "OsIsrVector", "MkMemoryRegion"]
         self.write_title_row(sheet, title_row)
 
         row = 2
@@ -59,16 +76,11 @@ class OsXdmXlsWriter(ExcelReporter):
             self.write_cell(sheet, row, 1, os_isr.getName(), {'alignment': Alignment(vertical="top")})
             os_app = doc.getOs().getOsIsrOsApplication(os_isr.getName())
             if os_app is not None:
-                self.write_cell(sheet, row, 2, os_app.getName(),
-                                format={'alignment': Alignment(horizontal="center", vertical="top")})
-            self.write_cell(sheet, row, 3, os_isr.getOsIsrCategory(),
-                            format={'alignment': Alignment(horizontal="center", vertical="top")})
-            self.write_cell(sheet, row, 4, os_isr.getOsStacksize(),
-                            format={'alignment': Alignment(horizontal="center", vertical="top")})
-            self.write_cell(sheet, row, 5, os_isr.getOsIsrPriority(),
-                            format={'alignment': Alignment(horizontal="center", vertical="top")})
-            self.write_cell(sheet, row, 6, os_isr.getOsIsrVector(),
-                            format={'alignment': Alignment(horizontal="center", vertical="top")})
+                self.write_cell(sheet, row, 2, os_app.getName(), format={'alignment': Alignment(horizontal="center", vertical="top")})
+            self.write_cell(sheet, row, 3, os_isr.getOsIsrCategory(), format={'alignment': Alignment(horizontal="center", vertical="top")})
+            self.write_cell(sheet, row, 4, os_isr.getOsStacksize(), format={'alignment': Alignment(horizontal="center", vertical="top")})
+            self.write_cell(sheet, row, 5, os_isr.getOsIsrPriority(), format={'alignment': Alignment(horizontal="center", vertical="top")})
+            self.write_cell(sheet, row, 6, os_isr.getOsIsrVector(), format={'alignment': Alignment(horizontal="center", vertical="top")})
             if len(os_isr.getOsIsrMkMemoryRegionRefs()) > 1:
                 self.write_cell(sheet, row, 7, "\n".join(map(lambda a: a.getShortName(), os_isr.getOsIsrMkMemoryRegionRefs())),
                                 {'alignment': Alignment(wrapText=True, vertical="top")})
@@ -90,12 +102,9 @@ class OsXdmXlsWriter(ExcelReporter):
         row = 2
         for os_schedule_table in doc.getOs().getOsScheduleTableList():
             self.write_cell(sheet, row, 1, os_schedule_table.getName())
-            self.write_cell(sheet, row, 2, os_schedule_table.getOsScheduleTableDuration(),
-                            format={'alignment': Alignment(horizontal="center")})
-            self.write_cell(sheet, row, 3, os_schedule_table.getOsScheduleTableRepeating(),
-                            format={'alignment': Alignment(horizontal="center")})
-            self.write_cell(sheet, row, 4, os_schedule_table.getOsScheduleTableCounterRef().getShortName(),
-                            format={'alignment': Alignment(horizontal="center")})
+            self.write_cell_center(sheet, row, 2, os_schedule_table.getOsScheduleTableDuration())
+            self.write_cell_center(sheet, row, 3, os_schedule_table.getOsScheduleTableRepeating())
+            self.write_cell_center(sheet, row, 4, os_schedule_table.getOsScheduleTableCounterRef().getShortName())
             row += 1
 
             self.logger.debug("Write OsScheduleTable <%s>" % os_schedule_table.getName())
@@ -111,16 +120,11 @@ class OsXdmXlsWriter(ExcelReporter):
         row = 2
         for os_counter in doc.getOs().getOsCounterList():
             self.write_cell(sheet, row, 1, os_counter.getName())
-            self.write_cell(sheet, row, 2, os_counter.getOsCounterMaxAllowedValue(),
-                            format={'alignment': Alignment(horizontal="center")})
-            self.write_cell(sheet, row, 3, os_counter.getOsCounterMinCycle(),
-                            format={'alignment': Alignment(horizontal="center")})
-            self.write_cell(sheet, row, 4, os_counter.getOsCounterTicksPerBase(),
-                            format={'alignment': Alignment(horizontal="center")})
-            self.write_cell(sheet, row, 5, os_counter.getOsCounterType(),
-                            format={'alignment': Alignment(horizontal="center")})
-            self.write_cell(sheet, row, 6, os_counter.getOsSecondsPerTick(),
-                            format={'alignment': Alignment(horizontal="center")})
+            self.write_cell_center(sheet, row, 2, os_counter.getOsCounterMaxAllowedValue())
+            self.write_cell_center(sheet, row, 3, os_counter.getOsCounterMinCycle())
+            self.write_cell_center(sheet, row, 4, os_counter.getOsCounterTicksPerBase())
+            self.write_cell_center(sheet, row, 5, os_counter.getOsCounterType())
+            self.write_cell_center(sheet, row, 6, os_counter.getOsSecondsPerTick())
             row += 1
 
             self.logger.debug("Write OsScheduleTable <%s>" % os_counter.getName())
@@ -140,12 +144,9 @@ class OsXdmXlsWriter(ExcelReporter):
             for expiry_point in expiry_point_list:
                 self.write_cell(sheet, row, 1, expiry_point.getName())
                 self.write_cell(sheet, row, 2, table.getName())
-                self.write_cell(sheet, row, 3, table.getOsScheduleTableCounterRef().getShortName(),
-                                format={'alignment': Alignment(horizontal="center")})
-                self.write_cell(sheet, row, 4, expiry_point.getOsScheduleTblExpPointOffset(),
-                                format={'alignment': Alignment(horizontal="center")})
-                self.write_cell(sheet, row, 5, len(expiry_point.getOsScheduleTableTaskActivationList()),
-                                format={'alignment': Alignment(horizontal="center")})
+                self.write_cell_center(sheet, row, 3, table.getOsScheduleTableCounterRef().getShortName())
+                self.write_cell_center(sheet, row, 4, expiry_point.getOsScheduleTblExpPointOffset())
+                self.write_cell_center(sheet, row, 5, len(expiry_point.getOsScheduleTableTaskActivationList()))
                 row += 1
 
             self.logger.debug("Write OsScheduleTable <%s>" % table.getName())
@@ -171,8 +172,7 @@ class OsXdmXlsWriter(ExcelReporter):
             sheet = self.wb.create_sheet("MkMemoryRegion", 5)
 
             title_row = [
-                "Name", "Flags", "Initialize", "Global", "InitThread",
-                "IdleThread", "OsThread", "ErrorHook", "ProtHook", "ShutdownHook",
+                "Name", "Flags", "Initialize", "Global", "InitThread", "IdleThread", "OsThread", "ErrorHook", "ProtHook", "ShutdownHook",
                 "Shutdown", "Kernel", "InitializePerCore"
             ]
             self.write_title_row(sheet, title_row)
@@ -180,30 +180,18 @@ class OsXdmXlsWriter(ExcelReporter):
             row = 2
             for region in doc.getOs().getOsMicrokernel().getMkMemoryProtection().getMkMemoryRegionList():
                 self.write_cell(sheet, row, 1, region.getName())
-                self.write_cell(sheet, row, 2, region.getMkMemoryRegionFlags(),
-                                format={'alignment': Alignment(horizontal="center")})
-                self.write_cell(sheet, row, 3, self.format_boolean(region.getMkMemoryRegionInitialize()),
-                                format={'alignment': Alignment(horizontal="center")})
-                self.write_cell(sheet, row, 4, self.format_boolean(region.getMkMemoryRegionGlobal()),
-                                format={'alignment': Alignment(horizontal="center")})
-                self.write_cell(sheet, row, 5, self.format_boolean(region.getMkMemoryRegionInitThreadAccess()),
-                                format={'alignment': Alignment(horizontal="center")})
-                self.write_cell(sheet, row, 6, self.format_boolean(region.getMkMemoryRegionIdleThreadAccess()),
-                                format={'alignment': Alignment(horizontal="center")})
-                self.write_cell(sheet, row, 7, self.format_boolean(region.getMkMemoryRegionOsThreadAccess()),
-                                format={'alignment': Alignment(horizontal="center")})
-                self.write_cell(sheet, row, 8, self.format_boolean(region.getMkMemoryRegionErrorHookAccess()),
-                                format={'alignment': Alignment(horizontal="center")})
-                self.write_cell(sheet, row, 9, self.format_boolean(region.getMkMemoryRegionProtHookAccess()),
-                                format={'alignment': Alignment(horizontal="center")})
-                self.write_cell(sheet, row, 10, self.format_boolean(region.getMkMemoryRegionShutdownHookAccess()),
-                                format={'alignment': Alignment(horizontal="center")})
-                self.write_cell(sheet, row, 11, self.format_boolean(region.getMkMemoryRegionShutdownAccess()),
-                                format={'alignment': Alignment(horizontal="center")})
-                self.write_cell(sheet, row, 12, self.format_boolean(region.getMkMemoryRegionKernelAccess()),
-                                format={'alignment': Alignment(horizontal="center")})
-                self.write_cell(sheet, row, 13, self.format_boolean(region.getMkMemoryRegionInitializePerCore()),
-                                format={'alignment': Alignment(horizontal="center")})
+                self.write_cell_center(sheet, row, 2, region.getMkMemoryRegionFlags())
+                self.write_cell_center(sheet, row, 3, self.format_boolean(region.getMkMemoryRegionInitialize()))
+                self.write_cell_center(sheet, row, 4, self.format_boolean(region.getMkMemoryRegionGlobal()))
+                self.write_cell_center(sheet, row, 5, self.format_boolean(region.getMkMemoryRegionInitThreadAccess()))
+                self.write_cell_center(sheet, row, 6, self.format_boolean(region.getMkMemoryRegionIdleThreadAccess()))
+                self.write_cell_center(sheet, row, 7, self.format_boolean(region.getMkMemoryRegionOsThreadAccess()))
+                self.write_cell_center(sheet, row, 8, self.format_boolean(region.getMkMemoryRegionErrorHookAccess()))
+                self.write_cell_center(sheet, row, 9, self.format_boolean(region.getMkMemoryRegionProtHookAccess()))
+                self.write_cell_center(sheet, row, 10, self.format_boolean(region.getMkMemoryRegionShutdownHookAccess()))
+                self.write_cell_center(sheet, row, 11, self.format_boolean(region.getMkMemoryRegionShutdownAccess()))
+                self.write_cell_center(sheet, row, 12, self.format_boolean(region.getMkMemoryRegionKernelAccess()))
+                self.write_cell_center(sheet, row, 13, self.format_boolean(region.getMkMemoryRegionInitializePerCore()))
 
                 row += 1
 
@@ -216,6 +204,7 @@ class OsXdmXlsWriter(ExcelReporter):
 
         if not options['skip_os_task']:
             self.write_os_tasks(doc)
+        self.write_os_applications(doc)
         self.write_os_isrs(doc)
         self.write_os_schedule_tables(doc)
         self.write_os_counters(doc)
