@@ -1,6 +1,8 @@
 import logging
 
+
 from ..models import OsAutoSARDoc, OsApplication, BswModuleInstance
+
 
 class OsApplicationMarkdownWriter:
     def __init__(self) -> None:
@@ -21,20 +23,17 @@ class OsApplicationMarkdownWriter:
                 package = instance.get_mappings()[0].package
             else:
                 package = ""
-            self._write_line(f_in, "|%s|%s|%s|%s|%s|%s|" % (instance.name, instance.type, component_type , "", package, ""))
+            self._write_line(f_in, "|%s|%s|%s|%s|%s|%s|" % (instance.name, instance.type, component_type, "", package, ""))
             for mapping in instance.get_mappings():
                 self._write_line(f_in, "|%s|%s|%s|%s|%s|%s|" % ("", "", "", "", mapping.event, mapping.task))
-
 
     def _write_os_applications(self, f_in, doc: OsAutoSARDoc):
         self._write_line(f_in, "# OS Application")
         for os_app in doc.get_os_applications():
             self._write_line(f_in, "## %s" % os_app.name)
             self._write_instances(f_in, os_app)
-                
 
     def write(self, filename: str, doc: OsAutoSARDoc):
         with open(filename, 'w') as f_in:
             self._write_os_applications(f_in, doc)
             
-

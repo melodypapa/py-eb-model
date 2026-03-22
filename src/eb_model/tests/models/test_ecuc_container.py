@@ -2,6 +2,7 @@
 from ...models.eb_doc import EBModel
 from ...models.abstract import EcucParamConfContainerDef, EcucObject
 
+
 class TestEcucContainer:
 
     def test_create_container(self):
@@ -18,5 +19,5 @@ class TestEcucContainer:
         assert (container.getParent() == document)
         assert (container.getName() == "Os")
 
-        assert(isinstance(container, EcucParamConfContainerDef))
-        assert(isinstance(container, EcucObject))
+        assert isinstance(container, EcucParamConfContainerDef)
+        assert isinstance(container, EcucObject)

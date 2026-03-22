@@ -179,7 +179,7 @@ class OsXdmParser(AbstractEbModelParser):
                 
 
             self.logger.debug("Read OsCounter <%s>" % counter.getName())
-            os.addOsScheduleTable(counter)
+            os.addOsCounter(counter)
 
     def read_os_applications(self, element: ET.Element, os: Os):
         for ctr_tag in self.find_ctr_tag_list(element, "OsApplication"):

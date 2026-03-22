@@ -79,7 +79,7 @@ class RteRunnableEntityXlsWriter(ExcelReporter):
                     instance = mapping.getRteSwComponentInstance()
                     if isinstance(mapping, RteEventToTaskMappingV3):
                         self.write_cell(sheet, row, 2, mapping.getRteEventRef().getShortName())
-                    elif instance(mapping, RteEventToTaskMappingV4):
+                    elif isinstance(mapping, RteEventToTaskMappingV4):
                         self.write_cell(sheet, row, 2, " ".join(map(lambda i: i.getShortName(), mapping.getRteEventRefs())))
                     else:
                         raise NotImplementedError("Unsupported RteEventToTaskMapping")
