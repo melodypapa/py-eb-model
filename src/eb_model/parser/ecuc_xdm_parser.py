@@ -1,4 +1,4 @@
-import xml.etree.cElementTree as ET
+import xml.etree.ElementTree as ET
 
 from ..models.ecuc_xdm import EcuC, EcucPartition, EcucPartitionCollection, EcucPartitionSoftwareComponentInstanceRef
 from ..models.eb_doc import EBModel

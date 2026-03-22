@@ -4,8 +4,10 @@ import xml.etree.ElementTree as ET
 import logging
 import os
 
+
 from ..models.eclipse_project import Link
 from ..models.importer_xdm import SystemDescriptionImporter
+
 
 class EclipseProjectWriter:
     def __init__(self):
@@ -19,6 +21,7 @@ class EclipseProjectWriter:
 
     def write(self, links: List[Link]):
         pass
+
 
 class ABProjectWriter(EclipseProjectWriter):
     def __init__(self):
@@ -36,7 +39,6 @@ class ABProjectWriter(EclipseProjectWriter):
             self._write_link(child_element, link)
 
         self.logger.info("Total <%d> Links are written." % len(links))
-        
 
     def _write_file_head(self, element: ET.Element, project: str):
         if project is not None:
@@ -56,16 +58,16 @@ class ABProjectWriter(EclipseProjectWriter):
         self._write_file_head(root, project)
         self._write_links(root, links)
 
-        xml = ET.tostring(root, encoding = "UTF-8", xml_declaration = True, short_empty_elements = False)
+        xml = ET.tostring(root, encoding="UTF-8", xml_declaration=True, short_empty_elements=False)
 
         dom = minidom.parseString(xml.decode())
-        xml = dom.toprettyxml(indent = "  ", encoding = "UTF-8")
+        xml = dom.toprettyxml(indent="  ", encoding="UTF-8")
 
         with open(filename, "w", encoding="utf-8") as f_out:
             f_out.write(xml.decode())
 
-    def writer_import_files(self, filename: str, importer: SystemDescriptionImporter, params = {'base_path': None, 'wildcard': None, "project": None}):
+    def writer_import_files(self, filename: str, importer: SystemDescriptionImporter, params={'base_path': None, 'wildcard': None, "project": None}):
         self.logger.info("Generate AB project <%s>" % filename)
-        file_list =  sorted(importer.getParsedInputFiles(params))
+        file_list = sorted(importer.getParsedInputFiles(params))
         links = importer.getLinks(file_list)
         self.write(filename, params['project'], links)

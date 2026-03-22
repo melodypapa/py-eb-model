@@ -1,5 +1,5 @@
 from ..parser.eb_parser import AbstractEbModelParser
-import xml.etree.cElementTree as ET
+import xml.etree.ElementTree as ET
 from ..models.eb_doc import EBModel
 
 

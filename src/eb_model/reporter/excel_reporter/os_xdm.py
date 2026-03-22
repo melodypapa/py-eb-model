@@ -3,6 +3,8 @@ from openpyxl.styles import Alignment
 from ...models.eb_doc import EBModel
 from ...reporter.excel_reporter.abstract import ExcelReporter
 
+RTE_RESOURCE_PATTERN = re.compile(r"Rte_\w+")
+
 
 class OsXdmXlsWriter(ExcelReporter):
     def __init__(self) -> None:
@@ -29,8 +31,7 @@ class OsXdmXlsWriter(ExcelReporter):
             self.write_cell(sheet, row, 8, os_task.getOsTaskType())
             resources = []
             for resource_ref in os_task.getOsTaskResourceRefList():
-                m = re.match(r"Rte_\w+", resource_ref.getValue())
-                if m:
+                if RTE_RESOURCE_PATTERN.match(resource_ref.getValue()):
                     resources.append(resource_ref.getValue())
             total_resources = len(resources)
             if total_resources > 10:
@@ -81,12 +82,10 @@ class OsXdmXlsWriter(ExcelReporter):
             self.write_cell(sheet, row, 4, os_isr.getOsStacksize(), format={'alignment': Alignment(horizontal="center", vertical="top")})
             self.write_cell(sheet, row, 5, os_isr.getOsIsrPriority(), format={'alignment': Alignment(horizontal="center", vertical="top")})
             self.write_cell(sheet, row, 6, os_isr.getOsIsrVector(), format={'alignment': Alignment(horizontal="center", vertical="top")})
-            if len(os_isr.getOsIsrMkMemoryRegionRefs()) > 1:
-                self.write_cell(sheet, row, 7, "\n".join(map(lambda a: a.getShortName(), os_isr.getOsIsrMkMemoryRegionRefs())),
-                                {'alignment': Alignment(wrapText=True, vertical="top")})
-            else:
-                self.write_cell(sheet, row, 7, "\n".join(map(lambda a: a.getShortName(), os_isr.getOsIsrMkMemoryRegionRefs())),
-                                {'alignment': Alignment(vertical="top")})
+            memory_region_names = [a.getShortName() for a in os_isr.getOsIsrMkMemoryRegionRefs()]
+            alignment = Alignment(wrapText=(len(memory_region_names) > 1), vertical="top")
+            self.write_cell(sheet, row, 7, "\n".join(memory_region_names),
+                            {'alignment': alignment})
             row += 1
 
             self.logger.debug("Write OsIsr <%s>" % os_isr.getName())

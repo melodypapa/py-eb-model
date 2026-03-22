@@ -1,5 +1,5 @@
 import logging
-import xml.etree.cElementTree as ET
+import xml.etree.ElementTree as ET
 
 from .rte_xdm_parser import RteXdmParser
 from .ecuc_xdm_parser import EcucXdmParser

@@ -4,7 +4,7 @@ import logging
 import sys
 import os.path
 
-from ..parser.bswm_xdm_parser import BswMXdmParser 
+from ..parser.bswm_xdm_parser import BswMXdmParser
 from ..models import EBModel
 from ..reporter.excel_reporter.bswm_xdm import BswMXdmXlsWriter
 
@@ -21,7 +21,7 @@ def main():
     args = ap.parse_args()
 
     logger = logging.getLogger()
-    
+
     formatter = logging.Formatter('[%(levelname)s] : %(message)s')
 
     stdout_handler = logging.StreamHandler(sys.stderr)
@@ -51,7 +51,7 @@ def main():
 
     try:
         doc = EBModel.getInstance()
-        
+
         parser = BswMXdmParser()
         parser.parse_xdm(args.INPUT, doc)
 
@@ -59,7 +59,7 @@ def main():
 
         writer = BswMXdmXlsWriter()
         writer.write(args.OUTPUT, doc, options)
-        
+
     except Exception as e:
         logger.error(e)
         raise e
