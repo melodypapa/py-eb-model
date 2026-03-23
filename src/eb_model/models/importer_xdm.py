@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import List
 
 from ..models.eclipse_project import Link
 from ..models.abstract import EcucObject

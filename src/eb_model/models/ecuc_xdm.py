@@ -1,4 +1,3 @@
-
 from typing import List
 from ..models.abstract import EcucParamConfContainerDef, EcucRefType, Module
 
@@ -7,13 +6,13 @@ class EcucPartitionSoftwareComponentInstanceRef(EcucParamConfContainerDef):
     def __init__(self, parent, name):
         super().__init__(parent, name)
 
-        self.TargetRef: EcucRefType = None
+        self.ecucPartitionSoftwareComponentInstanceTargetRef: EcucRefType = None
 
-    def getTargetRef(self) -> EcucRefType:
-        return self.TargetRef
-    
-    def setTargetRef(self, target: EcucRefType):
-        self.TargetRef = target
+    def getEcucPartitionSoftwareComponentInstanceTargetRef(self) -> EcucRefType:
+        return self.ecucPartitionSoftwareComponentInstanceTargetRef
+
+    def setEcucPartitionSoftwareComponentInstanceTargetRef(self, target: EcucRefType):
+        self.ecucPartitionSoftwareComponentInstanceTargetRef = target
         return self
 
 
@@ -21,62 +20,69 @@ class EcucPartition(EcucParamConfContainerDef):
     def __init__(self, parent, name):
         super().__init__(parent, name)
 
-        self.EcucPartitionId: int = None
-        self.EcucDefaultBswPartition: bool = None
-        self.PartitionCanBeRestarted: bool = None
-        self.EcucPartitionRef: EcucRefType = None
+        self.ecucPartitionId: int = None
+        self.ecucDefaultBswPartition: bool = None
+        self.ecucPartitionCanBeRestarted: bool = None
+        self.ecucPartitionRef: EcucRefType = None
 
-        self.EcucPartitionBswModuleDistinguishedPartitions: List[EcucRefType] = []
-        self.EcucPartitionCoreRef: EcucRefType = None
-        self.EcucPartitionSoftwareComponentInstanceRefs: List[EcucPartitionSoftwareComponentInstanceRef] = []
+        self.ecucPartitionBswModuleDistinguishedPartitions: List[EcucRefType] = []
+        self.ecucPartitionCoreRef: EcucRefType = None
+        self.ecucPartitionSoftwareComponentInstanceRefs: List[EcucPartitionSoftwareComponentInstanceRef] = []
 
     def getEcucPartitionId(self) -> int:
-        return self.EcucPartitionId
+        return self.ecucPartitionId
 
-    def setEcuPartitionId(self, partitionId: int):
-        self.EcucPartitionId = partitionId
+    def setEcucPartitionId(self, partitionId: int):
+        if partitionId is not None:
+            self.ecucPartitionId = partitionId
         return self
-    
+
     def getEcucDefaultBswPartition(self) -> bool:
-        return self.EcucDefaultBswPartition
-    
+        return self.ecucDefaultBswPartition
+
     def setEcucDefaultBswPartition(self, is_default: bool):
-        self.EcucDefaultBswPartition = is_default
+        if is_default is not None:
+            self.ecucDefaultBswPartition = is_default
         return self
-    
-    def getPartitionCanBeRestarted(self) -> bool:
-        return self.PartitionCanBeRestarted
-    
-    def setPartitionCanBeRestarted(self, can_be_restarted: bool):
-        self.PartitionCanBeRestarted = can_be_restarted
+
+    def getEcucPartitionCanBeRestarted(self) -> bool:
+        return self.ecucPartitionCanBeRestarted
+
+    def setEcucPartitionCanBeRestarted(self, can_be_restarted: bool):
+        if can_be_restarted is not None:
+            self.ecucPartitionCanBeRestarted = can_be_restarted
         return self
-    
+
     def getEcucPartitionRef(self) -> EcucRefType:
-        return self.EcucPartitionRef
+        return self.ecucPartitionRef
 
     def setEcucPartitionRef(self, ref: EcucRefType):
-        self.EcucPartitionRef = ref
+        if ref is not None:
+            self.ecucPartitionRef = ref
         return self
 
-    def getEcucPartitionBswModuleDistinguishedPartition(self) -> List[EcucRefType]:
-        return self.EcucPartitionBswModuleDistinguishedPartitions
+    def getEcucPartitionBswModuleDistinguishedPartitions(self) -> List[EcucRefType]:
+        return self.ecucPartitionBswModuleDistinguishedPartitions
 
     def addEcucPartitionBswModuleDistinguishedPartition(self, partition: EcucRefType):
-        self.EcucPartitionBswModuleDistinguishedPartitions.append(partition)
+        if partition is not None:
+            self.ecucPartitionBswModuleDistinguishedPartitions.append(partition)
         return self
 
     def getEcucPartitionCoreRef(self) -> EcucRefType:
-        return self.EcucPartitionCoreRef
+        return self.ecucPartitionCoreRef
 
     def setEcucPartitionCoreRef(self, core_ref: EcucRefType):
-        self.EcucPartitionCoreRef = core_ref
+        if core_ref is not None:
+            self.ecucPartitionCoreRef = core_ref
         return self
 
     def getEcucPartitionSoftwareComponentInstanceRefs(self) -> List[EcucPartitionSoftwareComponentInstanceRef]:
-        return self.EcucPartitionSoftwareComponentInstanceRefs
+        return self.ecucPartitionSoftwareComponentInstanceRefs
 
     def addEcucPartitionSoftwareComponentInstanceRef(self, ref: EcucPartitionSoftwareComponentInstanceRef):
-        self.EcucPartitionSoftwareComponentInstanceRefs.append(ref)
+        if ref is not None:
+            self.ecucPartitionSoftwareComponentInstanceRefs.append(ref)
         return self
 
 
@@ -84,25 +90,28 @@ class EcucPartitionCollection(EcucParamConfContainerDef):
     def __init__(self, parent, name):
         super().__init__(parent, name)
 
-        self.EcucPartitions: List[EcucPartition] = []
+        self.ecucPartitions: List[EcucPartition] = []
 
     def getEcucPartitions(self) -> List[EcucPartition]:
-        return self.EcucPartitions
+        return self.ecucPartitions
 
     def addEcucPartition(self, partition: EcucPartition):
-        self.EcucPartitions.append(partition)
+        if partition is not None:
+            self.addElement(partition)
+            self.ecucPartitions.append(partition)
         return self
-    
+
 
 class EcuC(Module):
     def __init__(self, parent):
         super().__init__(parent, "EcuC")
 
-        self.EcucPartitionCollection = None
+        self.ecucPartitionCollection = None
 
     def getEcucPartitionCollection(self) -> EcucPartitionCollection:
-        return self.EcucPartitionCollection
+        return self.ecucPartitionCollection
 
     def setEcucPartitionCollection(self, collection: EcucPartitionCollection):
-        self.EcucPartitionCollection = collection
+        if collection is not None:
+            self.ecucPartitionCollection = collection
         return self

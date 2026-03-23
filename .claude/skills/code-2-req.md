@@ -1,6 +1,6 @@
 ---
 name: code-2-req
-description: Generate formal software requirements specification (SRS) from existing code implementation. Use this when the user wants to: create requirements documentation from code, document existing functionality, extract functional requirements from implementation, create SWR (Software Requirements) documents, reverse-engineer requirements from legacy code, document features that were never specified, or prepare for enterprise code reviews/audits.
+description: Generate formal software requirements specification (SRS) from existing code implementation. **Use this whenever** the user wants to: create requirements documentation from code, document existing functionality, extract functional requirements from implementation, create SWR (Software Requirements) documents, reverse-engineer requirements from legacy code, document features that were never specified, prepare for enterprise code reviews/audits, generate requirement specs for inherited codebases, or create formal requirements before implementing new features. This is essential for legacy systems, audit preparation, and any situation where code exists without formal requirements. **Even if the user doesn't explicitly say "requirements"**, if they mention documenting, spec-ing out, or explaining what existing code does, this skill likely applies.
 compatibility:
   - Read files (Read tool)
   - Search code (Grep tool)
@@ -9,20 +9,16 @@ compatibility:
 
 # Code to Requirements (code-2-req)
 
-This skill generates formal software requirements specifications from code implementation.
+This skill generates formal software requirements specifications by analyzing code implementation.
 
 ## Quick Start
 
-Choose your scope and provide the feature name:
+1. **Determine scope**: What module, feature, or system needs requirements?
+2. **Analyze code**: Read relevant source files to understand functionality
+3. **Extract requirements**: Identify functional capabilities, inputs/outputs, constraints
+4. **Write document**: Output to `docs/requirements/swr_[feature].md`
 
-| Scope | Feature Name | Example Command |
-|-------|-------------|-----------------|
-| Single module | `os-module`, `rte-module`, `nvm-module`, `ecuc-module`, `bswm-module` | "Generate requirements for OS module" |
-| Layer | `parser-layer`, `model-layer`, `reporter-layer` | "Generate requirements for parser layer" |
-| System-wide | `overview` | "Generate system overview requirements" |
-| Custom feature | `<feature-name>` | "Generate requirements for XML validation" |
-
-Output location: `docs/requirements/swr_[feature].md`
+**Output format**: Markdown requirements spec saved to `docs/requirements/swr_[feature].md`
 
 ## When to Use
 
@@ -32,6 +28,7 @@ Output location: `docs/requirements/swr_[feature].md`
 - Generating SWR (Software Requirements) documents
 - Extracting functional requirements from implementation
 - Creating requirements from scratch based on intended implementation
+- Reverse-engineering requirements from legacy/inherited code
 
 ## Not for Use
 
@@ -40,13 +37,9 @@ Output location: `docs/requirements/swr_[feature].md`
 - Code review (use code-review skill instead)
 - Refactoring existing code (use simplify skill instead)
 
-## Output
+## Document Template
 
-A formal requirements specification in Markdown format, saved to `docs/requirements/swr_[feature].md`.
-
-## Requirements Document Structure
-
-Generate requirements documents with the following sections:
+Use this exact structure for every requirements document:
 
 ```markdown
 # Software Requirements Specification: [Feature Name]
@@ -59,265 +52,234 @@ Generate requirements documents with the following sections:
 | Document ID | SWR-[FEATURE]-001 |
 | Version | 1.0 |
 | Date | YYYY-MM-DD |
-| Project | py-eb-model |
+| Project | [Project Name] |
 | Module | [Module Name] |
 
 ## Table of Contents
 
-...
+- [1. Introduction](#1-introduction)
+  - [1.1 Purpose](#11-purpose)
+  - [1.2 Scope](#12-scope)
+  - [1.3 Definitions, Acronyms, and Abbreviations](#13-definitions-acronyms-and-abbreviations)
+  - [1.4 References](#14-references)
+- [2. General Description](#2-general-description)
+  - [2.1 Product Perspective](#21-product-perspective)
+  - [2.2 Product Functions](#22-product-functions)
+  - [2.3 User Characteristics](#23-user-characteristics)
+  - [2.4 Constraints](#24-constraints)
+  - [2.5 Dependencies](#25-dependencies)
+- [3. Functional Requirements](#3-functional-requirements)
+- [4. Non-Functional Requirements](#4-non-functional-requirements)
+- [Appendix A: Interface Specifications](#appendix-a-interface-specifications)
+- [Appendix B: Data Requirements](#appendix-b-data-requirements)
 
 ## 1. Introduction
 
 ### 1.1 Purpose
-Brief statement of the purpose of the feature/system.
+Brief statement of what this feature/system does and why it exists.
 
 ### 1.2 Scope
-What this feature/system does and doesn't do.
+What this feature/system does and doesn't do. Include boundaries and limitations.
 
 ### 1.3 Definitions, Acronyms, and Abbreviations
-Define any technical terms, acronyms, or abbreviations used.
+Define technical terms used throughout the document. Example:
+- **XDM**: EB Tresos XML Data Model format
+- **ASPath**: AUTOSAR path reference format
 
 ### 1.4 References
-List of related documents (if any).
+List related documents (API docs, design specs, standards).
 
 ## 2. General Description
 
 ### 2.1 Product Perspective
-Where this feature fits in the overall system architecture.
+Where this feature fits in the overall system architecture. Mention relationships to other components.
 
 ### 2.2 Product Functions
-High-level summary of what the feature does.
+High-level summary of main capabilities. 3-5 bullet points.
 
 ### 2.3 User Characteristics
-Who uses this feature and their skill level.
+Who uses this feature and their skill level (e.g., "AUTOSAR engineers familiar with EB Tresos").
 
 ### 2.4 Constraints
-Technical, regulatory, or other constraints.
+Technical, regulatory, or business constraints:
+- File format limitations
+- Platform dependencies
+- Performance requirements
+- Security considerations
 
 ### 2.5 Dependencies
-What this feature depends on (libraries, external systems, etc.).
+External systems, libraries, or services this feature depends on.
 
 ## 3. Functional Requirements
 
-```
-**REQ-[MODULE]-3.X - [Feature Name]**: The system shall [brief description].
+[Use the inline format below - no sub-sections for each requirement]
+
+**REQ-[MODULE]-3.1 - [Feature Name]**: The system shall [brief description].
 - [Specific action 1]
 - [Specific action 2]
 - [Specific action 3]
+- [Specific action 4]
+- [Specific action 5]
 
-**REQ-[MODULE]-3.Y - [Feature Name]**: The system shall [brief description].
+**REQ-[MODULE]-3.2 - [Feature Name]**: The system shall [brief description].
 - [Specific action 1]
 - [Specific action 2]
 - [Specific action 3]
+- [Specific action 4]
+- [Specific action 5]
+
+## 4. Non-Functional Requirements
+
+**NREQ-[MODULE]-4.1 - [Category]**: The system shall [performance/quality requirement].
+- [Specific requirement 1]
+- [Specific requirement 2]
+- [Specific requirement 3]
+
+## Appendix A: Interface Specifications
+
+Document external interfaces (APIs, file formats, protocols) if not covered in main requirements.
+
+## Appendix B: Data Requirements
+
+Document data structures, schemas, or entity relationships if not covered in main requirements.
 ```
 
-**Key Principle**: Each requirement ID represents a complete feature capability with 4-8 specific actions listed as bullet points. Do not create sub-sections for each requirement - use the inline format shown above.
+## Requirement ID Format
 
-**Requirement ID Format**: `TYPE-[MODULE]-SECTION.NUMBER` where:
-- `TYPE` - Requirement type identifier
-- `[MODULE]` - Module name abbreviation (e.g., OS, RTE, NVM, ECUC, BSWM)
-- `SECTION` - Section number (e.g., 3 for Functional Requirements, 4 for Non-Functional Requirements)
-- `NUMBER` - Sequential requirement number within section
+`TYPE-[MODULE]-SECTION.NUMBER` where:
 
-**Requirement Types**:
-- `REQ-[MODULE]-3.X` - Functional Requirements (section 3)
-- `NREQ-[MODULE]-4.X` - Non-Functional Requirements (section 4)
+- **TYPE**: `REQ` (functional) or `NREQ` (non-functional)
+- **MODULE**: Component/feature abbreviation (e.g., OS, PARSER, AUTH)
+- **SECTION**: 3 (functional) or 4 (non-functional)
+- **NUMBER**: Sequential within section
 
-**Examples**:
-- `REQ-OS-3.1 - Parser Layer` for OS module functional requirement
-- `NREQ-OS-4.1 - Performance` for OS module non-functional requirement
-
-**Simplified Structure**: Only two main requirement sections - Functional Requirements (what the system does) and Non-Functional Requirements (how the system behaves). Other details like interfaces, data requirements, use cases, and test requirements are documented in the General Description and Appendix sections for a cleaner, more focused requirements document.
-```
-
-## Execution Process
-
-### Phase 1: Clarify Scope
-If the user's request is ambiguous, ask what they want requirements for:
-- "Which module/layer/feature needs requirements documentation?"
-- Or start with the most logical choice (e.g., if they mentioned OS, generate for os-module)
-
-### Phase 2: Analyze Code
-Read files in this order:
-1. **Context**: `setup.py`, `CLAUDE.md` (if exists)
-2. **Base classes**: `src/eb_model/models/abstract.py`, `src/eb_model/parser/eb_parser.py`
-3. **Module model**: `src/eb_model/models/[module].py`
-4. **Module parser**: `src/eb_model/parser/[module]_xdm_parser.py`
-5. **Reporter/Writer**: `src/eb_model/reporter/[module]_xls_writer.py`
-6. **CLI entry**: `src/eb_model/cli/[module]_xdm_2_xls_cli.py`
-
-### Phase 3: Extract Requirements
-For each component, extract by asking:
-
-**Models** → What entities/attributes/relationships/validation?
-**Parsers** → What inputs/processing/error handling?
-**Reporters** → What outputs/formatting/locations?
-**CLI** → What commands/arguments/help/errors?
-
-### Phase 4: Write Document
-Follow the template below, write to `docs/requirements/swr_[feature].md`
-
-## Requirements Document Template
+Examples:
+- `REQ-PARSER-3.1` - Parser layer functional requirement
+- `NREQ-OS-4.1` - OS module non-functional requirement
 
 ## Requirement Writing Guidelines
 
-### Use Standard Language
+### Language Standards
 
-- **SHALL** - Mandatory requirement
-- **SHOULD** - Recommended but not mandatory
-- **MAY** - Optional feature
-- **WILL** - Future commitment
+| Term | Meaning | When to Use |
+|------|---------|-------------|
+| **SHALL** | Mandatory requirement | Core functionality |
+| **SHOULD** | Recommended | Best practices, optional features |
+| **MAY** | Optional | Nice-to-have capabilities |
+| **WILL** | Future commitment | Planned features |
 
 ### Be Specific and Verifiable
 
 Bad: "The system shall process files efficiently"
-Good: "The system shall parse XDM files up to 10MB in size within 5 seconds"
+Good: "The system shall parse XML files up to 10MB within 5 seconds"
 
-Bad: "The system shall handle errors"
-Good: "The system shall log an error message and exit with non-zero status when the input file is not found"
+Bad: "The system shall handle errors gracefully"
+Good: "The system shall log error details and exit with non-zero status when input file validation fails"
 
-### Use Requirement IDs
+### Granularity Rules
 
-Assign unique IDs to each feature-level requirement for traceability:
-- REQ-3.1: First feature requirement in section 3.1
-- REQ-3.2: Second feature requirement in section 3.2
+**Each requirement ID should represent a complete feature capability with 4-8 bullet points.**
 
-**Key Principle**: Group related sub-requirements under a single requirement ID. Each requirement ID represents a complete feature capability with multiple specific actions listed as bullet points. This reduces requirement bloat while maintaining clarity and traceability.
+- **Target**: 8-15 requirements total for typical modules
+- **Group related actions** under one requirement ID
+- **Focus on business value**, not implementation details
 
-## Requirement Granularity Guidelines
-
-### Core Principles
-
-1. **Feature Completeness** - Each requirement ID represents a complete, coherent feature capability
-2. **Testability** - Each requirement can be tested as a unit
-3. **Business Value** - Focus on features users care about, not implementation details
-4. **Single Responsibility** - Each requirement focuses on one functional area
-
-### Target Metrics
-
-- **4-8 bullet points** per requirement
-- **8-15 requirements** for a typical module
-- **100% feature coverage**
-
-### When to Group vs. Split
-
-**GROUP TOGETHER** when:
-- Same functional capability (e.g., all task parsing attributes)
+**GROUP together** when:
+- Same functional capability
 - Tested as a unit
 - Coherent user story
-- Implementation detail of same feature
 
 **KEEP SEPARATE** when:
-- Different functional areas (tasks vs ISRs)
-- Different layers (parser vs reporter vs CLI)
+- Different functional areas
 - Independent testability
 - Different stakeholders
 
 ### Example: Good vs Bad
 
-**BAD - Too Granular:**
+**BAD - Too granular:**
 ```
-### 3.2 Task Management
+### 3.2 Tasks
 - REQ-3.2.1: Parse task name
 - REQ-3.2.2: Parse task priority
 - REQ-3.2.3: Parse task activation
-...
 ```
 
-**GOOD - Appropriate Granularity:**
+**GOOD - Appropriate:**
 ```
-**REQ-3.2 - Task Management**: The system shall parse and model OS task definitions.
+**REQ-OS-3.2 - Task Management**: The system shall parse and model task definitions.
 - Extract name, priority, activation count, schedule type, and stack size
 - Extract task type for memory planning
 - Parse autostart configuration and resource references
-- Provide IsPreemptable() method
+- Provide IsPreemptable() method for schedule checking
 - Map tasks to parent applications for O(1) lookup
 ```
 
-## Determining the Feature Name
+## Analysis Process
 
-When determining the feature name for `swr_[feature].md`:
+### 1. Understand Scope
+If ambiguous, clarify: "Which module/layer/feature needs requirements?"
 
-1. **For module-specific analysis** (e.g., analyzing `src/eb_model/parser/os_xdm_parser.py`):
-   - Use the module name: `os-module`, `rte-module`, `nvm-module`, `ecuc-module`, `bswm-module`
+### 2. Read Code
+Read files in logical order:
+- **Context**: Setup files, project docs
+- **Base classes**: Abstract implementations, interfaces
+- **Core logic**: Main implementation files
+- **Outputs**: Writers, reporters, formatters
+- **Interfaces**: CLI, API endpoints
 
-2. **For layer-specific analysis** (e.g., analyzing the parser layer):
-   - Use the layer name: `parser-layer`, `model-layer`, `reporter-layer`
+### 3. Extract Requirements
+For each component, ask:
 
-3. **For new features being documented before implementation**:
-   - Use the descriptive feature name provided by the user
-   - Convert to lowercase with hyphens (e.g., `xml-validation` → `xml-validation`)
+**Models** → What entities/attributes/relationships/validation exist?
+**Parsers/Processors** → What inputs/processing/error handling?
+**Outputs** → What formats/locations/transformations?
+**Interfaces** → What commands/arguments/behaviors?
 
-4. **For general system analysis**:
-   - Use `overview` for system-wide requirements
+### 4. Infer Non-Functional Requirements
+From code patterns, identify:
+- **Performance**: File sizes, batch processing, timeouts
+- **Reliability**: Error handling, logging, validation
+- **Security**: Input sanitization, safe parsing
+- **Maintainability**: Code structure, test coverage
 
-Examples:
-- `swr_os-module.md` - OS module requirements
-- `swr_parser-layer.md` - Parser layer requirements
-- `swr_xml-validation.md` - XML validation feature
-- `swr_overview.md` - System overview requirements
-
-## Analysis Strategy
-
-### Reading Order for Code Analysis
-
-1. **Setup and context**: `setup.py`, `CLAUDE.md`
-2. **Base classes**: `src/eb_model/models/abstract.py`, `src/eb_model/parser/eb_parser.py`
-3. **Model definition**: Module-specific model file
-4. **Parser implementation**: Module-specific parser file
-5. **Reporter/Writer**: Output generation logic
-6. **CLI entry point**: User interface
-
-### Analysis Scope
-
-**Full Project Analysis**: Start with setup.py, read CLAUDE.md, explore directory structure, then read each module's parser, model, reporter, and CLI files.
-
-**Single Module Analysis**: Identify module by name (Os, Rte, NvM, EcuC, BswM), then read parser → model → reporter → CLI files.
-
-**New Feature Documentation**: Ask user for feature description, inputs/outputs, constraints/dependencies, then generate requirements.
-
-## Writing Guidelines
-
-### Language Style
-
-- **Be concise but complete** - Include all relevant information without fluff
-- **Use present tense** - "The system parses" not "The system will parse"
-- **Be consistent** - Use the same terminology throughout
-- **Focus on what** not **how** - Describe functionality, not implementation details
-- **Include examples** - Show actual command usage and output formats
-- **Document limitations** - Be honest about what doesn't work or isn't supported
-
-### Common Code Patterns to Requirements
+## Code Patterns to Requirements Mapping
 
 | Pattern | Code Example | Requirement Statement |
 |---------|--------------|----------------------|
-| Factory | `EbParserFactory.create(xdm_file)` | "The system shall automatically determine the parser type based on the XDM file's MODULE-CONFIGURATION tag." |
-| Singleton | `EBModel.getInstance()` | "The document model shall be implemented as a singleton to ensure single point of truth." |
-| Namespace | `self.nsmap = dict([...])` | "The parser shall extract XML namespaces from the XDM file and use them for XPath queries." |
-| Fluent Interface | `task.setName("Task1").setPriority(5)` | "Model objects shall support method chaining for convenient configuration." |
+| Factory | `Factory.create(input)` | "The system shall automatically determine the implementation type based on input characteristics" |
+| Singleton | `Instance.getInstance()` | "The model shall be implemented as a singleton to ensure single point of truth" |
+| Namespace handling | `self.nsmap = dict([...])` | "The parser shall extract namespaces and use them for queries" |
+| Fluent interface | `obj.setX().setY()` | "Objects shall support method chaining for configuration" |
+| Validation | `if not condition: raise Error` | "The system shall validate [condition] and raise [error] when invalid" |
 
-## Final Review Checklist
+## Determining the Feature Name
+
+| Analysis Type | Feature Name Format | Example |
+|--------------|---------------------|---------|
+| Single module | `<module>-module` | `os-module`, `auth-module` |
+| Layer | `<layer>-layer` | `parser-layer`, `api-layer` |
+| Feature | `<feature-name>` | `xml-validation`, `user-auth` |
+| System-wide | `overview` | `swr_overview.md` |
+
+## Final Checklist
 
 Before saving to `docs/requirements/swr_[feature].md`:
 
-- [ ] **Granularity**: 4-8 bullet points per requirement, 8-15 total for typical module
-- [ ] **Structure**: All sections present, requirements numbered and verifiable
-- [ ] **Content**: Consistent terminology, technical terms defined
-- [ ] **Completeness**: All functionality covered, non-functional requirements included
+- [ ] **Granularity**: 4-8 bullet points per requirement, 8-15 total
+- [ ] **Structure**: All template sections present
+- [ ] **IDs**: Consistent requirement ID format
+- [ ] **Language**: SHALL/SHOULD/MAY used correctly
+- [ ] **Verifiability**: Each requirement testable
+- [ ] **Completeness**: Non-functional requirements included
+- [ ] **Definitions**: Technical terms defined in Section 1.3
 
-## Example: Functional Requirements Format
+## Example: Complete Requirement Entry
 
 ```markdown
-**REQ-OS-3.1 - Parser Layer**: The system shall parse EB Tresos XDM files containing OS configuration.
-- Extract XML namespace definitions and store in namespace map for XPath queries
-- Validate that the datamodel root element module name is "Os" (raise ValueError if not)
-- Extract AUTOSAR version and software version from the OS configuration
-- Inherit common XML parsing methods from AbstractEbModelParser base class
-
-**REQ-OS-3.2 - Task Management**: The system shall parse and model OS task definitions.
-- Extract name, priority, activation count, schedule type, and stack size
-- Extract task type for memory planning
-- Parse autostart configuration and resource references
-- Provide IsPreemptable() method for schedule type checking
-- Map tasks to parent applications for O(1) lookup
+**REQ-PARSER-3.1 - XML Parsing**: The system shall parse XML files with namespace support.
+- Extract and store namespace definitions from the XML root element
+- Use namespace prefixes in XPath queries to locate elements correctly
+- Inherit common parsing methods from base parser class
+- Raise ValueError with descriptive message when file format is invalid
+- Support both absolute and relative XPath expressions
 ```

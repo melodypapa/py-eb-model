@@ -35,9 +35,9 @@ class EcucXdmParser(AbstractEbModelParser):
     def read_ecuc_partition_software_component_instances(self, element: ET.Element, ecuc_partition: EcucPartition):
         for ctr_tag in self.find_ctr_tag_list(element, "EcucPartitionSoftwareComponentInstanceRef"):
             instance = EcucPartitionSoftwareComponentInstanceRef(ecuc_partition, ctr_tag.attrib['type'])
-            instance.setTargetRef(self.read_ref_value(ctr_tag, "TARGET"))
-            if instance.getTargetRef() is not None:
-                self.logger.debug("Instance: %s" % instance.getTargetRef().getShortName())
+            instance.setEcucPartitionSoftwareComponentInstanceTargetRef(self.read_ref_value(ctr_tag, "TARGET"))
+            if instance.getEcucPartitionSoftwareComponentInstanceTargetRef() is not None:
+                self.logger.debug("Instance: %s" % instance.getEcucPartitionSoftwareComponentInstanceTargetRef().getShortName())
                 ecuc_partition.addEcucPartitionSoftwareComponentInstanceRef(instance)
     
     def read_ecuc_partition(self, element: ET.Element, collection: EcucPartitionCollection):
@@ -47,7 +47,6 @@ class EcucXdmParser(AbstractEbModelParser):
 
             ecuc_partition.setEcucDefaultBswPartition(self.read_optional_value(ctr_tag, "EcucDefaultBswPartition"))
             ecuc_partition.setPartitionCanBeRestarted(self.read_value(ctr_tag, "PartitionCanBeRestarted"))
-            # ecuc_partition.setEcucPartitionRef(self.read_optional_ref_value(ctr_tag, "EcucEcuPartitionRef"))
 
             self.read_ecuc_partition_software_component_instances(ctr_tag, ecuc_partition)
             collection.addEcucPartition(ecuc_partition)

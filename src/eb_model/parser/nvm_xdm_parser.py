@@ -88,14 +88,13 @@ class NvMXdmParser(AbstractEbModelParser):
     def read_nvm_block_descriptors(self, element: ET.Element, nvm: NvM):
         for ctr_tag in self.find_ctr_tag_list(element, "NvMBlockDescriptor"):
             nvm_block = NvMBlockDescriptor(nvm, ctr_tag.attrib["name"])
-            nvm_block.setNvMBlockCrcType(self.read_optional_value(ctr_tag, "NvMBlockCrcType"))
+            nvm_block.setNvMBlockCrcType(self.read_value(ctr_tag, "NvMBlockCrcType"))
             nvm_block.setNvMBlockEcucPartitionRef(self.read_ref_value(ctr_tag, "NvMBlockEcucPartitionRef"))
             nvm_block.setNvMNvramBlockIdentifier(self.read_value(ctr_tag, "NvMNvramBlockIdentifier"))
             nvm_block.setNvMRamBlockDataAddress(self.read_optional_value(ctr_tag, "NvMRamBlockDataAddress"))
             nvm_block.setNvMRomBlockDataAddress(self.read_optional_value(ctr_tag, "NvMRomBlockDataAddress"))
             nvm_block.setNvMBlockJobPriority(self.read_value(ctr_tag, "NvMBlockJobPriority"))
             nvm_block.setNvMResistantToChangedSw(self.read_value(ctr_tag, "NvMResistantToChangedSw"))
-            nvm_block.setNvMBlockCrcType(self.read_value(ctr_tag, "NvMBlockCrcType"))
             nvm_block.setNvMBlockUseCrc(self.read_value(ctr_tag, "NvMBlockUseCrc"))
             nvm_block.setNvMRomBlockNum(self.read_value(ctr_tag, "NvMRomBlockNum"))
             nvm_block.setNvMBlockManagementType(self.read_value(ctr_tag, "NvMBlockManagementType"))
@@ -113,7 +112,7 @@ class NvMXdmParser(AbstractEbModelParser):
 
             self.read_nvm_init_block_callback(ctr_tag, nvm_block)
             self.read_nvm_single_block_callback(ctr_tag, nvm_block)
-            
+
             nvm_block.setNvMNvBlockBaseNumber(self.read_value(ctr_tag, "NvMNvBlockBaseNumber"))
             self.read_nvm_block_target_block_reference(ctr_tag, nvm_block)
 

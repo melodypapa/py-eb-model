@@ -635,8 +635,7 @@ class NvM(Module):
     def __init__(self, parent):
         super().__init__(parent, "NvM")
 
-        # type: List[NvMBlockDescriptor]
-        self.NvMBlockDescriptors = []
+        self.NvMBlockDescriptors: List[NvMBlockDescriptor] = []
         self.NvMCommon: NvMCommon = None
 
     def getNvMCommon(self) -> NvMCommon:

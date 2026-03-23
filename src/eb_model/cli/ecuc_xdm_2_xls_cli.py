@@ -1,5 +1,4 @@
 import argparse
-import pkg_resources
 import logging
 import sys
 import os.path
