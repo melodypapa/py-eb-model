@@ -1,9 +1,7 @@
 from ...parser.os_xdm_parser import OsXdmParser
-from ...models.os_xdm import Os, OsResource
 from ...models.eb_doc import EBModel
 
 import xml.etree.ElementTree as ET
-import pytest
 
 
 class TestOsXdmParser:

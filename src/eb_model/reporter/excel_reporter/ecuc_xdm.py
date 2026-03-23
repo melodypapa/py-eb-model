@@ -17,8 +17,9 @@ class EcucXdmXlsWriter(ExcelReporter):
         row = 2
         for partition in doc.getEcuC().getEcucPartitionCollection().getEcucPartitions():
             self.write_cell(sheet, row, 1, partition.getName())
-            self.write_cell(sheet, row, 2, partition.getPartitionCanBeRestarted())
-            self.write_cell(sheet, row, 3, partition.getEcucPartitionRef())
+            self.write_cell(sheet, row, 2, partition.getEcucPartitionCanBeRestarted())
+            if partition.getEcucPartitionRef() is not None:
+                self.write_cell(sheet, row, 3, partition.getEcucPartitionRef().getShortName())
 
             row += 1
 
@@ -32,12 +33,12 @@ class EcucXdmXlsWriter(ExcelReporter):
 
         row = 2
         for partition in doc.getEcuC().getEcucPartitionCollection().getEcucPartitions():
-            # print("EcucPartition <%s>" % partition.getName())
             for instance in partition.getEcucPartitionSoftwareComponentInstanceRefs():
-                self.write_cell(sheet, row, 1, instance.getTargetRef().getValue())
-                self.write_cell(sheet, row, 2, partition.getName())
+                if instance.getEcucPartitionSoftwareComponentInstanceTargetRef() is not None:
+                    self.write_cell(sheet, row, 1, instance.getEcucPartitionSoftwareComponentInstanceTargetRef().getValue())
+                    self.write_cell(sheet, row, 2, partition.getName())
 
-                row += 1
+                    row += 1
 
         self.auto_width(sheet)
 

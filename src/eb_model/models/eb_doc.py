@@ -4,6 +4,10 @@ from ..models.nvm_xdm import NvM
 from ..models.importer_xdm import SystemDescriptionImporter
 from ..models.rte_xdm import Rte
 from ..models.os_xdm import Os
+from ..models.tm_xdm import Tm
+from ..models.pbcfgm_xdm import PbcfgM
+from ..models.ecum_xdm import EcuM
+from ..models.det_xdm import Det
 from ..models.abstract import EcucParamConfContainerDef, EcucObject
 
 
@@ -73,6 +77,26 @@ class EBModel(AbstractModel):
         container = EcucParamConfContainerDef(self, "BswM")
         BswM(container)
         return self.find("/BswM/BswM")
+
+    def getTm(self) -> Tm:
+        container = EcucParamConfContainerDef(self, "Tm")
+        Tm(container)
+        return self.find("/Tm/Tm")
+
+    def getPbcfgM(self) -> PbcfgM:
+        container = EcucParamConfContainerDef(self, "PbcfgM")
+        PbcfgM(container)
+        return self.find("/PbcfgM/PbcfgM")
+
+    def getEcuM(self) -> EcuM:
+        container = EcucParamConfContainerDef(self, "EcuM")
+        EcuM(container)
+        return self.find("/EcuM/EcuM")
+
+    def getDet(self) -> Det:
+        container = EcucParamConfContainerDef(self, "Det")
+        Det(container)
+        return self.find("/Det/Det")
     
     def addContainer(self, container: EcucParamConfContainerDef):
         if (container is None):

@@ -12,18 +12,18 @@ This is a layered XML parsing system with three main components:
 
 1. **Parser Layer** (`src/eb_model/parser/`): Reads EB Tresos XDM XML files
    - `AbstractEbModelParser`: Base class with common XML parsing methods using XPath with namespace handling
-   - Module-specific parsers: `OsXdmParser`, `RteXdmParser`, `NvMXdmParser`, `EcucXdmParser`, `BswMXdmParser`
+   - Module-specific parsers: `OsXdmParser`, `RteXdmParser`, `NvMXdmParser`, `EcucXdmParser`, `BswMXdmParser`, `TmXdmParser`, `PbcfgMXdmParser`, `EcuMXdmParser`, `DetXdmParser`
    - `EbParserFactory`: Automatically determines parser type from XDM file's MODULE-CONFIGURATION tag
 
 2. **Model Layer** (`src/eb_model/models/`): Domain objects representing AUTOSAR configuration
    - `EBModel`: Singleton root document model containing module containers
-   - `Module`: Base class for AUTOSAR modules (Os, Rte, NvM, EcuC, BswM)
+   - `Module`: Base class for AUTOSAR modules (Os, Rte, NvM, EcuC, BswM, Tm, PbcfgM, EcuM, Det)
    - `EcucObject`: Abstract base for all configuration objects with hierarchical naming
    - `EcucParamConfContainerDef`: Container for configuration parameters with element management
    - `EcucRefType`: Reference type for AUTOSAR path references (ASPath format)
 
 3. **Reporter Layer** (`src/eb_model/reporter/`): Outputs data to various formats
-   - Excel reporters: `OsXdmXlsWriter`, `RteXdmXlsWriter`, `NvMXdmXlsWriter`, `EcucXdmXlsWriter`
+   - Excel reporters: `OsXdmXlsWriter`, `RteXdmXlsWriter`, `NvMXdmXlsWriter`, `EcucXdmXlsWriter`, `TmXdmXlsWriter`, `PbcfgMXdmXlsWriter`, `EcuMXdmXlsWriter`, `DetXdmXlsWriter`
    - Markdown reporter: `OsApplicationMarkdownWriter`
    - Text writers: `TextPreferenceModelWriter`, `ABProjectWriter`
 
@@ -140,6 +140,10 @@ Currently registered CLI entry points:
 - `nvm-xdm-xlsx`: NvM module XDM to Excel conversion
 - `ecuc-xdm-xlsx`: EcuC module XDM to Excel conversion
 - `bswm-xdm-xlsx`: BswM module XDM to Excel conversion
+- `tm-xdm-xlsx`: Tm module XDM to Excel conversion
+- `pbcfgm-xdm-xlsx`: PbcfgM module XDM to Excel conversion
+- `ecum-xdm-xlsx`: EcuM module XDM to Excel conversion
+- `det-xdm-xlsx`: Det module XDM to Excel conversion
 - `PrefSystemImporter`: EB preference XDM to ARXML file list or AUTOSAR builder project
 
 ## File Structure Notes

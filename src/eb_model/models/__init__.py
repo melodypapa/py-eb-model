@@ -3,3 +3,7 @@ from .os_xdm import *               # noqa F403
 from .rte_xdm import *              # noqa F403
 from .eb_doc import *               # noqa F403
 from .importer_xdm import *         # noqa F403
+from .tm_xdm import *               # noqa F403
+from .pbcfgm_xdm import *           # noqa F403
+from .ecum_xdm import *             # noqa F403
+from .det_xdm import *              # noqa F403

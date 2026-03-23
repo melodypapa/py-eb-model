@@ -41,6 +41,10 @@ setup(
             'rte-xdm-xlsx           = eb_model.cli.rte_xdm_2_xls_cli:main',
             'nvm-xdm-xlsx           = eb_model.cli.nvm_xdm_2_xls_cli:main',
             'ecuc-xdm-xlsx          = eb_model.cli.ecuc_xdm_2_xls_cli:main',
+            'tm-xdm-xlsx            = eb_model.cli.tm_xdm_2_xls_cli:main',
+            'pbcfgm-xdm-xlsx        = eb_model.cli.pbcfgm_xdm_2_xls_cli:main',
+            'ecum-xdm-xlsx          = eb_model.cli.ecum_xdm_2_xls_cli:main',
+            'det-xdm-xlsx           = eb_model.cli.det_xdm_2_xls_cli:main',
             'PrefSystemImporter     = eb_model.cli.pref_system_importer_cli:main',
         ]
     }

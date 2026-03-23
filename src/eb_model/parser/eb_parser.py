@@ -11,6 +11,9 @@ from ..models.abstract import EcucRefType, Module
 
 class AbstractEbModelParser(metaclass=ABCMeta):
 
+    # Pre-compiled regex for efficiency
+    _ASPATH_PATTERN = re.compile(r'ASPath:(.*)')
+
     def __init__(self) -> None:
         self.nsmap = {}
 
@@ -40,8 +43,8 @@ class AbstractEbModelParser(metaclass=ABCMeta):
         '''
             Internal function and please call _read_ref_value instead of it
         '''
-        match = re.match(r'ASPath:(.*)', value)
-        if (match):
+        match = self._ASPATH_PATTERN.match(value)
+        if match:
             return match.group(1)
         return value
 
@@ -79,9 +82,7 @@ class AbstractEbModelParser(metaclass=ABCMeta):
         if 'value' not in tag.attrib:
             return default_value
         enable = self.read_attrib(tag, 'ENABLE')
-        if enable is None:
-            return default_value
-        if enable.upper() == "FALSE":
+        if enable is not None and enable.upper() == "FALSE":
             return default_value
         return self._convert_value(tag)
 
@@ -102,12 +103,14 @@ class AbstractEbModelParser(metaclass=ABCMeta):
 
     def read_optional_ref_value(self, parent: ET.Element, name: str) -> EcucRefType:
         tag = parent.find(".//d:ref[@name='%s']" % name, self.nsmap)
+        if tag is None:
+            return None
+        if 'value' not in tag.attrib:
+            return None
         enable = self.read_attrib(tag, 'ENABLE')
-        if enable is None:
+        if enable is not None and enable.upper() == "FALSE":
             return None
-        if enable.upper() == "FALSE":
-            return None
-        
+
         return EcucRefType(self.read_ref_raw_value(tag.attrib['value']))
 
     def read_ref_value_list(self, parent: ET.Element, name: str) -> List[EcucRefType]:

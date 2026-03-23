@@ -1,5 +1,4 @@
 import argparse
-import pkg_resources
 import logging
 import sys
 import os.path
@@ -7,7 +6,6 @@ import os.path
 from eb_model.parser.eb_parser_factory import EbParserFactory
 
 from ..reporter.excel_reporter.rte_xdm import RteRunnableEntityXlsWriter, RteXdmXlsWriter
-from ..parser.rte_xdm_parser import RteXdmParser
 from ..models import EBModel
 
 

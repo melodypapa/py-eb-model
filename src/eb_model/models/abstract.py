@@ -1,5 +1,4 @@
 from abc import ABCMeta
-from typing import Dict
 import re
 
 
@@ -42,7 +41,7 @@ class EcucParamConfContainerDef(EcucObject):
         super().__init__(parent, name)
 
         self.importerInfo: str = None
-        self.elements = {}                  # type: Dict[str, EcucObject]
+        self.elements = {}
 
     def getTotalElement(self) -> int:
         # return len(list(filter(lambda a: not isinstance(a, ARPackage) , self.elements.values())))
