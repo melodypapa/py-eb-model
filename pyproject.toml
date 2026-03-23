@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "py_eb_model"
+version = "1.3.0"
+license = {text = "MIT"}
+description = "The parser for EB XDM file"
+readme = "README.md"
+requires-python = ">=3.9"
+keywords = ["EB", "Tresos", "XDM"]
+authors = [
+    {name = "melodypapa", email = "melodypapa@outlook.com"}
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "openpyxl",
+]
+
+[project.optional-dependencies]
+pytest = ["pytest-cov"]
+
+[project.urls]
+Homepage = "https://github.com/melodypapa/py-eb-model"
+Repository = "https://github.com/melodypapa/py-eb-model"
+Issues = "https://github.com/melodypapa/py-eb-model/issues"
+
+[project.scripts]
+bswm-xdm-xlsx = "eb_model.cli.bswm_xdm_2_xls_cli:main"
+os-xdm-xlsx = "eb_model.cli.os_xdm_2_xls_cli:main"
+rte-xdm-xlsx = "eb_model.cli.rte_xdm_2_xls_cli:main"
+nvm-xdm-xlsx = "eb_model.cli.nvm_xdm_2_xls_cli:main"
+ecuc-xdm-xlsx = "eb_model.cli.ecuc_xdm_2_xls_cli:main"
+tm-xdm-xlsx = "eb_model.cli.tm_xdm_2_xls_cli:main"
+pbcfgm-xdm-xlsx = "eb_model.cli.pbcfgm_xdm_2_xls_cli:main"
+ecum-xdm-xlsx = "eb_model.cli.ecum_xdm_2_xls_cli:main"
+det-xdm-xlsx = "eb_model.cli.det_xdm_2_xls_cli:main"
+PrefSystemImporter = "eb_model.cli.pref_system_importer_cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
