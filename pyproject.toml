@@ -28,7 +28,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-pytest = ["pytest-cov"]
+dev = ["pytest-cov", "ruff", "mypy"]
 
 [project.urls]
 Homepage = "https://github.com/melodypapa/py-eb-model"
@@ -52,3 +52,47 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.ruff]
+line-length = 150
+
+[tool.ruff.lint]
+ignore = ["F401", "F403", "W293"]
+select = ["E", "F"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = false
+warn_unused_configs = false
+ignore_missing_imports = true
+check_untyped_defs = false
+disable_error_code = [
+    "assignment",
+    "return-value",
+    "no-any-return",
+    "attr-defined",
+    "override",
+    "union-attr",
+    "arg-type",
+    "var-annotated",
+    "misc",
+]
+exclude = [
+    "src/eb_model/tests/.*",
+]
+
+[[tool.mypy.overrides]]
+module = "eb_model.models.*"
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "eb_model.parser.*"
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "eb_model.reporter.*"
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "eb_model.writer.*"
+ignore_errors = true
