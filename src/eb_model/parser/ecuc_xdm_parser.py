@@ -1,3 +1,11 @@
+"""
+EcuC XDM Parser Module - Extracts AUTOSAR EcuC configuration from EB Tresos XDM files.
+
+Implements:
+    - SWR_ECUC_00001: EcuC module parsing
+    - SWR_ECUC_00002: Partition configuration parsing
+    - SWR_ECUC_00003: Partition collection parsing
+"""
 import xml.etree.ElementTree as ET
 
 from ..models.ecuc_xdm import EcuC, EcucPartition, EcucPartitionCollection, EcucPartitionSoftwareComponentInstanceRef
@@ -6,12 +14,26 @@ from ..parser.eb_parser import AbstractEbModelParser
 
 
 class EcucXdmParser(AbstractEbModelParser):
+    """
+    Parser for AUTOSAR EcuC (ECU Configuration) module.
+
+    Extracts EcuC configuration including partitions and partition collections.
+
+    Implements: SWR_ECUC_00001 (EcuC Module Parser)
+    """
+
     def __init__(self):
+        """Initialize the EcuC XDM parser."""
         super().__init__()
 
         self.ecuc = None
 
     def parse(self, element: ET.Element, doc: EBModel):
+        """
+        Parse EcuC module configuration from XDM element.
+
+        Implements: SWR_ECUC_00001
+        """
         if self.get_component_name(element) != "EcuC":
             raise ValueError("Invalid <%s> xdm file" % "EcuC")
 

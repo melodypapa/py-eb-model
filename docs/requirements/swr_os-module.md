@@ -5,7 +5,7 @@
 | Field | Value |
 |-------|-------|
 | Document Title | OS Module Software Requirements Specification |
-| Document ID | SWR-OS-001 |
+| Document ID | SWR_OS_00001 |
 | Version | 1.0 |
 | Date | 2026-03-23 |
 | Project | py-eb-model |
@@ -137,13 +137,13 @@ Users are expected to be familiar with:
 
 ## 3. Functional Requirements
 
-**REQ-OS-3.1 - Parser Layer**: The system shall parse EB Tresos XDM files containing OS configuration.
+**SWR_OS_00001 - Parser Layer**: The system shall parse EB Tresos XDM files containing OS configuration.
 - Extract XML namespace definitions from XDM files and store them in a namespace map for XPath queries
 - Validate that the datamodel root element module name is "Os" and raise a ValueError if it is not
 - Extract AUTOSAR version and software version from the OS configuration
 - Inherit common XML parsing methods from AbstractEbModelParser base class
 
-**REQ-OS-3.2 - Task Management**: The system shall parse and model OS task definitions.
+**SWR_OS_00002 - Task Management**: The system shall parse and model OS task definitions.
 - Extract name, priority, activation count, schedule type (FULL/NON), and stack size
 - Extract task type (BASIC/EXTENDED) for memory planning
 - Parse task autostart configuration with application mode references
@@ -151,7 +151,7 @@ Users are expected to be familiar with:
 - Provide an `IsPreemptable()` method that returns true if the schedule type is FULL
 - Map tasks to their parent OS applications for O(1) lookup
 
-**REQ-OS-3.3 - ISR Management**: The system shall parse and model Interrupt Service Routines (ISRs).
+**SWR_OS_00003 - ISR Management**: The system shall parse and model Interrupt Service Routines (ISRs).
 - Extract category (CATEGORY_1 or CATEGORY_2), priority, vector, and stack size
 - Extract Infineon AURIX TriCore-specific attributes (TricoreIrqLevel, TricoreVector)
 - Extract ARM core-specific attributes (ARMIrqLevel, ARMVector)
@@ -159,7 +159,7 @@ Users are expected to be familiar with:
 - Extract ISR period when defined
 - Map ISRs to their parent OS applications for O(1) lookup
 
-**REQ-OS-3.4 - Schedule Tables**: The system shall parse and model schedule tables for cyclic scheduling.
+**SWR_OS_00004 - Schedule Tables**: The system shall parse and model schedule tables for cyclic scheduling.
 - Extract duration, repeating behavior, and counter references
 - Parse expiry points with offset values
 - Parse task activation configurations and event settings at expiry points
@@ -167,18 +167,18 @@ Users are expected to be familiar with:
 - Support time unit specifications (NANOSECONDS or TICKS) and validate against allowed values
 - Sort expiry points by offset when generating reports
 
-**REQ-OS-3.5 - Counters**: The system shall parse and model time measurement counters.
+**SWR_OS_00005 - Counters**: The system shall parse and model time measurement counters.
 - Extract max allowed value, min cycle, ticks per base, and counter type (HARDWARE/SOFTWARE)
 - Extract seconds per tick configuration when present
 - Parse driver references and time constant references when present
 
-**REQ-OS-3.6 - Applications**: The system shall parse and model OS applications for memory protection and isolation.
+**SWR_OS_00006 - Applications**: The system shall parse and model OS applications for memory protection and isolation.
 - Extract trusted status and core assignment
 - Parse application-to-partition references for multi-core systems
 - Parse references to tasks, ISRs, resources, alarms, counters, and schedule tables
 - Maintain lookup mappings for task-to-application and ISR-to-application relationships
 
-**REQ-OS-3.7 - Alarms**: The system shall parse and model time-based alarms.
+**SWR_OS_00007 - Alarms**: The system shall parse and model time-based alarms.
 - Parse counter references and alarm accessing application references
 - Parse alarm action configurations including:
   - ActivateTask: Reference to task to activate
@@ -187,19 +187,19 @@ Users are expected to be familiar with:
   - Callback: Callback function name
 - Raise a ValueError if an alarm action is not specified or unsupported
 
-**REQ-OS-3.8 - Resources**: The system shall parse and model resources for exclusive access management.
+**SWR_OS_00008 - Resources**: The system shall parse and model resources for exclusive access management.
 - Extract properties (STANDARD or INTERNAL)
 - Parse resource accessing application references
 - Extract importer information attributes
 - Support calculated service access references (including `@CALC(SvcAs,...)` syntax)
 
-**REQ-OS-3.9 - Memory Protection**: The system shall parse and model EB Safety OS memory protection configuration.
+**SWR_OS_00009 - Memory Protection**: The system shall parse and model EB Safety OS memory protection configuration.
 - Parse microkernel memory protection configuration when present
 - Parse memory region definitions with access flags for InitThread, IdleThread, OsThread, ErrorHook, ProtHook, ShutdownHook, Shutdown, Kernel access, and Initialize per-core settings
 - Parse memory region initialization and global scope flags
 - Handle absence of memory protection configuration gracefully
 
-**REQ-OS-3.10 - Reporter Layer**: The system shall generate Excel (.xlsx) output with multiple worksheets.
+**SWR_OS_00010 - Reporter Layer**: The system shall generate Excel (.xlsx) output with multiple worksheets.
 - Create worksheets: OsTask, OsApplications, OsIsr, OsScheduleTable, OsCounter, OsScheduleTableExpiryPoint, MkMemoryRegion (if present)
 - Apply auto-width column formatting to all worksheets
 - Center-align numeric data
@@ -207,7 +207,7 @@ Users are expected to be familiar with:
 - Display summary text for lists exceeding 10 items
 - Support skipping the OsTask worksheet via configuration option
 
-**REQ-OS-3.11 - CLI Interface**: The system shall provide a command-line interface with the `os-xdm-xlsx` command.
+**SWR_OS_00011 - CLI Interface**: The system shall provide a command-line interface with the `os-xdm-xlsx` command.
 - Accept INPUT (XDM file path) and OUTPUT (Excel file path) as positional arguments
 - Support `--verbose` or `-v` flag to enable debug logging to `os_xdm_2_xls.log` in output directory
 - Support `--skip-os-task` flag to skip OsTask worksheet generation
@@ -218,23 +218,23 @@ Users are expected to be familiar with:
 
 ## 4. Non-Functional Requirements
 
-**NREQ-OS-4.1**: The parser shall efficiently process XDM files of typical automotive configuration size (up to 10MB).
+**SWR_OS_00012**: The parser shall efficiently process XDM files of typical automotive configuration size (up to 10MB).
 
-**NREQ-OS-4.2**: The reporter shall generate Excel files with acceptable performance for projects containing up to 1000 tasks/ISRs.
+**SWR_OS_00013**: The reporter shall generate Excel files with acceptable performance for projects containing up to 1000 tasks/ISRs.
 
-**NREQ-OS-4.3**: The parser shall use dictionary-based mappings for O(1) lookup of task-to-application and ISR-to-application relationships.
+**SWR_OS_00014**: The parser shall use dictionary-based mappings for O(1) lookup of task-to-application and ISR-to-application relationships.
 
-**NREQ-OS-4.4**: The system shall handle malformed XML gracefully and report meaningful error messages.
+**SWR_OS_00015**: The system shall handle malformed XML gracefully and report meaningful error messages.
 
-**NREQ-OS-4.5**: The system shall handle missing optional configuration elements without failing.
+**SWR_OS_00016**: The system shall handle missing optional configuration elements without failing.
 
-**NREQ-OS-4.6**: The system shall validate required configuration elements and raise descriptive errors when missing.
+**SWR_OS_00017**: The system shall validate required configuration elements and raise descriptive errors when missing.
 
-**NREQ-OS-4.7**: The system shall validate input file paths to prevent path traversal attacks.
+**SWR_OS_00018**: The system shall validate input file paths to prevent path traversal attacks.
 
-**NREQ-OS-4.8**: The system shall handle XML parsing safely to prevent XML injection attacks.
+**SWR_OS_00019**: The system shall handle XML parsing safely to prevent XML injection attacks.
 
-**NREQ-OS-4.9**: The parser shall inherit common XML parsing methods from AbstractEbModelParser base class.
+**SWR_OS_00020**: The parser shall inherit common XML parsing methods from AbstractEbModelParser base class.
 
 **NREQ-OS-4.10**: The model classes shall use a fluent interface pattern to enable method chaining.
 

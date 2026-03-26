@@ -1,3 +1,10 @@
+"""
+LinTp XDM Parser Module - Extracts AUTOSAR LinTp configuration from EB Tresos XDM files.
+
+Implements:
+    - SWR_LINTP_00001: LinTp module parsing
+    - SWR_LINTP_00002: NSDU configuration parsing
+"""
 import xml.etree.ElementTree as ET
 from ..models.eb_doc import EBModel
 from ..models.lintp_xdm import LinTp, LinTpGeneral, LinTpRxNSdu, LinTpTxNSdu
@@ -5,11 +12,27 @@ from ..parser.eb_parser import AbstractEbModelParser
 
 
 class LinTpXdmParser(AbstractEbModelParser):
+    """
+    Parser for AUTOSAR LinTp (LIN Transport Protocol) module configuration.
+
+    Extracts LinTp configuration including NSDUs.
+
+    Implements: SWR_LINTP_00001 (LinTp Module Parser)
+    """
+
     def __init__(self) -> None:
+        """Initialize the LinTp XDM parser."""
         super().__init__()
         self.lintp = None
 
     def parse(self, element: ET.Element, doc: EBModel):
+        """
+        Parse LinTp module configuration from XDM element.
+
+        LinTp may be embedded in LinIf or standalone.
+
+        Implements: SWR_LINTP_00001
+        """
         # LinTp may be embedded in LinIf or standalone
         if self.get_component_name(element) != "LinTp":
             raise ValueError("Invalid <%s> xdm file" % "LinTp")

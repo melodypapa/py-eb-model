@@ -1,3 +1,11 @@
+"""
+EcuM XDM Parser Module - Extracts AUTOSAR EcuM configuration from EB Tresos XDM files.
+
+Implements:
+    - SWR_ECUM_00001: EcuM module parsing
+    - SWR_ECUM_00002: Startup configuration parsing
+    - SWR_ECUM_00003: Shutdown configuration parsing
+"""
 import xml.etree.ElementTree as ET
 from ..models.eb_doc import EBModel
 from ..models.ecum_xdm import EcuM, EcuMGeneral, EcuMStartup, EcuMShutdown, EcuMAlarm
@@ -5,12 +13,26 @@ from ..parser.eb_parser import AbstractEbModelParser
 
 
 class EcuMXdmParser(AbstractEbModelParser):
+    """
+    Parser for AUTOSAR EcuM (ECU State Manager) module configuration.
+
+    Extracts EcuM configuration including startup, shutdown, and alarm settings.
+
+    Implements: SWR_ECUM_00001 (EcuM Module Parser)
+    """
+
     def __init__(self) -> None:
+        """Initialize the EcuM XDM parser."""
         super().__init__()
 
         self.ecum = None
 
     def parse(self, element: ET.Element, doc: EBModel):
+        """
+        Parse EcuM module configuration from XDM element.
+
+        Implements: SWR_ECUM_00001
+        """
         if self.get_component_name(element) != "EcuM":
             raise ValueError("Invalid <%s> xdm file" % "EcuM")
 

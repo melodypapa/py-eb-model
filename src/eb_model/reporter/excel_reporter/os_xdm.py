@@ -1,3 +1,10 @@
+"""
+OS XDM Excel Reporter - Generates Excel reports for OS module configuration.
+
+Implements:
+    - SWR_REPORTER_00002: Excel output generation
+    - SWR_OS_00010: OS configuration reporting
+"""
 import re
 from openpyxl.styles import Alignment
 from ...models.eb_doc import EBModel
@@ -7,7 +14,17 @@ RTE_RESOURCE_PATTERN = re.compile(r"Rte_\w+")
 
 
 class OsXdmXlsWriter(ExcelReporter):
+    """
+    Excel reporter for AUTOSAR OS module configuration.
+
+    Generates Excel workbook with sheets for tasks, ISRs, alarms,
+    schedule tables, counters, applications, and resources.
+
+    Implements: SWR_OS_00010 (OS Configuration Reporting)
+    """
+
     def __init__(self) -> None:
+        """Initialize the OS Excel reporter."""
         super().__init__()
 
     def write_os_tasks(self, doc: EBModel):

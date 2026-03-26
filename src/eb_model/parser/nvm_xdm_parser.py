@@ -1,3 +1,11 @@
+"""
+NvM XDM Parser Module - Extracts AUTOSAR NvM configuration from EB Tresos XDM files.
+
+Implements:
+    - SWR_NVM_00001: NvM module parsing
+    - SWR_NVM_00002: NvM common configuration parsing
+    - SWR_NVM_00003: NvM block descriptor parsing
+"""
 import xml.etree.ElementTree as ET
 
 from ..models.nvm_xdm import NvM, NvMBlockDescriptor, NvMCommon, NvMEaRef, NvMFeeRef, NvMInitBlockCallback, NvMSingleBlockCallback
@@ -6,12 +14,26 @@ from ..parser.eb_parser import AbstractEbModelParser
 
 
 class NvMXdmParser(AbstractEbModelParser):
+    """
+    Parser for AUTOSAR NvM (Non-volatile Memory) module configuration.
+
+    Extracts NvM configuration including common settings and block descriptors.
+
+    Implements: SWR_NVM_00001 (NvM Module Parser)
+    """
+
     def __init__(self, ) -> None:
+        """Initialize the NvM XDM parser."""
         super().__init__()
 
         self.nvm = None
 
     def parse(self, element: ET.Element, doc: EBModel):
+        """
+        Parse NvM module configuration from XDM element.
+
+        Implements: SWR_NVM_00001
+        """
         if self.get_component_name(element) != "NvM":
             raise ValueError("Invalid <%s> xdm file" % "NvM")
 

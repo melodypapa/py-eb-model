@@ -8,7 +8,7 @@ When the user runs `/req`, help manage requirements based on `$ARGUMENTS`:
 
 ### Add New Requirement
 - Add requirement to `docs/requirements/requirements.md`
-- Assign stable ID: `SWR_<MODULE>_<NUMBER>` (next available number)
+- Assign stable ID: `SWR_<MODULE>_<NUMBER>` (next available number per module)
 - Include required sections:
   - Title
   - Maturity (draft/accept/invalid)
@@ -29,7 +29,8 @@ When the user runs `/req`, help manage requirements based on `$ARGUMENTS`:
 ### Requirement Formats
 
 **Requirements**: `SWR_<MODULE>_<NUMBER>`
-- Example: `SWR_MODEL_00001`, `SWR_PARSER_00003`
+- Example: `SWR_OS_00001`, `SWR_RTE_00001`, `SWR_CANIF_00001`
+- Each module has its own sequence starting from 00001
 
 **Tests**: `SWUT_<MODULE>_<NUMBER>`
 - Example: `SWUT_MODEL_00001`, `SWUT_PARSER_00002`
@@ -53,8 +54,8 @@ When the user runs `/req`, help manage requirements based on `$ARGUMENTS`:
 ## Usage Examples
 
 ```
-/req add SWR_WRITER_00007 "Add support for custom markdown templates"
-/req update SWR_WRITER_00006 maturity accept
+/req add SWR_OS_00021 "Add support for memory protection regions"
+/req update SWR_RTE_00005 maturity accept
 /req check traceability
 /req list draft
 /req search parser
@@ -62,14 +63,36 @@ When the user runs `/req`, help manage requirements based on `$ARGUMENTS`:
 
 ## Requirements by Module
 
-- **Model**: SWR_MODEL_00001 - SWR_MODEL_00013
-- **Parser**: SWR_PARSER_00001 - SWR_PARSER_00007
-- **Writer**: SWR_WRITER_00001 - SWR_WRITER_00006
-- **CLI**: SWR_CLI_00001 - SWR_CLI_00011
-- **Package**: SWR_PACKAGE_00001 - SWR_PACKAGE_00003
+### Core Modules
+- **OS**: SWR_OS_00001+
+- **RTE**: SWR_RTE_00001+
+- **NvM**: SWR_NVM_00001+
+- **EcuC**: SWR_ECUC_00001+
+- **BswM**: SWR_BSWM_00001+
+
+### CAN Communication Stack
+- **CanIf**: SWR_CANIF_00001+
+- **CanNm**: SWR_CANNM_00001+
+- **CanSm**: SWR_CANSM_00001+
+- **CanTp**: SWR_CANTP_00001+
+
+### LIN Communication Stack
+- **LinIf**: SWR_LINIF_00001+
+- **LinSm**: SWR_LINSM_00001+
+- **LinTp**: SWR_LINTP_00001+
+
+### System Modules
+- **Det**: SWR_DET_00001+
+- **EcuM**: SWR_ECUM_00001+
+- **Tm**: SWR_TM_00001+
+- **PbcfgM**: SWR_PBCFGM_00001+
+
+### Infrastructure Layers
+- **Parser**: SWR_PARSER_00001+
+- **Reporter**: SWR_REPORTER_00001+
+- **CLI**: SWR_CLI_00001+
 
 ## References
 
-- Requirements document: `docs/requirement/requirements.md`
-- Coding standards: `docs/development/coding_rules.md`
+- Requirements registry: `docs/requirements/requirements.md`
 - Project instructions: `CLAUDE.md`

@@ -1,3 +1,11 @@
+"""
+CanTp XDM Parser Module - Extracts AUTOSAR CanTp configuration from EB Tresos XDM files.
+
+Implements:
+    - SWR_CANTP_00001: CanTp module parsing
+    - SWR_CANTP_00002: Channel configuration parsing
+    - SWR_CANTP_00003: NSDU configuration parsing
+"""
 import xml.etree.ElementTree as ET
 from ..models.eb_doc import EBModel
 from ..models.cantp_xdm import (
@@ -7,11 +15,25 @@ from ..parser.eb_parser import AbstractEbModelParser
 
 
 class CanTpXdmParser(AbstractEbModelParser):
+    """
+    Parser for AUTOSAR CanTp (CAN Transport Protocol) module configuration.
+
+    Extracts CanTp configuration including channels and NSDUs.
+
+    Implements: SWR_CANTP_00001 (CanTp Module Parser)
+    """
+
     def __init__(self) -> None:
+        """Initialize the CanTp XDM parser."""
         super().__init__()
         self.cantp = None
 
     def parse(self, element: ET.Element, doc: EBModel):
+        """
+        Parse CanTp module configuration from XDM element.
+
+        Implements: SWR_CANTP_00001
+        """
         if self.get_component_name(element) != "CanTp":
             raise ValueError("Invalid <%s> xdm file" % "CanTp")
 

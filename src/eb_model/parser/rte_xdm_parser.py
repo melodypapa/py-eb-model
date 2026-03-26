@@ -1,3 +1,12 @@
+"""
+RTE XDM Parser Module - Extracts AUTOSAR RTE configuration from EB Tresos XDM files.
+
+Implements:
+    - SWR_RTE_00001: RTE module parsing
+    - SWR_RTE_00002: BSW module instance parsing
+    - SWR_RTE_00003: SW component instance parsing
+    - SWR_RTE_00004: Event-to-task mapping parsing
+"""
 import xml.etree.ElementTree as ET
 
 from ..models.rte_xdm import Rte, RteBswEventToTaskMapping, RteBswEventToTaskMappingV3, RteBswEventToTaskMappingV4, RteBswModuleInstance
@@ -7,11 +16,26 @@ from ..parser.eb_parser import AbstractEbModelParser
 
 
 class RteXdmParser(AbstractEbModelParser):
+    """
+    Parser for AUTOSAR RTE module configuration from EB Tresos XDM files.
+
+    Extracts RTE configuration including BSW module instances, SW component instances,
+    and event-to-task mappings.
+
+    Implements: SWR_RTE_00001 (RTE Module Parser)
+    """
+
     def __init__(self, ) -> None:
+        """Initialize the RTE XDM parser."""
         super().__init__()
         self.rte = None
 
     def parse(self, element: ET.Element, doc: EBModel):
+        """
+        Parse RTE module configuration from XDM element.
+
+        Implements: SWR_RTE_00001
+        """
         if self.get_component_name(element) != "Rte":
             raise ValueError("Invalid <%s> xdm file" % "Rte")
         

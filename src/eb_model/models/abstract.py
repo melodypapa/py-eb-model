@@ -1,10 +1,31 @@
+"""
+Abstract Model Classes - Base classes for AUTOSAR configuration objects.
+
+Implements:
+    - SWR_PARSER_00001: EcucObject base class
+    - SWR_PARSER_00003: EcucParamConfContainerDef container class
+    - SWR_PARSER_00004: EcucRefType reference type
+"""
 from abc import ABCMeta
 from typing import Dict, Optional
 import re
 
 
 class EcucObject(metaclass=ABCMeta):
+    """
+    Abstract base class for all AUTOSAR configuration objects.
+
+    Provides hierarchical naming and parent-child relationships.
+
+    Implements: SWR_PARSER_00001 (Base model class)
+    """
+
     def __init__(self, parent: Optional['EcucObject'], name: str) -> None:
+        """
+        Initialize an EcucObject with parent reference and name.
+
+        Auto-registers with parent if parent is a container.
+        """
         if type(self) is EcucObject:
             raise ValueError("Abstract EcucObject cannot be initialized.")
         
@@ -32,15 +53,26 @@ class EcucObject(metaclass=ABCMeta):
         if self.parent is None:
             return self.name
         return self.parent.getFullName() + "/" + self.name
-    
+
 
 class EcucEnumerationParamDef(EcucObject):
+    """Enumeration parameter definition for AUTOSAR configuration."""
+
     def __init__(self, parent: Optional['EcucObject'], name: str) -> None:
         super().__init__(parent, name)
 
 
 class EcucParamConfContainerDef(EcucObject):
+    """
+    Container for AUTOSAR configuration parameters with element management.
+
+    Provides hierarchical storage for child EcucObject elements.
+
+    Implements: SWR_PARSER_00003 (Container class)
+    """
+
     def __init__(self, parent: Optional['EcucObject'], name: str) -> None:
+        """Initialize container with empty element dictionary."""
         super().__init__(parent, name)
 
         self.importerInfo: Optional[str] = None
@@ -83,7 +115,16 @@ class EcucParamConfContainerDef(EcucObject):
 
 
 class EcucRefType:
+    """
+    Reference type for AUTOSAR path references in ASPath format.
+
+    Stores references like "/Os/OsTask_100ms" and provides short name extraction.
+
+    Implements: SWR_PARSER_00004 (Reference type)
+    """
+
     def __init__(self, value: str) -> None:
+        """Initialize reference with ASPath value."""
         self.value: str = value
 
     def getValue(self) -> str:
@@ -103,10 +144,17 @@ class EcucRefType:
         if m:
             return m.group(1)
         return self.value
-    
-    
+
+
 class Version:
+    """
+    Version information for AUTOSAR modules.
+
+    Stores major, minor, and patch version numbers.
+    """
+
     def __init__(self) -> None:
+        """Initialize version with None values."""
         self.majorVersion: Optional[int] = None
         self.minorVersion: Optional[int] = None
         self.patchVersion: Optional[int] = None
@@ -143,7 +191,16 @@ class Version:
 
 
 class Module(EcucParamConfContainerDef):
+    """
+    Base class for AUTOSAR module configuration.
+
+    Extends EcucParamConfContainerDef with AR and SW version information.
+
+    All module classes (Os, Rte, NvM, etc.) inherit from this base.
+    """
+
     def __init__(self, parent: Optional['EcucObject'], name: str) -> None:
+        """Initialize module with version objects."""
         super().__init__(parent, name)
 
         self.arVersion: Version = Version()

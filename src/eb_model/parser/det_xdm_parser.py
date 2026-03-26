@@ -1,3 +1,10 @@
+"""
+Det XDM Parser Module - Extracts AUTOSAR Det configuration from EB Tresos XDM files.
+
+Implements:
+    - SWR_DET_00001: Det module parsing
+    - SWR_DET_00002: Error hook parsing
+"""
 import xml.etree.ElementTree as ET
 from ..models.eb_doc import EBModel
 from ..models.det_xdm import Det, DetGeneral, DetErrorHook, DetInitError
@@ -5,12 +12,26 @@ from ..parser.eb_parser import AbstractEbModelParser
 
 
 class DetXdmParser(AbstractEbModelParser):
+    """
+    Parser for AUTOSAR Det (Development Error Tracer) module configuration.
+
+    Extracts Det configuration including error hooks and init errors.
+
+    Implements: SWR_DET_00001 (Det Module Parser)
+    """
+
     def __init__(self) -> None:
+        """Initialize the Det XDM parser."""
         super().__init__()
 
         self.det = None
 
     def parse(self, element: ET.Element, doc: EBModel):
+        """
+        Parse Det module configuration from XDM element.
+
+        Implements: SWR_DET_00001
+        """
         if self.get_component_name(element) != "Det":
             raise ValueError("Invalid <%s> xdm file" % "Det")
 

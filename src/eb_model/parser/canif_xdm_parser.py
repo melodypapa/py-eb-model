@@ -1,3 +1,12 @@
+"""
+CanIf XDM Parser Module - Extracts AUTOSAR CanIf configuration from EB Tresos XDM files.
+
+Implements:
+    - SWR_CANIF_00001: CanIf module parsing
+    - SWR_CANIF_00002: Controller configuration parsing
+    - SWR_CANIF_00003: RX/TX PDU configuration parsing
+    - SWR_CANIF_00004: Hardware object configuration parsing
+"""
 import xml.etree.ElementTree as ET
 from ..models.eb_doc import EBModel
 from ..models.canif_xdm import (
@@ -9,11 +18,25 @@ from ..parser.eb_parser import AbstractEbModelParser
 
 
 class CanIfXdmParser(AbstractEbModelParser):
+    """
+    Parser for AUTOSAR CanIf (CAN Interface) module configuration.
+
+    Extracts CanIf configuration including controllers, PDUs, and hardware objects.
+
+    Implements: SWR_CANIF_00001 (CanIf Module Parser)
+    """
+
     def __init__(self) -> None:
+        """Initialize the CanIf XDM parser."""
         super().__init__()
         self.canif = None
 
     def parse(self, element: ET.Element, doc: EBModel):
+        """
+        Parse CanIf module configuration from XDM element.
+
+        Implements: SWR_CANIF_00001
+        """
         if self.get_component_name(element) != "CanIf":
             raise ValueError("Invalid <%s> xdm file" % "CanIf")
 
