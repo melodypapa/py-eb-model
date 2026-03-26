@@ -27,7 +27,8 @@ class CanSMXdmXlsWriter(ExcelReporter):
     def write_cansm_manager_networks(self, doc: EBModel):
         sheet = self.wb.create_sheet("CanSMManagerNetwork", 1)
 
-        title_row = ["Name", "BorCounterL1ToL2", "BorTimeL1", "BorTimeL2", "BorTimeTxEnsured", "TxConfirmationPolling", "ActivatePN", "ComMNetworkHandleRef", "TransceiverId"]
+        title_row = ["Name", "BorCounterL1ToL2", "BorTimeL1", "BorTimeL2", "BorTimeTxEnsured",
+                     "TxConfirmationPolling", "ActivatePN", "ComMNetworkHandleRef", "TransceiverId"]
         self.write_title_row(sheet, title_row)
 
         row = 2
