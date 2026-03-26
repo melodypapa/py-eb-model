@@ -17,10 +17,52 @@ from .cantp_xdm_parser import CanTpXdmParser
 from .linif_xdm_parser import LinIfXdmParser
 from .linsm_xdm_parser import LinSMXdmParser
 from .lintp_xdm_parser import LinTpXdmParser
+from .ethif_xdm_parser import EthIfXdmParser
+from .ethsm_xdm_parser import EthSMXdmParser
+from .tcpip_xdm_parser import TcpIpXdmParser
+from .soad_xdm_parser import SoAdXdmParser
+from .udpnm_xdm_parser import UdpNmXdmParser
+from .doip_xdm_parser import DoIPXdmParser
+from .someiptp_xdm_parser import SomeIpTpXdmParser
+from .frif_xdm_parser import FrIfXdmParser
+from .frtp_xdm_parser import FrTpXdmParser
+from .frnm_xdm_parser import FrNmXdmParser
+from .frsm_xdm_parser import FrSMXdmParser
+from .frartp_xdm_parser import FrArTpXdmParser
 from .eb_parser import AbstractEbModelParser
 
 
 class EbParserFactory:
+    _PARSERS = {
+        "Os": OsXdmParser,
+        "Rte": RteXdmParser,
+        "NvM": NvMXdmParser,
+        "EcuC": EcucXdmParser,
+        "BswM": BswMXdmParser,
+        "Tm": TmXdmParser,
+        "PbcfgM": PbcfgMXdmParser,
+        "EcuM": EcuMXdmParser,
+        "Det": DetXdmParser,
+        "CanIf": CanIfXdmParser,
+        "CanNm": CanNmXdmParser,
+        "CanSM": CanSMXdmParser,
+        "CanTp": CanTpXdmParser,
+        "LinIf": LinIfXdmParser,
+        "LinSM": LinSMXdmParser,
+        "LinTp": LinTpXdmParser,
+        "EthIf": EthIfXdmParser,
+        "EthSM": EthSMXdmParser,
+        "TcpIp": TcpIpXdmParser,
+        "SoAd": SoAdXdmParser,
+        "UdpNm": UdpNmXdmParser,
+        "DoIP": DoIPXdmParser,
+        "SomeIpTp": SomeIpTpXdmParser,
+        "FrIf": FrIfXdmParser,
+        "FrTp": FrTpXdmParser,
+        "FrNm": FrNmXdmParser,
+        "FrSM": FrSMXdmParser,
+        "FrArTp": FrArTpXdmParser,
+    }
 
     @classmethod
     def get_component_name(cls, filename: str) -> str:
@@ -30,31 +72,12 @@ class EbParserFactory:
         return tag.attrib['name']
 
     @classmethod
-    def create(self, xdm: str) -> AbstractEbModelParser:
+    def create(cls, xdm: str) -> AbstractEbModelParser:
         logging.getLogger().info("Analyzing file <%s>" % xdm)
 
-        name = EbParserFactory.get_component_name(xdm)
+        name = cls.get_component_name(xdm)
 
-        parsers = {
-            "Os": OsXdmParser,
-            "Rte": RteXdmParser,
-            "NvM": NvMXdmParser,
-            "EcuC": EcucXdmParser,
-            "BswM": BswMXdmParser,
-            "Tm": TmXdmParser,
-            "PbcfgM": PbcfgMXdmParser,
-            "EcuM": EcuMXdmParser,
-            "Det": DetXdmParser,
-            "CanIf": CanIfXdmParser,
-            "CanNm": CanNmXdmParser,
-            "CanSM": CanSMXdmParser,
-            "CanTp": CanTpXdmParser,
-            "LinIf": LinIfXdmParser,
-            "LinSM": LinSMXdmParser,
-            "LinTp": LinTpXdmParser,
-        }
-
-        if name in parsers:
-            return parsers[name]()
+        if name in cls._PARSERS:
+            return cls._PARSERS[name]()
         else:
             raise NotImplementedError("Unsupported EB xdm file <%s>" % name)

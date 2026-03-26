@@ -15,6 +15,18 @@ from ..models.cantp_xdm import CanTp
 from ..models.linif_xdm import LinIf
 from ..models.linsm_xdm import LinSM
 from ..models.lintp_xdm import LinTp
+from ..models.ethif_xdm import EthIf
+from ..models.ethsm_xdm import EthSM
+from ..models.tcpip_xdm import TcpIp
+from ..models.soad_xdm import SoAd
+from ..models.udpnm_xdm import UdpNm
+from ..models.doip_xdm import DoIP
+from ..models.someiptp_xdm import SomeIpTp
+from ..models.frif_xdm import FrIf
+from ..models.frtp_xdm import FrTp
+from ..models.frnm_xdm import FrNm
+from ..models.frsm_xdm import FrSM
+from ..models.frartp_xdm import FrArTp
 from ..models.abstract import EcucParamConfContainerDef, EcucObject
 
 
@@ -139,6 +151,66 @@ class EBModel(AbstractModel):
         container = EcucParamConfContainerDef(self, "LinTp")
         LinTp(container)
         return self.find("/LinTp/LinTp")
+
+    def getEthIf(self) -> EthIf:
+        container = EcucParamConfContainerDef(self, "EthIf")
+        EthIf(container)
+        return self.find("/EthIf/EthIf")
+
+    def getEthSM(self) -> EthSM:
+        container = EcucParamConfContainerDef(self, "EthSM")
+        EthSM(container)
+        return self.find("/EthSM/EthSM")
+
+    def getTcpIp(self) -> TcpIp:
+        container = EcucParamConfContainerDef(self, "TcpIp")
+        TcpIp(container)
+        return self.find("/TcpIp/TcpIp")
+
+    def getSoAd(self) -> SoAd:
+        container = EcucParamConfContainerDef(self, "SoAd")
+        SoAd(container)
+        return self.find("/SoAd/SoAd")
+
+    def getUdpNm(self) -> UdpNm:
+        container = EcucParamConfContainerDef(self, "UdpNm")
+        UdpNm(container)
+        return self.find("/UdpNm/UdpNm")
+
+    def getDoIP(self) -> DoIP:
+        container = EcucParamConfContainerDef(self, "DoIP")
+        DoIP(container)
+        return self.find("/DoIP/DoIP")
+
+    def getSomeIpTp(self) -> SomeIpTp:
+        container = EcucParamConfContainerDef(self, "SomeIpTp")
+        SomeIpTp(container)
+        return self.find("/SomeIpTp/SomeIpTp")
+
+    def getFrIf(self) -> FrIf:
+        container = EcucParamConfContainerDef(self, "FrIf")
+        FrIf(container)
+        return self.find("/FrIf/FrIf")
+
+    def getFrTp(self) -> FrTp:
+        container = EcucParamConfContainerDef(self, "FrTp")
+        FrTp(container)
+        return self.find("/FrTp/FrTp")
+
+    def getFrNm(self) -> FrNm:
+        container = EcucParamConfContainerDef(self, "FrNm")
+        FrNm(container)
+        return self.find("/FrNm/FrNm")
+
+    def getFrSM(self) -> FrSM:
+        container = EcucParamConfContainerDef(self, "FrSM")
+        FrSM(container)
+        return self.find("/FrSM/FrSM")
+
+    def getFrArTp(self) -> FrArTp:
+        container = EcucParamConfContainerDef(self, "FrArTp")
+        FrArTp(container)
+        return self.find("/FrArTp/FrArTp")
 
     def addContainer(self, container: EcucParamConfContainerDef):
         if (container is None):

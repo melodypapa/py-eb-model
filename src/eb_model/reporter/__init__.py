@@ -11,3 +11,15 @@ from .excel_reporter.cantp_xdm import *
 from .excel_reporter.linif_xdm import *
 from .excel_reporter.linsm_xdm import *
 from .excel_reporter.lintp_xdm import *
+from .excel_reporter.ethif_xdm import *
+from .excel_reporter.ethsm_xdm import *
+from .excel_reporter.tcpip_xdm import *
+from .excel_reporter.soad_xdm import *
+from .excel_reporter.udpnm_xdm import *
+from .excel_reporter.doip_xdm import *
+from .excel_reporter.someiptp_xdm import *
+from .excel_reporter.frif_xdm import *
+from .excel_reporter.frtp_xdm import *
+from .excel_reporter.frnm_xdm import *
+from .excel_reporter.frsm_xdm import *
+from .excel_reporter.frartp_xdm import *
