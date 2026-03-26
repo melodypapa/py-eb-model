@@ -13,5 +13,17 @@ from .cantp_xdm_parser import CanTpXdmParser
 from .linif_xdm_parser import LinIfXdmParser
 from .linsm_xdm_parser import LinSMXdmParser
 from .lintp_xdm_parser import LinTpXdmParser
+from .ethif_xdm_parser import EthIfXdmParser
+from .ethsm_xdm_parser import EthSMXdmParser
+from .tcpip_xdm_parser import TcpIpXdmParser
+from .soad_xdm_parser import SoAdXdmParser
+from .udpnm_xdm_parser import UdpNmXdmParser
+from .doip_xdm_parser import DoIPXdmParser
+from .someiptp_xdm_parser import SomeIpTpXdmParser
+from .frif_xdm_parser import FrIfXdmParser
+from .frtp_xdm_parser import FrTpXdmParser
+from .frnm_xdm_parser import FrNmXdmParser
+from .frsm_xdm_parser import FrSMXdmParser
+from .frartp_xdm_parser import FrArTpXdmParser
 from .eb_parser import AbstractEbModelParser
 from .pref_xdm_parser import PerfXdmParser
