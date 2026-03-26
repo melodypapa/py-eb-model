@@ -4,3 +4,10 @@ from .excel_reporter.tm_xdm import *
 from .excel_reporter.pbcfgm_xdm import *
 from .excel_reporter.ecum_xdm import *
 from .excel_reporter.det_xdm import *
+from .excel_reporter.canif_xdm import *
+from .excel_reporter.cannm_xdm import *
+from .excel_reporter.cansm_xdm import *
+from .excel_reporter.cantp_xdm import *
+from .excel_reporter.linif_xdm import *
+from .excel_reporter.linsm_xdm import *
+from .excel_reporter.lintp_xdm import *
