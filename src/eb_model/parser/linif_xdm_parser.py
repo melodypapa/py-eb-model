@@ -1,3 +1,11 @@
+"""
+LinIf XDM Parser Module - Extracts AUTOSAR LinIf configuration from EB Tresos XDM files.
+
+Implements:
+    - SWR_LINIF_00001: LinIf module parsing
+    - SWR_LINIF_00002: Channel configuration parsing
+    - SWR_LINIF_00003: Frame configuration parsing
+"""
 import xml.etree.ElementTree as ET
 from ..models.eb_doc import EBModel
 from ..models.linif_xdm import LinIf, LinIfGeneral, LinIfChannel, LinIfFrame
@@ -5,11 +13,25 @@ from ..parser.eb_parser import AbstractEbModelParser
 
 
 class LinIfXdmParser(AbstractEbModelParser):
+    """
+    Parser for AUTOSAR LinIf (LIN Interface) module configuration.
+
+    Extracts LinIf configuration including channels and frames.
+
+    Implements: SWR_LINIF_00001 (LinIf Module Parser)
+    """
+
     def __init__(self) -> None:
+        """Initialize the LinIf XDM parser."""
         super().__init__()
         self.linif = None
 
     def parse(self, element: ET.Element, doc: EBModel):
+        """
+        Parse LinIf module configuration from XDM element.
+
+        Implements: SWR_LINIF_00001
+        """
         if self.get_component_name(element) != "LinIf":
             raise ValueError("Invalid <%s> xdm file" % "LinIf")
 

@@ -1,3 +1,11 @@
+"""
+BswM XDM Parser Module - Extracts AUTOSAR BswM configuration from EB Tresos XDM files.
+
+Implements:
+    - SWR_BSWM_00001: BswM module parsing
+    - SWR_BSWM_00002: Mode declaration parsing
+    - SWR_BSWM_00003: Mode condition parsing
+"""
 import xml.etree.ElementTree as ET
 from ..models.eb_doc import EBModel
 from ..models.bswm_xdm import BswM, BswMGeneral, BswMModeDeclaration, BswMModeCondition
@@ -5,12 +13,26 @@ from ..parser.eb_parser import AbstractEbModelParser
 
 
 class BswMXdmParser(AbstractEbModelParser):
+    """
+    Parser for AUTOSAR BswM (Basic Software Mode Manager) module configuration.
+
+    Extracts BswM configuration including mode declarations and conditions.
+
+    Implements: SWR_BSWM_00001 (BswM Module Parser)
+    """
+
     def __init__(self):
+        """Initialize the BswM XDM parser."""
         super().__init__()
 
         self.bswm = None
 
     def parse(self, element: ET.Element, doc: EBModel):
+        """
+        Parse BswM module configuration from XDM element.
+
+        Implements: SWR_BSWM_00001
+        """
         if self.get_component_name(element) != "BswM":
             raise ValueError("Invalid <%s> xdm file" % "BswM")
 

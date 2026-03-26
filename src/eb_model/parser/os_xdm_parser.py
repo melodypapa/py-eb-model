@@ -1,3 +1,17 @@
+"""
+OS XDM Parser Module - Extracts AUTOSAR OS configuration from EB Tresos XDM files.
+
+Implements:
+    - SWR_OS_00001: OS module parsing
+    - SWR_OS_00002: Task parsing (OsTask)
+    - SWR_OS_00003: ISR parsing (OsIsr)
+    - SWR_OS_00004: Alarm parsing (OsAlarm)
+    - SWR_OS_00005: Schedule table parsing (OsScheduleTable)
+    - SWR_OS_00006: Counter parsing (OsCounter)
+    - SWR_OS_00007: Application parsing (OsApplication)
+    - SWR_OS_00008: Resource parsing (OsResource)
+    - SWR_OS_00009: Microkernel parsing (OsMicrokernel)
+"""
 import xml.etree.ElementTree as ET
 from ..models.eb_doc import EBModel
 from ..models.os_xdm import Os, OsAlarm, OsAlarmActivateTask, OsAlarmCallback, OsAlarmIncrementCounter, OsAlarmSetEvent, OsCounter, OsResource
@@ -8,12 +22,27 @@ from ..parser.eb_parser import AbstractEbModelParser
 
 
 class OsXdmParser(AbstractEbModelParser):
+    """
+    Parser for AUTOSAR OS module configuration from EB Tresos XDM files.
+
+    Extracts OS configuration including tasks, ISRs, alarms, schedule tables,
+    counters, applications, resources, and microkernel settings.
+
+    Implements: SWR_OS_00001 (OS Module Parser)
+    """
+
     def __init__(self, ) -> None:
+        """Initialize the OS XDM parser."""
         super().__init__()
 
         self.os = None
 
     def parse(self, element: ET.Element, doc: EBModel):
+        """
+        Parse OS module configuration from XDM element.
+
+        Implements: SWR_OS_00001
+        """
         if self.get_component_name(element) != "Os":
             raise ValueError("Invalid <%s> xdm file" % "Os")
 
@@ -35,6 +64,7 @@ class OsXdmParser(AbstractEbModelParser):
         self.read_os_microkernel(element, os)
 
     def read_os_task_autostart(self, element: ET.Element, os_task: OsTask):
+        """Parse OsTaskAutostart configuration for a task."""
         ctr_tag = self.find_ctr_tag(element, "OsTaskAutostart")
         if ctr_tag is not None:
             autostart = OsTaskAutostart(os_task, ctr_tag.attrib["name"])
@@ -43,6 +73,11 @@ class OsXdmParser(AbstractEbModelParser):
             os_task.setOsTaskAutostart(autostart)
 
     def read_os_tasks(self, element: ET.Element, os: Os):
+        """
+        Parse all OsTask containers from XDM.
+
+        Implements: SWR_OS_00002 (Task parsing)
+        """
         for ctr_tag in self.find_ctr_tag_list(element, "OsTask"):
             os_task = OsTask(os, ctr_tag.attrib["name"])
             os_task.setOsTaskPriority(int(self.read_value(ctr_tag, "OsTaskPriority")))
@@ -60,6 +95,11 @@ class OsXdmParser(AbstractEbModelParser):
             os.addOsTask(os_task)
 
     def read_os_isrs(self, element: ET.Element, os: Os):
+        """
+        Parse all OsIsr containers from XDM.
+
+        Implements: SWR_OS_00003 (ISR parsing)
+        """
         for ctr_tag in self.find_ctr_tag_list(element, "OsIsr"):
             os_isr = OsIsr(os, ctr_tag.attrib["name"])
             os_isr.setOsIsrCategory(self.read_value(ctr_tag, "OsIsrCategory"))
@@ -87,6 +127,7 @@ class OsXdmParser(AbstractEbModelParser):
             os.addOsIsr(os_isr)
 
     def read_os_alarm_action(self, element: ET.Element, os_alarm: OsAlarm):
+        """Parse OsAlarmAction choice and create appropriate action object."""
         chc = self.read_choice_value(element, "OsAlarmAction")
         if chc is None:
             raise ValueError("OsAlarmAction is required.")
@@ -108,6 +149,11 @@ class OsXdmParser(AbstractEbModelParser):
         os_alarm.setOsAlarmAction(os_alarm_action)
 
     def read_os_alarms(self, element: ET.Element, os: Os):
+        """
+        Parse all OsAlarm containers from XDM.
+
+        Implements: SWR_OS_00004 (Alarm parsing)
+        """
         for ctr_tag in self.find_ctr_tag_list(element, "OsAlarm"):
             os_alarm = OsAlarm(os, ctr_tag.attrib["name"]) \
                 .setOsAlarmCounterRef(self.read_ref_value(ctr_tag, "OsAlarmCounterRef"))
@@ -121,6 +167,7 @@ class OsXdmParser(AbstractEbModelParser):
             os.addOsAlarm(os_alarm)
 
     def read_os_schedule_table_event_settings(self, element: ET.Element, expiry_point: OsScheduleTableExpiryPoint):
+        """Parse OsScheduleTableEventSetting containers for an expiry point."""
         for ctr_tag in self.find_ctr_tag_list(element, "OsScheduleTableEventSetting"):
             event_setting = OsScheduleTableEventSetting(expiry_point, ctr_tag.attrib["name"]) \
                 .setOsScheduleTableSetEventRef(self.read_ref_value(ctr_tag, "OsScheduleTableSetEventRef")) \
@@ -156,6 +203,11 @@ class OsXdmParser(AbstractEbModelParser):
             os_schedule_table.addOsScheduleTableExpiryPoint(expiry_point)
 
     def read_os_schedule_tables(self, element: ET.Element, os: Os):
+        """
+        Parse all OsScheduleTable containers from XDM.
+
+        Implements: SWR_OS_00005 (Schedule table parsing)
+        """
         for ctr_tag in self.find_ctr_tag_list(element, "OsScheduleTable"):
             table = OsScheduleTable(os, ctr_tag.attrib["name"]) \
                 .setOsScheduleTableDuration(self.read_value(ctr_tag, "OsScheduleTableDuration")) \
@@ -169,6 +221,11 @@ class OsXdmParser(AbstractEbModelParser):
             os.addOsScheduleTable(table)
 
     def read_os_counters(self, element: ET.Element, os: Os):
+        """
+        Parse all OsCounter containers from XDM.
+
+        Implements: SWR_OS_00006 (Counter parsing)
+        """
         for ctr_tag in self.find_ctr_tag_list(element, "OsCounter"):
             counter = OsCounter(os, ctr_tag.attrib["name"]) \
                 .setOsCounterMaxAllowedValue(self.read_value(ctr_tag, "OsCounterMaxAllowedValue")) \
@@ -182,6 +239,11 @@ class OsXdmParser(AbstractEbModelParser):
             os.addOsCounter(counter)
 
     def read_os_applications(self, element: ET.Element, os: Os):
+        """
+        Parse all OsApplication containers from XDM.
+
+        Implements: SWR_OS_00007 (Application parsing)
+        """
         for ctr_tag in self.find_ctr_tag_list(element, "OsApplication"):
             os_app = OsApplication(os, ctr_tag.attrib["name"])
             os_app.setOsTrusted(self.read_value(ctr_tag, "OsTrusted"))
@@ -210,6 +272,11 @@ class OsXdmParser(AbstractEbModelParser):
             os.addOsApplication(os_app)
 
     def read_os_resources(self, element: ET.Element, os: Os):
+        """
+        Parse all OsResource containers from XDM.
+
+        Implements: SWR_OS_00008 (Resource parsing)
+        """
         for ctr_tag in self.find_ctr_tag_list(element, "OsResource"):
             os_res = OsResource(os, ctr_tag.attrib["name"])
             os_res.setImporterInfo(self.read_attrib(ctr_tag, "IMPORTER_INFO"))
@@ -221,6 +288,7 @@ class OsXdmParser(AbstractEbModelParser):
             os.addOsResource(os_res)
 
     def read_mk_memory_regions(self, element: ET.Element, protection: MkMemoryProtection):
+        """Parse MkMemoryRegion containers for memory protection."""
         for ctr_tag in self.find_ctr_tag_list(element, "MkMemoryRegion"):
             # self.logger.info("Read MkMemoryRegion %s" % ctr_tag.attrib["name"])
             region = MkMemoryRegion(protection, ctr_tag.attrib["name"])
@@ -238,6 +306,7 @@ class OsXdmParser(AbstractEbModelParser):
             protection.addMkMemoryRegion(region)
 
     def read_mk_memory_protection(self, element: ET.Element, kernel: OsMicrokernel):
+        """Parse MkMemoryProtection container for microkernel."""
         ctr_tag = self.find_ctr_tag(element, "MkMemoryProtection")
         if ctr_tag is not None:
             # self.logger.info("Read MkMemoryProtection")
@@ -246,6 +315,11 @@ class OsXdmParser(AbstractEbModelParser):
             kernel.setMkMemoryProtection(protection)
 
     def read_os_microkernel(self, element: ET.Element, os: Os):
+        """
+        Parse OsMicrokernel container from XDM.
+
+        Implements: SWR_OS_00009 (Microkernel parsing)
+        """
         ctr_tag = self.find_ctr_tag(element, "OsMicrokernel")
         if ctr_tag is not None:
             kernel = OsMicrokernel(os, ctr_tag.attrib["name"])

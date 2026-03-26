@@ -1,3 +1,10 @@
+"""
+PbcfgM XDM Parser Module - Extracts AUTOSAR PbcfgM configuration from EB Tresos XDM files.
+
+Implements:
+    - SWR_PBCFGM_00001: PbcfgM module parsing
+    - SWR_PBCFGM_00002: Protection set configuration parsing
+"""
 import xml.etree.ElementTree as ET
 from ..models.eb_doc import EBModel
 from ..models.pbcfgm_xdm import PbcfgM, PbcfgMGeneral, PbcfgMProtectionSet, PbcfgMCoreProtectionSet
@@ -5,12 +12,26 @@ from ..parser.eb_parser import AbstractEbModelParser
 
 
 class PbcfgMXdmParser(AbstractEbModelParser):
+    """
+    Parser for AUTOSAR PbcfgM (Post-Build Configuration Manager) module configuration.
+
+    Extracts PbcfgM configuration including protection sets.
+
+    Implements: SWR_PBCFGM_00001 (PbcfgM Module Parser)
+    """
+
     def __init__(self) -> None:
+        """Initialize the PbcfgM XDM parser."""
         super().__init__()
 
         self.pbcfgm = None
 
     def parse(self, element: ET.Element, doc: EBModel):
+        """
+        Parse PbcfgM module configuration from XDM element.
+
+        Implements: SWR_PBCFGM_00001
+        """
         if self.get_component_name(element) != "PbcfgM":
             raise ValueError("Invalid <%s> xdm file" % "PbcfgM")
 

@@ -1,3 +1,10 @@
+"""
+LinSM XDM Parser Module - Extracts AUTOSAR LinSM configuration from EB Tresos XDM files.
+
+Implements:
+    - SWR_LINSM_00001: LinSM module parsing
+    - SWR_LINSM_00002: Channel configuration parsing
+"""
 import xml.etree.ElementTree as ET
 from ..models.eb_doc import EBModel
 from ..models.linsm_xdm import LinSM, LinSMGeneral, LinSMChannel
@@ -5,11 +12,25 @@ from ..parser.eb_parser import AbstractEbModelParser
 
 
 class LinSMXdmParser(AbstractEbModelParser):
+    """
+    Parser for AUTOSAR LinSM (LIN State Manager) module configuration.
+
+    Extracts LinSM configuration including channels.
+
+    Implements: SWR_LINSM_00001 (LinSM Module Parser)
+    """
+
     def __init__(self) -> None:
+        """Initialize the LinSM XDM parser."""
         super().__init__()
         self.linsm = None
 
     def parse(self, element: ET.Element, doc: EBModel):
+        """
+        Parse LinSM module configuration from XDM element.
+
+        Implements: SWR_LINSM_00001
+        """
         if self.get_component_name(element) != "LinSM":
             raise ValueError("Invalid <%s> xdm file" % "LinSM")
 

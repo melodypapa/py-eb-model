@@ -1,3 +1,11 @@
+"""
+Tm XDM Parser Module - Extracts AUTOSAR Tm configuration from EB Tresos XDM files.
+
+Implements:
+    - SWR_TM_00001: Tm module parsing
+    - SWR_TM_00002: Tick time configuration parsing
+    - SWR_TM_00003: Trigger configuration parsing
+"""
 import xml.etree.ElementTree as ET
 from ..models.eb_doc import EBModel
 from ..models.tm_xdm import Tm, TmGeneral, TmInterruptSynchronization, TmTickTime, TmTrigger
@@ -5,12 +13,26 @@ from ..parser.eb_parser import AbstractEbModelParser
 
 
 class TmXdmParser(AbstractEbModelParser):
+    """
+    Parser for AUTOSAR Tm (Timing) module configuration.
+
+    Extracts Tm configuration including tick times and triggers.
+
+    Implements: SWR_TM_00001 (Tm Module Parser)
+    """
+
     def __init__(self) -> None:
+        """Initialize the Tm XDM parser."""
         super().__init__()
 
         self.tm = None
 
     def parse(self, element: ET.Element, doc: EBModel):
+        """
+        Parse Tm module configuration from XDM element.
+
+        Implements: SWR_TM_00001
+        """
         if self.get_component_name(element) != "Tm":
             raise ValueError("Invalid <%s> xdm file" % "Tm")
 

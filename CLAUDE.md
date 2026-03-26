@@ -167,3 +167,39 @@ Currently registered CLI entry points:
 Current version: 1.2.3 (defined in `setup.py`)
 
 Check version in code: `pkg_resources.require("py_eb_model")[0].version`
+
+## Documentation Conventions
+
+### Requirement Traceability
+
+All module, class, and key method docstrings should include "Implements" references to link code to software requirements (SWR documents):
+
+```python
+class OsXdmParser(AbstractEbModelParser):
+    """
+    Parser for AUTOSAR OS module configuration from EB Tresos XDM files.
+
+    Implements: SWR_OS_00001 (OS Module Parser)
+    """
+
+    def read_os_tasks(self, element: ET.Element, os: Os):
+        """
+        Parse all OsTask containers from XDM.
+
+        Implements: SWR_OS_00002 (Task parsing)
+        """
+```
+
+**Rules:**
+- Module-level docstrings: List all SWR IDs implemented in that module
+- Class-level docstrings: Include the primary SWR ID for that class
+- Method-level docstrings: Include SWR ID only for significant features (not for simple methods like `__init__`)
+- SWR ID format: `SWR_<MODULE>_<NUMBER>` (e.g., `SWR_OS_00001`, `SWR_CANIF_00003`)
+- Requirements are documented in `docs/requirements/swr_*.md` files
+
+### Docstring Style
+
+- Use Google-style docstrings
+- Focus on **WHY** and non-obvious behavior, not just **WHAT**
+- Avoid redundant docstrings that only restate the method name
+- Document constraints, side effects, and edge cases

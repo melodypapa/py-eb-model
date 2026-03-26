@@ -1,3 +1,11 @@
+"""
+CanNm XDM Parser Module - Extracts AUTOSAR CanNm configuration from EB Tresos XDM files.
+
+Implements:
+    - SWR_CANNM_00001: CanNm module parsing
+    - SWR_CANNM_00002: Channel configuration parsing
+    - SWR_CANNM_00003: PDU configuration parsing
+"""
 import xml.etree.ElementTree as ET
 from ..models.eb_doc import EBModel
 from ..models.cannm_xdm import (
@@ -8,11 +16,25 @@ from ..parser.eb_parser import AbstractEbModelParser
 
 
 class CanNmXdmParser(AbstractEbModelParser):
+    """
+    Parser for AUTOSAR CanNm (CAN Network Management) module configuration.
+
+    Extracts CanNm configuration including channels and PDUs.
+
+    Implements: SWR_CANNM_00001 (CanNm Module Parser)
+    """
+
     def __init__(self) -> None:
+        """Initialize the CanNm XDM parser."""
         super().__init__()
         self.cannm = None
 
     def parse(self, element: ET.Element, doc: EBModel):
+        """
+        Parse CanNm module configuration from XDM element.
+
+        Implements: SWR_CANNM_00001
+        """
         if self.get_component_name(element) != "CanNm":
             raise ValueError("Invalid <%s> xdm file" % "CanNm")
 

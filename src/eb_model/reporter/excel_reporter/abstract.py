@@ -1,3 +1,12 @@
+"""
+Excel Reporter Abstract Base Class - Infrastructure for Excel output generation.
+
+Implements:
+    - SWR_REPORTER_00001: Abstract reporter base class
+    - SWR_REPORTER_00002: Excel output generation
+    - SWR_REPORTER_00003: Sheet management
+    - SWR_REPORTER_00004: Data formatting
+"""
 import logging
 from openpyxl import Workbook
 from openpyxl.cell import Cell
@@ -6,7 +15,17 @@ from openpyxl.styles import Alignment
 
 
 class ExcelReporter:
+    """
+    Abstract base class for Excel report generation.
+
+    Provides common Excel operations including workbook creation,
+    cell formatting, and auto-width column sizing.
+
+    Implements: SWR_REPORTER_00001 (Abstract Reporter)
+    """
+
     def __init__(self) -> None:
+        """Initialize the Excel reporter with a new workbook."""
         self.wb = Workbook()
         self.logger = logging.getLogger()
     
