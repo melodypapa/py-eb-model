@@ -6,3 +6,4 @@ __pycache__
 archive
 data
 .coverage
+.claude/settings.local.json

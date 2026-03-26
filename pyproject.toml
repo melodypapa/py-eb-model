@@ -45,6 +45,13 @@ tm-xdm-xlsx = "eb_model.cli.tm_xdm_2_xls_cli:main"
 pbcfgm-xdm-xlsx = "eb_model.cli.pbcfgm_xdm_2_xls_cli:main"
 ecum-xdm-xlsx = "eb_model.cli.ecum_xdm_2_xls_cli:main"
 det-xdm-xlsx = "eb_model.cli.det_xdm_2_xls_cli:main"
+canif-xdm-xlsx = "eb_model.cli.canif_xdm_2_xls_cli:main"
+cannm-xdm-xlsx = "eb_model.cli.cannm_xdm_2_xls_cli:main"
+cansm-xdm-xlsx = "eb_model.cli.cansm_xdm_2_xls_cli:main"
+cantp-xdm-xlsx = "eb_model.cli.cantp_xdm_2_xls_cli:main"
+linif-xdm-xlsx = "eb_model.cli.linif_xdm_2_xls_cli:main"
+linsm-xdm-xlsx = "eb_model.cli.linsm_xdm_2_xls_cli:main"
+lintp-xdm-xlsx = "eb_model.cli.lintp_xdm_2_xls_cli:main"
 PrefSystemImporter = "eb_model.cli.pref_system_importer_cli:main"
 
 [tool.setuptools]

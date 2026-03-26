@@ -8,6 +8,13 @@ from ..models.tm_xdm import Tm
 from ..models.pbcfgm_xdm import PbcfgM
 from ..models.ecum_xdm import EcuM
 from ..models.det_xdm import Det
+from ..models.canif_xdm import CanIf
+from ..models.cannm_xdm import CanNm
+from ..models.cansm_xdm import CanSM
+from ..models.cantp_xdm import CanTp
+from ..models.linif_xdm import LinIf
+from ..models.linsm_xdm import LinSM
+from ..models.lintp_xdm import LinTp
 from ..models.abstract import EcucParamConfContainerDef, EcucObject
 
 
@@ -97,7 +104,42 @@ class EBModel(AbstractModel):
         container = EcucParamConfContainerDef(self, "Det")
         Det(container)
         return self.find("/Det/Det")
-    
+
+    def getCanIf(self) -> CanIf:
+        container = EcucParamConfContainerDef(self, "CanIf")
+        CanIf(container)
+        return self.find("/CanIf/CanIf")
+
+    def getCanNm(self) -> CanNm:
+        container = EcucParamConfContainerDef(self, "CanNm")
+        CanNm(container)
+        return self.find("/CanNm/CanNm")
+
+    def getCanSM(self) -> CanSM:
+        container = EcucParamConfContainerDef(self, "CanSM")
+        CanSM(container)
+        return self.find("/CanSM/CanSM")
+
+    def getCanTp(self) -> CanTp:
+        container = EcucParamConfContainerDef(self, "CanTp")
+        CanTp(container)
+        return self.find("/CanTp/CanTp")
+
+    def getLinIf(self) -> LinIf:
+        container = EcucParamConfContainerDef(self, "LinIf")
+        LinIf(container)
+        return self.find("/LinIf/LinIf")
+
+    def getLinSM(self) -> LinSM:
+        container = EcucParamConfContainerDef(self, "LinSM")
+        LinSM(container)
+        return self.find("/LinSM/LinSM")
+
+    def getLinTp(self) -> LinTp:
+        container = EcucParamConfContainerDef(self, "LinTp")
+        LinTp(container)
+        return self.find("/LinTp/LinTp")
+
     def addContainer(self, container: EcucParamConfContainerDef):
         if (container is None):
             raise ValueError("The container to be added cannot be None.")
