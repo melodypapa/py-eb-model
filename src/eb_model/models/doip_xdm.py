@@ -207,7 +207,13 @@ class DoIP(Module):
         return self
 
     def getDoIPChannelList(self) -> List[DoIPChannel]:
-        return list(sorted(filter(lambda a: isinstance(a, DoIPChannel) and a not in self.doIPCustomChannels, self.elements.values()), key=lambda o: o.getName()))
+        return list(sorted(
+            filter(
+                lambda a: isinstance(a, DoIPChannel) and a not in self.doIPCustomChannels,
+                self.elements.values()
+            ),
+            key=lambda o: o.getName()
+        ))
 
     def addDoIPChannel(self, value: DoIPChannel):
         self.addElement(value)
@@ -215,7 +221,13 @@ class DoIP(Module):
         return self
 
     def getDoIPCustomChannelList(self) -> List[DoIPChannel]:
-        return list(sorted(filter(lambda a: isinstance(a, DoIPChannel) and a in self.doIPCustomChannels, self.elements.values()), key=lambda o: o.getName()))
+        return list(sorted(
+            filter(
+                lambda a: isinstance(a, DoIPChannel) and a in self.doIPCustomChannels,
+                self.elements.values()
+            ),
+            key=lambda o: o.getName()
+        ))
 
     def addDoIPCustomChannel(self, value: DoIPChannel):
         self.addElement(value)
