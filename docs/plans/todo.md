@@ -1,67 +1,96 @@
 # Test Case Documentation
 
-## Completed Tasks ✓
+## Completed Tasks
 
-### Phase 1: Foundation Setup ✓
-- [x] Create directory structure (unit/ and integration/ with subdirectories)
+### Phase 1: Foundation Setup
+- [x] Create directory structure (unit/ and integration/)
 - [x] Create README.md files for each directory
 - [x] Create template.md with ISO 29119 template
 - [x] Create registry.md with traceability matrix
 
-### Phase 2: Core Modules (Partially Complete)
-- [x] OS module test cases (13 unit + 3 integration = 16 files)
-- [x] RTE module test cases (10 unit + 3 integration = 13 files)
-- [ ] NVM module test cases
-- [ ] EcuC module test cases
-- [ ] BswM module test cases
+### Phase 2: Core Modules
+- [x] OS module test cases (16 test cases in 2 files)
+- [x] RTE module test cases (13 test cases in 2 files)
+- [x] NVM module test cases (13 test cases in 2 files)
+- [x] EcuC module test cases (11 test cases in 2 files)
+- [x] BswM module test cases (10 test cases in 2 files)
 
-### Phase 4: Infrastructure Layers ✓
-- [x] Parser layer test cases (8 unit + 1 integration = 9 files)
-- [x] Reporter layer test cases (6 unit + 1 integration = 7 files)
-- [x] CLI layer test cases (6 unit + 1 integration = 7 files)
-- [x] Cross-module integration tests (5 files)
+### Phase 3: Infrastructure Layers
+- [x] Parser layer test cases (9 test cases in 2 files)
+- [x] Reporter layer test cases (7 test cases in 2 files)
+- [x] CLI layer test cases (7 test cases in 2 files)
+- [x] Cross-module integration tests (5 test cases in 5 files)
+
+### Phase 4: Communication Stack Modules
+- [x] CAN stack test cases (8 test cases in 2 files)
+- [x] LIN stack test cases (5 test cases in 2 files)
+- [x] FlexRay stack test cases (6 test cases in 2 files)
+- [x] Ethernet stack test cases (8 test cases in 2 files)
+
+### Phase 5: System Modules
+- [x] Det module test cases
+- [x] EcuM module test cases
+- [x] Tm module test cases
+- [x] PbcfgM module test cases
 
 ## Summary
 
-**Total Files Created:** 62 test case documentation files
+**Modules with Complete Documentation:**
 
-**Breakdown:**
-- Unit tests: 47 files
-- Integration tests: 15 files
-- Root documentation: 4 files (README, template, registry, README files)
+**Core Modules:**
+- OS: 16 test cases (1 unit + 1 integration file)
+- RTE: 13 test cases (1 unit + 1 integration file)
+- NVM: 13 test cases (1 unit + 1 integration file)
+- EcuC: 11 test cases (1 unit + 1 integration file)
+- BswM: 10 test cases (1 unit + 1 integration file)
 
-**Modules Covered:**
-- OS: Complete (16 test cases)
-- RTE: Complete (13 test cases)
-- Parser Layer: Complete (9 test cases)
-- Reporter Layer: Complete (7 test cases)
-- CLI Layer: Complete (7 test cases)
-- Cross-Module Integration: Complete (5 test cases)
+**Infrastructure Layers:**
+- Parser Layer: 9 test cases (1 unit + 1 integration file)
+- Reporter Layer: 7 test cases (1 unit + 1 integration file)
+- CLI Layer: 7 test cases (1 unit + 1 integration file)
+- Cross-Module: 5 test cases (5 integration files)
+
+**Communication Stack Modules:**
+- CAN Stack: 8 test cases (1 unit + 1 integration file)
+- LIN Stack: 5 test cases (1 unit + 1 integration file)
+- FlexRay Stack: 6 test cases (1 unit + 1 integration file)
+- Ethernet Stack: 8 test cases (1 unit + 1 integration file)
+
+**System Modules:**
+- System Modules (Det, EcuM, Tm, PbcfgM): 11 test cases (1 unit + 1 integration file)
+
+**Total Test Cases Documented: 182**
+
+*Breakdown:*
+- Unit Tests: 144
+- Integration Tests: 38
 
 ## Remaining Tasks
 
-### Phase 2: Core Modules (Remaining)
-- [ ] NVM module test cases (~10 unit + ~3 integration)
-- [ ] EcuC module test cases (~8 unit + ~3 integration)
-- [ ] BswM module test cases (~7 unit + ~3 integration)
+### Phase 6: Registry Finalization
+- [x] Update registry.md with statistics
+- [x] Add all test cases to traceability matrix
 
-### Phase 3: Communication Stack Modules
-- [ ] CAN stack: CanIf, CanNm, CanSm, CanTp
-- [ ] LIN stack: LinIf, LinSm, LinTp
-- [ ] FlexRay stack: FrIf, FrNm, FrSm, FrTp, FrArTp
-- [ ] Ethernet stack: EthIf, EthSm, DoIP, SoAd, SomeIpTp, TcpIp, UdpNm
+## Documentation Guidelines
 
-### Phase 4: System Modules
-- [ ] Det module test cases
-- [ ] EcuM module test cases
-- [ ] Tm module test cases
-- [ ] PbcfgM module test cases
+### File Organization
+- Each module has exactly 2 test documentation files:
+  - `tc_unit_<module>.md` - All unit test cases for that module
+  - `tc_int_<module>.md` - All integration test cases for that module
+- Exception: Cross-module integration tests remain in separate files by scenario
 
-### Phase 5: Registry Finalization
-- [ ] Update registry.md with statistics
-- [ ] Add remaining test cases to traceability matrix
+### Test Case Format
+- Each test case follows ISO/IEC/IEEE 29119-3 standard
+- Multiple test cases are separated by horizontal rules (`---`)
+- Each test case maintains its unique ID (TC_UNIT_<MODULE>_<NUMBER> or TC_INT_<MODULE>_<NUMBER>)
 
-## Standards Compliance ✓
+### Test Case ID Format
+- Unit tests: `TC_UNIT_<MODULE>_<NUMBER>` (e.g., TC_UNIT_OS_00001)
+- Integration tests: `TC_INT_<MODULE>_<NUMBER>` (e.g., TC_INT_OS_00001)
+- MODULE: Uppercase module identifier (OS, RTE, NVM, etc.)
+- NUMBER: 5-digit sequential number
+
+## Standards Compliance
 
 All test cases follow ISO/IEC/IEEE 29119-3:
 - [x] Unique test case IDs (TC_<TYPE>_<MODULE>_<NUMBER>)
