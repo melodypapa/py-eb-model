@@ -14,9 +14,9 @@
 
 | Metric | Count |
 |--------|-------|
-| Total Test Cases | TBD |
-| Unit Test Cases | TBD |
-| Integration Test Cases | TBD |
+| Total Test Cases | 182 |
+| Unit Test Cases | 144 |
+| Integration Test Cases | 38 |
 | Modules Covered | 32 |
 | Requirements Covered | ~275 |
 
@@ -24,38 +24,43 @@
 
 | Module | Unit Tests | Integration Tests | Total | Requirements |
 |--------|------------|-------------------|-------|--------------|
-| OS | TBD | TBD | TBD | 20 |
-| RTE | TBD | TBD | TBD | 15 |
-| NVM | TBD | TBD | TBD | 16 |
-| EcuC | TBD | TBD | TBD | 14 |
-| BswM | TBD | TBD | TBD | 14 |
-| CanIf | TBD | TBD | TBD | 16 |
-| CanNm | TBD | TBD | TBD | 10 |
-| CanSm | TBD | TBD | TBD | 8 |
-| CanTp | TBD | TBD | TBD | 9 |
-| LinIf | TBD | TBD | TBD | 9 |
-| LinSm | TBD | TBD | TBD | 6 |
-| LinTp | TBD | TBD | TBD | 7 |
-| FrIf | TBD | TBD | TBD | 6 |
-| FrNm | TBD | TBD | TBD | 5 |
-| FrSm | TBD | TBD | TBD | 5 |
-| FrTp | TBD | TBD | TBD | 7 |
-| FrArTp | TBD | TBD | TBD | 7 |
-| EthIf | TBD | TBD | TBD | 9 |
-| EthSm | TBD | TBD | TBD | 5 |
-| DoIP | TBD | TBD | TBD | 6 |
-| SoAd | TBD | TBD | TBD | 7 |
-| SomeIpTp | TBD | TBD | TBD | 7 |
-| TcpIp | TBD | TBD | TBD | 6 |
-| UdpNm | TBD | TBD | TBD | 5 |
-| Det | TBD | TBD | TBD | 7 |
-| EcuM | TBD | TBD | TBD | 9 |
-| Tm | TBD | TBD | TBD | 6 |
-| PbcfgM | TBD | TBD | TBD | 6 |
-| Parser | TBD | TBD | TBD | 10 |
-| Reporter | TBD | TBD | TBD | 9 |
-| CLI | TBD | TBD | TBD | 9 |
-| Cross-Module | TBD | TBD | TBD | N/A |
+| OS | 13 | 3 | 16 | 20 |
+| RTE | 10 | 3 | 13 | 15 |
+| NVM | 10 | 3 | 13 | 16 |
+| EcuC | 8 | 3 | 11 | 14 |
+| BswM | 7 | 3 | 10 | 14 |
+| CanIf | 6 | - | 6 | 16 |
+| CanNm | 4 | - | 4 | 10 |
+| CanSm | 4 | - | 4 | 8 |
+| CanTp | 4 | - | 4 | 9 |
+| LinIf | 4 | - | 4 | 9 |
+| LinSm | 3 | - | 3 | 6 |
+| LinTp | 3 | - | 3 | 7 |
+| FrIf | 3 | - | 3 | 6 |
+| FrNm | 3 | - | 3 | 5 |
+| FrSm | 3 | - | 3 | 5 |
+| FrTp | 3 | - | 3 | 7 |
+| FrArTp | 3 | - | 3 | 7 |
+| EthIf | 5 | - | 5 | 9 |
+| EthSm | 3 | - | 3 | 5 |
+| DoIP | 4 | - | 4 | 6 |
+| SoAd | 4 | - | 4 | 7 |
+| SomeIpTp | 4 | - | 4 | 7 |
+| TcpIp | 3 | - | 3 | 6 |
+| UdpNm | 3 | - | 3 | 5 |
+| Det | 3 | - | 3 | 7 |
+| EcuM | 3 | - | 3 | 9 |
+| Tm | 1 | - | 1 | 6 |
+| PbcfgM | 1 | - | 1 | 6 |
+| Parser | 8 | 1 | 9 | 10 |
+| Reporter | 6 | 1 | 7 | 9 |
+| CLI | 6 | 1 | 7 | 9 |
+| CAN Stack | - | 5 | 5 | N/A |
+| LIN Stack | - | 4 | 4 | N/A |
+| FlexRay Stack | - | 5 | 5 | N/A |
+| Ethernet Stack | - | 6 | 6 | N/A |
+| System Modules | - | 3 | 3 | N/A |
+| Cross-Module | - | 5 | 5 | N/A |
 
 ## Test Case Traceability Matrix
 
