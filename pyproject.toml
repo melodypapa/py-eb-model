@@ -122,3 +122,10 @@ ignore_errors = true
 [[tool.mypy.overrides]]
 module = "eb_model.writer.*"
 ignore_errors = true
+
+[tool.pytest.ini_options]
+testpaths = ["src/eb_model/tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test*"
+addopts = "--cov=src/eb_model --cov-report=term-missing"

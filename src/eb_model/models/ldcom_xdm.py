@@ -4,8 +4,9 @@ LdCom XDM Model Module - Represents AUTOSAR LdCom configuration.
 Implements:
     - SWR_LDCOM_00001: LdCom module model
 """
+from typing import Optional
 import logging
-from ..models.abstract import EcucParamConfContainerDef, Module  # noqa F401
+from ..models.abstract import EcucObject, EcucParamConfContainerDef, Module  # noqa F401
 
 
 class LdCom(Module):
@@ -17,7 +18,7 @@ class LdCom(Module):
     Implements: SWR_LDCOM_00001 (LdCom Module Model)
     """
 
-    def __init__(self, parent) -> None:
+    def __init__(self, parent: Optional['EcucObject']) -> None:
         """Initialize LdCom module with parent container."""
         super().__init__(parent, "LdCom")
 

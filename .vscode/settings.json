@@ -39,5 +39,11 @@
         "."
     ],
     "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "python.testing.coveragePercent": true,
+    "python.testing.coverageEnabled": true,
+    "python.testing.coverageArgs": [
+        "--cov=src/eb_model",
+        "--cov-report=term-missing"
+    ]
 }

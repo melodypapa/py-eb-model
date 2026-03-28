@@ -11,16 +11,16 @@ This document contains all unit test cases for the Reporter module following ISO
 | Field | Value |
 |-------|-------|
 | Test Case ID | TC_UNIT_REPORTER_00001 |
-| Title | Excel Reporter - Workbook Creation |
+| Title | Excel Reporter - Initialization |
 | Version | 1.0 |
-| Date | 2026-03-27 |
+| Date | 2026-03-28 |
 | Author | Test Architect |
 | Test Type | Unit |
 | Priority | High |
 
 ## Purpose/Objective
 
-Verify that the Excel reporter correctly creates new workbooks, initializes the workbook structure, and prepares it for worksheet generation.
+Verify that the Excel reporter correctly initializes, creates new workbooks, and prepares the workbook structure for worksheet generation.
 
 ## Preconditions
 
@@ -28,48 +28,33 @@ Verify that the Excel reporter correctly creates new workbooks, initializes the 
 |---|-------------|
 | 1 | py-eb-model package is installed |
 | 2 | Openpyxl library is available |
-| 3 | Model objects are available for reporting |
-| 4 | Output directory is writable |
 
 ## Test Data/Input Specifications
 
 | Data Element | Value/Description | Purpose |
 |--------------|-------------------|---------|
-| Output File Path | "test_output/test_workbook.xlsx" | Output workbook file |
-| Workbook Title | "Test Report" | Workbook metadata title |
-| Author | "Test Architect" | Workbook metadata author |
 
 ## Test Steps
 
 | Step | Action | Expected Result |
 |------|--------|-----------------|
-| 1 | Create reporter instance | Reporter initialized successfully |
-| 2 | Create new workbook | Workbook object created |
-| 3 | Verify workbook is empty | No worksheets present initially |
-| 4 | Set workbook title | Title metadata set correctly |
-| 5 | Set workbook author | Author metadata set correctly |
-| 6 | Verify workbook properties | Properties are set as expected |
-| 7 | Attempt to create workbook in non-existent directory | Creates directory or raises error |
-| 8 | Attempt to create workbook with invalid path | Raises appropriate error |
-| 9 | Verify workbook can be saved | File created at specified path |
-| 10 | Verify saved file is valid Excel file | File can be opened in Excel |
+| 1 | Create ExcelReporter instance | Reporter initialized successfully |
+| 2 | Verify workbook is created | Workbook object exists |
+| 3 | Verify workbook has initial worksheet | Default worksheet exists |
+| 4 | Verify logger is initialized | Logger object exists |
 
 ## Expected Results
 
-- Workbook is created successfully
-- Workbook is initially empty
-- Metadata properties are set correctly
-- Directory creation works or appropriate error raised
-- Invalid paths are handled with errors
-- Saved file is valid Excel format
+- Reporter initializes successfully
+- Workbook object is created
+- Logger is properly configured
+- No errors during initialization
 
 ## Post-conditions
 
 | # | Description |
 |---|-------------|
-| 1 | Workbook file exists at output path |
-| 2 | Workbook can be opened for reading |
-| 3 | No memory leaks in reporter |
+| 1 | Reporter instance is ready for use |
 
 ## Requirements Coverage
 
@@ -82,13 +67,14 @@ Verify that the Excel reporter correctly creates new workbooks, initializes the 
 | Document Type | Reference |
 |---------------|-----------|
 | Requirement Document | ../requirements/swr_reporter-layer.md |
-| Reporter Documentation | ../../src/eb_model/reporter/abstract_xls_writer.py |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/abstract.py |
 
 ## Change History
 
 | Version | Date | Author | Description |
 |---------|------|--------|-------------|
-| 1.0 | 2026-03-27 | Test Architect | Initial test case |
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
 ---
 
 # Test Case: TC_UNIT_REPORTER_00002
@@ -98,16 +84,16 @@ Verify that the Excel reporter correctly creates new workbooks, initializes the 
 | Field | Value |
 |-------|-------|
 | Test Case ID | TC_UNIT_REPORTER_00002 |
-| Title | Excel Reporter - Worksheet Management |
+| Title | Excel Reporter - Cell Writing |
 | Version | 1.0 |
-| Date | 2026-03-27 |
+| Date | 2026-03-28 |
 | Author | Test Architect |
 | Test Type | Unit |
 | Priority | High |
 
 ## Purpose/Objective
 
-Verify that the Excel reporter correctly creates, configures, and manages worksheets within a workbook.
+Verify that the Excel reporter correctly writes cells with various values.
 
 ## Preconditions
 
@@ -115,136 +101,33 @@ Verify that the Excel reporter correctly creates, configures, and manages worksh
 |---|-------------|
 | 1 | py-eb-model package is installed |
 | 2 | Openpyxl library is available |
-| 3 | Workbook is created and available |
 
 ## Test Data/Input Specifications
 
 | Data Element | Value/Description | Purpose |
 |--------------|-------------------|---------|
-| Worksheet Name 1 | "OsTask" | First worksheet name |
-| Worksheet Name 2 | "OsIsr" | Second worksheet name |
-| Worksheet Name 3 | "OsScheduleTable" | Third worksheet name |
-| Column Headers | List of header names | Worksheet column structure |
+| Cell Value | "Test Data" | Test cell content |
+| Row Number | 1 | Test row position |
+| Column Number | 1 | Test column position |
 
 ## Test Steps
 
 | Step | Action | Expected Result |
 |------|--------|-----------------|
-| 1 | Create worksheet with name "OsTask" | Worksheet created successfully |
-| 2 | Verify worksheet name | Name matches "OsTask" |
-| 3 | Create second worksheet with name "OsIsr" | Second worksheet created |
-| 4 | Verify multiple worksheets | Both worksheets exist in workbook |
-| 5 | Attempt to create worksheet with duplicate name | Worksheet renamed or error raised |
-| 6 | Set active worksheet | Specified worksheet becomes active |
-| 7 | Verify active worksheet | Correct worksheet is active |
-| 8 | Delete worksheet | Worksheet removed from workbook |
-| 9 | Verify worksheet removed | Worksheet no longer in workbook |
-| 10 | Clear all worksheets | Workbook becomes empty |
+| 1 | Write cell with value | Cell value is set correctly |
+| 2 | Write cell with None value | Cell value is None |
+| 3 | Write cell with empty string | Cell value is empty string |
 
 ## Expected Results
 
-- Worksheets are created with correct names
-- Multiple worksheets are managed correctly
-- Duplicate names are handled appropriately
-- Active worksheet can be set
-- Worksheets can be deleted
-- Workbook state remains consistent
+- Cell values are written correctly
+- None and empty values are handled
 
 ## Post-conditions
 
 | # | Description |
 |---|-------------|
-| 1 | Workbook contains expected worksheets |
-| 2 | Worksheet operations are reversible |
-| 3 | No orphaned worksheets remain |
-
-## Requirements Coverage
-
-| Requirement ID | Description | Status |
-|----------------|-------------|--------|
-| SWR_REPORTER_00002 | Excel Reporter - Worksheet management | Covered |
-
-## References
-
-| Document Type | Reference |
-|---------------|-----------|
-| Requirement Document | ../requirements/swr_reporter-layer.md |
-| Reporter Documentation | ../../src/eb_model/reporter/abstract_xls_writer.py |
-
-## Change History
-
-| Version | Date | Author | Description |
-|---------|------|--------|-------------|
-| 1.0 | 2026-03-27 | Test Architect | Initial test case |
----
-
-# Test Case: TC_UNIT_REPORTER_00003
-
-## Document Information
-
-| Field | Value |
-|-------|-------|
-| Test Case ID | TC_UNIT_REPORTER_00003 |
-| Title | Excel Reporter - Cell Formatting |
-| Version | 1.0 |
-| Date | 2026-03-27 |
-| Author | Test Architect |
-| Test Type | Unit |
-| Priority | High |
-
-## Purpose/Objective
-
-Verify that the Excel reporter correctly applies formatting to cells, including font, alignment, colors, and borders.
-
-## Preconditions
-
-| # | Description |
-|---|-------------|
-| 1 | py-eb-model package is installed |
-| 2 | Openpyxl library is available |
-| 3 | Worksheet is created and available |
-
-## Test Data/Input Specifications
-
-| Data Element | Value/Description | Purpose |
-|--------------|-------------------|---------|
-| Header Font | Bold, size 12 | Header cell font |
-| Data Font | Normal, size 11 | Data cell font |
-| Alignment Options | Left, Center, Right | Cell alignment options |
-| Background Color | Light gray for headers | Header background color |
-| Border Style | Thin black borders | Cell border style |
-
-## Test Steps
-
-| Step | Action | Expected Result |
-|------|--------|-----------------|
-| 1 | Write header cell with bold font | Cell has bold font |
-| 2 | Write data cell with normal font | Cell has normal font |
-| 3 | Apply left alignment to cell | Cell content left-aligned |
-| 4 | Apply center alignment to cell | Cell content center-aligned |
-| 5 | Apply right alignment to cell | Cell content right-aligned |
-| 6 | Set header background color | Cell has light gray background |
-| 7 | Apply thin black borders | Cell has borders on all sides |
-| 8 | Apply number format to numeric cell | Cell formatted as number |
-| 9 | Apply date format to date cell | Cell formatted as date |
-| 10 | Verify formatting persists after save | Formatting visible in saved Excel file |
-
-## Expected Results
-
-- Font styles are applied correctly
-- Alignment options work as expected
-- Colors are applied correctly
-- Borders are displayed properly
-- Number and date formats work correctly
-- Formatting persists after save
-
-## Post-conditions
-
-| # | Description |
-|---|-------------|
-| 1 | Cell formatting is visible in Excel |
-| 2 | Formatting doesn't affect cell values |
-| 3 | No side effects from formatting operations |
+| 1 | Cell values are correctly written |
 
 ## Requirements Coverage
 
@@ -257,13 +140,84 @@ Verify that the Excel reporter correctly applies formatting to cells, including 
 | Document Type | Reference |
 |---------------|-----------|
 | Requirement Document | ../requirements/swr_reporter-layer.md |
-| Reporter Documentation | ../../src/eb_model/reporter/abstract_xls_writer.py |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/abstract.py |
 
 ## Change History
 
 | Version | Date | Author | Description |
 |---------|------|--------|-------------|
-| 1.0 | 2026-03-27 | Test Architect | Initial test case |
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_REPORTER_00003
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_REPORTER_00003 |
+| Title | Excel Reporter - Cell Formatting with Number Format |
+| Version | 1.0 |
+| Date | 2026-03-28 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | High |
+
+## Purpose/Objective
+
+Verify that the Excel reporter correctly applies number formatting to cells.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | Openpyxl library is available |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| Cell Value | 123.456 | Test numeric value |
+| Number Format | "0.00" | Test number formatting |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Write cell with number format | Cell value and number format are set |
+
+## Expected Results
+
+- Cell value is set correctly
+- Number format is applied
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | Number formatting is applied |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_REPORTER_00003 | Excel Reporter - Cell formatting | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_reporter-layer.md |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/abstract.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
 ---
 
 # Test Case: TC_UNIT_REPORTER_00004
@@ -273,16 +227,16 @@ Verify that the Excel reporter correctly applies formatting to cells, including 
 | Field | Value |
 |-------|-------|
 | Test Case ID | TC_UNIT_REPORTER_00004 |
-| Title | Excel Reporter - Auto-Width Formatting |
+| Title | Excel Reporter - Title Row Writing |
 | Version | 1.0 |
-| Date | 2026-03-27 |
+| Date | 2026-03-28 |
 | Author | Test Architect |
 | Test Type | Unit |
 | Priority | High |
 
 ## Purpose/Objective
 
-Verify that the Excel reporter correctly calculates and applies column widths based on content, ensuring all data is visible and columns are appropriately sized.
+Verify that the Excel reporter correctly writes title rows with center alignment.
 
 ## Preconditions
 
@@ -290,49 +244,246 @@ Verify that the Excel reporter correctly calculates and applies column widths ba
 |---|-------------|
 | 1 | py-eb-model package is installed |
 | 2 | Openpyxl library is available |
-| 3 | Worksheet is created and populated with data |
 
 ## Test Data/Input Specifications
 
 | Data Element | Value/Description | Purpose |
 |--------------|-------------------|---------|
-| Short Content | "ABC" | Test short content |
-| Medium Content | "Medium Length Text" | Test medium content |
-| Long Content | "This is a very long string that should cause the column to expand" | Test long content |
-| Minimum Width | 10 | Minimum column width in characters |
-| Maximum Width | 50 | Maximum column width in characters |
+| Title Row | ["Column A", "Column B", "Column C"] | Test title row data |
 
 ## Test Steps
 
 | Step | Action | Expected Result |
 |------|--------|-----------------|
-| 1 | Write short content to column | Column width adjusts to short content |
-| 2 | Write medium content to column | Column width adjusts to medium content |
-| 3 | Write long content to column | Column width adjusts to long content |
-| 4 | Verify column width calculation | Width accommodates longest content |
-| 5 | Apply minimum width constraint | Column width not less than minimum |
-| 6 | Apply maximum width constraint | Column width not exceed maximum |
-| 7 | Test multi-column width calculation | All columns sized appropriately |
-| 8 | Test width calculation with headers | Headers included in width calculation |
-| 9 | Apply auto-width to worksheet | All columns sized automatically |
-| 10 | Verify width persists after save | Column widths visible in saved Excel file |
+| 1 | Write title row | All column values are written |
+| 2 | Verify center alignment | All cells have center alignment |
+
+## Expected Results
+
+- Title row values are written correctly
+- All cells have center alignment
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | Title row is correctly formatted |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_REPORTER_00003 | Excel Reporter - Cell formatting | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_reporter-layer.md |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/abstract.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_REPORTER_00005
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_REPORTER_00005 |
+| Title | Excel Reporter - Boolean Formatting |
+| Version | 1.0 |
+| Date | 2026-03-28 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | High |
+
+## Purpose/Objective
+
+Verify that the Excel reporter correctly formats boolean values for output.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | Openpyxl library is available |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| Boolean True | True | Test True value |
+| Boolean False | False | Test False value |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Format boolean True | Returns "Y" |
+| 2 | Format boolean False | Returns "" |
+
+## Expected Results
+
+- True values are formatted as "Y"
+- False values are formatted as ""
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | Boolean values are formatted correctly |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_REPORTER_00004 | Excel Reporter - Data formatting | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_reporter-layer.md |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/abstract.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_REPORTER_00006
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_REPORTER_00006 |
+| Title | Excel Reporter - Boolean Cell Writing |
+| Version | 1.0 |
+| Date | 2026-03-28 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | High |
+
+## Purpose/Objective
+
+Verify that the Excel reporter correctly writes boolean cells with formatting.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | Openpyxl library is available |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| Boolean True | True | Test True value |
+| Boolean False | False | Test False value |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Write bool cell with True | Cell value is "Y" and center-aligned |
+| 2 | Write bool cell with False | Cell value is "" and center-aligned |
+
+## Expected Results
+
+- True values are formatted as "Y" with center alignment
+- False values are formatted as "" with center alignment
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | Boolean cell formatting is correct |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_REPORTER_00004 | Excel Reporter - Data formatting | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_reporter-layer.md |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/abstract.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_REPORTER_00007
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_REPORTER_00007 |
+| Title | Excel Reporter - Auto-Width Formatting |
+| Version | 1.0 |
+| Date | 2026-03-28 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | High |
+
+## Purpose/Objective
+
+Verify that the Excel reporter correctly calculates and applies column widths based on content.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | Openpyxl library is available |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| Short Content | "Short" | Test short content |
+| Medium Content | "Medium Length" | Test medium content |
+| Long Content | "This is a very long string that should cause the column to expand" | Test long content |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Write short content to column A | Column A width adjusts to short content |
+| 2 | Write medium content to column B | Column B width adjusts to medium content |
+| 3 | Write long content to column C | Column C width adjusts to long content |
+| 4 | Apply auto-width to worksheet | All columns sized appropriately |
 
 ## Expected Results
 
 - Column widths accommodate longest content
-- Minimum width constraints are respected
-- Maximum width constraints are respected
 - All columns are sized appropriately
-- Headers are included in width calculation
-- Widths persist after save
 
 ## Post-conditions
 
 | # | Description |
 |---|-------------|
 | 1 | Column widths are visible in Excel |
-| 2 | All content is visible without manual adjustment |
-| 3 | No columns are excessively wide or narrow |
 
 ## Requirements Coverage
 
@@ -345,170 +496,351 @@ Verify that the Excel reporter correctly calculates and applies column widths ba
 | Document Type | Reference |
 |---------------|-----------|
 | Requirement Document | ../requirements/swr_reporter-layer.md |
-| Reporter Documentation | ../../src/eb_model/reporter/abstract_xls_writer.py |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/abstract.py |
 
 ## Change History
 
 | Version | Date | Author | Description |
 |---------|------|--------|-------------|
-| 1.0 | 2026-03-27 | Test Architect | Initial test case |
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
 ---
 
-# Test Case: TC_UNIT_REPORTER_00005
+# Test Case: TC_UNIT_REPORTER_00008
 
 ## Document Information
 
 | Field | Value |
 |-------|-------|
-| Test Case ID | TC_UNIT_REPORTER_00005 |
-| Title | Reporter Layer - Markdown Output |
+| Test Case ID | TC_UNIT_REPORTER_00008 |
+| Title | Excel Reporter - Auto-Width with Customized Widths |
 | Version | 1.0 |
-| Date | 2026-03-27 |
-| Author | Test Architect |
-| Test Type | Unit |
-| Priority | Medium |
-
-## Purpose/Objective
-
-Verify that the reporter layer correctly generates Markdown formatted output for OS application data.
-
-## Preconditions
-
-| # | Description |
-|---|-------------|
-| 1 | py-eb-model package is installed |
-| 2 | OS application model objects are available |
-| 3 | Output directory is writable |
-
-## Test Data/Input Specifications
-
-| Data Element | Value/Description | Purpose |
-|--------------|-------------------|---------|
-| Output File Path | "test_output/OsApp_report.md" | Markdown output file |
-| Application Name | "App1" | Application identifier |
-| Application Description | "Safety Application" | Application description |
-| Mapped Tasks | List of task names | Tasks mapped to application |
-| Mapped ISRs | List of ISR names | ISRs mapped to application |
-
-## Test Steps
-
-| Step | Action | Expected Result |
-|------|--------|-----------------|
-| 1 | Create OsApplicationMarkdownWriter instance | Writer initialized successfully |
-| 2 | Generate Markdown output for application | Markdown file created |
-| 3 | Verify output file exists | File created at specified path |
-| 4 | Verify Markdown structure | File has valid Markdown format |
-| 5 | Verify application header | Application name in heading |
-| 6 | Verify application description | Description formatted correctly |
-| 7 | Verify task list | Tasks listed with correct formatting |
-| 8 | Verify ISR list | ISRs listed with correct formatting |
-| 9 | Verify table formatting | Tables use correct Markdown syntax |
-| 10 | Verify file can be rendered | Markdown renders correctly in viewer |
-
-## Expected Results
-
-- Markdown file is created successfully
-- File has valid Markdown structure
-- Application data is formatted correctly
-- Tables use correct Markdown syntax
-- File renders correctly in Markdown viewers
-- All application information is included
-
-## Post-conditions
-
-| # | Description |
-|---|-------------|
-| 1 | Markdown file exists at output path |
-| 2 | File can be opened and read |
-| 3 | No side effects from generation |
-
-## Requirements Coverage
-
-| Requirement ID | Description | Status |
-|----------------|-------------|--------|
-| SWR_REPORTER_00005 | Reporter Layer - Markdown output | Covered |
-
-## References
-
-| Document Type | Reference |
-|---------------|-----------|
-| Requirement Document | ../requirements/swr_reporter-layer.md |
-| Reporter Documentation | ../../src/eb_model/reporter/os_application_markdown_writer.py |
-
-## Change History
-
-| Version | Date | Author | Description |
-|---------|------|--------|-------------|
-| 1.0 | 2026-03-27 | Test Architect | Initial test case |
----
-
-# Test Case: TC_UNIT_REPORTER_00006
-
-## Document Information
-
-| Field | Value |
-|-------|-------|
-| Test Case ID | TC_UNIT_REPORTER_00006 |
-| Title | Reporter Layer - Error Handling |
-| Version | 1.0 |
-| Date | 2026-03-27 |
+| Date | 2026-03-28 |
 | Author | Test Architect |
 | Test Type | Unit |
 | Priority | High |
 
 ## Purpose/Objective
 
-Verify that the reporter layer handles errors consistently, providing clear error messages and preventing system crashes during report generation.
+Verify that the Excel reporter correctly applies customized column widths.
 
 ## Preconditions
 
 | # | Description |
 |---|-------------|
 | 1 | py-eb-model package is installed |
-| 2 | Test data with various error conditions is available |
-| 3 | Reporter classes are available |
+| 2 | Openpyxl library is available |
 
 ## Test Data/Input Specifications
 
 | Data Element | Value/Description | Purpose |
 |--------------|-------------------|---------|
-| Invalid Model Object | None or malformed object | Test error handling |
-| Non-Writable Directory | Directory without write permission | Test permission error |
-| Disk Full Condition | Simulated disk full scenario | Test disk error |
-| Corrupted Workbook | Partially written workbook | Test recovery |
+| Customized Width | 50 | Test customized column width |
 
 ## Test Steps
 
 | Step | Action | Expected Result |
 |------|--------|-----------------|
-| 1 | Attempt to write report with None model | Raises ValueError or TypeError |
-| 2 | Verify error message is descriptive | Message indicates what's missing |
-| 3 | Attempt to write to non-writable directory | Raises PermissionError or IOError |
-| 4 | Verify error message includes path | Message identifies the directory |
-| 5 | Attempt to save with disk full simulation | Raises IOError with disk full message |
-| 6 | Verify error message indicates disk full | Message is clear about the issue |
-| 7 | Attempt to write corrupted workbook | Handles gracefully or raises error |
-| 8 | Verify error handling for corrupted data | Error message indicates corruption |
-| 9 | Test recovery after error | System remains stable |
-| 10 | Verify no partial files from errors | No incomplete output files created |
+| 1 | Write data to column A | Column A width adjusts to content |
+| 2 | Apply auto-width with customized dict | Column A uses customized width |
 
 ## Expected Results
 
-- All error conditions are detected
-- Error messages are clear and actionable
-- Errors include context (path, object, issue)
-- No system crashes occur
-- Errors are raised with appropriate exception types
-- Error handling is consistent across reporter types
-- No partial files are created
+- Customized widths are respected
+- Other columns use auto-width
 
 ## Post-conditions
 
 | # | Description |
 |---|-------------|
-| 1 | System is stable after errors |
-| 2 | Reporter can be reused for valid operations |
-| 3 | No corrupted state from errors |
+| 1 | Column widths are correctly set |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_REPORTER_00004 | Excel Reporter - Auto-width formatting | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_reporter-layer.md |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/abstract.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_REPORTER_00009
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_REPORTER_00009 |
+| Title | Excel Reporter - Auto-Width with Zero Customized Width |
+| Version | 1.0 |
+| Date | 2026-03-28 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | High |
+
+## Purpose/Objective
+
+Verify that the Excel reporter handles zero width customization.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | Openpyxl library is available |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| Zero Width | 0 | Test zero width customization |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Write data to column A | Column A has content |
+| 2 | Apply auto-width with zero width | Column A uses auto-width (not zero) |
+
+## Expected Results
+
+- Zero width is not applied
+- Auto-width is used instead
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | Column width is set correctly |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_REPORTER_00004 | Excel Reporter - Auto-width formatting | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_reporter-layer.md |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/abstract.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_REPORTER_00010
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_REPORTER_00010 |
+| Title | Excel Reporter - Auto-Width with Positive Customized Width |
+| Version | 1.0 |
+| Date | 2026-03-28 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | High |
+
+## Purpose/Objective
+
+Verify that the Excel reporter correctly applies positive customized column widths.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | Openpyxl library is available |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| Positive Width | 50 | Test positive customized width |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Write data to column A | Column A has content |
+| 2 | Apply auto-width with positive customized width | Column A uses customized width |
+
+## Expected Results
+
+- Positive customized width is applied
+- Column width matches specified value
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | Column width is correctly set |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_REPORTER_00004 | Excel Reporter - Auto-width formatting | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_reporter-layer.md |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/abstract.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_REPORTER_00011
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_REPORTER_00011 |
+| Title | Excel Reporter - Workbook Save |
+| Version | 1.0 |
+| Date | 2026-03-28 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | High |
+
+## Purpose/Objective
+
+Verify that the Excel reporter correctly saves workbooks to file.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | Openpyxl library is available |
+| 3 | Output directory is writable |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| Cell Data | "Test Content" | Test data to write |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Write data to workbook | Data is written to cells |
+| 2 | Save workbook to file | File is created at specified path |
+| 3 | Verify file exists | File exists at output path |
+| 4 | Verify file size | File size is greater than 0 |
+| 5 | Load saved workbook | Workbook can be opened for reading |
+| 6 | Verify saved data | Data matches what was written |
+
+## Expected Results
+
+- Workbook is saved successfully
+- File exists at specified path
+- File has non-zero size
+- File can be opened by openpyxl
+- Saved data is intact
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | Workbook file exists at output path |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_REPORTER_00002 | Excel Reporter - Excel output | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_reporter-layer.md |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/abstract.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_REPORTER_00012
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_REPORTER_00012 |
+| Title | Excel Reporter - Save to Invalid Path |
+| Version | 1.0 |
+| Date | 2026-03-28 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | High |
+
+## Purpose/Objective
+
+Verify that the Excel reporter handles invalid file paths appropriately.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | Openpyxl library is available |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| Invalid Path | "/nonexistent/directory/test.xlsx" | Test invalid path |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Attempt to save to invalid directory | Raises OSError |
+
+## Expected Results
+
+- Error conditions are detected
+- OSError is raised
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | System is stable after error |
 
 ## Requirements Coverage
 
@@ -521,10 +853,662 @@ Verify that the reporter layer handles errors consistently, providing clear erro
 | Document Type | Reference |
 |---------------|-----------|
 | Requirement Document | ../requirements/swr_reporter-layer.md |
-| Reporter Documentation | ../../src/eb_model/reporter/abstract_xls_writer.py |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/abstract.py |
 
 ## Change History
 
 | Version | Date | Author | Description |
 |---------|------|--------|-------------|
-| 1.0 | 2026-03-27 | Test Architect | Initial test case |
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_REPORTER_00013
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_REPORTER_00013 |
+| Title | Excel Reporter - Workbook Can Be Loaded After Save |
+| Version | 1.0 |
+| Date | 2026-03-28 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | High |
+
+## Purpose/Objective
+
+Verify that saved workbooks can be loaded and data is intact.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | Openpyxl library is available |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| Various Data Types | String, Number, Boolean, None | Test various data types |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Write various data types to cells | Data is written |
+| 2 | Save workbook | File is created |
+| 3 | Load saved workbook | Workbook can be opened |
+| 4 | Verify all data | All data matches what was written |
+
+## Expected Results
+
+- Workbook can be loaded after save
+- All data types are preserved
+- None values are preserved
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | Workbook file is valid Excel format |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_REPORTER_00002 | Excel Reporter - Excel output | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_reporter-layer.md |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/abstract.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_REPORTER_00014
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_REPORTER_00014 |
+| Title | Os Excel Reporter - File Creation |
+| Version | 1.0 |
+| Date | 2026-03-28 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | High |
+
+## Purpose/Objective
+
+Verify that the Os Excel reporter correctly creates Excel files with expected sheets.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | Openpyxl library is available |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Create OsXdmXlsWriter instance | Writer initialized |
+| 2 | Call write() method | Excel file created |
+| 3 | Verify file exists | File exists at output path |
+| 4 | Verify expected sheets | Sheets "OsApplications" and "OsIsr" exist |
+
+## Expected Results
+
+- Excel file is created successfully
+- Expected sheets are present
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | Excel file exists at output path |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_REPORTER_00002 | Excel Reporter - Excel output | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_reporter-layer.md |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/os_xdm.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_REPORTER_00015
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_REPORTER_00015 |
+| Title | Com Excel Reporter - File Creation with Data
+| Version | 1.0 |
+| Date | 2026-03-28 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | High |
+
+## Purpose/Objective
+
+Verify that the Com Excel reporter correctly creates Excel files with ComGeneral data.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | Openpyxl library is available |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| EnableUserSupport | True | ComGeneral configuration |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Create ComXdmXlsWriter instance | Writer initialized |
+| 2 | Create EBModel with ComGeneral | Model created with data |
+| 3 | Call write() method | Excel file created |
+| 4 | Verify ComGeneral sheet exists | Sheet "ComGeneral" exists |
+| 5 | Verify data in sheet | Data is written correctly |
+
+## Expected Results
+
+- Excel file is created successfully
+- File has correct sheets
+- Data is written correctly
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | Excel file exists at output path |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_REPORTER_00002 | Excel Reporter - Excel output | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_reporter-layer.md |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/com_xdm.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_REPORTER_00016
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_REPORTER_00016 |
+| Title | ComM Excel Reporter - File Creation |
+| Version | 1.0 |
+| Date | 2026-03-28 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | High |
+
+## Purpose/Objective
+
+Verify that the ComM Excel reporter correctly creates Excel files with ComM channel data.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | Openpyxl library is available |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| Channel Name | "ComMChannel_1" | ComM channel name |
+| Channel ID | 1 | ComM channel ID |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Create ComMXdmXlsWriter instance | Writer initialized |
+| 2 | Create EBModel with ComM channel | Model created with data |
+| 3 | Call write() method | Excel file created |
+| 4 | Verify data in sheet | Data is written correctly |
+
+## Expected Results
+
+- Excel file is created successfully
+- Data is written correctly
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | Excel file exists at output path |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_REPORTER_00002 | Excel Reporter - Excel output | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_reporter-layer.md |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/comm_xdm.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_REPORTER_00017
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_REPORTER_00017 |
+| Title | Crc Excel Reporter - File Creation |
+| Version | 1.0 |
+| Date | 2026-03-28 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | High |
+
+## Purpose/Objective
+
+Verify that the Crc Excel reporter correctly creates Excel files with CrcConfig data.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | Openpyxl library is available |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| CRC ID | 1 | CRC configuration ID |
+| CRC Type | "CRC_16" | CRC configuration type |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Create CrcXdmXlsWriter instance | Writer initialized |
+| 2 | Create EBModel with CrcConfig | Model created with data |
+| 3 | Call write() method | Excel file created |
+| 4 | Verify data in sheet | Data is written correctly |
+
+## Expected Results
+
+- Excel file is created successfully
+- Data is written correctly
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | Excel file exists at output path |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_REPORTER_00002 | Excel Reporter - Excel output | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_reporter-layer.md |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/crc_xdm.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_REPORTER_00018
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_REPORTER_00018 |
+| Title | IpduM Excel Reporter - File Creation |
+| Version | 1.0 |
+| Date | 2026-03-28 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | High |
+
+## Purpose/Objective
+
+Verify that the IpduM Excel reporter correctly creates Excel files with IpduMDynPdu data.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | Openpyxl library is available |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| PDU ID | 1 | IpduM dynamic PDU ID |
+| PDU Length | 8 | IpduM dynamic PDU length |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Create IpduMXdmXlsWriter instance | Writer initialized |
+| 2 | Create EBModel with IpduMDynPdu | Model created with data |
+| 3 | Call write() method | Excel file created |
+| 4 | Verify data in sheet | Data is written correctly |
+
+## Expected Results
+
+- Excel file is created successfully
+- Data is written correctly
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | Excel file exists at output path |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_REPORTER_00002 | Excel Reporter - Excel output | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_reporter-layer.md |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/ipdum_xdm.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_REPORTER_00019
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_REPORTER_00019 |
+| Title | LdCom Excel Reporter - File Creation |
+| Version | 1.0 |
+| Date | 2026-03-28 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | High |
+
+## Purpose/Objective
+
+Verify that the LdCom Excel reporter correctly creates Excel files.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | Openpyxl library is available |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Create LdComXdmXlsWriter instance | Writer initialized |
+| 2 | Create EBModel with LdCom | Model created |
+| 3 | Call write() method | Excel file created |
+| 4 | Verify file exists | File exists at output path |
+
+## Expected Results
+
+- Excel file is created successfully
+- File can be opened in Excel
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | Excel file exists at output path |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_REPORTER_00002 | Excel Reporter - Excel output | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_reporter-layer.md |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/ldcom_xdm.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_REPORTER_00020
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_REPORTER_00020 |
+| Title | Nm Excel Reporter - File Creation |
+| Version | 1.0 |
+| Date | 2026-03-28 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | High |
+
+## Purpose/Objective
+
+Verify that the Nm Excel reporter correctly creates Excel files with NmChannel data.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | Openpyxl library is available |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| Channel Name | "NmChannel_1" | Nm channel name |
+| Channel ID | 1 | Nm channel ID |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Create NmXdmXlsWriter instance | Writer initialized |
+| 2 | Create EBModel with NmChannel | Model created with data |
+| 3 | Call write() method | Excel file created |
+| 4 | Verify data in sheet | Data is written correctly |
+
+## Expected Results
+
+- Excel file is created successfully
+- Data is written correctly
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | Excel file exists at output path |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_REPORTER_00002 | Excel Reporter - Excel output | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_reporter-layer.md |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/nm_xdm.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_REPORTER_00021
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_REPORTER_00021 |
+| Title | PduR Excel Reporter - File Creation |
+| Version | 1.0 |
+| Date | 2026-03-28 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | High |
+
+## Purpose/Objective
+
+Verify that the PduR Excel reporter correctly creates Excel files with PduRRoutingTableEntry data.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | Openpyxl library is available |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| Entry ID | 1 | Routing table entry ID |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Create PduRXdmXlsWriter instance | Writer initialized |
+| 2 | Create EBModel with PduRRoutingTableEntry | Model created with data |
+| 3 | Call write() method | Excel file created |
+| 4 | Verify data in sheet | Data is written correctly |
+
+## Expected Results
+
+- Excel file is created successfully
+- Data is written correctly
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | Excel file exists at output path |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_REPORTER_00002 | Excel Reporter - Excel output | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_reporter-layer.md |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/pdur_xdm.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-03-28 | Test Architect | Initial test case |
+
+---
+
+**Document End**
