@@ -135,16 +135,23 @@ Add entry point in `setup.py` under `console_scripts` section following pattern:
 ```
 
 Currently registered CLI entry points:
-- `os-xdm-xlsx`: Os module XDM to Excel conversion
-- `rte-xdm-xlsx`: Rte module XDM to Excel conversion
-- `nvm-xdm-xlsx`: NvM module XDM to Excel conversion
-- `ecuc-xdm-xlsx`: EcuC module XDM to Excel conversion
 - `bswm-xdm-xlsx`: BswM module XDM to Excel conversion
-- `tm-xdm-xlsx`: Tm module XDM to Excel conversion
-- `pbcfgm-xdm-xlsx`: PbcfgM module XDM to Excel conversion
-- `ecum-xdm-xlsx`: EcuM module XDM to Excel conversion
+- `com-xdm-xlsx`: Com module XDM to Excel conversion
+- `comm-xdm-xlsx`: ComM module XDM to Excel conversion
+- `crc-xdm-xlsx`: Crc module XDM to Excel conversion
 - `det-xdm-xlsx`: Det module XDM to Excel conversion
+- `ecuc-xdm-xlsx`: EcuC module XDM to Excel conversion
+- `ecum-xdm-xlsx`: EcuM module XDM to Excel conversion
+- `ipdum-xdm-xlsx`: IpduM module XDM to Excel conversion
+- `ldcom-xdm-xlsx`: LdCom module XDM to Excel conversion
+- `nm-xdm-xlsx`: Nm module XDM to Excel conversion
+- `nvm-xdm-xlsx`: NvM module XDM to Excel conversion
+- `os-xdm-xlsx`: Os module XDM to Excel conversion
+- `pdur-xdm-xlsx`: PduR module XDM to Excel conversion
+- `pbcfgm-xdm-xlsx`: PbcfgM module XDM to Excel conversion
 - `PrefSystemImporter`: EB preference XDM to ARXML file list or AUTOSAR builder project
+- `rte-xdm-xlsx`: Rte module XDM to Excel conversion
+- `tm-xdm-xlsx`: Tm module XDM to Excel conversion
 
 ## File Structure Notes
 
