@@ -27,6 +27,7 @@ from ..models.frtp_xdm import FrTp
 from ..models.frnm_xdm import FrNm
 from ..models.frsm_xdm import FrSM
 from ..models.frartp_xdm import FrArTp
+from ..models.com_xdm import Com
 from ..models.abstract import EcucParamConfContainerDef, EcucObject
 
 
@@ -211,6 +212,11 @@ class EBModel(AbstractModel):
         container = EcucParamConfContainerDef(self, "FrArTp")
         FrArTp(container)
         return self.find("/FrArTp/FrArTp")
+
+    def getCom(self) -> Com:
+        container = EcucParamConfContainerDef(self, "Com")
+        Com(container)
+        return self.find("/Com/Com")
 
     def addContainer(self, container: EcucParamConfContainerDef):
         if (container is None):

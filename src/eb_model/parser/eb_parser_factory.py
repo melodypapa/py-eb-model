@@ -29,39 +29,41 @@ from .frtp_xdm_parser import FrTpXdmParser
 from .frnm_xdm_parser import FrNmXdmParser
 from .frsm_xdm_parser import FrSMXdmParser
 from .frartp_xdm_parser import FrArTpXdmParser
+from .com_xdm_parser import ComXdmParser
 from .eb_parser import AbstractEbModelParser
 
 
 class EbParserFactory:
     _PARSERS = {
-        "Os": OsXdmParser,
-        "Rte": RteXdmParser,
-        "NvM": NvMXdmParser,
-        "EcuC": EcucXdmParser,
         "BswM": BswMXdmParser,
-        "Tm": TmXdmParser,
-        "PbcfgM": PbcfgMXdmParser,
-        "EcuM": EcuMXdmParser,
-        "Det": DetXdmParser,
         "CanIf": CanIfXdmParser,
         "CanNm": CanNmXdmParser,
         "CanSM": CanSMXdmParser,
         "CanTp": CanTpXdmParser,
+        "Com": ComXdmParser,
+        "Det": DetXdmParser,
+        "DoIP": DoIPXdmParser,
+        "EcuC": EcucXdmParser,
+        "EcuM": EcuMXdmParser,
+        "EthIf": EthIfXdmParser,
+        "EthSM": EthSMXdmParser,
+        "FrArTp": FrArTpXdmParser,
+        "FrIf": FrIfXdmParser,
+        "FrNm": FrNmXdmParser,
+        "FrSM": FrSMXdmParser,
+        "FrTp": FrTpXdmParser,
         "LinIf": LinIfXdmParser,
         "LinSM": LinSMXdmParser,
         "LinTp": LinTpXdmParser,
-        "EthIf": EthIfXdmParser,
-        "EthSM": EthSMXdmParser,
-        "TcpIp": TcpIpXdmParser,
+        "NvM": NvMXdmParser,
+        "Os": OsXdmParser,
+        "PbcfgM": PbcfgMXdmParser,
+        "Rte": RteXdmParser,
         "SoAd": SoAdXdmParser,
-        "UdpNm": UdpNmXdmParser,
-        "DoIP": DoIPXdmParser,
         "SomeIpTp": SomeIpTpXdmParser,
-        "FrIf": FrIfXdmParser,
-        "FrTp": FrTpXdmParser,
-        "FrNm": FrNmXdmParser,
-        "FrSM": FrSMXdmParser,
-        "FrArTp": FrArTpXdmParser,
+        "TcpIp": TcpIpXdmParser,
+        "Tm": TmXdmParser,
+        "UdpNm": UdpNmXdmParser,
     }
 
     @classmethod
