@@ -32,6 +32,7 @@ from .frartp_xdm_parser import FrArTpXdmParser
 from .com_xdm_parser import ComXdmParser
 from .ldcom_xdm_parser import LdComXdmParser
 from .pdur_xdm_parser import PduRXdmParser
+from .ipdum_xdm_parser import IpduMXdmParser
 from .eb_parser import AbstractEbModelParser
 
 
@@ -54,6 +55,7 @@ class EbParserFactory:
         "FrNm": FrNmXdmParser,
         "FrSM": FrSMXdmParser,
         "FrTp": FrTpXdmParser,
+        "IpduM": IpduMXdmParser,
         "LinIf": LinIfXdmParser,
         "LinSM": LinSMXdmParser,
         "LinTp": LinTpXdmParser,
