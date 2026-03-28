@@ -45,7 +45,7 @@ class SomeIpTpXdmParser(AbstractEbModelParser):
         self.read_version(element, someiptp)
 
         self.logger.info("Parse SomeIpTp ARVersion:<%s> SwVersion:<%s>" % (someiptp.getArVersion().getVersion(),
-                                               someiptp.getSwVersion().getVersion()))
+                                                                           someiptp.getSwVersion().getVersion()))
 
         self.someiptp = someiptp
 
