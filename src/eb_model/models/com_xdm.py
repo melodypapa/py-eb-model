@@ -1,6 +1,6 @@
-from typing import List
+from typing import Optional
 import logging
-from ..models.abstract import EcucParamConfContainerDef, EcucRefType, Module  # noqa F401
+from ..models.abstract import EcucObject, EcucParamConfContainerDef, Module  # noqa F401
 
 
 class ComGeneral(EcucParamConfContainerDef):
@@ -9,7 +9,7 @@ class ComGeneral(EcucParamConfContainerDef):
 
     Implements: SWR_COM_00002 (ComGeneral configuration)
     """
-    def __init__(self, parent, name) -> None:
+    def __init__(self, parent: Optional['EcucObject'], name: str) -> None:
         super().__init__(parent, name)
 
         self.comEnableUserSupport: bool = None
@@ -65,7 +65,7 @@ class Com(Module):
 
     Implements: SWR_COM_00001 (Com Module Parser)
     """
-    def __init__(self, parent) -> None:
+    def __init__(self, parent: Optional['EcucObject']) -> None:
         super().__init__(parent, "Com")
 
         self.comGeneral: ComGeneral = None
