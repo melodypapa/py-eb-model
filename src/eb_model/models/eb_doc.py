@@ -29,6 +29,7 @@ from ..models.frsm_xdm import FrSM
 from ..models.frartp_xdm import FrArTp
 from ..models.com_xdm import Com
 from ..models.ldcom_xdm import LdCom
+from ..models.pdur_xdm import PduR
 from ..models.abstract import EcucParamConfContainerDef, EcucObject
 
 
@@ -223,6 +224,11 @@ class EBModel(AbstractModel):
         container = EcucParamConfContainerDef(self, "LdCom")
         LdCom(container)
         return self.find("/LdCom/LdCom")
+
+    def getPduR(self) -> PduR:
+        container = EcucParamConfContainerDef(self, "PduR")
+        PduR(container)
+        return self.find("/PduR/PduR")
 
     def addContainer(self, container: EcucParamConfContainerDef):
         if (container is None):
