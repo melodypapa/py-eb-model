@@ -36,6 +36,11 @@ from .ldcom_xdm_parser import LdComXdmParser
 from .pdur_xdm_parser import PduRXdmParser
 from .ipdum_xdm_parser import IpduMXdmParser
 from .nm_xdm_parser import NmXdmParser
+from .memif_xdm_parser import MemIfXdmParser
+from .fee_xdm_parser import FeeXdmParser
+from .ea_xdm_parser import EaXdmParser
+from .memmap_xdm_parser import MemMapXdmParser
+from .memacc_xdm_parser import MemAccXdmParser
 from .eb_parser import AbstractEbModelParser
 
 
@@ -53,18 +58,23 @@ class EbParserFactory:
         "DoIP": DoIPXdmParser,
         "EcuC": EcucXdmParser,
         "EcuM": EcuMXdmParser,
+        "Ea": EaXdmParser,
         "EthIf": EthIfXdmParser,
         "EthSM": EthSMXdmParser,
         "FrArTp": FrArTpXdmParser,
         "FrIf": FrIfXdmParser,
         "FrNm": FrNmXdmParser,
         "FrSM": FrSMXdmParser,
+        "Fee": FeeXdmParser,
         "FrTp": FrTpXdmParser,
         "IpduM": IpduMXdmParser,
         "LinIf": LinIfXdmParser,
         "LinSM": LinSMXdmParser,
         "LinTp": LinTpXdmParser,
         "LdCom": LdComXdmParser,
+        "MemIf": MemIfXdmParser,
+        "MemMap": MemMapXdmParser,
+        "MemAcc": MemAccXdmParser,
         "NvM": NvMXdmParser,
         "Nm": NmXdmParser,
         "Os": OsXdmParser,

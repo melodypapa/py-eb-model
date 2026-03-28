@@ -146,8 +146,13 @@ Currently registered CLI entry points:
 - `det-xdm-xlsx`: Det module XDM to Excel conversion
 - `ecuc-xdm-xlsx`: EcuC module XDM to Excel conversion
 - `ecum-xdm-xlsx`: EcuM module XDM to Excel conversion
+- `ea-xdm-xlsx`: Ea module XDM to Excel conversion
+- `fee-xdm-xlsx`: Fee module XDM to Excel conversion
 - `ipdum-xdm-xlsx`: IpduM module XDM to Excel conversion
 - `ldcom-xdm-xlsx`: LdCom module XDM to Excel conversion
+- `memacc-xdm-xlsx`: MemAcc module XDM to Excel conversion
+- `memif-xdm-xlsx`: MemIf module XDM to Excel conversion
+- `memmap-xdm-xlsx`: MemMap module XDM to Excel conversion
 - `nm-xdm-xlsx`: Nm module XDM to Excel conversion
 - `nvm-xdm-xlsx`: NvM module XDM to Excel conversion
 - `os-xdm-xlsx`: Os module XDM to Excel conversion
