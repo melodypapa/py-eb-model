@@ -87,6 +87,10 @@ flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
 flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 ```
 
+### Git Commit Conventions
+
+**Do NOT add Claude as co-author** to commits. When creating commits, use only the actual human author information. Do not include `Co-Authored-By: Claude Opus` or similar attribution lines in commit messages.
+
 ## Code Style Conventions
 
 **Important**: This codebase uses **camelCase** for methods and properties (not snake_case per Python conventions). This is intentional for consistency with AUTOSAR naming conventions.
