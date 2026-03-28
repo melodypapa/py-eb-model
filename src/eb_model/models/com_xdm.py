@@ -14,6 +14,9 @@ class ComGeneral(EcucParamConfContainerDef):
 
         self.comEnableUserSupport: bool = None
         self.comUserInitSignal: bool = None
+        self.comUserStatusSupport: bool = None
+        self.comUserTxConfirmation: bool = None
+        self.comUserRxIndication: bool = None
 
     def getComEnableUserSupport(self) -> bool:
         return self.comEnableUserSupport
@@ -29,6 +32,30 @@ class ComGeneral(EcucParamConfContainerDef):
     def setComUserInitSignal(self, value: bool):
         if value is not None:
             self.comUserInitSignal = value
+        return self
+
+    def getComUserStatusSupport(self) -> bool:
+        return self.comUserStatusSupport
+
+    def setComUserStatusSupport(self, value: bool):
+        if value is not None:
+            self.comUserStatusSupport = value
+        return self
+
+    def getComUserTxConfirmation(self) -> bool:
+        return self.comUserTxConfirmation
+
+    def setComUserTxConfirmation(self, value: bool):
+        if value is not None:
+            self.comUserTxConfirmation = value
+        return self
+
+    def getComUserRxIndication(self) -> bool:
+        return self.comUserRxIndication
+
+    def setComUserRxIndication(self, value: bool):
+        if value is not None:
+            self.comUserRxIndication = value
         return self
 
 

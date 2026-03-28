@@ -52,10 +52,13 @@ class ComXdmParser(AbstractEbModelParser):
 
         Implements: SWR_COM_00002
         """
-        ctr_tag = self.find_ctr_tag(element, "ComGeneral")
+        ctr_tag = self.find_ctr_tag(element, "ComConfig")
         if ctr_tag is not None:
             general = ComGeneral(com, ctr_tag.attrib["name"])
             general.setComEnableUserSupport(self.read_value(ctr_tag, "ComEnableUserSupport"))
             general.setComUserInitSignal(self.read_value(ctr_tag, "ComUserInitSignal"))
+            general.setComUserStatusSupport(self.read_optional_value(ctr_tag, "ComUserStatusSupport"))
+            general.setComUserTxConfirmation(self.read_optional_value(ctr_tag, "ComUserTxConfirmation"))
+            general.setComUserRxIndication(self.read_optional_value(ctr_tag, "ComUserRxIndication"))
             com.setComGeneral(general)
             self.logger.debug("Read ComGeneral")

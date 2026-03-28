@@ -15,7 +15,7 @@ class TestComXdmParser:
                 xmlns:a="http://www.tresos.de/_projects/DataModel2/18/attribute.xsd"
                 xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
                 xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
-            <d:ctr name="ComGeneral" type="IDENTIFIABLE">
+            <d:ctr name="ComConfig" type="IDENTIFIABLE">
                 <d:var name="ComEnableUserSupport" type="BOOLEAN" value="true"/>
                 <d:var name="ComUserInitSignal" type="BOOLEAN" value="true"/>
             </d:ctr>
