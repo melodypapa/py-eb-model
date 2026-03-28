@@ -32,6 +32,7 @@ from ..models.ldcom_xdm import LdCom
 from ..models.comm_xdm import ComM
 from ..models.pdur_xdm import PduR
 from ..models.ipdum_xdm import IpduM
+from ..models.nm_xdm import Nm
 from ..models.abstract import EcucParamConfContainerDef, EcucObject
 
 
@@ -241,6 +242,11 @@ class EBModel(AbstractModel):
         container = EcucParamConfContainerDef(self, "IpduM")
         IpduM(container)
         return self.find("/IpduM/IpduM")
+
+    def getNm(self) -> Nm:
+        container = EcucParamConfContainerDef(self, "Nm")
+        Nm(container)
+        return self.find("/Nm/Nm")
 
     def addContainer(self, container: EcucParamConfContainerDef):
         if (container is None):
