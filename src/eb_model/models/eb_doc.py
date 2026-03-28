@@ -29,6 +29,7 @@ from ..models.frsm_xdm import FrSM
 from ..models.frartp_xdm import FrArTp
 from ..models.com_xdm import Com
 from ..models.ldcom_xdm import LdCom
+from ..models.comm_xdm import ComM
 from ..models.pdur_xdm import PduR
 from ..models.ipdum_xdm import IpduM
 from ..models.abstract import EcucParamConfContainerDef, EcucObject
@@ -220,6 +221,11 @@ class EBModel(AbstractModel):
         container = EcucParamConfContainerDef(self, "Com")
         Com(container)
         return self.find("/Com/Com")
+
+    def getComM(self) -> ComM:
+        container = EcucParamConfContainerDef(self, "ComM")
+        ComM(container)
+        return self.find("/ComM/ComM")
 
     def getLdCom(self) -> LdCom:
         container = EcucParamConfContainerDef(self, "LdCom")

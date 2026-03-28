@@ -30,6 +30,7 @@ from .frnm_xdm_parser import FrNmXdmParser
 from .frsm_xdm_parser import FrSMXdmParser
 from .frartp_xdm_parser import FrArTpXdmParser
 from .com_xdm_parser import ComXdmParser
+from .comm_xdm_parser import ComMXdmParser
 from .ldcom_xdm_parser import LdComXdmParser
 from .pdur_xdm_parser import PduRXdmParser
 from .ipdum_xdm_parser import IpduMXdmParser
@@ -44,6 +45,7 @@ class EbParserFactory:
         "CanSM": CanSMXdmParser,
         "CanTp": CanTpXdmParser,
         "Com": ComXdmParser,
+        "ComM": ComMXdmParser,
         "Det": DetXdmParser,
         "DoIP": DoIPXdmParser,
         "EcuC": EcucXdmParser,
