@@ -64,6 +64,13 @@ frtp-xdm-xlsx = "eb_model.cli.frtp_xdm_2_xls_cli:main"
 frnm-xdm-xlsx = "eb_model.cli.frnm_xdm_2_xls_cli:main"
 frsm-xdm-xlsx = "eb_model.cli.frsm_xdm_2_xls_cli:main"
 frartp-xdm-xlsx = "eb_model.cli.frartp_xdm_2_xls_cli:main"
+com-xdm-xlsx = "eb_model.cli.com_xdm_2_xls_cli:main"
+ldcom-xdm-xlsx = "eb_model.cli.ldcom_xdm_2_xls_cli:main"
+pdur-xdm-xlsx = "eb_model.cli.pdur_xdm_2_xls_cli:main"
+ipdum-xdm-xlsx = "eb_model.cli.ipdum_xdm_2_xls_cli:main"
+comm-xdm-xlsx = "eb_model.cli.comm_xdm_2_xls_cli:main"
+nm-xdm-xlsx = "eb_model.cli.nm_xdm_2_xls_cli:main"
+crc-xdm-xlsx = "eb_model.cli.crc_xdm_2_xls_cli:main"
 PrefSystemImporter = "eb_model.cli.pref_system_importer_cli:main"
 
 [tool.setuptools]

@@ -27,6 +27,13 @@ from ..models.frtp_xdm import FrTp
 from ..models.frnm_xdm import FrNm
 from ..models.frsm_xdm import FrSM
 from ..models.frartp_xdm import FrArTp
+from ..models.com_xdm import Com
+from ..models.ldcom_xdm import LdCom
+from ..models.comm_xdm import ComM
+from ..models.pdur_xdm import PduR
+from ..models.ipdum_xdm import IpduM
+from ..models.nm_xdm import Nm
+from ..models.crc_xdm import Crc
 from ..models.abstract import EcucParamConfContainerDef, EcucObject
 
 
@@ -211,6 +218,41 @@ class EBModel(AbstractModel):
         container = EcucParamConfContainerDef(self, "FrArTp")
         FrArTp(container)
         return self.find("/FrArTp/FrArTp")
+
+    def getCom(self) -> Com:
+        container = EcucParamConfContainerDef(self, "Com")
+        Com(container)
+        return self.find("/Com/Com")
+
+    def getComM(self) -> ComM:
+        container = EcucParamConfContainerDef(self, "ComM")
+        ComM(container)
+        return self.find("/ComM/ComM")
+
+    def getLdCom(self) -> LdCom:
+        container = EcucParamConfContainerDef(self, "LdCom")
+        LdCom(container)
+        return self.find("/LdCom/LdCom")
+
+    def getPduR(self) -> PduR:
+        container = EcucParamConfContainerDef(self, "PduR")
+        PduR(container)
+        return self.find("/PduR/PduR")
+
+    def getIpduM(self) -> IpduM:
+        container = EcucParamConfContainerDef(self, "IpduM")
+        IpduM(container)
+        return self.find("/IpduM/IpduM")
+
+    def getNm(self) -> Nm:
+        container = EcucParamConfContainerDef(self, "Nm")
+        Nm(container)
+        return self.find("/Nm/Nm")
+
+    def getCrc(self) -> Crc:
+        container = EcucParamConfContainerDef(self, "Crc")
+        Crc(container)
+        return self.find("/Crc/Crc")
 
     def addContainer(self, container: EcucParamConfContainerDef):
         if (container is None):

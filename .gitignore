@@ -7,3 +7,4 @@ archive
 data
 .coverage
 .claude/settings.local.json
+.worktrees
