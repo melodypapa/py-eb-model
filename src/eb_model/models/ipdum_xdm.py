@@ -7,7 +7,7 @@ Implements:
 """
 from typing import List, Optional
 import logging
-from ..models.abstract import EcucParamConfContainerDef, Module
+from ..models.abstract import EcucObject, EcucParamConfContainerDef, Module
 
 
 class IpduMDynPdu(EcucParamConfContainerDef):

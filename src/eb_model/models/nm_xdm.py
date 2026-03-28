@@ -7,7 +7,7 @@ Implements:
 """
 from typing import List, Optional
 import logging
-from ..models.abstract import EcucParamConfContainerDef, EcucRefType, Module
+from ..models.abstract import EcucObject, EcucParamConfContainerDef, EcucRefType, Module
 
 
 class NmChannel(EcucParamConfContainerDef):
