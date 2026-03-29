@@ -198,7 +198,7 @@ class EcucXdmParser(AbstractEbModelParser):
             self.logger.info("Parse EcucPartition <%s>" % ecuc_partition.getName())
 
             ecuc_partition.setEcucDefaultBswPartition(self.read_optional_value(ctr_tag, "EcucDefaultBswPartition"))
-            ecuc_partition.setPartitionCanBeRestarted(self.read_value(ctr_tag, "PartitionCanBeRestarted"))
+            ecuc_partition.setEcucPartitionCanBeRestarted(self.read_optional_value(ctr_tag, "PartitionCanBeRestarted"))
             ecuc_partition.setEcucPartitionBswModuleExecution(self.read_optional_value(ctr_tag, "EcucPartitionBswModuleExecution"))
             ecuc_partition.setEcucPartitionQmBswModuleExecution(self.read_optional_value(ctr_tag, "EcucPartitionQmBswModuleExecution"))
 
