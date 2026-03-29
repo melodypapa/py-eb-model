@@ -5,15 +5,15 @@ import os.path
 
 from eb_model.parser.eb_parser_factory import EbParserFactory
 
-from ..reporter.excel_reporter.rte_xdm import RteRunnableEntityXlsWriter, RteXdmXlsWriter
-from ..models import EBModel
+from eb_model.reporter.excel_reporter.rte_xdm import RteRunnableEntityXlsWriter, RteXdmXlsWriter
+from eb_model.models import EBModel
 
 
 def process_logger(args):
     logger = logging.getLogger()
     formatter = logging.Formatter('[%(levelname)s] : %(message)s')
     logger.setLevel(logging.DEBUG)
-    
+
     if args.verbose:
         log_level = logging.DEBUG
     else:
@@ -47,7 +47,7 @@ def main():
 
     args = ap.parse_args()
     logger = process_logger(args)
-    
+
     try:
         doc = EBModel.getInstance()
 
@@ -61,7 +61,7 @@ def main():
         else:
             writer = RteXdmXlsWriter()
             writer.write(args.OUTPUT, doc)
-        
+
     except Exception as e:
         logger.error(e)
         raise e

@@ -1,6 +1,6 @@
 from typing import List
 import logging
-from .abstract import EcucParamConfContainerDef, Module
+from eb_model.models.core.abstract import EcucParamConfContainerDef, Module
 
 
 class BswMModeCondition(EcucParamConfContainerDef):

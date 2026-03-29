@@ -5,8 +5,8 @@ import logging
 import os
 
 
-from ..models.core.eclipse_project import Link
-from ..models.core.importer_xdm import SystemDescriptionImporter
+from eb_model.models.core.eclipse_project import Link
+from eb_model.models.core.importer_xdm import SystemDescriptionImporter
 
 
 class EclipseProjectWriter:
@@ -32,7 +32,7 @@ class ABProjectWriter(EclipseProjectWriter):
         self.write_element(child_element, "name", link.name)
         self.write_element(child_element, "type", link.type)
         self.write_element(child_element, "locationURI", link.locationURI)
-    
+
     def _write_links(self, element: ET.Element, links: List[Link]):
         child_element = ET.SubElement(element, "linkedResources")
         for link in links:

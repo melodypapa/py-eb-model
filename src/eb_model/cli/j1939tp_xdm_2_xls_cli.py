@@ -10,9 +10,9 @@ import logging
 import sys
 import os.path
 
-from ..parser import J1939TpXdmParser
-from ..models import EBModel
-from ..reporter import J1939TpXdmXlsWriter
+from eb_model.parser import J1939TpXdmParser
+from eb_model.models import EBModel
+from eb_model.reporter import J1939TpXdmXlsWriter
 
 
 def main():

@@ -6,9 +6,9 @@ Implements:
     - SWR_SECOC_00002: General configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ...models.core.eb_doc import EBModel
-from ...models.crypto_stack.secoc_xdm import SecOC, SecOCGeneral
-from ..core.eb_parser import AbstractEbModelParser
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.crypto_stack.secoc_xdm import SecOC, SecOCGeneral
+from eb_model.parser.core.eb_parser import AbstractEbModelParser
 
 
 class SecOCXdmParser(AbstractEbModelParser):

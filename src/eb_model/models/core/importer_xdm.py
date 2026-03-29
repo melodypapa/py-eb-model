@@ -1,7 +1,7 @@
-from typing import List
+from typing import Dict, List
 
-from .eclipse_project import Link
-from .abstract import EcucObject
+from eb_model.models.core.eclipse_project import Link
+from eb_model.models.core.abstract import EcucObject
 import glob
 import os
 import re
@@ -11,7 +11,7 @@ import logging
 class SystemDescriptionImporter(EcucObject):
     def __init__(self, parent, name):
         super().__init__(parent, name)
-        
+
         self.logger = logging.getLogger()
         self.inputFiles = []        # type: List[str]
 
@@ -22,13 +22,13 @@ class SystemDescriptionImporter(EcucObject):
         self.logger.debug("Add the file <%s>" % value)
         self.inputFiles.append(value)
         return self
-    
+
     def parseWildcard(self, filename: str) -> List[str]:
         file_list = []
         for file in glob.iglob(filename, recursive=True):
             file_list.append(file)
         return file_list
-    
+
     def getParsedInputFiles(self, params={}) -> List[str]:
         file_list = []
         for input_file in self.inputFiles:
@@ -54,7 +54,7 @@ class SystemDescriptionImporter(EcucObject):
             else:
                 file_list.append(input_file)
         return file_list
-    
+
     def getAllPaths(self, path: str) -> List[str]:
         path_segments = path.split("/")
 
@@ -69,7 +69,7 @@ class SystemDescriptionImporter(EcucObject):
                 long_path = long_path + "/" + path_segment
             result.append(long_path)
         return result
-    
+
     def getNameByPath(self, path: str):
         path_segments = path.split("/")
 
@@ -80,9 +80,9 @@ class SystemDescriptionImporter(EcucObject):
                 count += 1
             else:
                 result.append(path_segment)
-        
+
         return (count, "/".join(result))
-    
+
     def getLinks(self, file_list: List[str]) -> List[Link]:
         path_sets = {}                              # type: Dict[str, List[str]]
         path_segment_sets = []
@@ -92,7 +92,7 @@ class SystemDescriptionImporter(EcucObject):
             path = os.path.relpath(path).replace("\\", "/")
             if path not in path_sets:
                 path_sets[path] = []
-            
+
             # To avoid the duplicate file
             if basename not in path_sets[path]:
                 path_sets[path].append(basename)
@@ -103,16 +103,16 @@ class SystemDescriptionImporter(EcucObject):
                 if path_segment not in path_sets:
                     if path_segment not in path_segment_sets:
                         path_segment_sets.append(path_segment)
-        
+
         for segment in path_segment_sets:
             link = Link(segment, 2, "virtual:/virtual")
             links.append(link)
-        
+
         for path_set in path_sets:
             for basename in path_sets[path_set]:
                 path = os.path.relpath(os.path.join(path_set, basename)).replace("\\", "/")
                 count, name = self.getNameByPath(path)
                 link = Link(name, 1, "PARENT-%d-PROJECT_LOC/%s" % (count, name))
                 links.append(link)
-        
+
         return links

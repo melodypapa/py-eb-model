@@ -7,12 +7,12 @@ Implements:
     - SWR_UDPNM_00003: Channel configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ...models.core.eb_doc import EBModel
-from ...models.eth_stack.udpnm_xdm import (
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.eth_stack.udpnm_xdm import (
     UdpNm, UdpNmGeneral, UdpNmChannel, UdpNmChannelIdentifiers,
     UdpNmRxPdu, UdpNmTxPdu, UdpNmUserDataTxPdu, UdpNmUserDataRxPdu
 )
-from ..core.eb_parser import AbstractEbModelParser
+from eb_model.parser.core.eb_parser import AbstractEbModelParser
 
 
 class UdpNmXdmParser(AbstractEbModelParser):

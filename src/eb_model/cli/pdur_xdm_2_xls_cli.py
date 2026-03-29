@@ -4,9 +4,9 @@ import logging
 import sys
 import os.path
 
-from ..parser import PduRXdmParser
-from ..models import EBModel
-from ..reporter import PduRXdmXlsWriter
+from eb_model.parser import PduRXdmParser
+from eb_model.models import EBModel
+from eb_model.reporter import PduRXdmXlsWriter
 
 
 def main():

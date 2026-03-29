@@ -8,12 +8,12 @@ Implements:
     - SWR_FRTP_00004: RxSdu/TxSdu configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ...models.core.eb_doc import EBModel
-from ...models.fr_stack.frtp_xdm import (
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.fr_stack.frtp_xdm import (
     FrTp, FrTpGeneral, FrTpConnection, FrTpConnectionControl,
     FrTpRxSdu, FrTpTxSdu, FrTpConnectionLimitConfig
 )
-from ..core.eb_parser import AbstractEbModelParser
+from eb_model.parser.core.eb_parser import AbstractEbModelParser
 
 
 class FrTpXdmParser(AbstractEbModelParser):

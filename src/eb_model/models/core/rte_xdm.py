@@ -1,5 +1,5 @@
 from typing import Any, Dict, List, Optional, cast
-from .abstract import EcucObject, EcucParamConfContainerDef, EcucRefType, Module
+from eb_model.models.core.abstract import EcucObject, EcucParamConfContainerDef, EcucRefType, Module
 
 
 class CommonPublishedInformation(EcucParamConfContainerDef):

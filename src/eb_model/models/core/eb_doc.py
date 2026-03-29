@@ -1,13 +1,13 @@
-from .bswm_xdm import BswM
-from .ecuc_xdm import EcuC
-from .importer_xdm import SystemDescriptionImporter
-from .rte_xdm import Rte
-from .os_xdm import Os
-from .tm_xdm import Tm
-from .pbcfgm_xdm import PbcfgM
-from .ecum_xdm import EcuM
-from .det_xdm import Det
-from .abstract import EcucParamConfContainerDef, EcucObject
+from eb_model.models.core.bswm_xdm import BswM
+from eb_model.models.core.ecuc_xdm import EcuC
+from eb_model.models.core.importer_xdm import SystemDescriptionImporter
+from eb_model.models.core.rte_xdm import Rte
+from eb_model.models.core.os_xdm import Os
+from eb_model.models.core.tm_xdm import Tm
+from eb_model.models.core.pbcfgm_xdm import PbcfgM
+from eb_model.models.core.ecum_xdm import EcuM
+from eb_model.models.core.det_xdm import Det
+from eb_model.models.core.abstract import EcucParamConfContainerDef, EcucObject
 
 
 class AbstractModel(EcucParamConfContainerDef):

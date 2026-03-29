@@ -5,9 +5,9 @@ import sys
 import os.path
 import re
 
-from ..writer import TextPreferenceModelWriter, ABProjectWriter
-from ..parser import PerfXdmParser
-from ..models import PreferenceModel
+from eb_model.writer import TextPreferenceModelWriter, ABProjectWriter
+from eb_model.parser import PerfXdmParser
+from eb_model.models import PreferenceModel
 
 
 def main():

@@ -5,8 +5,8 @@ Implements:
     - SWR_REPORTER_00002: Excel output generation
     - SWR_EA_00010: Ea configuration reporting
 """
-from ....models.core.eb_doc import EBModel
-from ..core.abstract import ExcelReporter
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.reporter.excel_reporter.core.abstract import ExcelReporter
 
 
 class EaXdmXlsWriter(ExcelReporter):

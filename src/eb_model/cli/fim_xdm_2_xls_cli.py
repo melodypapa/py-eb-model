@@ -10,9 +10,9 @@ import logging
 import sys
 import os.path
 
-from ..parser import FiMXdmParser
-from ..models import EBModel
-from ..reporter import FiMXdmXlsWriter
+from eb_model.parser import FiMXdmParser
+from eb_model.models import EBModel
+from eb_model.reporter import FiMXdmXlsWriter
 
 
 def main():

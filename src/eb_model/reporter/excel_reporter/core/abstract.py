@@ -28,7 +28,7 @@ class ExcelReporter:
         """Initialize the Excel reporter with a new workbook."""
         self.wb = Workbook()
         self.logger = logging.getLogger()
-    
+
     def auto_width(self, worksheet, customized={}):
         dims = {}
         for row in worksheet.rows:
@@ -59,13 +59,13 @@ class ExcelReporter:
             if ('number_format' in format):
                 cell.number_format = format['number_format']
         return cell
-    
+
     def write_cell_center(self, sheet: Worksheet, row: int, column: int, value) -> Cell:
         self.write_cell(sheet, row, column, value, format={"alignment": Alignment(horizontal="center")})
-    
+
     def write_bool_cell(self, sheet: Worksheet, row: int, column: int, value) -> Cell:
         self.write_cell_center(sheet, row, column, self.format_boolean(value))
-    
+
     def format_boolean(self, value: bool) -> str:
         if value is True:
             return "Y"

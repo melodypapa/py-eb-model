@@ -1,5 +1,5 @@
 from typing import List
-from ..core.abstract import EcucParamConfContainerDef, Module, EcucRefType
+from eb_model.models.core.abstract import EcucParamConfContainerDef, Module, EcucRefType
 
 
 class NvMTargetBlockReference(EcucParamConfContainerDef):

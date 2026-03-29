@@ -1,7 +1,167 @@
-from ._version import __version__ as __version__
-from .models import *
-from .parser import *
-from .reporter import *
-from .writer import *
+"""
+py-eb-model - AUTOSAR EB Tresos XDM parser library.
 
-__all__ = ["__version__"]
+This module provides tools for parsing EB Tresos XDM configuration files
+and exporting data to various formats.
+
+Implements: SWR_MAIN_00001 (Main library interface)
+"""
+
+import eb_model.models as models
+import eb_model.parser as parser
+import eb_model.reporter as reporter
+import eb_model.writer as writer
+from eb_model._version import __version__ as __version__
+
+# Import models
+from eb_model.models import (
+    EcucObject, EcucEnumerationParamDef, EcucParamConfContainerDef, EcucRefType,
+    Version, Module, AbstractModel, EBModel, PreferenceModel, SystemDescriptionImporter,
+    OsAlarmAction, OsAlarmAutostart, OsAlarmActivateTask, OsAlarmCallback,
+    OsAlarmIncrementCounter, OsAlarmSetEvent, OsAlarm, OsApplicationHooks,
+    OsApplicationTrustedFunction, OsAppMode, OsApplication, OsDriver,
+    OsTimeConstant, OsCounter, OsResource, OsIsrResourceLock,
+    OsIsrTimingProtection, OsIsr, OsTaskAutostart, OsTaskResourceLock,
+    OsTaskTimingProtection, OsTask, OsScheduleTableAutostart,
+    OsScheduleTblAdjustableExpPoint, OsScheduleTableTaskActivation,
+    OsScheduleTableEventSetting, OsScheduleTableExpiryPoint, OsScheduleTable,
+    MkMemoryRegion, MkMemoryProtection, MkFunction, MkStack,
+    MkThreadCustomization, MkOptimization, OsMicrokernel,
+    CommonPublishedInformation, PublishedInformation, OsHwIncrementer,
+    OsEvent, OsSpinlock, OsPeripheralArea, OsOS, OsHooks,
+    OsCoreConfig, OsAutosarCustomization, Os,
+    RteBswGeneral, RteBswEventToIsrMapping, RteBswExclusiveAreaImpl,
+    RteBswExternalTriggerConfig, RteBswInternalTriggerConfig,
+    RteBswRequiredModeGroupConnection, RteBswRequiredSenderReceiverConnection,
+    RteBswRequiredClientServerConnection, RteBswRequiredTriggerConnection,
+    RteGeneration, ComTaskConfiguration, BswConfiguration,
+    OsCounterAssignments, CooperativeTasks, TaskChain,
+    RteImplicitCommunication, RteInitializationBehavior,
+    RteInitializationRunnableBatch, RteOsInteraction,
+    RteModeToScheduleTableMapping, RteRips, DataMappings,
+    RteExclusiveAreaImplementation, RteExternalTriggerConfig,
+    RteInternalTriggerConfig, RteNvRamAllocation, RteSwComponentType,
+    RteEventToIsrMapping, AbstractEventToTaskMapping, RteEventToTaskMapping,
+    RteEventToTaskMappingV3, RteEventToTaskMappingV4, RteBswEventToTaskMapping,
+    RteBswEventToTaskMappingV3, RteBswEventToTaskMappingV4,
+    AbstractRteInstance, RteSwComponentInstance, RteBswModuleInstance, Rte,
+    TmGeneral, TmInterruptSynchronization, TmTickTime, TmTrigger, Tm,
+    PbcfgMProtectionSet, PbcfgMCoreProtectionSet, PbcfgMGeneral, PbcfgM,
+    EcuMCommonConfiguration, EcuMDefaultShutdownTarget, EcuMDriverInitItem,
+    EcuMDriverInitListOne, EcuMDriverInitListZero, EcuMDriverRestartList,
+    EcuMSleepMode, EcuMWakeupSource, EcuMDemEventParameterRefs,
+    EcuMFixedConfiguration, EcuMDriverInitListThree, EcuMDriverInitListTwo,
+    EcuMFixedUserConfig, EcuMTTII, EcuMWdgM, EcuMFlexConfiguration,
+    EcuMAlarmClock, EcuMFlexUserConfig, EcuMGoDownAllowedUsers,
+    EcuMResetMode, EcuMSetClockAllowedUsers, EcuMShutdownCause,
+    EcuMShutdownTarget, EcuMDefensiveProgramming, EcuMFixedGeneral,
+    EcuMFlexGeneral, EcuMServiceAPI, ReportToDem, EcuMStartup,
+    EcuMShutdown, EcuMAlarm, EcuMGeneral, EcuM,
+    EcucPartitionSoftwareComponentInstanceRef, EcucPartition, EcucGeneral,
+    EcucHardware, EcucCoreDefinition, EcucPduCollection, MetaDataType,
+    MetaDataItem, Pdu, EcucPduDedicatedPartition, EcucPostBuildVariants,
+    EcucVariationResolver, EcucPartitionCollection, EcuC,
+    DetServiceAPI, DetNotification, DetDefensiveProgramming,
+    SoftwareComponentList, InstanceIdList, DetErrorHook, DetInitError,
+    DetGeneral, Det,
+    BswMModeCondition, BswMModeDeclaration, BswMGeneral, BswM,
+    LinIfGeneral, LinIfChannel, LinIfFrame, LinIf, LinSMGeneral,
+    LinSMChannel, LinSM, LinTpGeneral, LinTpRxNSdu, LinTpTxNSdu,
+    LinTp,
+    CanIfGeneral, CanIfCtrlCfg, CanIfTrcvCfg, CanIfDispatchCfg,
+    CanIfBufferCfg, CanIfHrhCfg, CanIfHthCfg, CanIfRxPduCfg,
+    CanIfTxPduCfg, CanIf,
+    CanNmGeneral, CanNmGlobalConfig, CanNmChannel, CanNmRxPdu,
+    CanNmTxPdu, CanNmPnFilterMaskByte, CanNmPnInfo, CanNm,
+    CanSMGeneral, CanSMManagerNetwork, CanSMController,
+    CanSMDemEventParameterRefs, CanSM,
+    CanTpGeneral, CanTpChannel, CanTpRxNSdu, CanTpTxNSdu, CanTp,
+    EthIfGeneral, EthIfController, EthIfFrameOwnerConfig,
+    EthIfPhysController, EthIfSwitch, EthIfSwitchPortGroup, EthIfTransceiver,
+    EthIfRxIndicationConfig, EthIfTxConfirmationConfig,
+    EthIfEthControllerType, EthIfEthTrcvType, EthIfEthSwtType, EthIf,
+    EthSMGeneral, EthSMDemEventParameterRefs, EthSMNetwork, EthSM,
+    TcpIpGeneral, TcpIpOffloadChecksum, TcpIpIpV4Ctrl, TcpIpIpV6Ctrl,
+    TcpIpCtrl, TcpIpLocalAddr, TcpIp,
+    SoAdGeneral, SoAdSocketRemoteAddress, SoAdSocketUdp, SoAdSocketTcp,
+    SoAdSocketConnection, SoAdSocketConnectionGroup, SoAdPduRouteDest,
+    SoAdPduRoute, SoAdSocketRouteDest, SoAdSocketRoute, SoAdRoutingGroup,
+    SoAd,
+    UdpNmGeneral, UdpNmChannelIdentifiers, UdpNmRxPdu, UdpNmTxPdu,
+    UdpNmUserDataTxPdu, UdpNmUserDataRxPdu, UdpNmChannel, UdpNm,
+    DoIPGeneral, DoIPPduRRxPdu, DoIPPduRTxPdu, DoIPChannel,
+    DoIPSoAdRxPdu, DoIPSoAdTxPdu, DoIPTcpConnection, DoIPUdpConnection,
+    DoIPUdpVehicleAnnouncement, DoIPConnections, DoIP,
+    SomeIpTpGeneral, SomeIpTpRxNPdu, SomeIpTpRxNSdu, SomeIpTpTxNPdu,
+    SomeIpTpTxNSdu, SomeIpTpChannel, SomeIpTp,
+    FrIfGeneral, FrIfCluster, FrIfController, FrIf, FrNmGeneral,
+    FrNmChannelIdentifiers, FrNmRxPdu, FrNmTxPdu, FrNmChannel, FrNm,
+    FrSMGeneral, FrSMClusterDemEventParameterRefs, FrSMCluster, FrSM,
+    FrTpGeneral, FrTpConnectionLimitConfig, FrTpConnectionControl,
+    FrTpRxSdu, FrTpTxSdu, FrTpConnection, FrTp,
+    FrArTpGeneral, FrArTpRxSdu, FrArTpTxSdu, FrArTpPdu,
+    FrArTpConnection, FrArTpChannel, FrArTp,
+    ComGeneral, Com, LdCom, ComMChannel, ComM,
+    PduRRoutingTableEntry, PduR, IpduMDynPdu, IpduM, NmChannel, Nm,
+    MemIfInit, MemIf, FeeGeneral, Fee, EaGeneral, Ea,
+    MemMapCommon, MemMap, MemAccCommon, MemAcc, CrcConfig, Crc,
+    NvMTargetBlockReference, NvMEaRef, NvMFeeRef, NvMCommon,
+    NvMSingleBlockCallback, NvMInitBlockCallback, NvMDefensiveProgramming,
+    NvMCommonCryptoSecurityParameters, NvMServiceAPI, NvmDemEventParameterRefs,
+    MultiCoreCallout, NvMBlockDescriptor, NvM,
+    CryptoGeneral, Crypto, CryIfGeneral, CryIf, CsmGeneral, Csm,
+    SecOCGeneral, SecOC,
+    DcmGeneral, Dcm, DemGeneral, Dem, DltGeneral, Dlt, FiMGeneral,
+    FiM,
+    J1939DcmGeneral, J1939Dcm, J1939NmGeneral, J1939Nm, J1939RmGeneral,
+    J1939Rm, J1939TpGeneral, J1939Tp,
+)
+
+# Import parsers
+from eb_model.parser import (
+    AbstractEbModelParser, EbParserFactory, OsXdmParser, RteXdmParser,
+    TmXdmParser, PbcfgMXdmParser, EcuMXdmParser, EcucXdmParser,
+    DetXdmParser, BswMXdmParser, PerfXdmParser,
+    LinIfXdmParser, LinSMXdmParser, LinTpXdmParser,
+    CanIfXdmParser, CanNmXdmParser, CanSMXdmParser, CanTpXdmParser,
+    EthIfXdmParser, EthSMXdmParser, TcpIpXdmParser, SoAdXdmParser,
+    UdpNmXdmParser, DoIPXdmParser, SomeIpTpXdmParser,
+    FrIfXdmParser, FrNmXdmParser, FrSMXdmParser, FrTpXdmParser,
+    FrArTpXdmParser,
+    ComXdmParser, LdComXdmParser, ComMXdmParser, PduRXdmParser,
+    IpduMXdmParser, NmXdmParser,
+    MemIfXdmParser, FeeXdmParser, EaXdmParser, MemMapXdmParser,
+    MemAccXdmParser, CrcXdmParser, NvMXdmParser,
+    CryptoXdmParser, CryIfXdmParser, CsmXdmParser, SecOCXdmParser,
+    DcmXdmParser, DemXdmParser, DltXdmParser, FiMXdmParser,
+    J1939DcmXdmParser, J1939NmXdmParser, J1939RmXdmParser, J1939TpXdmParser,
+)
+
+# Import reporters
+from eb_model.reporter import (
+    ExcelReporter, OsXdmXlsWriter, RteXdmXlsWriter, RteRunnableEntityXlsWriter,
+    TmXdmXlsWriter, PbcfgMXdmXlsWriter, EcuMXdmXlsWriter, EcucXdmXlsWriter,
+    DetXdmXlsWriter, BswMXdmXlsWriter, LinIfXdmXlsWriter, LinSMXdmXlsWriter,
+    LinTpXdmXlsWriter, CanIfXdmXlsWriter, CanNmXdmXlsWriter, CanSMXdmXlsWriter,
+    CanTpXdmXlsWriter, EthIfXdmXlsWriter, EthSMXdmXlsWriter, TcpIpXdmXlsWriter,
+    SoAdXdmXlsWriter, UdpNmXdmXlsWriter, DoIPXdmXlsWriter, SomeIpTpXdmXlsWriter,
+    FrIfXdmXlsWriter, FrNmXdmXlsWriter, FrSMXdmXlsWriter, FrTpXdmXlsWriter,
+    FrArTpXdmXlsWriter, ComXdmXlsWriter, LdComXdmXlsWriter, ComMXdmXlsWriter,
+    PduRXdmXlsWriter, IpduMXdmXlsWriter, NmXdmXlsWriter, MemIfXdmXlsWriter,
+    FeeXdmXlsWriter, EaXdmXlsWriter, MemMapXdmXlsWriter, MemAccXdmXlsWriter,
+    CrcXdmXlsWriter, NvMXdmXlsWriter, CryptoXdmXlsWriter, CryIfXdmXlsWriter,
+    CsmXdmXlsWriter, SecOCXdmXlsWriter, DcmXdmXlsWriter, DemXdmXlsWriter,
+    DltXdmXlsWriter, FiMXdmXlsWriter, J1939DcmXdmXlsWriter, J1939NmXdmXlsWriter,
+    J1939RmXdmXlsWriter, J1939TpXdmXlsWriter,
+)
+
+# Import writers
+from eb_model.writer import TextPreferenceModelWriter, ABProjectWriter
+
+__all__ = (
+    "__version__",
+    *models.__all__,
+    *parser.__all__,
+    *reporter.__all__,
+    *writer.__all__,
+)

@@ -7,19 +7,19 @@ Implements:
     - SWR_ECUM_00003: Shutdown configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ...models.core.eb_doc import EBModel
-from ...models.core.ecum_xdm import EcuM, EcuMGeneral, EcuMStartup, EcuMShutdown, EcuMAlarm
-from ...models.core.ecum_xdm import CommonPublishedInformation, PublishedInformation, EcuMCommonConfiguration
-from ...models.core.ecum_xdm import EcuMDefaultShutdownTarget, EcuMDriverInitItem, EcuMDriverInitListOne
-from ...models.core.ecum_xdm import EcuMDriverInitListZero, EcuMDriverRestartList, EcuMSleepMode
-from ...models.core.ecum_xdm import EcuMWakeupSource, EcuMDemEventParameterRefs, EcuMFixedConfiguration
-from ...models.core.ecum_xdm import EcuMDriverInitListThree, EcuMDriverInitListTwo, EcuMFixedUserConfig
-from ...models.core.ecum_xdm import EcuMTTII, EcuMWdgM, EcuMFlexConfiguration, EcuMAlarmClock
-from ...models.core.ecum_xdm import EcuMFlexUserConfig, EcuMGoDownAllowedUsers, EcuMResetMode
-from ...models.core.ecum_xdm import EcuMSetClockAllowedUsers, EcuMShutdownCause, EcuMShutdownTarget
-from ...models.core.ecum_xdm import EcuMDefensiveProgramming, EcuMFixedGeneral, EcuMFlexGeneral
-from ...models.core.ecum_xdm import EcuMServiceAPI, ReportToDem
-from .eb_parser import AbstractEbModelParser
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.core.ecum_xdm import EcuM, EcuMGeneral, EcuMStartup, EcuMShutdown, EcuMAlarm
+from eb_model.models.core.ecum_xdm import CommonPublishedInformation, PublishedInformation, EcuMCommonConfiguration
+from eb_model.models.core.ecum_xdm import EcuMDefaultShutdownTarget, EcuMDriverInitItem, EcuMDriverInitListOne
+from eb_model.models.core.ecum_xdm import EcuMDriverInitListZero, EcuMDriverRestartList, EcuMSleepMode
+from eb_model.models.core.ecum_xdm import EcuMWakeupSource, EcuMDemEventParameterRefs, EcuMFixedConfiguration
+from eb_model.models.core.ecum_xdm import EcuMDriverInitListThree, EcuMDriverInitListTwo, EcuMFixedUserConfig
+from eb_model.models.core.ecum_xdm import EcuMTTII, EcuMWdgM, EcuMFlexConfiguration, EcuMAlarmClock
+from eb_model.models.core.ecum_xdm import EcuMFlexUserConfig, EcuMGoDownAllowedUsers, EcuMResetMode
+from eb_model.models.core.ecum_xdm import EcuMSetClockAllowedUsers, EcuMShutdownCause, EcuMShutdownTarget
+from eb_model.models.core.ecum_xdm import EcuMDefensiveProgramming, EcuMFixedGeneral, EcuMFlexGeneral
+from eb_model.models.core.ecum_xdm import EcuMServiceAPI, ReportToDem
+from eb_model.parser.core.eb_parser import AbstractEbModelParser
 
 
 class EcuMXdmParser(AbstractEbModelParser):

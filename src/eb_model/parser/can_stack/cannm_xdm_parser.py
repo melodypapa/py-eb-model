@@ -7,12 +7,12 @@ Implements:
     - SWR_CANNM_00003: PDU configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ...models.core.eb_doc import EBModel
-from ...models.can_stack.cannm_xdm import (
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.can_stack.cannm_xdm import (
     CanNm, CanNmGeneral, CanNmGlobalConfig, CanNmChannel,
     CanNmRxPdu, CanNmTxPdu, CanNmPnFilterMaskByte, CanNmPnInfo
 )
-from ..core.eb_parser import AbstractEbModelParser
+from eb_model.parser.core.eb_parser import AbstractEbModelParser
 
 
 class CanNmXdmParser(AbstractEbModelParser):

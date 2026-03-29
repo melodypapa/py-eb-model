@@ -28,7 +28,7 @@ class EcucObject(metaclass=ABCMeta):
         """
         if type(self) is EcucObject:
             raise ValueError("Abstract EcucObject cannot be initialized.")
-        
+
         self.name = name
         self.parent = parent
 
@@ -81,14 +81,14 @@ class EcucParamConfContainerDef(EcucObject):
     def getTotalElement(self) -> int:
         # return len(list(filter(lambda a: not isinstance(a, ARPackage) , self.elements.values())))
         return len(self.elements)
-    
+
     def addElement(self, object: EcucObject):
         if object.getName() not in self.elements:
             object.parent = self
             self.elements[object.getName()] = object
 
         return self
-    
+
     def removeElement(self, key):
         if key not in self.elements:
             raise KeyError("Invalid key <%s> for removing element" % key)
@@ -101,7 +101,7 @@ class EcucParamConfContainerDef(EcucObject):
         if (name not in self.elements):
             return None
         return self.elements[name]
-    
+
     def getImporterInfo(self) -> Optional[str]:
         return self.importerInfo
 
@@ -133,10 +133,10 @@ class EcucRefType:
     def setValue(self, value: str) -> 'EcucRefType':
         self.value = value
         return self
-    
+
     def __str__(self) -> str:
         return self.value
-    
+
     def getShortName(self) -> str:
         if self.value is None:
             raise ValueError("Invalid value of EcucRefType")
@@ -182,7 +182,7 @@ class Version:
         if value is not None:
             self.patchVersion = value
         return self
-    
+
     def getVersion(self) -> str:
         major = self.majorVersion or 0
         minor = self.minorVersion or 0

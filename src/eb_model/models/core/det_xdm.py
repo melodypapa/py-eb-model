@@ -1,5 +1,5 @@
 import logging
-from .abstract import EcucParamConfContainerDef, EcucRefType, Module  # noqa F401
+from eb_model.models.core.abstract import EcucParamConfContainerDef, EcucRefType, Module  # noqa F401
 
 
 class CommonPublishedInformation(EcucParamConfContainerDef):

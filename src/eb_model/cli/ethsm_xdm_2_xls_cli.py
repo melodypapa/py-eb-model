@@ -4,9 +4,9 @@ import logging
 import sys
 import os.path
 
-from ..parser import EthSMXdmParser
-from ..models import EBModel
-from ..reporter import EthSMXdmXlsWriter
+from eb_model.parser import EthSMXdmParser
+from eb_model.models import EBModel
+from eb_model.reporter import EthSMXdmXlsWriter
 
 
 def main():

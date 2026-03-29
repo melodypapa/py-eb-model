@@ -1,6 +1,6 @@
-from ....models.core.eb_doc import EBModel
-from ....models.mem_stack.nvm_xdm import NvMEaRef, NvMFeeRef
-from ..core.abstract import ExcelReporter
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.mem_stack.nvm_xdm import NvMEaRef, NvMFeeRef
+from eb_model.reporter.excel_reporter.core.abstract import ExcelReporter
 from openpyxl.styles.alignment import Alignment
 
 
@@ -78,7 +78,7 @@ class NvMXdmXlsWriter(ExcelReporter):
             if nvm_block.getNvMWriteRamBlockToNvCallback() is not None:
                 self.write_cell(sheet, row, 19, nvm_block.getNvMWriteRamBlockToNvCallback())
             self.write_bool_cell(sheet, row, 20, nvm_block.getNvMBlockUseSyncMechanism())
-            
+
             self.write_cell_center(sheet, row, 21, nvm_block.getNvMNvBlockBaseNumber())
             block_reference = nvm_block.getNvMTargetBlockReference()
             if block_reference is not None:
@@ -86,7 +86,7 @@ class NvMXdmXlsWriter(ExcelReporter):
                     self.write_cell(sheet, row, 22, block_reference.getNvMNameOfFeeBlock().getShortName())
                 else:
                     raise NotImplementedError("Unsupported Target block reference.")
-            
+
             row += 1
 
             self.logger.debug("Write NvM Block <%s>" % nvm_block.getName())
@@ -104,7 +104,7 @@ class NvMXdmXlsWriter(ExcelReporter):
         if nvm_common is None:
             self.logger.error("NvMCommon is Invalid and BSW Distribution updating is skipped.")
             return
-        
+
         master_partition_ref = nvm_common.getNvMMasterEcucPartitionRef()
 
         row = 2

@@ -8,13 +8,13 @@ Implements:
     - SWR_CANIF_00004: Hardware object configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ...models.core.eb_doc import EBModel
-from ...models.can_stack.canif_xdm import (
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.can_stack.canif_xdm import (
     CanIf, CanIfGeneral, CanIfCtrlCfg, CanIfTrcvCfg,
     CanIfDispatchCfg, CanIfBufferCfg, CanIfHrhCfg, CanIfHthCfg,
     CanIfRxPduCfg, CanIfTxPduCfg
 )
-from ..core.eb_parser import AbstractEbModelParser
+from eb_model.parser.core.eb_parser import AbstractEbModelParser
 
 
 class CanIfXdmParser(AbstractEbModelParser):
