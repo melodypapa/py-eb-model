@@ -9,19 +9,19 @@ Implements:
 """
 import xml.etree.ElementTree as ET
 
-from ..models.rte_xdm import Rte, RteBswEventToTaskMapping, RteBswEventToTaskMappingV3, RteBswEventToTaskMappingV4, RteBswModuleInstance
-from ..models.rte_xdm import RteEventToTaskMapping, RteEventToTaskMappingV3, RteEventToTaskMappingV4, RteSwComponentInstance
-from ..models.rte_xdm import CommonPublishedInformation, PublishedInformation, RteBswGeneral
-from ..models.rte_xdm import RteBswEventToIsrMapping, RteBswExclusiveAreaImpl, RteBswExternalTriggerConfig
-from ..models.rte_xdm import RteBswInternalTriggerConfig, RteBswRequiredModeGroupConnection
-from ..models.rte_xdm import RteBswRequiredSenderReceiverConnection, RteBswRequiredClientServerConnection
-from ..models.rte_xdm import RteBswRequiredTriggerConnection, RteGeneration, ComTaskConfiguration
-from ..models.rte_xdm import BswConfiguration, OsCounterAssignments, CooperativeTasks, TaskChain
-from ..models.rte_xdm import RteImplicitCommunication, RteInitializationBehavior, RteInitializationRunnableBatch
-from ..models.rte_xdm import RteOsInteraction, RteModeToScheduleTableMapping, RteRips, DataMappings
-from ..models.rte_xdm import RteExclusiveAreaImplementation, RteExternalTriggerConfig, RteInternalTriggerConfig
-from ..models.rte_xdm import RteNvRamAllocation, RteSwComponentType
-from ..models.eb_doc import EBModel
+from ..models.core.rte_xdm import Rte, RteBswEventToTaskMapping, RteBswEventToTaskMappingV3, RteBswEventToTaskMappingV4, RteBswModuleInstance
+from ..models.core.rte_xdm import RteEventToTaskMapping, RteEventToTaskMappingV3, RteEventToTaskMappingV4, RteSwComponentInstance
+from ..models.core.rte_xdm import CommonPublishedInformation, PublishedInformation, RteBswGeneral
+from ..models.core.rte_xdm import RteBswEventToIsrMapping, RteBswExclusiveAreaImpl, RteBswExternalTriggerConfig
+from ..models.core.rte_xdm import RteBswInternalTriggerConfig, RteBswRequiredModeGroupConnection
+from ..models.core.rte_xdm import RteBswRequiredSenderReceiverConnection, RteBswRequiredClientServerConnection
+from ..models.core.rte_xdm import RteBswRequiredTriggerConnection, RteGeneration, ComTaskConfiguration
+from ..models.core.rte_xdm import BswConfiguration, OsCounterAssignments, CooperativeTasks, TaskChain
+from ..models.core.rte_xdm import RteImplicitCommunication, RteInitializationBehavior, RteInitializationRunnableBatch
+from ..models.core.rte_xdm import RteOsInteraction, RteModeToScheduleTableMapping, RteRips, DataMappings
+from ..models.core.rte_xdm import RteExclusiveAreaImplementation, RteExternalTriggerConfig, RteInternalTriggerConfig
+from ..models.core.rte_xdm import RteNvRamAllocation, RteSwComponentType
+from ..models.core.eb_doc import EBModel
 from ..parser.eb_parser import AbstractEbModelParser
 
 

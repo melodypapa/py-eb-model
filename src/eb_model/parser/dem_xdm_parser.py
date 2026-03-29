@@ -6,8 +6,8 @@ Implements:
     - SWR_DEM_00002: General configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.dem_xdm import Dem, DemGeneral
+from ..models.core.eb_doc import EBModel
+from ..models.diag_stack.dem_xdm import Dem, DemGeneral
 from ..parser.eb_parser import AbstractEbModelParser
 
 

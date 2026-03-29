@@ -5,7 +5,7 @@ Implements:
     - SWR_J1939RM_00003: Excel output generation
     - SWR_J1939RM_00002: General configuration export
 """
-from ...models.eb_doc import EBModel
+from ...models.core.eb_doc import EBModel
 from ...reporter.excel_reporter.abstract import ExcelReporter
 
 

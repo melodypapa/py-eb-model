@@ -10,8 +10,8 @@ import re
 from abc import ABCMeta
 from typing import List
 
-from ..models.eb_doc import EBModel, PreferenceModel
-from ..models.abstract import EcucRefType, Module
+from ..models.core.eb_doc import EBModel, PreferenceModel
+from ..models.core.abstract import EcucRefType, Module
 
 
 class AbstractEbModelParser(metaclass=ABCMeta):

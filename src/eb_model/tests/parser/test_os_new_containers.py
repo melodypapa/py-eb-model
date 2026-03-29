@@ -3,8 +3,8 @@ Os Parser Tests for New Containers and Attributes - Tests for OS module parser.
 """
 import pytest
 from ...parser.os_xdm_parser import OsXdmParser
-from ...models.eb_doc import EBModel
-from ...models.os_xdm import (
+from ...models.core.eb_doc import EBModel
+from ...models.core.os_xdm import (
     CommonPublishedInformation, PublishedInformation, OsHwIncrementer,
     OsEvent, OsSpinlock, OsPeripheralArea, OsOS, OsHooks, OsCoreConfig,
     OsAutosarCustomization

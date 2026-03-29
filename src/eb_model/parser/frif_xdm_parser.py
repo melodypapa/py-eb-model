@@ -7,8 +7,8 @@ Implements:
     - SWR_FRIF_00003: Controller configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.frif_xdm import (
+from ..models.core.eb_doc import EBModel
+from ..models.fr_stack.frif_xdm import (
     FrIf, FrIfGeneral, FrIfController, FrIfCluster
 )
 from ..parser.eb_parser import AbstractEbModelParser

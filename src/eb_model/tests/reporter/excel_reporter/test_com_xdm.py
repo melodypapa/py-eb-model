@@ -5,8 +5,8 @@ import os
 import tempfile
 from openpyxl import load_workbook
 from eb_model.reporter.excel_reporter.com_xdm import ComXdmXlsWriter
-from eb_model.models.com_xdm import Com, ComGeneral
-from eb_model.models.eb_doc import EBModel
+from eb_model.models.com_stack.com_xdm import Com, ComGeneral
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestComXdmXlsWriter:

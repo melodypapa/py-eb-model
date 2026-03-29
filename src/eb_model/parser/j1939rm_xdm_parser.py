@@ -6,8 +6,8 @@ Implements:
     - SWR_J1939RM_00002: General configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.j1939rm_xdm import J1939Rm, J1939RmGeneral
+from ..models.core.eb_doc import EBModel
+from ..models.j1939_stack.j1939rm_xdm import J1939Rm, J1939RmGeneral
 from ..parser.eb_parser import AbstractEbModelParser
 
 

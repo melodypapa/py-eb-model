@@ -7,8 +7,8 @@ Implements:
     - SWR_BSWM_00003: Mode condition parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.bswm_xdm import BswM, BswMGeneral, BswMModeDeclaration, BswMModeCondition
+from ..models.core.eb_doc import EBModel
+from ..models.core.bswm_xdm import BswM, BswMGeneral, BswMModeDeclaration, BswMModeCondition
 from ..parser.eb_parser import AbstractEbModelParser
 
 

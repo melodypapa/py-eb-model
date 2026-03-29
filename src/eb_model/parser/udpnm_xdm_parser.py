@@ -7,8 +7,8 @@ Implements:
     - SWR_UDPNM_00003: Channel configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.udpnm_xdm import (
+from ..models.core.eb_doc import EBModel
+from ..models.eth_stack.udpnm_xdm import (
     UdpNm, UdpNmGeneral, UdpNmChannel, UdpNmChannelIdentifiers,
     UdpNmRxPdu, UdpNmTxPdu, UdpNmUserDataTxPdu, UdpNmUserDataRxPdu
 )

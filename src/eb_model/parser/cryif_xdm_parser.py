@@ -6,8 +6,8 @@ Implements:
     - SWR_CRYIF_00002: General configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.cryif_xdm import CryIf, CryIfGeneral
+from ..models.core.eb_doc import EBModel
+from ..models.crypto_stack.cryif_xdm import CryIf, CryIfGeneral
 from ..parser.eb_parser import AbstractEbModelParser
 
 

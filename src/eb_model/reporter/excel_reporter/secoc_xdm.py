@@ -4,7 +4,7 @@ SecOC XDM Excel Reporter - Generates Excel reports for SecOC module configuratio
 Implements:
     - SWR_SECOC_00003: Excel output generation
 """
-from ...models.eb_doc import EBModel
+from ...models.core.eb_doc import EBModel
 from ...reporter.excel_reporter.abstract import ExcelReporter
 
 

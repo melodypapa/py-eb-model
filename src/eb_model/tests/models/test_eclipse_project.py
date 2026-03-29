@@ -1,5 +1,5 @@
 import pytest
-from ...models.eclipse_project import Link
+from ...models.core.eclipse_project import Link
 
 
 class TestLink:

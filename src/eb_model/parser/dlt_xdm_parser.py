@@ -6,8 +6,8 @@ Implements:
     - SWR_DLT_00002: General configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.dlt_xdm import Dlt, DltGeneral
+from ..models.core.eb_doc import EBModel
+from ..models.diag_stack.dlt_xdm import Dlt, DltGeneral
 from ..parser.eb_parser import AbstractEbModelParser
 
 

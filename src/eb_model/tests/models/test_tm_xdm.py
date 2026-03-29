@@ -2,8 +2,8 @@
 Tm Model Tests - Tests for TM module model classes.
 """
 import pytest
-from ...models.tm_xdm import Tm, TmGeneral, CommonPublishedInformation, PublishedInformation
-from ...models.eb_doc import EBModel
+from ...models.core.tm_xdm import Tm, TmGeneral, CommonPublishedInformation, PublishedInformation
+from ...models.core.eb_doc import EBModel
 
 
 class TestTmGeneral:

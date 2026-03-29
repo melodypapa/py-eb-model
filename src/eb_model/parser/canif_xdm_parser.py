@@ -8,8 +8,8 @@ Implements:
     - SWR_CANIF_00004: Hardware object configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.canif_xdm import (
+from ..models.core.eb_doc import EBModel
+from ..models.can_stack.canif_xdm import (
     CanIf, CanIfGeneral, CanIfCtrlCfg, CanIfTrcvCfg,
     CanIfDispatchCfg, CanIfBufferCfg, CanIfHrhCfg, CanIfHthCfg,
     CanIfRxPduCfg, CanIfTxPduCfg

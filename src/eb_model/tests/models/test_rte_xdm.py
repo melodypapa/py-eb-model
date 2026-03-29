@@ -2,8 +2,8 @@
 Rte Model Tests - Tests for RTE module model classes.
 """
 import pytest
-from ...models.rte_xdm import Rte, RteSwComponentInstance, RteBswModuleInstance
-from ...models.eb_doc import EBModel
+from ...models.core.rte_xdm import Rte, RteSwComponentInstance, RteBswModuleInstance
+from ...models.core.eb_doc import EBModel
 
 
 class TestRteSwComponentInstance:

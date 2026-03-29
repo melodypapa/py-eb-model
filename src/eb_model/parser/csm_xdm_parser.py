@@ -6,8 +6,8 @@ Implements:
     - SWR_CSM_00002: General configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.csm_xdm import Csm, CsmGeneral
+from ..models.core.eb_doc import EBModel
+from ..models.crypto_stack.csm_xdm import Csm, CsmGeneral
 from ..parser.eb_parser import AbstractEbModelParser
 
 

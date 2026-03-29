@@ -6,8 +6,8 @@ Implements:
     - SWR_CRC_00002: Crc configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.crc_xdm import Crc, CrcConfig
+from ..models.core.eb_doc import EBModel
+from ..models.mem_stack.crc_xdm import Crc, CrcConfig
 from ..parser.eb_parser import AbstractEbModelParser
 
 

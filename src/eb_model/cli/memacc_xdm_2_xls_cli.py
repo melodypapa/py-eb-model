@@ -8,7 +8,7 @@ import logging
 import pkg_resources
 
 from eb_model.parser.eb_parser_factory import EbParserFactory
-from eb_model.models.eb_doc import EBModel
+from eb_model.models.core.eb_doc import EBModel
 from eb_model.reporter.excel_reporter.memacc_xdm import MemAccXdmXlsWriter
 
 

@@ -8,8 +8,8 @@ Implements:
     - SWR_DOIP_00004: Connection configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.doip_xdm import (
+from ..models.core.eb_doc import EBModel
+from ..models.eth_stack.doip_xdm import (
     DoIP, DoIPGeneral, DoIPChannel, DoIPConnections,
     DoIPTcpConnection, DoIPUdpConnection, DoIPUdpVehicleAnnouncement,
     DoIPPduRRxPdu, DoIPPduRTxPdu, DoIPSoAdRxPdu, DoIPSoAdTxPdu

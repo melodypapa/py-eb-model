@@ -1,6 +1,6 @@
 from ...parser.det_xdm_parser import DetXdmParser
-from ...models.det_xdm import DetGeneral, DetErrorHook
-from ...models.eb_doc import EBModel
+from ...models.core.det_xdm import DetGeneral, DetErrorHook
+from ...models.core.eb_doc import EBModel
 
 import xml.etree.ElementTree as ET
 

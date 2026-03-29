@@ -1,5 +1,5 @@
 from ...parser.pbcfgm_xdm_parser import PbcfgMXdmParser
-from ...models.eb_doc import EBModel
+from ...models.core.eb_doc import EBModel
 
 import xml.etree.ElementTree as ET
 

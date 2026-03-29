@@ -5,8 +5,8 @@ import os
 import tempfile
 from openpyxl import load_workbook
 from eb_model.reporter.excel_reporter.crc_xdm import CrcXdmXlsWriter
-from eb_model.models.crc_xdm import Crc, CrcConfig
-from eb_model.models.eb_doc import EBModel
+from eb_model.models.mem_stack.crc_xdm import Crc, CrcConfig
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestCrcXdmXlsWriter:

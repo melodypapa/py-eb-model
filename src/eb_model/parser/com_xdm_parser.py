@@ -6,8 +6,8 @@ Implements:
     - SWR_COM_00002: General configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.com_xdm import Com, ComGeneral
+from ..models.core.eb_doc import EBModel
+from ..models.com_stack.com_xdm import Com, ComGeneral
 from ..parser.eb_parser import AbstractEbModelParser
 
 

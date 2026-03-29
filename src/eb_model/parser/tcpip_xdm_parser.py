@@ -9,8 +9,8 @@ Implements:
     - SWR_TCPIP_00005: Local address configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.tcpip_xdm import (
+from ..models.core.eb_doc import EBModel
+from ..models.eth_stack.tcpip_xdm import (
     TcpIp, TcpIpGeneral, TcpIpCtrl, TcpIpOffloadChecksum,
     TcpIpIpV4Ctrl, TcpIpIpV6Ctrl, TcpIpLocalAddr
 )

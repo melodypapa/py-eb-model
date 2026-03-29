@@ -5,9 +5,9 @@ import os
 import tempfile
 from openpyxl import load_workbook
 from eb_model.reporter.excel_reporter.pdur_xdm import PduRXdmXlsWriter
-from eb_model.models.pdur_xdm import PduR, PduRRoutingTableEntry
-from eb_model.models.eb_doc import EBModel
-from eb_model.models.abstract import EcucRefType
+from eb_model.models.com_stack.pdur_xdm import PduR, PduRRoutingTableEntry
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.core.abstract import EcucRefType
 
 
 class TestPduRXdmXlsWriter:

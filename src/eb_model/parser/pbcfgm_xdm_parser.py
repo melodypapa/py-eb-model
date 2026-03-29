@@ -6,8 +6,8 @@ Implements:
     - SWR_PBCFGM_00002: Protection set configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.pbcfgm_xdm import PbcfgM, PbcfgMGeneral, PbcfgMProtectionSet, PbcfgMCoreProtectionSet
+from ..models.core.eb_doc import EBModel
+from ..models.core.pbcfgm_xdm import PbcfgM, PbcfgMGeneral, PbcfgMProtectionSet, PbcfgMCoreProtectionSet
 from ..parser.eb_parser import AbstractEbModelParser
 
 

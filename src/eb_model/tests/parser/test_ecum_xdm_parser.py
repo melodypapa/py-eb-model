@@ -1,5 +1,5 @@
 from ...parser.ecum_xdm_parser import EcuMXdmParser
-from ...models.eb_doc import EBModel
+from ...models.core.eb_doc import EBModel
 
 import xml.etree.ElementTree as ET
 

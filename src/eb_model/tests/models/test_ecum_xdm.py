@@ -2,8 +2,8 @@
 EcuM Model Tests - Tests for ECUM module model classes.
 """
 import pytest
-from ...models.ecum_xdm import EcuM, EcuMGeneral, EcuMStartup
-from ...models.eb_doc import EBModel
+from ...models.core.ecum_xdm import EcuM, EcuMGeneral, EcuMStartup
+from ...models.core.eb_doc import EBModel
 
 
 class TestEcuMGeneral:

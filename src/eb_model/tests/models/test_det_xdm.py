@@ -2,12 +2,12 @@
 Det Model Tests - Tests for DET module model classes.
 """
 import pytest
-from ...models.det_xdm import (
+from ...models.core.det_xdm import (
     Det, DetGeneral, DetErrorHook, DetInitError,
     CommonPublishedInformation, PublishedInformation, DetServiceAPI,
     DetNotification, DetDefensiveProgramming, SoftwareComponentList, InstanceIdList
 )
-from ...models.eb_doc import EBModel
+from ...models.core.eb_doc import EBModel
 
 
 class TestDetGeneral:

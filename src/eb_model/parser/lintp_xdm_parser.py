@@ -6,8 +6,8 @@ Implements:
     - SWR_LINTP_00002: NSDU configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.lintp_xdm import LinTp, LinTpGeneral, LinTpRxNSdu, LinTpTxNSdu
+from ..models.core.eb_doc import EBModel
+from ..models.lin_stack.lintp_xdm import LinTp, LinTpGeneral, LinTpRxNSdu, LinTpTxNSdu
 from ..parser.eb_parser import AbstractEbModelParser
 
 

@@ -1,6 +1,6 @@
 from ...parser.tm_xdm_parser import TmXdmParser
-from ...models.tm_xdm import Tm, TmGeneral, TmInterruptSynchronization, TmTickTime, TmTrigger
-from ...models.eb_doc import EBModel
+from ...models.core.tm_xdm import Tm, TmGeneral, TmInterruptSynchronization, TmTickTime, TmTrigger
+from ...models.core.eb_doc import EBModel
 
 import xml.etree.ElementTree as ET
 import pytest
