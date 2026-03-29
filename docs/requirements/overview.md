@@ -178,6 +178,7 @@ writer.write(doc, "reports/Os.xlsx")
 | `rte-xdm-xlsx` | Extract RTE configuration | Rte.xdm | Excel (.xlsx) |
 | `nvm-xdm-xlsx` | Extract NvM configuration | NvM.xdm | Excel (.xlsx) |
 | `ecuc-xdm-xlsx` | Extract EcuC configuration | EcuC.xdm | Excel (.xlsx) |
+| `secoc-xdm-xlsx` | Extract SecOC configuration | SecOC.xdm | Excel (.xlsx) |
 | `PrefSystemImporter` | Generate file list or project | preference XDM(s) | Text or .project file |
 
 ## Related Documentation
