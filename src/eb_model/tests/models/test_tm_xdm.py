@@ -2,7 +2,7 @@
 Tm Model Tests - Tests for TM module model classes.
 """
 import pytest
-from ...models.tm_xdm import TmGeneral
+from ...models.tm_xdm import Tm, TmGeneral
 from ...models.eb_doc import EBModel
 
 
@@ -41,7 +41,6 @@ class TestTmGeneral:
 class TestCommonPublishedInformation:
 
     def test_initialization(self):
-        root = EBModel.getInstance()
         # Will be implemented in Task 2
         pass
 
@@ -49,6 +48,5 @@ class TestCommonPublishedInformation:
 class TestPublishedInformation:
 
     def test_initialization(self):
-        root = EBModel.getInstance()
         # Will be implemented in Task 2
         pass
