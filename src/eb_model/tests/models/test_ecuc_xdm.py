@@ -2,8 +2,8 @@
 EcuC Model Tests - Tests for ECUC module model classes.
 """
 import pytest
-from ...models.ecuc_xdm import EcuC, EcucPartition, EcucPartitionCollection, CommonPublishedInformation, PublishedInformation, EcucGeneral
-from ...models.eb_doc import EBModel
+from ...models.core.ecuc_xdm import EcuC, EcucPartition, EcucPartitionCollection, CommonPublishedInformation, PublishedInformation, EcucGeneral
+from ...models.core.eb_doc import EBModel
 
 
 class TestEcucPartition:

@@ -5,9 +5,9 @@ import os
 import tempfile
 from openpyxl import load_workbook
 from eb_model.reporter.excel_reporter.nm_xdm import NmXdmXlsWriter
-from eb_model.models.nm_xdm import Nm, NmChannel
-from eb_model.models.eb_doc import EBModel
-from eb_model.models.abstract import EcucRefType
+from eb_model.models.com_stack.nm_xdm import Nm, NmChannel
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.core.abstract import EcucRefType
 
 
 class TestNmXdmXlsWriter:

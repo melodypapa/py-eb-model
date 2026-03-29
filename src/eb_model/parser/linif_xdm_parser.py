@@ -7,8 +7,8 @@ Implements:
     - SWR_LINIF_00003: Frame configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.linif_xdm import LinIf, LinIfGeneral, LinIfChannel, LinIfFrame
+from ..models.core.eb_doc import EBModel
+from ..models.lin_stack.linif_xdm import LinIf, LinIfGeneral, LinIfChannel, LinIfFrame
 from ..parser.eb_parser import AbstractEbModelParser
 
 

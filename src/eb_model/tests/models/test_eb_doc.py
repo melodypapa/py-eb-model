@@ -1,5 +1,5 @@
 import pytest
-from ...models.eb_doc import EBModel, PreferenceModel
+from ...models.core.eb_doc import EBModel, PreferenceModel
 
 
 class TestEBModel:

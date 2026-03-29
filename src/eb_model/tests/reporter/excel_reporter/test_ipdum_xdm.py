@@ -5,8 +5,8 @@ import os
 import tempfile
 from openpyxl import load_workbook
 from eb_model.reporter.excel_reporter.ipdum_xdm import IpduMXdmXlsWriter
-from eb_model.models.ipdum_xdm import IpduM, IpduMDynPdu
-from eb_model.models.eb_doc import EBModel
+from eb_model.models.com_stack.ipdum_xdm import IpduM, IpduMDynPdu
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestIpduMXdmXlsWriter:

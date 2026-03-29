@@ -7,8 +7,8 @@ Implements:
     - SWR_FRNM_00003: Channel configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.frnm_xdm import (
+from ..models.core.eb_doc import EBModel
+from ..models.fr_stack.frnm_xdm import (
     FrNm, FrNmGeneral, FrNmChannel, FrNmChannelIdentifiers,
     FrNmRxPdu, FrNmTxPdu
 )

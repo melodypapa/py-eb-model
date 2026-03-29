@@ -4,7 +4,7 @@ Csm XDM Excel Reporter - Generates Excel reports for Csm module configuration.
 Implements:
     - SWR_CSM_00003: Excel output generation
 """
-from ...models.eb_doc import EBModel
+from ...models.core.eb_doc import EBModel
 from ...reporter.excel_reporter.abstract import ExcelReporter
 
 

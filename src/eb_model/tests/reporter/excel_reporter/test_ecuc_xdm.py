@@ -11,7 +11,7 @@ import tempfile
 from openpyxl import load_workbook
 import pytest
 from eb_model.reporter.excel_reporter.ecuc_xdm import EcucXdmXlsWriter
-from eb_model.models.eb_doc import EBModel
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestEcucXdmXlsWriter:

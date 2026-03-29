@@ -10,7 +10,7 @@ import os
 import tempfile
 from openpyxl import load_workbook
 from eb_model.reporter.excel_reporter.cantp_xdm import CanTpXdmXlsWriter
-from eb_model.models.eb_doc import EBModel
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestCanTpXdmXlsWriter:

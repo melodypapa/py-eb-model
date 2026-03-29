@@ -5,8 +5,8 @@ import logging
 import os
 
 
-from ..models.eclipse_project import Link
-from ..models.importer_xdm import SystemDescriptionImporter
+from ..models.core.eclipse_project import Link
+from ..models.core.importer_xdm import SystemDescriptionImporter
 
 
 class EclipseProjectWriter:

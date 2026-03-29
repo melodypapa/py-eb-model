@@ -8,14 +8,14 @@ Implements:
 """
 import xml.etree.ElementTree as ET
 
-from ..models.ecuc_xdm import EcuC, EcucPartition, EcucPartitionCollection
-from ..models.ecuc_xdm import EcucPartitionSoftwareComponentInstanceRef
-from ..models.ecuc_xdm import CommonPublishedInformation, PublishedInformation
-from ..models.ecuc_xdm import EcucGeneral, EcucHardware, EcucCoreDefinition
-from ..models.ecuc_xdm import EcucPduCollection, MetaDataType, MetaDataItem, Pdu
-from ..models.ecuc_xdm import EcucPduDedicatedPartition, EcucPostBuildVariants
-from ..models.ecuc_xdm import EcucVariationResolver
-from ..models.eb_doc import EBModel
+from ..models.core.ecuc_xdm import EcuC, EcucPartition, EcucPartitionCollection
+from ..models.core.ecuc_xdm import EcucPartitionSoftwareComponentInstanceRef
+from ..models.core.ecuc_xdm import CommonPublishedInformation, PublishedInformation
+from ..models.core.ecuc_xdm import EcucGeneral, EcucHardware, EcucCoreDefinition
+from ..models.core.ecuc_xdm import EcucPduCollection, MetaDataType, MetaDataItem, Pdu
+from ..models.core.ecuc_xdm import EcucPduDedicatedPartition, EcucPostBuildVariants
+from ..models.core.ecuc_xdm import EcucVariationResolver
+from ..models.core.eb_doc import EBModel
 from ..parser.eb_parser import AbstractEbModelParser
 
 

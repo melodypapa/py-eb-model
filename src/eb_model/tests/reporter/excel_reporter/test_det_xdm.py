@@ -10,7 +10,7 @@ import os
 import tempfile
 from openpyxl import load_workbook
 from eb_model.reporter.excel_reporter.det_xdm import DetXdmXlsWriter
-from eb_model.models.eb_doc import EBModel
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestDetXdmXlsWriter:

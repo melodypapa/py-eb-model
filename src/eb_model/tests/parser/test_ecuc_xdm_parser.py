@@ -5,8 +5,8 @@ import pytest
 import xml.etree.ElementTree as ET
 
 from ...parser.ecuc_xdm_parser import EcucXdmParser
-from ...models.ecuc_xdm import EcuC
-from ...models.eb_doc import EBModel
+from ...models.core.ecuc_xdm import EcuC
+from ...models.core.eb_doc import EBModel
 
 
 class TestEcucXdmParser:

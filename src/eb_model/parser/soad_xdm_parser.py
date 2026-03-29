@@ -9,8 +9,8 @@ Implements:
     - SWR_SOAD_00005: Routing group configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.soad_xdm import (
+from ..models.core.eb_doc import EBModel
+from ..models.eth_stack.soad_xdm import (
     SoAd, SoAdGeneral, SoAdSocketConnectionGroup, SoAdSocketConnection,
     SoAdSocketRemoteAddress, SoAdSocketUdp, SoAdSocketTcp,
     SoAdPduRoute, SoAdPduRouteDest, SoAdSocketRoute, SoAdSocketRouteDest, SoAdRoutingGroup

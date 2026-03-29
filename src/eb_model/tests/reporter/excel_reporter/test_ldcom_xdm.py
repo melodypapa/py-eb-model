@@ -5,8 +5,8 @@ import os
 import tempfile
 from openpyxl import load_workbook
 from eb_model.reporter.excel_reporter.ldcom_xdm import LdComXdmXlsWriter
-from eb_model.models.ldcom_xdm import LdCom
-from eb_model.models.eb_doc import EBModel
+from eb_model.models.com_stack.ldcom_xdm import LdCom
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestLdComXdmXlsWriter:

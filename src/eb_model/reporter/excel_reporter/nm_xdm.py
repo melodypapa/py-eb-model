@@ -5,7 +5,7 @@ Implements:
     - SWR_REPORTER_00002: Excel output generation
     - SWR_NM_00003: Nm configuration reporting
 """
-from ...models.eb_doc import EBModel
+from ...models.core.eb_doc import EBModel
 from ...reporter.excel_reporter.abstract import ExcelReporter
 
 

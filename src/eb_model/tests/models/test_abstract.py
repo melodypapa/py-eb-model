@@ -1,6 +1,6 @@
 import pytest
-from ...models.abstract import Module, EcucParamConfContainerDef, Version, EcucRefType, EcucObject, EcucEnumerationParamDef
-from ...models.eb_doc import EBModel
+from ...models.core.abstract import Module, EcucParamConfContainerDef, Version, EcucRefType, EcucObject, EcucEnumerationParamDef
+from ...models.core.eb_doc import EBModel
 
 
 class TestModule:

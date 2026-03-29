@@ -1,0 +1,393 @@
+from .bswm_xdm import BswM
+from .ecuc_xdm import EcuC
+from .importer_xdm import SystemDescriptionImporter
+from .rte_xdm import Rte
+from .os_xdm import Os
+from .tm_xdm import Tm
+from .pbcfgm_xdm import PbcfgM
+from .ecum_xdm import EcuM
+from .det_xdm import Det
+from .abstract import EcucParamConfContainerDef, EcucObject
+
+
+class AbstractModel(EcucParamConfContainerDef):
+    def getFullName(self):
+        return self.name
+
+    def clear(self):
+        self.elements = {}
+
+    def find_object(self, referred_name: str, element: EcucParamConfContainerDef) -> EcucObject:
+        name_list = referred_name.split("/")
+        for name in name_list:
+            if (name == ""):
+                continue
+            element = element.getElement(name)
+            if (element is None):
+                return element
+        return element
+
+
+class EBModel(AbstractModel):
+    __instance = None
+
+    @staticmethod
+    def getInstance():
+        if (EBModel.__instance is None):
+            EBModel()
+        return EBModel.__instance
+
+    def __init__(self):
+        if (EBModel.__instance is not None):
+            raise Exception("The EBModel is singleton!")
+
+        EcucParamConfContainerDef.__init__(self, None, "")
+        EBModel.__instance = self
+
+    def find(self, referred_name: str) -> EcucObject:
+        return self.find_object(referred_name, EBModel.getInstance())
+
+    def getOs(self) -> Os:
+        '''
+            get the Os Container
+        '''
+        container = EcucParamConfContainerDef(self, "Os")
+        Os(container)
+        return self.find("/Os/Os")
+
+    def getRte(self) -> Rte:
+        container = EcucParamConfContainerDef(self, "Rte")
+        Rte(container)
+        return self.find("/Rte/Rte")
+
+    def getNvM(self):
+        from ..mem_stack.nvm_xdm import NvM
+        container = EcucParamConfContainerDef(self, "NvM")
+        NvM(container)
+        return self.find("/NvM/NvM")
+
+    def getEcuC(self) -> EcuC:
+        container = EcucParamConfContainerDef(self, "EcuC")
+        EcuC(container)
+        return self.find("/EcuC/EcuC")
+
+    def getBswM(self) -> BswM:
+        container = EcucParamConfContainerDef(self, "BswM")
+        BswM(container)
+        return self.find("/BswM/BswM")
+
+    def getTm(self) -> Tm:
+        container = EcucParamConfContainerDef(self, "Tm")
+        Tm(container)
+        return self.find("/Tm/Tm")
+
+    def getPbcfgM(self) -> PbcfgM:
+        container = EcucParamConfContainerDef(self, "PbcfgM")
+        PbcfgM(container)
+        return self.find("/PbcfgM/PbcfgM")
+
+    def getEcuM(self) -> EcuM:
+        container = EcucParamConfContainerDef(self, "EcuM")
+        EcuM(container)
+        return self.find("/EcuM/EcuM")
+
+    def getDet(self) -> Det:
+        container = EcucParamConfContainerDef(self, "Det")
+        Det(container)
+        return self.find("/Det/Det")
+
+    def getCanIf(self):
+        from ..can_stack.canif_xdm import CanIf
+        container = EcucParamConfContainerDef(self, "CanIf")
+        CanIf(container)
+        return self.find("/CanIf/CanIf")
+
+    def getCanNm(self):
+        from ..can_stack.cannm_xdm import CanNm
+        container = EcucParamConfContainerDef(self, "CanNm")
+        CanNm(container)
+        return self.find("/CanNm/CanNm")
+
+    def getCanSM(self):
+        from ..can_stack.cansm_xdm import CanSM
+        container = EcucParamConfContainerDef(self, "CanSM")
+        CanSM(container)
+        return self.find("/CanSM/CanSM")
+
+    def getCanTp(self):
+        from ..can_stack.cantp_xdm import CanTp
+        container = EcucParamConfContainerDef(self, "CanTp")
+        CanTp(container)
+        return self.find("/CanTp/CanTp")
+
+    def getLinIf(self):
+        from ..lin_stack.linif_xdm import LinIf
+        container = EcucParamConfContainerDef(self, "LinIf")
+        LinIf(container)
+        return self.find("/LinIf/LinIf")
+
+    def getLinSM(self):
+        from ..lin_stack.linsm_xdm import LinSM
+        container = EcucParamConfContainerDef(self, "LinSM")
+        LinSM(container)
+        return self.find("/LinSM/LinSM")
+
+    def getLinTp(self):
+        from ..lin_stack.lintp_xdm import LinTp
+        container = EcucParamConfContainerDef(self, "LinTp")
+        LinTp(container)
+        return self.find("/LinTp/LinTp")
+
+    def getEthIf(self):
+        from ..eth_stack.ethif_xdm import EthIf
+        container = EcucParamConfContainerDef(self, "EthIf")
+        EthIf(container)
+        return self.find("/EthIf/EthIf")
+
+    def getEthSM(self):
+        from ..eth_stack.ethsm_xdm import EthSM
+        container = EcucParamConfContainerDef(self, "EthSM")
+        EthSM(container)
+        return self.find("/EthSM/EthSM")
+
+    def getTcpIp(self):
+        from ..eth_stack.tcpip_xdm import TcpIp
+        container = EcucParamConfContainerDef(self, "TcpIp")
+        TcpIp(container)
+        return self.find("/TcpIp/TcpIp")
+
+    def getSoAd(self):
+        from ..eth_stack.soad_xdm import SoAd
+        container = EcucParamConfContainerDef(self, "SoAd")
+        SoAd(container)
+        return self.find("/SoAd/SoAd")
+
+    def getUdpNm(self):
+        from ..eth_stack.udpnm_xdm import UdpNm
+        container = EcucParamConfContainerDef(self, "UdpNm")
+        UdpNm(container)
+        return self.find("/UdpNm/UdpNm")
+
+    def getDoIP(self):
+        from ..eth_stack.doip_xdm import DoIP
+        container = EcucParamConfContainerDef(self, "DoIP")
+        DoIP(container)
+        return self.find("/DoIP/DoIP")
+
+    def getSomeIpTp(self):
+        from ..eth_stack.someiptp_xdm import SomeIpTp
+        container = EcucParamConfContainerDef(self, "SomeIpTp")
+        SomeIpTp(container)
+        return self.find("/SomeIpTp/SomeIpTp")
+
+    def getFrIf(self):
+        from ..fr_stack.frif_xdm import FrIf
+        container = EcucParamConfContainerDef(self, "FrIf")
+        FrIf(container)
+        return self.find("/FrIf/FrIf")
+
+    def getFrTp(self):
+        from ..fr_stack.frtp_xdm import FrTp
+        container = EcucParamConfContainerDef(self, "FrTp")
+        FrTp(container)
+        return self.find("/FrTp/FrTp")
+
+    def getFrNm(self):
+        from ..fr_stack.frnm_xdm import FrNm
+        container = EcucParamConfContainerDef(self, "FrNm")
+        FrNm(container)
+        return self.find("/FrNm/FrNm")
+
+    def getFrSM(self):
+        from ..fr_stack.frsm_xdm import FrSM
+        container = EcucParamConfContainerDef(self, "FrSM")
+        FrSM(container)
+        return self.find("/FrSM/FrSM")
+
+    def getFrArTp(self):
+        from ..fr_stack.frartp_xdm import FrArTp
+        container = EcucParamConfContainerDef(self, "FrArTp")
+        FrArTp(container)
+        return self.find("/FrArTp/FrArTp")
+
+    def getCom(self):
+        from ..com_stack.com_xdm import Com
+        container = EcucParamConfContainerDef(self, "Com")
+        Com(container)
+        return self.find("/Com/Com")
+
+    def getComM(self):
+        from ..com_stack.comm_xdm import ComM
+        container = EcucParamConfContainerDef(self, "ComM")
+        ComM(container)
+        return self.find("/ComM/ComM")
+
+    def getLdCom(self):
+        from ..com_stack.ldcom_xdm import LdCom
+        container = EcucParamConfContainerDef(self, "LdCom")
+        LdCom(container)
+        return self.find("/LdCom/LdCom")
+
+    def getPduR(self):
+        from ..com_stack.pdur_xdm import PduR
+        container = EcucParamConfContainerDef(self, "PduR")
+        PduR(container)
+        return self.find("/PduR/PduR")
+
+    def getIpduM(self):
+        from ..com_stack.ipdum_xdm import IpduM
+        container = EcucParamConfContainerDef(self, "IpduM")
+        IpduM(container)
+        return self.find("/IpduM/IpduM")
+
+    def getNm(self):
+        from ..com_stack.nm_xdm import Nm
+        container = EcucParamConfContainerDef(self, "Nm")
+        Nm(container)
+        return self.find("/Nm/Nm")
+
+    def getCrc(self):
+        from ..mem_stack.crc_xdm import Crc
+        container = EcucParamConfContainerDef(self, "Crc")
+        Crc(container)
+        return self.find("/Crc/Crc")
+
+    def getMemIf(self):
+        from ..mem_stack.memif_xdm import MemIf
+        container = EcucParamConfContainerDef(self, "MemIf")
+        MemIf(container)
+        return self.find("/MemIf/MemIf")
+
+    def getFee(self):
+        from ..mem_stack.fee_xdm import Fee
+        container = EcucParamConfContainerDef(self, "Fee")
+        Fee(container)
+        return self.find("/Fee/Fee")
+
+    def getEa(self):
+        from ..mem_stack.ea_xdm import Ea
+        container = EcucParamConfContainerDef(self, "Ea")
+        Ea(container)
+        return self.find("/Ea/Ea")
+
+    def getMemMap(self):
+        from ..mem_stack.memmap_xdm import MemMap
+        container = EcucParamConfContainerDef(self, "MemMap")
+        MemMap(container)
+        return self.find("/MemMap/MemMap")
+
+    def getMemAcc(self):
+        from ..mem_stack.memacc_xdm import MemAcc
+        container = EcucParamConfContainerDef(self, "MemAcc")
+        MemAcc(container)
+        return self.find("/MemAcc/MemAcc")
+
+    def getCrypto(self):
+        from ..crypto_stack.crypto_xdm import Crypto
+        container = EcucParamConfContainerDef(self, "Crypto")
+        Crypto(container)
+        return self.find("/Crypto/Crypto")
+
+    def getCryIf(self):
+        from ..crypto_stack.cryif_xdm import CryIf
+        container = EcucParamConfContainerDef(self, "CryIf")
+        CryIf(container)
+        return self.find("/CryIf/CryIf")
+
+    def getCsm(self):
+        from ..crypto_stack.csm_xdm import Csm
+        container = EcucParamConfContainerDef(self, "Csm")
+        Csm(container)
+        return self.find("/Csm/Csm")
+
+    def getSecOC(self):
+        from ..crypto_stack.secoc_xdm import SecOC
+        container = EcucParamConfContainerDef(self, "SecOC")
+        SecOC(container)
+        return self.find("/SecOC/SecOC")
+
+    def getFiM(self):
+        from ..diag_stack.fim_xdm import FiM
+        container = EcucParamConfContainerDef(self, "FiM")
+        FiM(container)
+        return self.find("/FiM/FiM")
+
+    def getDcm(self):
+        from ..diag_stack.dcm_xdm import Dcm
+        container = EcucParamConfContainerDef(self, "Dcm")
+        Dcm(container)
+        return self.find("/Dcm/Dcm")
+
+    def getDem(self):
+        from ..diag_stack.dem_xdm import Dem
+        container = EcucParamConfContainerDef(self, "Dem")
+        Dem(container)
+        return self.find("/Dem/Dem")
+
+    def getDlt(self):
+        from ..diag_stack.dlt_xdm import Dlt
+        container = EcucParamConfContainerDef(self, "Dlt")
+        Dlt(container)
+        return self.find("/Dlt/Dlt")
+
+    def getJ1939Dcm(self):
+        from ..j1939_stack.j1939dcm_xdm import J1939Dcm
+        container = EcucParamConfContainerDef(self, "J1939Dcm")
+        J1939Dcm(container)
+        return self.find("/J1939Dcm/J1939Dcm")
+
+    def getJ1939Nm(self):
+        from ..j1939_stack.j1939nm_xdm import J1939Nm
+        container = EcucParamConfContainerDef(self, "J1939Nm")
+        J1939Nm(container)
+        return self.find("/J1939Nm/J1939Nm")
+
+    def getJ1939Rm(self):
+        from ..j1939_stack.j1939rm_xdm import J1939Rm
+        container = EcucParamConfContainerDef(self, "J1939Rm")
+        J1939Rm(container)
+        return self.find("/J1939Rm/J1939Rm")
+
+    def getJ1939Tp(self):
+        from ..j1939_stack.j1939tp_xdm import J1939Tp
+        container = EcucParamConfContainerDef(self, "J1939Tp")
+        J1939Tp(container)
+        return self.find("/J1939Tp/J1939Tp")
+
+    def addContainer(self, container: EcucParamConfContainerDef):
+        if (container is None):
+            raise ValueError("The container to be added cannot be None.")
+        self.elements[container.name] = container
+        container.parent = self
+        return container
+
+    def getContainer(self, name: str) -> EcucParamConfContainerDef:
+        if (name not in self.elements):
+            raise KeyError("The container <%s> does not exist." % name)
+        return self.elements[name]
+
+
+class PreferenceModel(AbstractModel):
+    __instance = None
+
+    @staticmethod
+    def getInstance():
+        if (PreferenceModel.__instance is None):
+            PreferenceModel()
+        return PreferenceModel.__instance
+
+    def __init__(self):
+        if (PreferenceModel.__instance is not None):
+            raise Exception("The PreferenceModel is singleton!")
+
+        EcucParamConfContainerDef.__init__(self, None, "")
+        PreferenceModel.__instance = self
+
+        container = EcucParamConfContainerDef(self, "ImporterExporterAdditions")
+        SystemDescriptionImporter(container, "SystemDescriptionImporters")
+
+    def find(self, referred_name: str) -> EcucObject:
+        return self.find_object(referred_name, PreferenceModel.getInstance())
+
+    def getSystemDescriptionImporter(self) -> SystemDescriptionImporter:
+        return self.find("/ImporterExporterAdditions/SystemDescriptionImporters")

@@ -7,7 +7,7 @@ Implements:
 """
 import re
 from openpyxl.styles import Alignment
-from ...models.eb_doc import EBModel
+from ...models.core.eb_doc import EBModel
 from ...reporter.excel_reporter.abstract import ExcelReporter
 
 RTE_RESOURCE_PATTERN = re.compile(r"Rte_\w+")

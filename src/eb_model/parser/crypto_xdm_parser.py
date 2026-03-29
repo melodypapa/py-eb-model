@@ -6,8 +6,8 @@ Implements:
     - SWR_CRYPTO_00002: General configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.crypto_xdm import Crypto, CryptoGeneral
+from ..models.core.eb_doc import EBModel
+from ..models.crypto_stack.crypto_xdm import Crypto, CryptoGeneral
 from ..parser.eb_parser import AbstractEbModelParser
 
 

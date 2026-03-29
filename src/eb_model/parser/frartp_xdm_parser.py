@@ -8,8 +8,8 @@ Implements:
     - SWR_FRARTP_00004: Connection configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.frartp_xdm import (
+from ..models.core.eb_doc import EBModel
+from ..models.fr_stack.frartp_xdm import (
     FrArTp, FrArTpGeneral, FrArTpChannel, FrArTpConnection,
     FrArTpRxSdu, FrArTpTxSdu, FrArTpPdu
 )

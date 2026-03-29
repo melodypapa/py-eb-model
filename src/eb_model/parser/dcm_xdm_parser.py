@@ -6,8 +6,8 @@ Implements:
     - SWR_DCM_00002: General configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.dcm_xdm import Dcm, DcmGeneral
+from ..models.core.eb_doc import EBModel
+from ..models.diag_stack.dcm_xdm import Dcm, DcmGeneral
 from ..parser.eb_parser import AbstractEbModelParser
 
 

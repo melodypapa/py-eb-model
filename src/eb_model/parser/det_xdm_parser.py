@@ -6,10 +6,10 @@ Implements:
     - SWR_DET_00002: Error hook parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.det_xdm import Det, DetGeneral, DetErrorHook, DetInitError
-from ..models.det_xdm import CommonPublishedInformation, PublishedInformation, DetServiceAPI, DetNotification, DetDefensiveProgramming
-from ..models.det_xdm import SoftwareComponentList, InstanceIdList
+from ..models.core.eb_doc import EBModel
+from ..models.core.det_xdm import Det, DetGeneral, DetErrorHook, DetInitError
+from ..models.core.det_xdm import CommonPublishedInformation, PublishedInformation, DetServiceAPI, DetNotification, DetDefensiveProgramming
+from ..models.core.det_xdm import SoftwareComponentList, InstanceIdList
 from ..parser.eb_parser import AbstractEbModelParser
 
 

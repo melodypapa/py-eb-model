@@ -9,8 +9,8 @@ Implements:
     - SWR_SOMEIPTP_00005: TxNSdu configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.someiptp_xdm import (
+from ..models.core.eb_doc import EBModel
+from ..models.eth_stack.someiptp_xdm import (
     SomeIpTp, SomeIpTpGeneral, SomeIpTpChannel,
     SomeIpTpRxNSdu, SomeIpTpTxNSdu, SomeIpTpRxNPdu, SomeIpTpTxNPdu
 )

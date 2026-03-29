@@ -8,14 +8,14 @@ Implements:
 """
 import xml.etree.ElementTree as ET
 
-from ..models.nvm_xdm import NvM, NvMBlockDescriptor, NvMCommon
-from ..models.nvm_xdm import NvMEaRef, NvMFeeRef
-from ..models.nvm_xdm import NvMInitBlockCallback, NvMSingleBlockCallback
-from ..models.nvm_xdm import CommonPublishedInformation, PublishedInformation
-from ..models.nvm_xdm import NvMDefensiveProgramming
-from ..models.nvm_xdm import NvMCommonCryptoSecurityParameters, NvMServiceAPI
-from ..models.nvm_xdm import NvmDemEventParameterRefs, ReportToDem, MultiCoreCallout
-from ..models.eb_doc import EBModel
+from ..models.mem_stack.nvm_xdm import NvM, NvMBlockDescriptor, NvMCommon
+from ..models.mem_stack.nvm_xdm import NvMEaRef, NvMFeeRef
+from ..models.mem_stack.nvm_xdm import NvMInitBlockCallback, NvMSingleBlockCallback
+from ..models.mem_stack.nvm_xdm import CommonPublishedInformation, PublishedInformation
+from ..models.mem_stack.nvm_xdm import NvMDefensiveProgramming
+from ..models.mem_stack.nvm_xdm import NvMCommonCryptoSecurityParameters, NvMServiceAPI
+from ..models.mem_stack.nvm_xdm import NvmDemEventParameterRefs, ReportToDem, MultiCoreCallout
+from ..models.core.eb_doc import EBModel
 from ..parser.eb_parser import AbstractEbModelParser
 
 

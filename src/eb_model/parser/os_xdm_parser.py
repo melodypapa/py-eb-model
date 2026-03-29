@@ -13,17 +13,17 @@ Implements:
     - SWR_OS_00009: Microkernel parsing (OsMicrokernel)
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.os_xdm import Os, OsAlarm, OsAlarmActivateTask, OsAlarmCallback
-from ..models.os_xdm import OsAlarmIncrementCounter, OsAlarmSetEvent, OsCounter, OsResource
-from ..models.os_xdm import CommonPublishedInformation, PublishedInformation, OsHwIncrementer
-from ..models.os_xdm import OsEvent, OsSpinlock, OsPeripheralArea, OsOS, OsHooks
-from ..models.os_xdm import OsCoreConfig, OsAutosarCustomization
-from ..models.os_xdm import OsScheduleTable
-from ..models.os_xdm import OsTask, OsIsr, OsApplication, OsScheduleTableEventSetting
-from ..models.os_xdm import OsScheduleTableExpiryPoint, OsScheduleTableTaskActivation
-from ..models.os_xdm import OsScheduleTblAdjustableExpPoint, OsTaskAutostart
-from ..models.os_xdm import OsMicrokernel, MkMemoryProtection, MkMemoryRegion
+from ..models.core.eb_doc import EBModel
+from ..models.core.os_xdm import Os, OsAlarm, OsAlarmActivateTask, OsAlarmCallback
+from ..models.core.os_xdm import OsAlarmIncrementCounter, OsAlarmSetEvent, OsCounter, OsResource
+from ..models.core.os_xdm import CommonPublishedInformation, PublishedInformation, OsHwIncrementer
+from ..models.core.os_xdm import OsEvent, OsSpinlock, OsPeripheralArea, OsOS, OsHooks
+from ..models.core.os_xdm import OsCoreConfig, OsAutosarCustomization
+from ..models.core.os_xdm import OsScheduleTable
+from ..models.core.os_xdm import OsTask, OsIsr, OsApplication, OsScheduleTableEventSetting
+from ..models.core.os_xdm import OsScheduleTableExpiryPoint, OsScheduleTableTaskActivation
+from ..models.core.os_xdm import OsScheduleTblAdjustableExpPoint, OsTaskAutostart
+from ..models.core.os_xdm import OsMicrokernel, MkMemoryProtection, MkMemoryRegion
 from ..parser.eb_parser import AbstractEbModelParser
 
 

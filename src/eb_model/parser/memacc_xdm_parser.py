@@ -7,8 +7,8 @@ Implements:
 """
 import xml.etree.ElementTree as ET
 
-from ..models.eb_doc import EBModel
-from ..models.memacc_xdm import MemAcc, MemAccCommon
+from ..models.core.eb_doc import EBModel
+from ..models.mem_stack.memacc_xdm import MemAcc, MemAccCommon
 from ..parser.eb_parser import AbstractEbModelParser
 
 

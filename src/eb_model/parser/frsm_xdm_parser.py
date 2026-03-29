@@ -7,8 +7,8 @@ Implements:
     - SWR_FRSM_00003: Cluster configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.frsm_xdm import (
+from ..models.core.eb_doc import EBModel
+from ..models.fr_stack.frsm_xdm import (
     FrSM, FrSMGeneral, FrSMCluster, FrSMClusterDemEventParameterRefs
 )
 from ..parser.eb_parser import AbstractEbModelParser

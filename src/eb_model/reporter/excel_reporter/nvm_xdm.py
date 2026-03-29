@@ -1,5 +1,5 @@
-from ...models.eb_doc import EBModel
-from ...models.nvm_xdm import NvMEaRef, NvMFeeRef
+from ...models.core.eb_doc import EBModel
+from ...models.mem_stack.nvm_xdm import NvMEaRef, NvMFeeRef
 from ...reporter.excel_reporter.abstract import ExcelReporter
 from openpyxl.styles.alignment import Alignment
 

@@ -1,6 +1,6 @@
-from ...models.rte_xdm import RteBswEventToTaskMapping, RteBswEventToTaskMappingV3, RteBswEventToTaskMappingV4, RteBswModuleInstance
-from ...models.rte_xdm import RteEventToTaskMapping, RteEventToTaskMappingV3, RteEventToTaskMappingV4, RteSwComponentInstance
-from ...models.eb_doc import EBModel
+from ...models.core.rte_xdm import RteBswEventToTaskMapping, RteBswEventToTaskMappingV3, RteBswEventToTaskMappingV4, RteBswModuleInstance
+from ...models.core.rte_xdm import RteEventToTaskMapping, RteEventToTaskMappingV3, RteEventToTaskMappingV4, RteSwComponentInstance
+from ...models.core.eb_doc import EBModel
 from .abstract import ExcelReporter
 
 

@@ -7,8 +7,8 @@ Implements:
     - SWR_CANTP_00003: NSDU configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.cantp_xdm import (
+from ..models.core.eb_doc import EBModel
+from ..models.can_stack.cantp_xdm import (
     CanTp, CanTpGeneral, CanTpChannel, CanTpRxNSdu, CanTpTxNSdu
 )
 from ..parser.eb_parser import AbstractEbModelParser

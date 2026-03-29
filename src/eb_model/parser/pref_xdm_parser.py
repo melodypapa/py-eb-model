@@ -1,8 +1,8 @@
 import xml.etree.ElementTree as ET
 import logging
 import os
-from ..models.eb_doc import PreferenceModel
-from ..models.importer_xdm import SystemDescriptionImporter
+from ..models.core.eb_doc import PreferenceModel
+from ..models.core.importer_xdm import SystemDescriptionImporter
 from . import AbstractEbModelParser
 
 

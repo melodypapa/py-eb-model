@@ -6,8 +6,8 @@ Implements:
     - SWR_COMM_00002: ComM channel configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.comm_xdm import ComM, ComMChannel
+from ..models.core.eb_doc import EBModel
+from ..models.com_stack.comm_xdm import ComM, ComMChannel
 from ..parser.eb_parser import AbstractEbModelParser
 
 

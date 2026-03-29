@@ -6,8 +6,8 @@ Implements:
     - SWR_NM_00002: Nm channel configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ..models.eb_doc import EBModel
-from ..models.nm_xdm import Nm, NmChannel
+from ..models.core.eb_doc import EBModel
+from ..models.com_stack.nm_xdm import Nm, NmChannel
 from ..parser.eb_parser import AbstractEbModelParser
 
 

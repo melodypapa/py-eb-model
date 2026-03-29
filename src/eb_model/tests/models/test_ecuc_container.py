@@ -1,6 +1,6 @@
 
-from ...models.eb_doc import EBModel
-from ...models.abstract import EcucParamConfContainerDef, EcucObject
+from ...models.core.eb_doc import EBModel
+from ...models.core.abstract import EcucParamConfContainerDef, EcucObject
 
 
 class TestEcucContainer:

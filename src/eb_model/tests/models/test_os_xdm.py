@@ -2,8 +2,8 @@
 Os Model Tests - Tests for OS module model classes.
 """
 import pytest
-from ...models.os_xdm import Os, OsTask, OsApplication, OsAlarm
-from ...models.eb_doc import EBModel
+from ...models.core.os_xdm import Os, OsTask, OsApplication, OsAlarm
+from ...models.core.eb_doc import EBModel
 
 
 class TestOsTask:
