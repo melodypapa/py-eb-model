@@ -39,6 +39,18 @@ from ..models.fee_xdm import Fee
 from ..models.ea_xdm import Ea
 from ..models.memmap_xdm import MemMap
 from ..models.memacc_xdm import MemAcc
+from ..models.crypto_xdm import Crypto
+from ..models.cryif_xdm import CryIf
+from ..models.csm_xdm import Csm
+from ..models.secoc_xdm import SecOC
+from ..models.fim_xdm import FiM
+from ..models.dcm_xdm import Dcm
+from ..models.dem_xdm import Dem
+from ..models.dlt_xdm import Dlt
+from ..models.j1939dcm_xdm import J1939Dcm
+from ..models.j1939nm_xdm import J1939Nm
+from ..models.j1939rm_xdm import J1939Rm
+from ..models.j1939tp_xdm import J1939Tp
 from ..models.abstract import EcucParamConfContainerDef, EcucObject
 
 
@@ -283,6 +295,66 @@ class EBModel(AbstractModel):
         container = EcucParamConfContainerDef(self, "MemAcc")
         MemAcc(container)
         return self.find("/MemAcc/MemAcc")
+
+    def getCrypto(self) -> Crypto:
+        container = EcucParamConfContainerDef(self, "Crypto")
+        Crypto(container)
+        return self.find("/Crypto/Crypto")
+
+    def getCryIf(self) -> CryIf:
+        container = EcucParamConfContainerDef(self, "CryIf")
+        CryIf(container)
+        return self.find("/CryIf/CryIf")
+
+    def getCsm(self) -> Csm:
+        container = EcucParamConfContainerDef(self, "Csm")
+        Csm(container)
+        return self.find("/Csm/Csm")
+
+    def getSecOC(self) -> SecOC:
+        container = EcucParamConfContainerDef(self, "SecOC")
+        SecOC(container)
+        return self.find("/SecOC/SecOC")
+
+    def getFiM(self) -> FiM:
+        container = EcucParamConfContainerDef(self, "FiM")
+        FiM(container)
+        return self.find("/FiM/FiM")
+
+    def getDcm(self) -> Dcm:
+        container = EcucParamConfContainerDef(self, "Dcm")
+        Dcm(container)
+        return self.find("/Dcm/Dcm")
+
+    def getDem(self) -> Dem:
+        container = EcucParamConfContainerDef(self, "Dem")
+        Dem(container)
+        return self.find("/Dem/Dem")
+
+    def getDlt(self) -> Dlt:
+        container = EcucParamConfContainerDef(self, "Dlt")
+        Dlt(container)
+        return self.find("/Dlt/Dlt")
+
+    def getJ1939Dcm(self) -> J1939Dcm:
+        container = EcucParamConfContainerDef(self, "J1939Dcm")
+        J1939Dcm(container)
+        return self.find("/J1939Dcm/J1939Dcm")
+
+    def getJ1939Nm(self) -> J1939Nm:
+        container = EcucParamConfContainerDef(self, "J1939Nm")
+        J1939Nm(container)
+        return self.find("/J1939Nm/J1939Nm")
+
+    def getJ1939Rm(self) -> J1939Rm:
+        container = EcucParamConfContainerDef(self, "J1939Rm")
+        J1939Rm(container)
+        return self.find("/J1939Rm/J1939Rm")
+
+    def getJ1939Tp(self) -> J1939Tp:
+        container = EcucParamConfContainerDef(self, "J1939Tp")
+        J1939Tp(container)
+        return self.find("/J1939Tp/J1939Tp")
 
     def addContainer(self, container: EcucParamConfContainerDef):
         if (container is None):
