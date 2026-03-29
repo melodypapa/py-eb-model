@@ -41,6 +41,18 @@ from .fee_xdm_parser import FeeXdmParser
 from .ea_xdm_parser import EaXdmParser
 from .memmap_xdm_parser import MemMapXdmParser
 from .memacc_xdm_parser import MemAccXdmParser
+from .crypto_xdm_parser import CryptoXdmParser
+from .cryif_xdm_parser import CryIfXdmParser
+from .csm_xdm_parser import CsmXdmParser
+from .secoc_xdm_parser import SecOCXdmParser
+from .fim_xdm_parser import FiMXdmParser
+from .dcm_xdm_parser import DcmXdmParser
+from .dem_xdm_parser import DemXdmParser
+from .dlt_xdm_parser import DltXdmParser
+from .j1939dcm_xdm_parser import J1939DcmXdmParser
+from .j1939nm_xdm_parser import J1939NmXdmParser
+from .j1939rm_xdm_parser import J1939RmXdmParser
+from .j1939tp_xdm_parser import J1939TpXdmParser
 from .eb_parser import AbstractEbModelParser
 
 
@@ -86,6 +98,18 @@ class EbParserFactory:
         "TcpIp": TcpIpXdmParser,
         "Tm": TmXdmParser,
         "UdpNm": UdpNmXdmParser,
+        "Crypto": CryptoXdmParser,
+        "CryIf": CryIfXdmParser,
+        "Csm": CsmXdmParser,
+        "SecOC": SecOCXdmParser,
+        "FiM": FiMXdmParser,
+        "Dcm": DcmXdmParser,
+        "Dem": DemXdmParser,
+        "Dlt": DltXdmParser,
+        "J1939Dcm": J1939DcmXdmParser,
+        "J1939Nm": J1939NmXdmParser,
+        "J1939Rm": J1939RmXdmParser,
+        "J1939Tp": J1939TpXdmParser,
     }
 
     @classmethod
