@@ -28,3 +28,7 @@ from .frnm_xdm import *             # noqa F403
 from .frsm_xdm import *             # noqa F403
 from .frartp_xdm import *           # noqa F403
 from .dcm_xdm import *              # noqa F403
+from .j1939dcm_xdm import *         # noqa F403
+from .j1939nm_xdm import *          # noqa F403
+from .j1939rm_xdm import *          # noqa F403
+from .j1939tp_xdm import *          # noqa F403
