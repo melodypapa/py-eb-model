@@ -25,6 +25,21 @@ from .frtp_xdm_parser import FrTpXdmParser
 from .frnm_xdm_parser import FrNmXdmParser
 from .frsm_xdm_parser import FrSMXdmParser
 from .frartp_xdm_parser import FrArTpXdmParser
+# Tier 6: Security modules
+from .crypto_xdm_parser import CryptoXdmParser
+from .cryif_xdm_parser import CryIfXdmParser
+from .csm_xdm_parser import CsmXdmParser
+from .secoc_xdm_parser import SecOCXdmParser
+from .fim_xdm_parser import FiMXdmParser
+# Tier 6: Diagnostics modules
+from .dcm_xdm_parser import DcmXdmParser
+from .dem_xdm_parser import DemXdmParser
+from .dlt_xdm_parser import DltXdmParser
+# Tier 6: J1939 modules
+from .j1939dcm_xdm_parser import J1939DcmXdmParser
+from .j1939nm_xdm_parser import J1939NmXdmParser
+from .j1939rm_xdm_parser import J1939RmXdmParser
+from .j1939tp_xdm_parser import J1939TpXdmParser
 from .com_xdm_parser import ComXdmParser
 from .comm_xdm_parser import ComMXdmParser
 from .crc_xdm_parser import CrcXdmParser
