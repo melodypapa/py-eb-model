@@ -7,7 +7,9 @@ Implements:
 """
 import xml.etree.ElementTree as ET
 from ..models.eb_doc import EBModel
-from ..models.det_xdm import Det, DetGeneral, DetErrorHook, DetInitError, CommonPublishedInformation, PublishedInformation, DetServiceAPI, DetNotification, DetDefensiveProgramming, SoftwareComponentList, InstanceIdList
+from ..models.det_xdm import Det, DetGeneral, DetErrorHook, DetInitError
+from ..models.det_xdm import CommonPublishedInformation, PublishedInformation, DetServiceAPI, DetNotification, DetDefensiveProgramming
+from ..models.det_xdm import SoftwareComponentList, InstanceIdList
 from ..parser.eb_parser import AbstractEbModelParser
 
 
