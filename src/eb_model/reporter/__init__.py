@@ -23,3 +23,15 @@ from .excel_reporter.frtp_xdm import *
 from .excel_reporter.frnm_xdm import *
 from .excel_reporter.frsm_xdm import *
 from .excel_reporter.frartp_xdm import *
+from .excel_reporter.crypto_xdm import *
+from .excel_reporter.cryif_xdm import *
+from .excel_reporter.csm_xdm import *
+from .excel_reporter.secoc_xdm import *
+from .excel_reporter.fim_xdm import *
+from .excel_reporter.dcm_xdm import *
+from .excel_reporter.dem_xdm import *
+from .excel_reporter.dlt_xdm import *
+from .excel_reporter.j1939dcm_xdm import *
+from .excel_reporter.j1939nm_xdm import *
+from .excel_reporter.j1939rm_xdm import *
+from .excel_reporter.j1939tp_xdm import *
