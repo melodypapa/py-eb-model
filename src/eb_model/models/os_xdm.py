@@ -118,6 +118,7 @@ class OsAlarm(EcucParamConfContainerDef):
         self.osAlarmCounterRef = None
         self.osAlarmAction: OsAlarmAction = None
         self.osAlarmAutostart = None
+        self.osAlarmCallbackName: str = None
 
     def getOsAlarmAccessingApplicationRefList(self) -> List[EcucRefType]:
         return self.osAlarmAccessingApplicationRefs
@@ -145,6 +146,14 @@ class OsAlarm(EcucParamConfContainerDef):
 
     def setOsAlarmAutostart(self, value: OsAlarmAutostart):
         self.osAlarmAutostart = value
+        return self
+
+    def getOsAlarmCallbackName(self) -> str:
+        return self.osAlarmCallbackName
+
+    def setOsAlarmCallbackName(self, value: str):
+        if value is not None:
+            self.osAlarmCallbackName = value
         return self
 
     def __str__(self) -> str:
@@ -246,6 +255,10 @@ class OsApplication(EcucParamConfContainerDef):
         EB Tresos
         '''
         self.OsAppResourceRefs: List[EcucRefType] = []
+        self.osAppErrorHookStack: int = None
+        self.osAppShutdownHookStack: int = None
+        self.osAppStartupHookStack: int = None
+        self.osTrustedFunctionName: str = None
 
     def getOsTrusted(self):
         return self.OsTrusted
@@ -343,7 +356,39 @@ class OsApplication(EcucParamConfContainerDef):
         if value is not None:
             self.OsAppResourceRefs.append(value)
         return self
-    
+
+    def getOsAppErrorHookStack(self) -> int:
+        return self.osAppErrorHookStack
+
+    def setOsAppErrorHookStack(self, value: int):
+        if value is not None:
+            self.osAppErrorHookStack = value
+        return self
+
+    def getOsAppShutdownHookStack(self) -> int:
+        return self.osAppShutdownHookStack
+
+    def setOsAppShutdownHookStack(self, value: int):
+        if value is not None:
+            self.osAppShutdownHookStack = value
+        return self
+
+    def getOsAppStartupHookStack(self) -> int:
+        return self.osAppStartupHookStack
+
+    def setOsAppStartupHookStack(self, value: int):
+        if value is not None:
+            self.osAppStartupHookStack = value
+        return self
+
+    def getOsTrustedFunctionName(self) -> str:
+        return self.osTrustedFunctionName
+
+    def setOsTrustedFunctionName(self, value: str):
+        if value is not None:
+            self.osTrustedFunctionName = value
+        return self
+
     def __str__(self):
         lines = []
         lines.append("Name: {}".format(self.getName()))
@@ -410,6 +455,10 @@ class OsCounter(EcucParamConfContainerDef):
         self.osCounterAccessingApplications: List[EcucRefType] = []
         self.osDriver = None                                    # Multiplicity: 0..1
         self.osTimeConstants = []                               # Multiplicity: 0..*
+        self.osCounterWindowsTimer: str = None
+        self.osWindowsIrqLevel: int = None
+        self.osConstName: str = None
+        self.osHwModule: str = None
 
     def getOsCounterMaxAllowedValue(self):
         return self.osCounterMaxAllowedValue
@@ -489,6 +538,38 @@ class OsCounter(EcucParamConfContainerDef):
 
     def setOsTimeConstants(self, value):
         self.osTimeConstants = value
+        return self
+
+    def getOsCounterWindowsTimer(self) -> str:
+        return self.osCounterWindowsTimer
+
+    def setOsCounterWindowsTimer(self, value: str):
+        if value is not None:
+            self.osCounterWindowsTimer = value
+        return self
+
+    def getOsWindowsIrqLevel(self) -> int:
+        return self.osWindowsIrqLevel
+
+    def setOsWindowsIrqLevel(self, value: int):
+        if value is not None:
+            self.osWindowsIrqLevel = value
+        return self
+
+    def getOsConstName(self) -> str:
+        return self.osConstName
+
+    def setOsConstName(self, value: str):
+        if value is not None:
+            self.osConstName = value
+        return self
+
+    def getOsHwModule(self) -> str:
+        return self.osHwModule
+
+    def setOsHwModule(self, value: str):
+        if value is not None:
+            self.osHwModule = value
         return self
 
 
@@ -728,6 +809,11 @@ class OsTask(EcucObject):
         self.osTaskEventRef = None                      # type: EcucRefType
         self.osTaskResourceRefs = []                    # type: List[EcucRefType]
         self.osTaskAutostart = None                     # type: OsTaskAutostart
+        self.osMeasureMaxRuntime: bool = None
+        self.osTaskUseHwFp: bool = None
+        self.osTaskCallScheduler: str = None
+        self.osTaskType: str = None
+        self.osTaskAppModeRef: EcucRefType = None
 
     def getOsTaskActivation(self):
         return self.osTaskActivation
@@ -755,13 +841,6 @@ class OsTask(EcucObject):
 
     def setOsTaskSchedule(self, value):
         self.osTaskSchedule = value
-        return self
-
-    def getOsTaskType(self):
-        return self.OsTaskType
-
-    def setOsTaskType(self, value):
-        self.OsTaskType = value
         return self
 
     def getOsStacksize(self) -> int:
@@ -814,6 +893,49 @@ class OsTask(EcucObject):
 
     def isOsTaskAutostart(self) -> bool:
         return self.osTaskAutostart is not None
+
+    def getOsMeasureMaxRuntime(self) -> bool:
+        return self.osMeasureMaxRuntime
+
+    def setOsMeasureMaxRuntime(self, value: bool):
+        if value is not None:
+            self.osMeasureMaxRuntime = value
+        return self
+
+    def getOsTaskUseHwFp(self) -> bool:
+        return self.osTaskUseHwFp
+
+    def setOsTaskUseHwFp(self, value: bool):
+        if value is not None:
+            self.osTaskUseHwFp = value
+        return self
+
+    def getOsTaskCallScheduler(self) -> str:
+        return self.osTaskCallScheduler
+
+    def setOsTaskCallScheduler(self, value: str):
+        if value is not None:
+            self.osTaskCallScheduler = value
+        return self
+
+    def getOsTaskType(self) -> str:
+        if self.osTaskType is not None:
+            return self.osTaskType
+        return self.OsTaskType
+
+    def setOsTaskType(self, value: str):
+        if value is not None:
+            self.osTaskType = value
+            self.OsTaskType = value
+        return self
+
+    def getOsTaskAppModeRef(self) -> EcucRefType:
+        return self.osTaskAppModeRef
+
+    def setOsTaskAppModeRef(self, value: EcucRefType):
+        if value is not None:
+            self.osTaskAppModeRef = value
+        return self
 
 
 class OsScheduleTableAutostart(EcucParamConfContainerDef):
@@ -1226,6 +1348,467 @@ class OsMicrokernel(EcucParamConfContainerDef):
         return self
 
 
+class CommonPublishedInformation(EcucParamConfContainerDef):
+    """
+    Common published information containing AUTOSAR version information.
+
+    Implements: SWR_OS_00010 (Version information)
+    """
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.arMajorVersion: int = None
+        self.arMinorVersion: int = None
+        self.arPatchVersion: int = None
+        self.swMajorVersion: int = None
+        self.swMinorVersion: int = None
+        self.swPatchVersion: int = None
+
+    def getArMajorVersion(self) -> int:
+        return self.arMajorVersion
+
+    def setArMajorVersion(self, value: int):
+        if value is not None:
+            self.arMajorVersion = value
+        return self
+
+    def getArMinorVersion(self) -> int:
+        return self.arMinorVersion
+
+    def setArMinorVersion(self, value: int):
+        if value is not None:
+            self.arMinorVersion = value
+        return self
+
+    def getArPatchVersion(self) -> int:
+        return self.arPatchVersion
+
+    def setArPatchVersion(self, value: int):
+        if value is not None:
+            self.arPatchVersion = value
+        return self
+
+    def getSwMajorVersion(self) -> int:
+        return self.swMajorVersion
+
+    def setSwMajorVersion(self, value: int):
+        if value is not None:
+            self.swMajorVersion = value
+        return self
+
+    def getSwMinorVersion(self) -> int:
+        return self.swMinorVersion
+
+    def setSwMinorVersion(self, value: int):
+        if value is not None:
+            self.swMinorVersion = value
+        return self
+
+    def getSwPatchVersion(self) -> int:
+        return self.swPatchVersion
+
+    def setSwPatchVersion(self, value: int):
+        if value is not None:
+            self.swPatchVersion = value
+        return self
+
+
+class PublishedInformation(EcucParamConfContainerDef):
+    """
+    Module-specific published information.
+
+    Implements: SWR_OS_00011 (Module metadata)
+    """
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.vendorId: str = None
+        self.arReleaseMajorVersion: str = None
+        self.arReleaseMinorVersion: str = None
+        self.arReleasePatchVersion: str = None
+        self.swMajorVersion: str = None
+        self.swMinorVersion: str = None
+        self.swPatchVersion: str = None
+
+    def getVendorId(self) -> str:
+        return self.vendorId
+
+    def setVendorId(self, value: str):
+        if value is not None:
+            self.vendorId = value
+        return self
+
+    def getArReleaseMajorVersion(self) -> str:
+        return self.arReleaseMajorVersion
+
+    def setArReleaseMajorVersion(self, value: str):
+        if value is not None:
+            self.arReleaseMajorVersion = value
+        return self
+
+    def getArReleaseMinorVersion(self) -> str:
+        return self.arReleaseMinorVersion
+
+    def setArReleaseMinorVersion(self, value: str):
+        if value is not None:
+            self.arReleaseMinorVersion = value
+        return self
+
+    def getArReleasePatchVersion(self) -> str:
+        return self.arReleasePatchVersion
+
+    def setArReleasePatchVersion(self, value: str):
+        if value is not None:
+            self.arReleasePatchVersion = value
+        return self
+
+    def getSwMajorVersion(self) -> str:
+        return self.swMajorVersion
+
+    def setSwMajorVersion(self, value: str):
+        if value is not None:
+            self.swMajorVersion = value
+        return self
+
+    def getSwMinorVersion(self) -> str:
+        return self.swMinorVersion
+
+    def setSwMinorVersion(self, value: str):
+        if value is not None:
+            self.swMinorVersion = value
+        return self
+
+    def getSwPatchVersion(self) -> str:
+        return self.swPatchVersion
+
+    def setSwPatchVersion(self, value: str):
+        if value is not None:
+            self.swPatchVersion = value
+        return self
+
+
+class OsHwIncrementer(EcucParamConfContainerDef):
+    """
+    Hardware incrementer configuration.
+
+    Implements: SWR_OS_00012 (Hardware incrementer)
+    """
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osHwIncrementerBase: int = None
+        self.osHwIncrementerMax: int = None
+
+    def getOsHwIncrementerBase(self) -> int:
+        return self.osHwIncrementerBase
+
+    def setOsHwIncrementerBase(self, value: int):
+        if value is not None:
+            self.osHwIncrementerBase = value
+        return self
+
+    def getOsHwIncrementerMax(self) -> int:
+        return self.osHwIncrementerMax
+
+    def setOsHwIncrementerMax(self, value: int):
+        if value is not None:
+            self.osHwIncrementerMax = value
+        return self
+
+
+class OsEvent(EcucParamConfContainerDef):
+    """
+    Event synchronization primitive.
+
+    Implements: SWR_OS_00013 (Event synchronization)
+    """
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osEventMask: int = None
+        self.osEventAutostart = None
+
+    def getOsEventMask(self) -> int:
+        return self.osEventMask
+
+    def setOsEventMask(self, value: int):
+        if value is not None:
+            self.osEventMask = value
+        return self
+
+    def getOsEventAutostart(self):
+        return self.osEventAutostart
+
+    def setOsEventAutostart(self, value):
+        if value is not None:
+            self.osEventAutostart = value
+        return self
+
+
+class OsSpinlock(EcucParamConfContainerDef):
+    """
+    Spinlock synchronization primitive.
+
+    Implements: SWR_OS_00014 (Spinlock synchronization)
+    """
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osSpinlockType: str = None
+        self.osSpinlockSpinCount: int = None
+
+    def getOsSpinlockType(self) -> str:
+        return self.osSpinlockType
+
+    def setOsSpinlockType(self, value: str):
+        if value is not None:
+            self.osSpinlockType = value
+        return self
+
+    def getOsSpinlockSpinCount(self) -> int:
+        return self.osSpinlockSpinCount
+
+    def setOsSpinlockSpinCount(self, value: int):
+        if value is not None:
+            self.osSpinlockSpinCount = value
+        return self
+
+
+class OsPeripheralArea(EcucParamConfContainerDef):
+    """
+    Peripheral memory area configuration.
+
+    Implements: SWR_OS_00015 (Peripheral area)
+    """
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osPeripheralAreaStartAddress: int = None
+        self.osPeripheralAreaEndAddress: int = None
+        self.osPeripheralAreaAccessPermission: str = None
+
+    def getOsPeripheralAreaStartAddress(self) -> int:
+        return self.osPeripheralAreaStartAddress
+
+    def setOsPeripheralAreaStartAddress(self, value: int):
+        if value is not None:
+            self.osPeripheralAreaStartAddress = value
+        return self
+
+    def getOsPeripheralAreaEndAddress(self) -> int:
+        return self.osPeripheralAreaEndAddress
+
+    def setOsPeripheralAreaEndAddress(self, value: int):
+        if value is not None:
+            self.osPeripheralAreaEndAddress = value
+        return self
+
+    def getOsPeripheralAreaAccessPermission(self) -> str:
+        return self.osPeripheralAreaAccessPermission
+
+    def setOsPeripheralAreaAccessPermission(self, value: str):
+        if value is not None:
+            self.osPeripheralAreaAccessPermission = value
+        return self
+
+
+class OsOS(EcucParamConfContainerDef):
+    """
+    OS-level configuration.
+
+    Implements: SWR_OS_00016 (OS configuration)
+    """
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osOSCoreAssignment: int = None
+        self.osOsStackMonitoring: bool = None
+        self.osOsUseGetServiceId: bool = None
+        self.osOsUseParameterAccess: bool = None
+        self.osOsUseServiceId: bool = None
+
+    def getOsOSCoreAssignment(self) -> int:
+        return self.osOSCoreAssignment
+
+    def setOsOSCoreAssignment(self, value: int):
+        if value is not None:
+            self.osOSCoreAssignment = value
+        return self
+
+    def getOsOsStackMonitoring(self) -> bool:
+        return self.osOsStackMonitoring
+
+    def setOsOsStackMonitoring(self, value: bool):
+        if value is not None:
+            self.osOsStackMonitoring = value
+        return self
+
+    def getOsOsUseGetServiceId(self) -> bool:
+        return self.osOsUseGetServiceId
+
+    def setOsOsUseGetServiceId(self, value: bool):
+        if value is not None:
+            self.osOsUseGetServiceId = value
+        return self
+
+    def getOsOsUseParameterAccess(self) -> bool:
+        return self.osOsUseParameterAccess
+
+    def setOsOsUseParameterAccess(self, value: bool):
+        if value is not None:
+            self.osOsUseParameterAccess = value
+        return self
+
+    def getOsOsUseServiceId(self) -> bool:
+        return self.osOsUseServiceId
+
+    def setOsOsUseServiceId(self, value: bool):
+        if value is not None:
+            self.osOsUseServiceId = value
+        return self
+
+
+class OsHooks(EcucParamConfContainerDef):
+    """
+    OS hook configuration.
+
+    Implements: SWR_OS_00017 (Hook configuration)
+    """
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osErrorHook: bool = None
+        self.osShutdownHook: bool = None
+        self.osStartupHook: bool = None
+        self.osPreTaskHook: bool = None
+        self.osPostTaskHook: bool = None
+        self.osProtectionHook: bool = None
+
+    def getOsErrorHook(self) -> bool:
+        return self.osErrorHook
+
+    def setOsErrorHook(self, value: bool):
+        if value is not None:
+            self.osErrorHook = value
+        return self
+
+    def getOsShutdownHook(self) -> bool:
+        return self.osShutdownHook
+
+    def setOsShutdownHook(self, value: bool):
+        if value is not None:
+            self.osShutdownHook = value
+        return self
+
+    def getOsStartupHook(self) -> bool:
+        return self.osStartupHook
+
+    def setOsStartupHook(self, value: bool):
+        if value is not None:
+            self.osStartupHook = value
+        return self
+
+    def getOsPreTaskHook(self) -> bool:
+        return self.osPreTaskHook
+
+    def setOsPreTaskHook(self, value: bool):
+        if value is not None:
+            self.osPreTaskHook = value
+        return self
+
+    def getOsPostTaskHook(self) -> bool:
+        return self.osPostTaskHook
+
+    def setOsPostTaskHook(self, value: bool):
+        if value is not None:
+            self.osPostTaskHook = value
+        return self
+
+    def getOsProtectionHook(self) -> bool:
+        return self.osProtectionHook
+
+    def setOsProtectionHook(self, value: bool):
+        if value is not None:
+            self.osProtectionHook = value
+        return self
+
+
+class OsCoreConfig(EcucParamConfContainerDef):
+    """
+    Multi-core configuration.
+
+    Implements: SWR_OS_00018 (Core configuration)
+    """
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osCoreId: int = None
+        self.osCoreMainFunction: str = None
+        self.osCoreStackStartAddress: int = None
+        self.osCoreStackSize: int = None
+
+    def getOsCoreId(self) -> int:
+        return self.osCoreId
+
+    def setOsCoreId(self, value: int):
+        if value is not None:
+            self.osCoreId = value
+        return self
+
+    def getOsCoreMainFunction(self) -> str:
+        return self.osCoreMainFunction
+
+    def setOsCoreMainFunction(self, value: str):
+        if value is not None:
+            self.osCoreMainFunction = value
+        return self
+
+    def getOsCoreStackStartAddress(self) -> int:
+        return self.osCoreStackStartAddress
+
+    def setOsCoreStackStartAddress(self, value: int):
+        if value is not None:
+            self.osCoreStackStartAddress = value
+        return self
+
+    def getOsCoreStackSize(self) -> int:
+        return self.osCoreStackSize
+
+    def setOsCoreStackSize(self, value: int):
+        if value is not None:
+            self.osCoreStackSize = value
+        return self
+
+
+class OsAutosarCustomization(EcucParamConfContainerDef):
+    """
+    AUTOSAR-specific customizations.
+
+    Implements: SWR_OS_00019 (AUTOSAR customization)
+    """
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.osScalableClass: str = None
+        self.osApplicationType: str = None
+
+    def getOsScalableClass(self) -> str:
+        return self.osScalableClass
+
+    def setOsScalableClass(self, value: str):
+        if value is not None:
+            self.osScalableClass = value
+        return self
+
+    def getOsApplicationType(self) -> str:
+        return self.osApplicationType
+
+    def setOsApplicationType(self, value: str):
+        if value is not None:
+            self.osApplicationType = value
+        return self
+
+
 class Os(Module):
     def __init__(self, parent) -> None:
         super().__init__(parent, "Os")
@@ -1238,6 +1821,16 @@ class Os(Module):
         self.osApplications: List[OsApplication] = []
         self.osResources: List[OsResource] = []
         self.osMicrokernel: OsMicrokernel = None
+        self.commonPublishedInformation: CommonPublishedInformation = None
+        self.publishedInformation: PublishedInformation = None
+        self.osHwIncrementer: OsHwIncrementer = None
+        self.osEvents: List[OsEvent] = []
+        self.osSpinlocks: List[OsSpinlock] = []
+        self.osPeripheralAreas: List[OsPeripheralArea] = []
+        self.osOS: OsOS = None
+        self.osHooks: OsHooks = None
+        self.osCoreConfigs: List[OsCoreConfig] = []
+        self.osAutosarCustomization: OsAutosarCustomization = None
 
         # extended attributes to speed up performance
         self.osIsrToOsAppMappings: Dict[str, OsApplication] = {}
@@ -1328,4 +1921,84 @@ class Os(Module):
     def setOsMicrokernel(self, value: OsMicrokernel):
         if value is not None:
             self.osMicrokernel = value
+        return self
+
+    def getCommonPublishedInformation(self) -> CommonPublishedInformation:
+        return self.commonPublishedInformation
+
+    def setCommonPublishedInformation(self, value: CommonPublishedInformation):
+        if value is not None:
+            self.commonPublishedInformation = value
+        return self
+
+    def getPublishedInformation(self) -> PublishedInformation:
+        return self.publishedInformation
+
+    def setPublishedInformation(self, value: PublishedInformation):
+        if value is not None:
+            self.publishedInformation = value
+        return self
+
+    def getOsHwIncrementer(self) -> OsHwIncrementer:
+        return self.osHwIncrementer
+
+    def setOsHwIncrementer(self, value: OsHwIncrementer):
+        if value is not None:
+            self.osHwIncrementer = value
+        return self
+
+    def getOsEventList(self) -> List[OsEvent]:
+        return list(sorted(filter(lambda a: isinstance(a, OsEvent), self.elements.values()), key=lambda o: o.name))
+
+    def addOsEvent(self, value: OsEvent):
+        self.addElement(value)
+        self.osEvents.append(value)
+        return self
+
+    def getOsSpinlockList(self) -> List[OsSpinlock]:
+        return list(sorted(filter(lambda a: isinstance(a, OsSpinlock), self.elements.values()), key=lambda o: o.name))
+
+    def addOsSpinlock(self, value: OsSpinlock):
+        self.addElement(value)
+        self.osSpinlocks.append(value)
+        return self
+
+    def getOsPeripheralAreaList(self) -> List[OsPeripheralArea]:
+        return list(sorted(filter(lambda a: isinstance(a, OsPeripheralArea), self.elements.values()), key=lambda o: o.name))
+
+    def addOsPeripheralArea(self, value: OsPeripheralArea):
+        self.addElement(value)
+        self.osPeripheralAreas.append(value)
+        return self
+
+    def getOsOS(self) -> OsOS:
+        return self.osOS
+
+    def setOsOS(self, value: OsOS):
+        if value is not None:
+            self.osOS = value
+        return self
+
+    def getOsHooks(self) -> OsHooks:
+        return self.osHooks
+
+    def setOsHooks(self, value: OsHooks):
+        if value is not None:
+            self.osHooks = value
+        return self
+
+    def getOsCoreConfigList(self) -> List[OsCoreConfig]:
+        return list(sorted(filter(lambda a: isinstance(a, OsCoreConfig), self.elements.values()), key=lambda o: o.name))
+
+    def addOsCoreConfig(self, value: OsCoreConfig):
+        self.addElement(value)
+        self.osCoreConfigs.append(value)
+        return self
+
+    def getOsAutosarCustomization(self) -> OsAutosarCustomization:
+        return self.osAutosarCustomization
+
+    def setOsAutosarCustomization(self, value: OsAutosarCustomization):
+        if value is not None:
+            self.osAutosarCustomization = value
         return self
