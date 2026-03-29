@@ -250,10 +250,10 @@ class TestOsOS:
         os_os = os.getOsOS()
         assert os_os is not None
         assert os_os.getOsOSCoreAssignment() == 0
-        assert os_os.getOsOsStackMonitoring() == True
-        assert os_os.getOsOsUseGetServiceId() == False
-        assert os_os.getOsOsUseParameterAccess() == True
-        assert os_os.getOsOsUseServiceId() == False
+        assert os_os.getOsOsStackMonitoring() is True
+        assert os_os.getOsOsUseGetServiceId() is False
+        assert os_os.getOsOsUseParameterAccess() is True
+        assert os_os.getOsOsUseServiceId() is False
 
 
 class TestOsHooks:
@@ -290,12 +290,12 @@ class TestOsHooks:
 
         hooks = os.getOsHooks()
         assert hooks is not None
-        assert hooks.getOsErrorHook() == True
-        assert hooks.getOsShutdownHook() == False
-        assert hooks.getOsStartupHook() == True
-        assert hooks.getOsPreTaskHook() == False
-        assert hooks.getOsPostTaskHook() == False
-        assert hooks.getOsProtectionHook() == True
+        assert hooks.getOsErrorHook() is True
+        assert hooks.getOsShutdownHook() is False
+        assert hooks.getOsStartupHook() is True
+        assert hooks.getOsPreTaskHook() is False
+        assert hooks.getOsPostTaskHook() is False
+        assert hooks.getOsProtectionHook() is True
 
 
 class TestOsCoreConfig:
