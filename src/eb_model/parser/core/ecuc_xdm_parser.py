@@ -8,15 +8,15 @@ Implements:
 """
 import xml.etree.ElementTree as ET
 
-from ...models.core.ecuc_xdm import EcuC, EcucPartition, EcucPartitionCollection
-from ...models.core.ecuc_xdm import EcucPartitionSoftwareComponentInstanceRef
-from ...models.core.ecuc_xdm import CommonPublishedInformation, PublishedInformation
-from ...models.core.ecuc_xdm import EcucGeneral, EcucHardware, EcucCoreDefinition
-from ...models.core.ecuc_xdm import EcucPduCollection, MetaDataType, MetaDataItem, Pdu
-from ...models.core.ecuc_xdm import EcucPduDedicatedPartition, EcucPostBuildVariants
-from ...models.core.ecuc_xdm import EcucVariationResolver
-from ...models.core.eb_doc import EBModel
-from .eb_parser import AbstractEbModelParser
+from eb_model.models.core.ecuc_xdm import EcuC, EcucPartition, EcucPartitionCollection
+from eb_model.models.core.ecuc_xdm import EcucPartitionSoftwareComponentInstanceRef
+from eb_model.models.core.ecuc_xdm import CommonPublishedInformation, PublishedInformation
+from eb_model.models.core.ecuc_xdm import EcucGeneral, EcucHardware, EcucCoreDefinition
+from eb_model.models.core.ecuc_xdm import EcucPduCollection, MetaDataType, MetaDataItem, Pdu
+from eb_model.models.core.ecuc_xdm import EcucPduDedicatedPartition, EcucPostBuildVariants
+from eb_model.models.core.ecuc_xdm import EcucVariationResolver
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.parser.core.eb_parser import AbstractEbModelParser
 
 
 class EcucXdmParser(AbstractEbModelParser):
@@ -197,7 +197,7 @@ class EcucXdmParser(AbstractEbModelParser):
             if instance.getEcucPartitionSoftwareComponentInstanceTargetRef() is not None:
                 self.logger.debug("Instance: %s" % instance.getEcucPartitionSoftwareComponentInstanceTargetRef().getShortName())
                 ecuc_partition.addEcucPartitionSoftwareComponentInstanceRef(instance)
-    
+
     def read_ecuc_partition(self, element: ET.Element, collection: EcucPartitionCollection):
         for ctr_tag in self.find_ctr_tag_list(element, "EcucPartition"):
             ecuc_partition = EcucPartition(collection, ctr_tag.attrib["name"])
@@ -211,4 +211,4 @@ class EcucXdmParser(AbstractEbModelParser):
             self.read_ecuc_partition_software_component_instances(ctr_tag, ecuc_partition)
             collection.addEcucPartition(ecuc_partition)
 
-            
+

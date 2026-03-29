@@ -10,9 +10,9 @@ import logging
 import sys
 import os.path
 
-from ..parser import SecOCXdmParser
-from ..models import EBModel
-from ..reporter import SecOCXdmXlsWriter
+from eb_model.parser import SecOCXdmParser
+from eb_model.models import EBModel
+from eb_model.reporter import SecOCXdmXlsWriter
 
 
 def main():

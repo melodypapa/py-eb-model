@@ -10,8 +10,8 @@ import re
 from abc import ABCMeta
 from typing import List
 
-from ...models.core.eb_doc import EBModel, PreferenceModel
-from ...models.core.abstract import EcucRefType, Module
+from eb_model.models.core.eb_doc import EBModel, PreferenceModel
+from eb_model.models.core.abstract import EcucRefType, Module
 
 
 class AbstractEbModelParser(metaclass=ABCMeta):
@@ -117,7 +117,7 @@ class AbstractEbModelParser(metaclass=ABCMeta):
         if tag is None:
             raise KeyError("XPath d:var[@name='%s'] is invalid" % name)
         return self._convert_value(tag)
-    
+
     def read_eb_origin_value(self, parent: ET.Element, name: str) -> str:
         tag = parent.find(".//d:var[@name='%s']" % name, self.nsmap)
         if tag is None:
@@ -280,7 +280,7 @@ class AbstractEbModelParser(metaclass=ABCMeta):
             ref_tag.attrib['value'] = "ASPath:%s" % ref
             lst_tag.append(ref_tag)
         return lst_tag
-    
+
     def get_component_name(self, parent: ET.Element) -> str:
         tag = parent.find(".//d:chc[@type='AR-ELEMENT'][@value='MODULE-CONFIGURATION']", self.nsmap)
         return tag.attrib['name']

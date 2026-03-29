@@ -6,9 +6,9 @@ Implements:
     - SWR_J1939NM_00002: General configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ...models.core.eb_doc import EBModel
-from ...models.j1939_stack.j1939nm_xdm import J1939Nm, J1939NmGeneral
-from ..core.eb_parser import AbstractEbModelParser
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.j1939_stack.j1939nm_xdm import J1939Nm, J1939NmGeneral
+from eb_model.parser.core.eb_parser import AbstractEbModelParser
 
 
 class J1939NmXdmParser(AbstractEbModelParser):

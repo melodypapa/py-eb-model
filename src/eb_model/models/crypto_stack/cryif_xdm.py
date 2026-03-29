@@ -6,7 +6,7 @@ Implements:
     - SWR_CRYIF_00002: General configuration
 """
 import logging
-from ..core.abstract import EcucParamConfContainerDef, EcucRefType, Module
+from eb_model.models.core.abstract import EcucParamConfContainerDef, EcucRefType, Module
 
 
 class CryIfGeneral(EcucParamConfContainerDef):

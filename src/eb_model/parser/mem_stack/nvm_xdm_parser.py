@@ -8,15 +8,15 @@ Implements:
 """
 import xml.etree.ElementTree as ET
 
-from ...models.mem_stack.nvm_xdm import NvM, NvMBlockDescriptor, NvMCommon
-from ...models.mem_stack.nvm_xdm import NvMEaRef, NvMFeeRef
-from ...models.mem_stack.nvm_xdm import NvMInitBlockCallback, NvMSingleBlockCallback
-from ...models.mem_stack.nvm_xdm import CommonPublishedInformation, PublishedInformation
-from ...models.mem_stack.nvm_xdm import NvMDefensiveProgramming
-from ...models.mem_stack.nvm_xdm import NvMCommonCryptoSecurityParameters, NvMServiceAPI
-from ...models.mem_stack.nvm_xdm import NvmDemEventParameterRefs, ReportToDem, MultiCoreCallout
-from ...models.core.eb_doc import EBModel
-from ..core.eb_parser import AbstractEbModelParser
+from eb_model.models.mem_stack.nvm_xdm import NvM, NvMBlockDescriptor, NvMCommon
+from eb_model.models.mem_stack.nvm_xdm import NvMEaRef, NvMFeeRef
+from eb_model.models.mem_stack.nvm_xdm import NvMInitBlockCallback, NvMSingleBlockCallback
+from eb_model.models.mem_stack.nvm_xdm import CommonPublishedInformation, PublishedInformation
+from eb_model.models.mem_stack.nvm_xdm import NvMDefensiveProgramming
+from eb_model.models.mem_stack.nvm_xdm import NvMCommonCryptoSecurityParameters, NvMServiceAPI
+from eb_model.models.mem_stack.nvm_xdm import NvmDemEventParameterRefs, ReportToDem, MultiCoreCallout
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.parser.core.eb_parser import AbstractEbModelParser
 
 
 class NvMXdmParser(AbstractEbModelParser):
@@ -251,4 +251,4 @@ class NvMXdmParser(AbstractEbModelParser):
             self.read_nvm_block_target_block_reference(ctr_tag, nvm_block)
 
             nvm.addNvMBlockDescriptor(nvm_block)
-                     
+

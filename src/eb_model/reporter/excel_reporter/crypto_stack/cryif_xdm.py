@@ -4,8 +4,8 @@ CryIf XDM Excel Reporter - Generates Excel reports for CryIf module configuratio
 Implements:
     - SWR_CRYIF_00003: Excel output generation
 """
-from ....models.core.eb_doc import EBModel
-from ..core.abstract import ExcelReporter
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.reporter.excel_reporter.core.abstract import ExcelReporter
 
 
 class CryIfXdmXlsWriter(ExcelReporter):

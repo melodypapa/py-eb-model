@@ -1,6 +1,6 @@
 from typing import Dict, List                                                       # noqa F401
 import logging
-from .abstract import EcucEnumerationParamDef, EcucParamConfContainerDef, EcucObject, EcucRefType, Module
+from eb_model.models.core.abstract import EcucEnumerationParamDef, EcucParamConfContainerDef, EcucObject, EcucRefType, Module
 
 
 class OsAlarmAction(EcucParamConfContainerDef):
@@ -716,7 +716,7 @@ class OsIsr(EcucObject):
         if value is not None:
             self.osIsrVector = value
         return self
-    
+
     # Infineon AURIX Tricore
     def getOsTricoreIrqLevel(self) -> str:
         return self.osTricoreIrqLevel
@@ -733,7 +733,7 @@ class OsIsr(EcucObject):
         if value is not None:
             self.osTricoreVector = value
         return self
-    
+
     # ARM core
     def getOsARMIrqLevel(self) -> str:
         return self.osARMIrqLevel

@@ -6,9 +6,9 @@ Implements:
     - SWR_PDUR_00002: PduR routing configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ...models.core.eb_doc import EBModel
-from ...models.com_stack.pdur_xdm import PduR, PduRRoutingTableEntry
-from ..core.eb_parser import AbstractEbModelParser
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.com_stack.pdur_xdm import PduR, PduRRoutingTableEntry
+from eb_model.parser.core.eb_parser import AbstractEbModelParser
 
 
 class PduRXdmParser(AbstractEbModelParser):

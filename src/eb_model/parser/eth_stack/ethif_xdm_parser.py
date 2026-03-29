@@ -11,14 +11,14 @@ Implements:
     - SWR_ETHIF_00007: RX/TX indication configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ...models.core.eb_doc import EBModel
-from ...models.eth_stack.ethif_xdm import (
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.eth_stack.ethif_xdm import (
     EthIf, EthIfGeneral, EthIfController, EthIfFrameOwnerConfig,
     EthIfPhysController, EthIfSwitch, EthIfSwitchPortGroup,
     EthIfTransceiver, EthIfRxIndicationConfig, EthIfTxConfirmationConfig,
     EthIfEthControllerType, EthIfEthTrcvType, EthIfEthSwtType
 )
-from ..core.eb_parser import AbstractEbModelParser
+from eb_model.parser.core.eb_parser import AbstractEbModelParser
 
 
 class EthIfXdmParser(AbstractEbModelParser):

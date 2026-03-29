@@ -6,9 +6,9 @@ Implements:
     - SWR_LINSM_00002: Channel configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ...models.core.eb_doc import EBModel
-from ...models.lin_stack.linsm_xdm import LinSM, LinSMGeneral, LinSMChannel
-from ..core.eb_parser import AbstractEbModelParser
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.lin_stack.linsm_xdm import LinSM, LinSMGeneral, LinSMChannel
+from eb_model.parser.core.eb_parser import AbstractEbModelParser
 
 
 class LinSMXdmParser(AbstractEbModelParser):

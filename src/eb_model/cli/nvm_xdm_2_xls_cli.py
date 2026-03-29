@@ -4,9 +4,9 @@ import logging
 import sys
 import os.path
 
-from ..parser import NvMXdmParser
-from ..models import EBModel
-from ..reporter import NvMXdmXlsWriter
+from eb_model.parser import NvMXdmParser
+from eb_model.models import EBModel
+from eb_model.reporter import NvMXdmXlsWriter
 
 
 def main():
@@ -22,7 +22,7 @@ def main():
     args = ap.parse_args()
 
     logger = logging.getLogger()
-    
+
     formatter = logging.Formatter('[%(levelname)s] : %(message)s')
 
     stdout_handler = logging.StreamHandler(sys.stderr)
@@ -49,7 +49,7 @@ def main():
 
     try:
         doc = EBModel.getInstance()
-        
+
         parser = NvMXdmParser()
         parser.parse_xdm(args.INPUT, doc)
 
@@ -57,7 +57,7 @@ def main():
 
         writer = NvMXdmXlsWriter()
         writer.write(args.OUTPUT, doc, options)
-        
+
     except Exception as e:
         logger.error(e)
         raise e

@@ -9,20 +9,20 @@ Implements:
 """
 import xml.etree.ElementTree as ET
 
-from ...models.core.rte_xdm import Rte, RteBswEventToTaskMapping, RteBswEventToTaskMappingV3, RteBswEventToTaskMappingV4, RteBswModuleInstance
-from ...models.core.rte_xdm import RteEventToTaskMapping, RteEventToTaskMappingV3, RteEventToTaskMappingV4, RteSwComponentInstance
-from ...models.core.rte_xdm import CommonPublishedInformation, PublishedInformation, RteBswGeneral
-from ...models.core.rte_xdm import RteBswEventToIsrMapping, RteBswExclusiveAreaImpl, RteBswExternalTriggerConfig
-from ...models.core.rte_xdm import RteBswInternalTriggerConfig, RteBswRequiredModeGroupConnection
-from ...models.core.rte_xdm import RteBswRequiredSenderReceiverConnection, RteBswRequiredClientServerConnection
-from ...models.core.rte_xdm import RteBswRequiredTriggerConnection, RteGeneration, ComTaskConfiguration
-from ...models.core.rte_xdm import BswConfiguration, OsCounterAssignments, CooperativeTasks, TaskChain
-from ...models.core.rte_xdm import RteImplicitCommunication, RteInitializationBehavior, RteInitializationRunnableBatch
-from ...models.core.rte_xdm import RteOsInteraction, RteModeToScheduleTableMapping, RteRips, DataMappings
-from ...models.core.rte_xdm import RteExclusiveAreaImplementation, RteExternalTriggerConfig, RteInternalTriggerConfig
-from ...models.core.rte_xdm import RteNvRamAllocation, RteSwComponentType
-from ...models.core.eb_doc import EBModel
-from .eb_parser import AbstractEbModelParser
+from eb_model.models.core.rte_xdm import Rte, RteBswEventToTaskMapping, RteBswEventToTaskMappingV3, RteBswEventToTaskMappingV4, RteBswModuleInstance
+from eb_model.models.core.rte_xdm import RteEventToTaskMapping, RteEventToTaskMappingV3, RteEventToTaskMappingV4, RteSwComponentInstance
+from eb_model.models.core.rte_xdm import CommonPublishedInformation, PublishedInformation, RteBswGeneral
+from eb_model.models.core.rte_xdm import RteBswEventToIsrMapping, RteBswExclusiveAreaImpl, RteBswExternalTriggerConfig
+from eb_model.models.core.rte_xdm import RteBswInternalTriggerConfig, RteBswRequiredModeGroupConnection
+from eb_model.models.core.rte_xdm import RteBswRequiredSenderReceiverConnection, RteBswRequiredClientServerConnection
+from eb_model.models.core.rte_xdm import RteBswRequiredTriggerConnection, RteGeneration, ComTaskConfiguration
+from eb_model.models.core.rte_xdm import BswConfiguration, OsCounterAssignments, CooperativeTasks, TaskChain
+from eb_model.models.core.rte_xdm import RteImplicitCommunication, RteInitializationBehavior, RteInitializationRunnableBatch
+from eb_model.models.core.rte_xdm import RteOsInteraction, RteModeToScheduleTableMapping, RteRips, DataMappings
+from eb_model.models.core.rte_xdm import RteExclusiveAreaImplementation, RteExternalTriggerConfig, RteInternalTriggerConfig
+from eb_model.models.core.rte_xdm import RteNvRamAllocation, RteSwComponentType
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.parser.core.eb_parser import AbstractEbModelParser
 
 
 class RteXdmParser(AbstractEbModelParser):
@@ -295,7 +295,7 @@ class RteXdmParser(AbstractEbModelParser):
                 .setRteBswEventPeriod(self.read_optional_value(ctr_tag, "RteBswPeriod")) \
                 .setRteBswPositionInTask(self.read_optional_value(ctr_tag, "RteBswPositionInTask")) \
                 .setRteBswServerQueueLength(self.read_optional_value(ctr_tag, "RteBswServerQueueLength"))
-            
+
             if isinstance(mapping, RteBswEventToTaskMappingV4):
                 for resource_ref in self.read_ref_value_list(ctr_tag, "RteBswEventRef"):
                     mapping.addRteBswEventRef(resource_ref)
@@ -304,7 +304,7 @@ class RteXdmParser(AbstractEbModelParser):
 
             mapping.setRteBswMappedToTaskRef(self.read_optional_ref_value(ctr_tag, "RteBswMappedToTaskRef"))
             instance.addRteBswEventToTaskMapping(mapping)
-        
+
     def read_rte_bsw_module_instances(self, element: ET.Element, rte: Rte):
         for ctr_tag in self.find_ctr_tag_list(element, 'RteBswModuleInstance'):
             self.logger.debug("Read RteBswModuleInstance <%s>" % ctr_tag.attrib['name'])
@@ -341,7 +341,7 @@ class RteXdmParser(AbstractEbModelParser):
 
     def read_rte_sw_component_instance_event_to_task_mappings(self, element: ET.Element, instance: RteSwComponentInstance):
         for ctr_tag in self.find_ctr_tag_list(element, "RteEventToTaskMapping"):
-            
+
             if self.rte.getArVersion().getMajorVersion() >= 4:
                 mapping = RteEventToTaskMappingV4(instance, ctr_tag.attrib['name'])
             else:
@@ -351,7 +351,7 @@ class RteXdmParser(AbstractEbModelParser):
                 .setRtePeriod(self.read_optional_value(ctr_tag, "RtePeriod")) \
                 .setRtePositionInTask(self.read_optional_value(ctr_tag, "RtePositionInTask")) \
                 .setRteServerQueueLength(self.read_optional_value(ctr_tag, "RteServerQueueLength"))
-            
+
             if isinstance(mapping, RteEventToTaskMappingV4):
                 for resource_ref in self.read_ref_value_list(ctr_tag, "RteEventRef"):
                     mapping.addRteEventRef(resource_ref)
@@ -361,7 +361,7 @@ class RteXdmParser(AbstractEbModelParser):
             mapping.setRteMappedToTaskRef(self.read_optional_ref_value(ctr_tag, "RteMappedToTaskRef"))
 
             self.logger.debug("Rte Event %s" % mapping.getRteEventRef().getShortName())
-            
+
             instance.addRteEventToTaskMapping(mapping)
 
     def read_rte_sw_component_instances(self, element: ET.Element, rte: Rte):

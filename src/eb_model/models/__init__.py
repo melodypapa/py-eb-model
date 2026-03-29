@@ -8,7 +8,7 @@ Implements: SWR_MODEL_00001 (Model layer organization)
 """
 
 # Core/Base
-from .core.abstract import (
+from eb_model.models.core.abstract import (
     EcucObject,
     EcucEnumerationParamDef,
     EcucParamConfContainerDef,
@@ -16,9 +16,9 @@ from .core.abstract import (
     Version,
     Module,
 )
-from .core.eb_doc import AbstractModel, EBModel, PreferenceModel
-from .core.importer_xdm import SystemDescriptionImporter
-from .core.os_xdm import (
+from eb_model.models.core.eb_doc import AbstractModel, EBModel, PreferenceModel
+from eb_model.models.core.importer_xdm import SystemDescriptionImporter
+from eb_model.models.core.os_xdm import (
     OsAlarmAction,
     OsAlarmAutostart,
     OsAlarmActivateTask,
@@ -66,7 +66,7 @@ from .core.os_xdm import (
     OsAutosarCustomization,
     Os,
 )
-from .core.rte_xdm import (
+from eb_model.models.core.rte_xdm import (
     RteBswGeneral,
     RteBswEventToIsrMapping,
     RteBswExclusiveAreaImpl,
@@ -107,15 +107,15 @@ from .core.rte_xdm import (
     RteBswModuleInstance,
     Rte,
 )
-from .core.tm_xdm import (
+from eb_model.models.core.tm_xdm import (
     TmGeneral,
     TmInterruptSynchronization,
     TmTickTime,
     TmTrigger,
     Tm,
 )
-from .core.pbcfgm_xdm import PbcfgMProtectionSet, PbcfgMCoreProtectionSet, PbcfgMGeneral, PbcfgM
-from .core.ecum_xdm import (
+from eb_model.models.core.pbcfgm_xdm import PbcfgMProtectionSet, PbcfgMCoreProtectionSet, PbcfgMGeneral, PbcfgM
+from eb_model.models.core.ecum_xdm import (
     EcuMCommonConfiguration,
     EcuMDefaultShutdownTarget,
     EcuMDriverInitItem,
@@ -150,7 +150,7 @@ from .core.ecum_xdm import (
     EcuMGeneral,
     EcuM,
 )
-from .core.ecuc_xdm import (
+from eb_model.models.core.ecuc_xdm import (
     EcucPartitionSoftwareComponentInstanceRef,
     EcucPartition,
     EcucGeneral,
@@ -166,7 +166,7 @@ from .core.ecuc_xdm import (
     EcucPartitionCollection,
     EcuC,
 )
-from .core.det_xdm import (
+from eb_model.models.core.det_xdm import (
     DetServiceAPI,
     DetNotification,
     DetDefensiveProgramming,
@@ -177,15 +177,15 @@ from .core.det_xdm import (
     DetGeneral,
     Det,
 )
-from .core.bswm_xdm import BswMModeCondition, BswMModeDeclaration, BswMGeneral, BswM
+from eb_model.models.core.bswm_xdm import BswMModeCondition, BswMModeDeclaration, BswMGeneral, BswM
 
 # LIN Family
-from .lin_stack.linif_xdm import LinIfGeneral, LinIfChannel, LinIfFrame, LinIf
-from .lin_stack.linsm_xdm import LinSMGeneral, LinSMChannel, LinSM
-from .lin_stack.lintp_xdm import LinTpGeneral, LinTpRxNSdu, LinTpTxNSdu, LinTp
+from eb_model.models.lin_stack.linif_xdm import LinIfGeneral, LinIfChannel, LinIfFrame, LinIf
+from eb_model.models.lin_stack.linsm_xdm import LinSMGeneral, LinSMChannel, LinSM
+from eb_model.models.lin_stack.lintp_xdm import LinTpGeneral, LinTpRxNSdu, LinTpTxNSdu, LinTp
 
 # CAN Family
-from .can_stack.canif_xdm import (
+from eb_model.models.can_stack.canif_xdm import (
     CanIfGeneral,
     CanIfCtrlCfg,
     CanIfTrcvCfg,
@@ -197,7 +197,7 @@ from .can_stack.canif_xdm import (
     CanIfTxPduCfg,
     CanIf,
 )
-from .can_stack.cannm_xdm import (
+from eb_model.models.can_stack.cannm_xdm import (
     CanNmGeneral,
     CanNmGlobalConfig,
     CanNmChannel,
@@ -207,11 +207,11 @@ from .can_stack.cannm_xdm import (
     CanNmPnInfo,
     CanNm,
 )
-from .can_stack.cansm_xdm import CanSMGeneral, CanSMManagerNetwork, CanSMController, CanSMDemEventParameterRefs, CanSM
-from .can_stack.cantp_xdm import CanTpGeneral, CanTpChannel, CanTpRxNSdu, CanTpTxNSdu, CanTp
+from eb_model.models.can_stack.cansm_xdm import CanSMGeneral, CanSMManagerNetwork, CanSMController, CanSMDemEventParameterRefs, CanSM
+from eb_model.models.can_stack.cantp_xdm import CanTpGeneral, CanTpChannel, CanTpRxNSdu, CanTpTxNSdu, CanTp
 
 # Ethernet Family
-from .eth_stack.ethif_xdm import (
+from eb_model.models.eth_stack.ethif_xdm import (
     EthIfGeneral,
     EthIfController,
     EthIfFrameOwnerConfig,
@@ -226,9 +226,9 @@ from .eth_stack.ethif_xdm import (
     EthIfEthSwtType,
     EthIf,
 )
-from .eth_stack.ethsm_xdm import EthSMGeneral, EthSMDemEventParameterRefs, EthSMNetwork, EthSM
-from .eth_stack.tcpip_xdm import TcpIpGeneral, TcpIpOffloadChecksum, TcpIpIpV4Ctrl, TcpIpIpV6Ctrl, TcpIpCtrl, TcpIpLocalAddr, TcpIp
-from .eth_stack.soad_xdm import (
+from eb_model.models.eth_stack.ethsm_xdm import EthSMGeneral, EthSMDemEventParameterRefs, EthSMNetwork, EthSM
+from eb_model.models.eth_stack.tcpip_xdm import TcpIpGeneral, TcpIpOffloadChecksum, TcpIpIpV4Ctrl, TcpIpIpV6Ctrl, TcpIpCtrl, TcpIpLocalAddr, TcpIp
+from eb_model.models.eth_stack.soad_xdm import (
     SoAdGeneral,
     SoAdSocketRemoteAddress,
     SoAdSocketUdp,
@@ -242,7 +242,7 @@ from .eth_stack.soad_xdm import (
     SoAdRoutingGroup,
     SoAd,
 )
-from .eth_stack.udpnm_xdm import (
+from eb_model.models.eth_stack.udpnm_xdm import (
     UdpNmGeneral,
     UdpNmChannelIdentifiers,
     UdpNmRxPdu,
@@ -252,7 +252,7 @@ from .eth_stack.udpnm_xdm import (
     UdpNmChannel,
     UdpNm,
 )
-from .eth_stack.doip_xdm import (
+from eb_model.models.eth_stack.doip_xdm import (
     DoIPGeneral,
     DoIPPduRRxPdu,
     DoIPPduRTxPdu,
@@ -265,7 +265,7 @@ from .eth_stack.doip_xdm import (
     DoIPConnections,
     DoIP,
 )
-from .eth_stack.someiptp_xdm import (
+from eb_model.models.eth_stack.someiptp_xdm import (
     SomeIpTpGeneral,
     SomeIpTpRxNPdu,
     SomeIpTpRxNSdu,
@@ -276,10 +276,10 @@ from .eth_stack.someiptp_xdm import (
 )
 
 # FlexRay Family
-from .fr_stack.frif_xdm import FrIfGeneral, FrIfCluster, FrIfController, FrIf
-from .fr_stack.frnm_xdm import FrNmGeneral, FrNmChannelIdentifiers, FrNmRxPdu, FrNmTxPdu, FrNmChannel, FrNm
-from .fr_stack.frsm_xdm import FrSMGeneral, FrSMClusterDemEventParameterRefs, FrSMCluster, FrSM
-from .fr_stack.frtp_xdm import (
+from eb_model.models.fr_stack.frif_xdm import FrIfGeneral, FrIfCluster, FrIfController, FrIf
+from eb_model.models.fr_stack.frnm_xdm import FrNmGeneral, FrNmChannelIdentifiers, FrNmRxPdu, FrNmTxPdu, FrNmChannel, FrNm
+from eb_model.models.fr_stack.frsm_xdm import FrSMGeneral, FrSMClusterDemEventParameterRefs, FrSMCluster, FrSM
+from eb_model.models.fr_stack.frtp_xdm import (
     FrTpGeneral,
     FrTpConnectionLimitConfig,
     FrTpConnectionControl,
@@ -288,24 +288,24 @@ from .fr_stack.frtp_xdm import (
     FrTpConnection,
     FrTp,
 )
-from .fr_stack.frartp_xdm import FrArTpGeneral, FrArTpRxSdu, FrArTpTxSdu, FrArTpPdu, FrArTpConnection, FrArTpChannel, FrArTp
+from eb_model.models.fr_stack.frartp_xdm import FrArTpGeneral, FrArTpRxSdu, FrArTpTxSdu, FrArTpPdu, FrArTpConnection, FrArTpChannel, FrArTp
 
 # Communication
-from .com_stack.com_xdm import ComGeneral, Com
-from .com_stack.ldcom_xdm import LdCom
-from .com_stack.comm_xdm import ComMChannel, ComM
-from .com_stack.pdur_xdm import PduRRoutingTableEntry, PduR
-from .com_stack.ipdum_xdm import IpduMDynPdu, IpduM
-from .com_stack.nm_xdm import NmChannel, Nm
+from eb_model.models.com_stack.com_xdm import ComGeneral, Com
+from eb_model.models.com_stack.ldcom_xdm import LdCom
+from eb_model.models.com_stack.comm_xdm import ComMChannel, ComM
+from eb_model.models.com_stack.pdur_xdm import PduRRoutingTableEntry, PduR
+from eb_model.models.com_stack.ipdum_xdm import IpduMDynPdu, IpduM
+from eb_model.models.com_stack.nm_xdm import NmChannel, Nm
 
 # Memory
-from .mem_stack.memif_xdm import MemIfInit, MemIf
-from .mem_stack.fee_xdm import FeeGeneral, Fee
-from .mem_stack.ea_xdm import EaGeneral, Ea
-from .mem_stack.memmap_xdm import MemMapCommon, MemMap
-from .mem_stack.memacc_xdm import MemAccCommon, MemAcc
-from .mem_stack.crc_xdm import CrcConfig, Crc
-from .mem_stack.nvm_xdm import (
+from eb_model.models.mem_stack.memif_xdm import MemIfInit, MemIf
+from eb_model.models.mem_stack.fee_xdm import FeeGeneral, Fee
+from eb_model.models.mem_stack.ea_xdm import EaGeneral, Ea
+from eb_model.models.mem_stack.memmap_xdm import MemMapCommon, MemMap
+from eb_model.models.mem_stack.memacc_xdm import MemAccCommon, MemAcc
+from eb_model.models.mem_stack.crc_xdm import CrcConfig, Crc
+from eb_model.models.mem_stack.nvm_xdm import (
     NvMTargetBlockReference,
     NvMEaRef,
     NvMFeeRef,
@@ -322,22 +322,22 @@ from .mem_stack.nvm_xdm import (
 )
 
 # Crypto/Security
-from .crypto_stack.crypto_xdm import CryptoGeneral, Crypto
-from .crypto_stack.cryif_xdm import CryIfGeneral, CryIf
-from .crypto_stack.csm_xdm import CsmGeneral, Csm
-from .crypto_stack.secoc_xdm import SecOCGeneral, SecOC
+from eb_model.models.crypto_stack.crypto_xdm import CryptoGeneral, Crypto
+from eb_model.models.crypto_stack.cryif_xdm import CryIfGeneral, CryIf
+from eb_model.models.crypto_stack.csm_xdm import CsmGeneral, Csm
+from eb_model.models.crypto_stack.secoc_xdm import SecOCGeneral, SecOC
 
 # Diagnostics/Events
-from .diag_stack.dcm_xdm import DcmGeneral, Dcm
-from .diag_stack.dem_xdm import DemGeneral, Dem
-from .diag_stack.dlt_xdm import DltGeneral, Dlt
-from .diag_stack.fim_xdm import FiMGeneral, FiM
+from eb_model.models.diag_stack.dcm_xdm import DcmGeneral, Dcm
+from eb_model.models.diag_stack.dem_xdm import DemGeneral, Dem
+from eb_model.models.diag_stack.dlt_xdm import DltGeneral, Dlt
+from eb_model.models.diag_stack.fim_xdm import FiMGeneral, FiM
 
 # J1939 Family
-from .j1939_stack.j1939dcm_xdm import J1939DcmGeneral, J1939Dcm
-from .j1939_stack.j1939nm_xdm import J1939NmGeneral, J1939Nm
-from .j1939_stack.j1939rm_xdm import J1939RmGeneral, J1939Rm
-from .j1939_stack.j1939tp_xdm import J1939TpGeneral, J1939Tp
+from eb_model.models.j1939_stack.j1939dcm_xdm import J1939DcmGeneral, J1939Dcm
+from eb_model.models.j1939_stack.j1939nm_xdm import J1939NmGeneral, J1939Nm
+from eb_model.models.j1939_stack.j1939rm_xdm import J1939RmGeneral, J1939Rm
+from eb_model.models.j1939_stack.j1939tp_xdm import J1939TpGeneral, J1939Tp
 
 __all__ = [
     "EcucObject", "EcucEnumerationParamDef", "EcucParamConfContainerDef", "EcucRefType",

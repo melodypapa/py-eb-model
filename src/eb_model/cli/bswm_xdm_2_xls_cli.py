@@ -4,9 +4,9 @@ import logging
 import sys
 import os.path
 
-from ..parser.bswm_xdm_parser import BswMXdmParser
-from ..models import EBModel
-from ..reporter.excel_reporter.bswm_xdm import BswMXdmXlsWriter
+from eb_model.parser.bswm_xdm_parser import BswMXdmParser
+from eb_model.models import EBModel
+from eb_model.reporter.excel_reporter.bswm_xdm import BswMXdmXlsWriter
 
 
 def main():

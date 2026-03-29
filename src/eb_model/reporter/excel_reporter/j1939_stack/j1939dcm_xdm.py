@@ -5,8 +5,8 @@ Implements:
     - SWR_J1939DCM_00003: Excel output generation
     - SWR_J1939DCM_00002: General configuration export
 """
-from ....models.core.eb_doc import EBModel
-from ..core.abstract import ExcelReporter
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.reporter.excel_reporter.core.abstract import ExcelReporter
 
 
 class J1939DcmXdmXlsWriter(ExcelReporter):

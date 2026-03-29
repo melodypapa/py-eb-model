@@ -1,2 +1,4 @@
-from .text_writer import TextPreferenceModelWriter
-from .project_writer import ABProjectWriter
+from eb_model.writer.text_writer import TextPreferenceModelWriter
+from eb_model.writer.project_writer import ABProjectWriter
+
+__all__ = ["TextPreferenceModelWriter", "ABProjectWriter"]

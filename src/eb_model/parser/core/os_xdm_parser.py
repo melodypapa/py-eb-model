@@ -13,18 +13,18 @@ Implements:
     - SWR_OS_00009: Microkernel parsing (OsMicrokernel)
 """
 import xml.etree.ElementTree as ET
-from ...models.core.eb_doc import EBModel
-from ...models.core.os_xdm import Os, OsAlarm, OsAlarmActivateTask, OsAlarmCallback
-from ...models.core.os_xdm import OsAlarmIncrementCounter, OsAlarmSetEvent, OsCounter, OsResource
-from ...models.core.os_xdm import CommonPublishedInformation, PublishedInformation, OsHwIncrementer
-from ...models.core.os_xdm import OsEvent, OsSpinlock, OsPeripheralArea, OsOS, OsHooks
-from ...models.core.os_xdm import OsCoreConfig, OsAutosarCustomization
-from ...models.core.os_xdm import OsScheduleTable
-from ...models.core.os_xdm import OsTask, OsIsr, OsApplication, OsScheduleTableEventSetting
-from ...models.core.os_xdm import OsScheduleTableExpiryPoint, OsScheduleTableTaskActivation
-from ...models.core.os_xdm import OsScheduleTblAdjustableExpPoint, OsTaskAutostart
-from ...models.core.os_xdm import OsMicrokernel, MkMemoryProtection, MkMemoryRegion
-from .eb_parser import AbstractEbModelParser
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.core.os_xdm import Os, OsAlarm, OsAlarmActivateTask, OsAlarmCallback
+from eb_model.models.core.os_xdm import OsAlarmIncrementCounter, OsAlarmSetEvent, OsCounter, OsResource
+from eb_model.models.core.os_xdm import CommonPublishedInformation, PublishedInformation, OsHwIncrementer
+from eb_model.models.core.os_xdm import OsEvent, OsSpinlock, OsPeripheralArea, OsOS, OsHooks
+from eb_model.models.core.os_xdm import OsCoreConfig, OsAutosarCustomization
+from eb_model.models.core.os_xdm import OsScheduleTable
+from eb_model.models.core.os_xdm import OsTask, OsIsr, OsApplication, OsScheduleTableEventSetting
+from eb_model.models.core.os_xdm import OsScheduleTableExpiryPoint, OsScheduleTableTaskActivation
+from eb_model.models.core.os_xdm import OsScheduleTblAdjustableExpPoint, OsTaskAutostart
+from eb_model.models.core.os_xdm import OsMicrokernel, MkMemoryProtection, MkMemoryRegion
+from eb_model.parser.core.eb_parser import AbstractEbModelParser
 
 
 class OsXdmParser(AbstractEbModelParser):
@@ -125,13 +125,13 @@ class OsXdmParser(AbstractEbModelParser):
             os_isr.setOsIsrPeriod(self.read_optional_value(ctr_tag, "OsIsrPeriod", 0.0))
             os_isr.setOsStacksize(int(self.read_value(ctr_tag, "OsStacksize")))
             os_isr.setOsIsrPriority(self.read_eb_origin_value(ctr_tag, "OsIsrPriority"))
-            
+
             # Infineon Aurix Tricore
             os_isr.setOsIsrPriority(self.read_eb_origin_value(ctr_tag, "OsTricoreIrqLevel"))
             os_isr.setOsIsrVector(self.read_eb_origin_value(ctr_tag, "OsTricoreVector"))
             os_isr.setOsTricoreIrqLevel(self.read_eb_origin_value(ctr_tag, "OsTricoreIrqLevel"))
             os_isr.setOsTricoreVector(self.read_eb_origin_value(ctr_tag, "OsTricoreVector"))
-            
+
             # ARM Core
             os_isr.setOsIsrPriority(self.read_eb_origin_value(ctr_tag, "OsARMIrqLevel"))
             os_isr.setOsIsrVector(self.read_eb_origin_value(ctr_tag, "OsARMVector"))
@@ -216,8 +216,7 @@ class OsXdmParser(AbstractEbModelParser):
     def read_os_schedule_table_expiry_points(self, element: ET.Element, os_schedule_table: OsScheduleTable):
         for ctr_tag in self.find_ctr_tag_list(element, "OsScheduleTableExpiryPoint"):
             expiry_point = OsScheduleTableExpiryPoint(os_schedule_table, ctr_tag.attrib["name"]) \
-                .setOsScheduleTblExpPointOffset(self.read_value(ctr_tag, "OsScheduleTblExpPointOffset")) \
-            
+                .setOsScheduleTblExpPointOffset(self.read_value(ctr_tag, "OsScheduleTblExpPointOffset"))
             self.read_os_schedule_table_event_settings(ctr_tag, expiry_point)
             self.read_os_schedule_table_task_activations(ctr_tag, expiry_point)
             self.read_os_schedule_tbl_adjustable_exp_point(ctr_tag, expiry_point)

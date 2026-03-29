@@ -7,7 +7,7 @@ Implements:
 """
 from typing import List, Optional
 import logging
-from ..core.abstract import EcucObject, EcucParamConfContainerDef, Module
+from eb_model.models.core.abstract import EcucObject, EcucParamConfContainerDef, Module
 
 
 class CrcConfig(EcucParamConfContainerDef):

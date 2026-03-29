@@ -7,8 +7,8 @@ Implements:
 """
 import re
 from openpyxl.styles import Alignment
-from ....models.core.eb_doc import EBModel
-from .abstract import ExcelReporter
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.reporter.excel_reporter.core.abstract import ExcelReporter
 
 RTE_RESOURCE_PATTERN = re.compile(r"Rte_\w+")
 
@@ -111,7 +111,7 @@ class OsXdmXlsWriter(ExcelReporter):
 
     def write_os_schedule_tables(self, doc: EBModel):
         sheet = self.wb.create_sheet("OsScheduleTable", 2)
-        
+
         title_row = ["Name", "Duration", "Repeating", "OsCount"]
         self.write_title_row(sheet, title_row)
 
@@ -129,7 +129,7 @@ class OsXdmXlsWriter(ExcelReporter):
 
     def write_os_counters(self, doc: EBModel):
         sheet = self.wb.create_sheet("OsCounter", 3)
-        
+
         title_row = ["Name", "MaxAllowedValue", "MinCycle", "TicksPerBase", "Type", "SecondsPerTick"]
         self.write_title_row(sheet, title_row)
 
@@ -173,16 +173,16 @@ class OsXdmXlsWriter(ExcelReporter):
         mk = doc.getOs().getOsMicrokernel()
         if mk is None:
             return False
-        
+
         protection = mk.getMkMemoryProtection()
         if protection is None:
             return False
-        
+
         if len(protection.getMkMemoryRegionList()) <= 0:
             return False
-        
+
         return True
-    
+
     def write_mk_memory_regions(self, doc: EBModel):
         if self.mk_memory_region_exists(doc) is True:
             sheet = self.wb.create_sheet("MkMemoryRegion", 5)

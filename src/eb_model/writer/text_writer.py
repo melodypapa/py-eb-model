@@ -1,6 +1,6 @@
 import logging
 from typing import List
-from ..models.core.importer_xdm import SystemDescriptionImporter
+from eb_model.models.core.importer_xdm import SystemDescriptionImporter
 
 
 class TextWriter:

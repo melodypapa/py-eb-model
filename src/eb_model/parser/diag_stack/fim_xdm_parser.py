@@ -6,9 +6,9 @@ Implements:
     - SWR_FIM_00002: General configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ...models.core.eb_doc import EBModel
-from ...models.diag_stack.fim_xdm import FiM, FiMGeneral
-from ..core.eb_parser import AbstractEbModelParser
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.diag_stack.fim_xdm import FiM, FiMGeneral
+from eb_model.parser.core.eb_parser import AbstractEbModelParser
 
 
 class FiMXdmParser(AbstractEbModelParser):

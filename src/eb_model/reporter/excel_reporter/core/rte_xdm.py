@@ -1,7 +1,7 @@
-from ....models.core.rte_xdm import RteBswEventToTaskMapping, RteBswEventToTaskMappingV3, RteBswEventToTaskMappingV4, RteBswModuleInstance
-from ....models.core.rte_xdm import RteEventToTaskMapping, RteEventToTaskMappingV3, RteEventToTaskMappingV4, RteSwComponentInstance
-from ....models.core.eb_doc import EBModel
-from .abstract import ExcelReporter
+from eb_model.models.core.rte_xdm import RteBswEventToTaskMapping, RteBswEventToTaskMappingV3, RteBswEventToTaskMappingV4, RteBswModuleInstance
+from eb_model.models.core.rte_xdm import RteEventToTaskMapping, RteEventToTaskMappingV3, RteEventToTaskMappingV4, RteSwComponentInstance
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.reporter.excel_reporter.core.abstract import ExcelReporter
 
 
 class RteXdmXlsWriter(ExcelReporter):
@@ -88,7 +88,7 @@ class RteRunnableEntityXlsWriter(ExcelReporter):
                     self.write_cell(sheet, row, 7, mapping.getRteActivationOffset())
                 else:
                     raise NotImplementedError("Invalid Rte Event To Task Mapping <%s>" % type(mapping))
-                
+
                 row += 1
 
         self.auto_width(sheet)

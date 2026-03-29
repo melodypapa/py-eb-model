@@ -7,9 +7,9 @@ Implements:
     - SWR_TM_00003: Trigger configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ...models.core.eb_doc import EBModel
-from ...models.core.tm_xdm import Tm, TmGeneral, TmInterruptSynchronization, TmTickTime, TmTrigger, CommonPublishedInformation, PublishedInformation
-from .eb_parser import AbstractEbModelParser
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.core.tm_xdm import Tm, TmGeneral, TmInterruptSynchronization, TmTickTime, TmTrigger, CommonPublishedInformation, PublishedInformation
+from eb_model.parser.core.eb_parser import AbstractEbModelParser
 
 
 class TmXdmParser(AbstractEbModelParser):

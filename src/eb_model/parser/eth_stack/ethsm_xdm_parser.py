@@ -7,11 +7,11 @@ Implements:
     - SWR_ETHSM_00003: Network configuration parsing
 """
 import xml.etree.ElementTree as ET
-from ...models.core.eb_doc import EBModel
-from ...models.eth_stack.ethsm_xdm import (
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.eth_stack.ethsm_xdm import (
     EthSM, EthSMGeneral, EthSMNetwork, EthSMDemEventParameterRefs
 )
-from ..core.eb_parser import AbstractEbModelParser
+from eb_model.parser.core.eb_parser import AbstractEbModelParser
 
 
 class EthSMXdmParser(AbstractEbModelParser):

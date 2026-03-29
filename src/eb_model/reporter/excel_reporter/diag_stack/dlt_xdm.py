@@ -4,8 +4,8 @@ Dlt XDM Excel Reporter - Generates Excel reports for Dlt module configuration.
 Implements:
     - SWR_DLT_00003: Excel output generation
 """
-from ....models.core.eb_doc import EBModel
-from ..core.abstract import ExcelReporter
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.reporter.excel_reporter.core.abstract import ExcelReporter
 
 
 class DltXdmXlsWriter(ExcelReporter):

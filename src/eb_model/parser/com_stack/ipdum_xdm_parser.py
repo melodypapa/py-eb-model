@@ -6,9 +6,9 @@ Implements:
     - SWR_IPDUM_00002: IpduM dynamic PDU parsing
 """
 import xml.etree.ElementTree as ET
-from ...models.core.eb_doc import EBModel
-from ...models.com_stack.ipdum_xdm import IpduM, IpduMDynPdu
-from ..core.eb_parser import AbstractEbModelParser
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.com_stack.ipdum_xdm import IpduM, IpduMDynPdu
+from eb_model.parser.core.eb_parser import AbstractEbModelParser
 
 
 class IpduMXdmParser(AbstractEbModelParser):

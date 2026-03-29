@@ -7,9 +7,9 @@ Implements:
 """
 import xml.etree.ElementTree as ET
 
-from ...models.core.eb_doc import EBModel
-from ...models.mem_stack.ea_xdm import Ea, EaGeneral
-from ..core.eb_parser import AbstractEbModelParser
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.mem_stack.ea_xdm import Ea, EaGeneral
+from eb_model.parser.core.eb_parser import AbstractEbModelParser
 
 
 class EaXdmParser(AbstractEbModelParser):

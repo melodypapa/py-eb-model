@@ -1,5 +1,5 @@
 from typing import List
-from .abstract import EcucParamConfContainerDef, EcucRefType, Module
+from eb_model.models.core.abstract import EcucParamConfContainerDef, EcucRefType, Module
 
 
 class EcucPartitionSoftwareComponentInstanceRef(EcucParamConfContainerDef):

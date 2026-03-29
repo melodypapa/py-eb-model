@@ -10,9 +10,9 @@ import logging
 import sys
 import os.path
 
-from ..parser import CryptoXdmParser
-from ..models import EBModel
-from ..reporter import CryptoXdmXlsWriter
+from eb_model.parser import CryptoXdmParser
+from eb_model.models import EBModel
+from eb_model.reporter import CryptoXdmXlsWriter
 
 
 def main():

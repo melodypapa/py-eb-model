@@ -100,7 +100,7 @@ where = ["src"]
 line-length = 150
 
 [tool.ruff.lint]
-ignore = ["F401", "F403", "W292", "W293"]
+ignore = ["F401", "F403"]
 select = ["E", "F", "W"]
 
 [tool.mypy]
@@ -124,21 +124,6 @@ exclude = [
     "src/eb_model/tests/.*",
 ]
 
-[[tool.mypy.overrides]]
-module = "eb_model.models.*"
-ignore_errors = true
-
-[[tool.mypy.overrides]]
-module = "eb_model.parser.*"
-ignore_errors = true
-
-[[tool.mypy.overrides]]
-module = "eb_model.reporter.*"
-ignore_errors = true
-
-[[tool.mypy.overrides]]
-module = "eb_model.writer.*"
-ignore_errors = true
 
 [tool.pytest.ini_options]
 testpaths = ["src/eb_model/tests"]

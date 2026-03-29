@@ -1,6 +1,6 @@
 from typing import Optional
 import logging
-from ..core.abstract import EcucObject, EcucParamConfContainerDef, Module  # noqa F401
+from eb_model.models.core.abstract import EcucObject, EcucParamConfContainerDef, Module  # noqa F401
 
 
 class ComGeneral(EcucParamConfContainerDef):
