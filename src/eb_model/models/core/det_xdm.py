@@ -1,4 +1,3 @@
-from typing import List
 import logging
 from .abstract import EcucParamConfContainerDef, EcucRefType, Module  # noqa F401
 

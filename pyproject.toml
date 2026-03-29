@@ -100,8 +100,8 @@ where = ["src"]
 line-length = 150
 
 [tool.ruff.lint]
-ignore = ["F401", "F403", "W293"]
-select = ["E", "F"]
+ignore = ["F401", "F403", "W292", "W293"]
+select = ["E", "F", "W"]
 
 [tool.mypy]
 python_version = "3.9"

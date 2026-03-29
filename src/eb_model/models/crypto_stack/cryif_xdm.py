@@ -5,7 +5,6 @@ Implements:
     - SWR_CRYIF_00001: CryIf module model
     - SWR_CRYIF_00002: General configuration
 """
-from typing import List, Optional
 import logging
 from ..core.abstract import EcucParamConfContainerDef, EcucRefType, Module
 
