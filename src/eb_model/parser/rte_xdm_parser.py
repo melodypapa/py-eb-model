@@ -383,9 +383,12 @@ class RteXdmParser(AbstractEbModelParser):
             instance.setRteDataUpdate(self.read_optional_value(ctr_tag, "RteDataUpdate"))
             instance.setRteMessageSending(self.read_optional_value(ctr_tag, "RteMessageSending"))
             instance.setRteMessageReception(self.read_optional_value(ctr_tag, "RteMessageReception"))
-            instance.setRteComponentInstanceVariableLocking(self.read_optional_value(ctr_tag, "RteComponentInstanceVariableLocking"))
-            instance.setRteComponentInstanceLocalDataLocking(self.read_optional_value(ctr_tag, "RteComponentInstanceLocalDataLocking"))
-            instance.setRteComponentInstanceInterInstanceDataLocking(self.read_optional_value(ctr_tag, "RteComponentInstanceInterInstanceDataLocking"))
+            instance.setRteComponentInstanceVariableLocking(
+                self.read_optional_value(ctr_tag, "RteComponentInstanceVariableLocking"))
+            instance.setRteComponentInstanceLocalDataLocking(
+                self.read_optional_value(ctr_tag, "RteComponentInstanceLocalDataLocking"))
+            instance.setRteComponentInstanceInterInstanceDataLocking(
+                self.read_optional_value(ctr_tag, "RteComponentInstanceInterInstanceDataLocking"))
 
             self.read_rte_sw_component_instance_event_to_task_mappings(ctr_tag, instance)
             rte.addRteSwComponentInstance(instance)
