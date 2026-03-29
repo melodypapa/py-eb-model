@@ -8,7 +8,13 @@ Implements:
 """
 import xml.etree.ElementTree as ET
 
-from ..models.nvm_xdm import NvM, NvMBlockDescriptor, NvMCommon, NvMEaRef, NvMFeeRef, NvMInitBlockCallback, NvMSingleBlockCallback, CommonPublishedInformation, PublishedInformation, NvMDefensiveProgramming, NvMCommonCryptoSecurityParameters, NvMServiceAPI, NvmDemEventParameterRefs, ReportToDem, MultiCoreCallout
+from ..models.nvm_xdm import NvM, NvMBlockDescriptor, NvMCommon
+from ..models.nvm_xdm import NvMEaRef, NvMFeeRef
+from ..models.nvm_xdm import NvMInitBlockCallback, NvMSingleBlockCallback
+from ..models.nvm_xdm import CommonPublishedInformation, PublishedInformation
+from ..models.nvm_xdm import NvMDefensiveProgramming
+from ..models.nvm_xdm import NvMCommonCryptoSecurityParameters, NvMServiceAPI
+from ..models.nvm_xdm import NvmDemEventParameterRefs, ReportToDem, MultiCoreCallout
 from ..models.eb_doc import EBModel
 from ..parser.eb_parser import AbstractEbModelParser
 
@@ -82,7 +88,7 @@ class NvMXdmParser(AbstractEbModelParser):
             nvm_common.setNvMBufferAlignmentValue(self.read_value(ctr_tag, "NvMBufferAlignmentValue"))
             for ref in self.read_ref_value_list(ctr_tag, "NvMEcucPartitionRef"):
                 nvm_common.addNvMEcucPartitionRef(ref)
-            nvm_common.setNvMMasterEcucPartitionRef(self.read_ref_value(ctr_tag, "NvMMasterEcucPartitionRef"))
+            nvm_common.setNvMMasterEcucPartitionRef(self.read_optional_ref_value(ctr_tag, "NvMMasterEcucPartitionRef"))
 
             nvm.setNvMCommon(nvm_common)
 
@@ -189,7 +195,9 @@ class NvMXdmParser(AbstractEbModelParser):
             nvm_block.setNvMSingleBlockCallback(single_block_callback)
 
     def read_nvm_block_target_block_reference(self, element: ET.Element, nvm_block: NvMBlockDescriptor):
-        block_ref = self.read_choice_value(element, "NvMTargetBlockReference")
+        block_ref = self.read_optional_choice_value(element, "NvMTargetBlockReference")
+        if block_ref is None:
+            return
         if block_ref == "NvMEaRef":
             ctr_tag = self.find_ctr_tag(element, "NvMEaRef")
             if ctr_tag is not None:
@@ -203,13 +211,14 @@ class NvMXdmParser(AbstractEbModelParser):
                 ref.setNvMNameOfFeeBlock(self.read_ref_value(element, "NvMNameOfFeeBlock"))
                 nvm_block.setNvMTargetBlockReference(ref)
         else:
-            raise ValueError("Invalid block reference type <%s>" % block_ref)
+            self.logger.warning("Unknown block reference type <%s> in NvMBlockDescriptor <%s>",
+                               block_ref, nvm_block.getName())
 
     def read_nvm_block_descriptors(self, element: ET.Element, nvm: NvM):
         for ctr_tag in self.find_ctr_tag_list(element, "NvMBlockDescriptor"):
             nvm_block = NvMBlockDescriptor(nvm, ctr_tag.attrib["name"])
             nvm_block.setNvMBlockCrcType(self.read_value(ctr_tag, "NvMBlockCrcType"))
-            nvm_block.setNvMBlockEcucPartitionRef(self.read_ref_value(ctr_tag, "NvMBlockEcucPartitionRef"))
+            nvm_block.setNvMBlockEcucPartitionRef(self.read_optional_ref_value(ctr_tag, "NvMBlockEcucPartitionRef"))
             nvm_block.setNvMNvramBlockIdentifier(self.read_value(ctr_tag, "NvMNvramBlockIdentifier"))
             nvm_block.setNvMRamBlockDataAddress(self.read_optional_value(ctr_tag, "NvMRamBlockDataAddress"))
             nvm_block.setNvMRomBlockDataAddress(self.read_optional_value(ctr_tag, "NvMRomBlockDataAddress"))

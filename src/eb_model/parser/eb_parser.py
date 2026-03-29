@@ -146,8 +146,28 @@ class AbstractEbModelParser(metaclass=ABCMeta):
         return parent.find(".//d:chc[@name='%s']" % name, self.nsmap)
 
     def read_choice_value(self, parent: ET.Element, name: str) -> str:
+        """
+        Read a mandatory choice value from XML element.
+
+        Raises KeyError if the choice does not exist or has no value attribute.
+
+        Implements: SWR_PARSER_00003 (Value reading - mandatory choice)
+        """
         tag = self.find_choice_tag(parent, name)
         return tag.attrib['value']
+
+    def read_optional_choice_value(self, parent: ET.Element, name: str, default_value=None) -> str:
+        """
+        Read an optional choice value from XML element with default fallback.
+
+        Returns default_value if the choice tag doesn't exist or has no 'value' attribute.
+
+        Implements: SWR_PARSER_00003 (Value reading - optional choice)
+        """
+        tag = self.find_choice_tag(parent, name)
+        if tag is None:
+            return default_value
+        return tag.attrib.get('value', default_value)
 
     def read_ref_value(self, parent: ET.Element, name: str) -> EcucRefType:
         """
