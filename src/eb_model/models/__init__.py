@@ -7,6 +7,7 @@ from .tm_xdm import *               # noqa F403
 from .pbcfgm_xdm import *           # noqa F403
 from .ecum_xdm import *             # noqa F403
 from .det_xdm import *              # noqa F403
+from .secoc_xdm import *            # noqa F403
 from .canif_xdm import *            # noqa F403
 from .cannm_xdm import *            # noqa F403
 from .cansm_xdm import *            # noqa F403
