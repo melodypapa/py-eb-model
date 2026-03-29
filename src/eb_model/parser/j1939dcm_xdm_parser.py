@@ -18,11 +18,9 @@ class J1939DcmXdmParser(AbstractEbModelParser):
     Implements: SWR_J1939DCM_00001 (J1939Dcm Module Parser)
     """
 
-    def __init__(self, ) -> None:
+    def __init__(self) -> None:
         """Initialize the J1939Dcm XDM parser."""
         super().__init__()
-
-        self.j1939dcm = None
 
     def parse(self, element: ET.Element, doc: EBModel):
         """
@@ -39,10 +37,7 @@ class J1939DcmXdmParser(AbstractEbModelParser):
         self.logger.info("Parse J1939Dcm ARVersion:<%s> SwVersion:<%s>" %
                         (j1939dcm.getArVersion().getVersion(), j1939dcm.getSwVersion().getVersion()))
 
-        self.j1939dcm = j1939dcm
         self.read_j1939dcm_general(element, j1939dcm)
-
-        return j1939dcm
 
     def read_j1939dcm_general(self, element: ET.Element, j1939dcm: J1939Dcm):
         """

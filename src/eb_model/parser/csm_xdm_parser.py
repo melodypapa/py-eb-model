@@ -21,7 +21,6 @@ class CsmXdmParser(AbstractEbModelParser):
     def __init__(self) -> None:
         """Initialize the Csm XDM parser."""
         super().__init__()
-        self.csm = None
 
     def parse(self, element: ET.Element, doc: EBModel):
         """
@@ -38,7 +37,6 @@ class CsmXdmParser(AbstractEbModelParser):
         self.logger.info("Parse Csm ARVersion:<%s> SwVersion:<%s>" %
                         (csm.getArVersion().getVersion(), csm.getSwVersion().getVersion()))
 
-        self.csm = csm
         self.read_csm_general(element, csm)
 
     def read_csm_general(self, element: ET.Element, csm: Csm):

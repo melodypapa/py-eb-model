@@ -21,7 +21,6 @@ class SecOCXdmParser(AbstractEbModelParser):
     def __init__(self) -> None:
         """Initialize the SecOC XDM parser."""
         super().__init__()
-        self.secoc = None
 
     def parse(self, element: ET.Element, doc: EBModel):
         """
@@ -38,7 +37,6 @@ class SecOCXdmParser(AbstractEbModelParser):
         self.logger.info("Parse SecOC ARVersion:<%s> SwVersion:<%s>" %
                         (secoc.getArVersion().getVersion(), secoc.getSwVersion().getVersion()))
 
-        self.secoc = secoc
         self.read_secoc_general(element, secoc)
 
     def read_secoc_general(self, element: ET.Element, secoc: SecOC):

@@ -7,6 +7,13 @@ from .tm_xdm import *               # noqa F403
 from .pbcfgm_xdm import *           # noqa F403
 from .ecum_xdm import *             # noqa F403
 from .det_xdm import *              # noqa F403
+from .crypto_xdm import *           # noqa F403
+from .cryif_xdm import *            # noqa F403
+from .csm_xdm import *              # noqa F403
+from .dcm_xdm import *              # noqa F403
+from .dem_xdm import *              # noqa F403
+from .dlt_xdm import *              # noqa F403
+from .fim_xdm import *              # noqa F403
 from .secoc_xdm import *            # noqa F403
 from .canif_xdm import *            # noqa F403
 from .cannm_xdm import *            # noqa F403

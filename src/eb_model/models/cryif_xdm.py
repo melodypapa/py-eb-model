@@ -52,7 +52,6 @@ class CryIf(Module):
     def __init__(self, parent) -> None:
         super().__init__(parent, "CryIf")
         self.cryIfGeneral: CryIfGeneral = None
-        self.logger = logging.getLogger()
 
     def getCryIfGeneral(self) -> CryIfGeneral:
         return self.cryIfGeneral

@@ -52,7 +52,6 @@ class SecOC(Module):
     def __init__(self, parent) -> None:
         super().__init__(parent, "SecOC")
         self.secocGeneral: SecOCGeneral = None
-        self.logger = logging.getLogger()
 
     def getSecocGeneral(self) -> SecOCGeneral:
         return self.secocGeneral

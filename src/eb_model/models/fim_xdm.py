@@ -52,7 +52,6 @@ class FiM(Module):
     def __init__(self, parent) -> None:
         super().__init__(parent, "FiM")
         self.fimGeneral: FiMGeneral = None
-        self.logger = logging.getLogger()
 
     def getFimGeneral(self) -> FiMGeneral:
         return self.fimGeneral

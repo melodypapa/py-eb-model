@@ -21,7 +21,6 @@ class DltXdmParser(AbstractEbModelParser):
     def __init__(self) -> None:
         """Initialize the Dlt XDM parser."""
         super().__init__()
-        self.dlt = None
 
     def parse(self, element: ET.Element, doc: EBModel):
         """
@@ -38,7 +37,6 @@ class DltXdmParser(AbstractEbModelParser):
         self.logger.info("Parse Dlt ARVersion:<%s> SwVersion:<%s>" %
                         (dlt.getArVersion().getVersion(), dlt.getSwVersion().getVersion()))
 
-        self.dlt = dlt
         self.read_dlt_general(element, dlt)
 
     def read_dlt_general(self, element: ET.Element, dlt: Dlt):

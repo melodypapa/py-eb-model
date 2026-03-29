@@ -18,11 +18,9 @@ class J1939TpXdmParser(AbstractEbModelParser):
     Implements: SWR_J1939TP_00001 (J1939Tp Module Parser)
     """
 
-    def __init__(self, ) -> None:
+    def __init__(self) -> None:
         """Initialize the J1939Tp XDM parser."""
         super().__init__()
-
-        self.j1939tp = None
 
     def parse(self, element: ET.Element, doc: EBModel):
         """
@@ -41,8 +39,6 @@ class J1939TpXdmParser(AbstractEbModelParser):
 
         self.j1939tp = j1939tp
         self.read_j1939tp_general(element, j1939tp)
-
-        return j1939tp
 
     def read_j1939tp_general(self, element: ET.Element, j1939tp: J1939Tp):
         """

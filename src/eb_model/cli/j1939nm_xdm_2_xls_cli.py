@@ -41,8 +41,10 @@ def main():
     base_path = os.path.dirname(args.OUTPUT)
     log_file = os.path.join(base_path, 'j1939nm_xdm_2_xls.log')
 
-    if os.path.exists(log_file):
+    try:
         os.remove(log_file)
+    except FileNotFoundError:
+        pass
 
     if args.verbose:
         file_handler = logging.FileHandler(log_file)

@@ -21,7 +21,6 @@ class DcmXdmParser(AbstractEbModelParser):
     def __init__(self) -> None:
         """Initialize the Dcm XDM parser."""
         super().__init__()
-        self.dcm = None
 
     def parse(self, element: ET.Element, doc: EBModel):
         """
@@ -38,7 +37,6 @@ class DcmXdmParser(AbstractEbModelParser):
         self.logger.info("Parse Dcm ARVersion:<%s> SwVersion:<%s>" %
                         (dcm.getArVersion().getVersion(), dcm.getSwVersion().getVersion()))
 
-        self.dcm = dcm
         self.read_dcm_general(element, dcm)
 
     def read_dcm_general(self, element: ET.Element, dcm: Dcm):

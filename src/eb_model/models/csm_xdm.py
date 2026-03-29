@@ -52,7 +52,6 @@ class Csm(Module):
     def __init__(self, parent) -> None:
         super().__init__(parent, "Csm")
         self.csmGeneral: CsmGeneral = None
-        self.logger = logging.getLogger()
 
     def getCsmGeneral(self) -> CsmGeneral:
         return self.csmGeneral

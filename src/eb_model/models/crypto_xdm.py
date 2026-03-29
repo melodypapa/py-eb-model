@@ -52,7 +52,6 @@ class Crypto(Module):
     def __init__(self, parent) -> None:
         super().__init__(parent, "Crypto")
         self.cryptoGeneral: CryptoGeneral = None
-        self.logger = logging.getLogger()
 
     def getCryptoGeneral(self) -> CryptoGeneral:
         return self.cryptoGeneral

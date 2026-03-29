@@ -51,7 +51,6 @@ class J1939Rm(Module):
     def __init__(self, parent) -> None:
         super().__init__(parent, "J1939Rm")
         self.j1939RmGeneral: J1939RmGeneral = None
-        self.logger = logging.getLogger()
 
     def getJ1939RmGeneral(self) -> J1939RmGeneral:
         return self.j1939RmGeneral

@@ -21,7 +21,6 @@ class FiMXdmParser(AbstractEbModelParser):
     def __init__(self) -> None:
         """Initialize the FiM XDM parser."""
         super().__init__()
-        self.fim = None
 
     def parse(self, element: ET.Element, doc: EBModel):
         """
@@ -38,7 +37,6 @@ class FiMXdmParser(AbstractEbModelParser):
         self.logger.info("Parse FiM ARVersion:<%s> SwVersion:<%s>" %
                         (fim.getArVersion().getVersion(), fim.getSwVersion().getVersion()))
 
-        self.fim = fim
         self.read_fim_general(element, fim)
 
     def read_fim_general(self, element: ET.Element, fim: FiM):

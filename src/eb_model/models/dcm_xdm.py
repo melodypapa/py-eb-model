@@ -52,7 +52,6 @@ class Dcm(Module):
     def __init__(self, parent) -> None:
         super().__init__(parent, "Dcm")
         self.dcmGeneral: DcmGeneral = None
-        self.logger = logging.getLogger()
 
     def getDcmGeneral(self) -> DcmGeneral:
         return self.dcmGeneral

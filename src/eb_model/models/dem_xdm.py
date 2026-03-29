@@ -52,7 +52,6 @@ class Dem(Module):
     def __init__(self, parent) -> None:
         super().__init__(parent, "Dem")
         self.demGeneral: DemGeneral = None
-        self.logger = logging.getLogger()
 
     def getDemGeneral(self) -> DemGeneral:
         return self.demGeneral

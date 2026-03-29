@@ -51,7 +51,6 @@ class J1939Dcm(Module):
     def __init__(self, parent) -> None:
         super().__init__(parent, "J1939Dcm")
         self.j1939DcmGeneral: J1939DcmGeneral = None
-        self.logger = logging.getLogger()
 
     def getJ1939DcmGeneral(self) -> J1939DcmGeneral:
         return self.j1939DcmGeneral

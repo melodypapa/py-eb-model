@@ -21,7 +21,6 @@ class DemXdmParser(AbstractEbModelParser):
     def __init__(self) -> None:
         """Initialize the Dem XDM parser."""
         super().__init__()
-        self.dem = None
 
     def parse(self, element: ET.Element, doc: EBModel):
         """
@@ -38,7 +37,6 @@ class DemXdmParser(AbstractEbModelParser):
         self.logger.info("Parse Dem ARVersion:<%s> SwVersion:<%s>" %
                         (dem.getArVersion().getVersion(), dem.getSwVersion().getVersion()))
 
-        self.dem = dem
         self.read_dem_general(element, dem)
 
     def read_dem_general(self, element: ET.Element, dem: Dem):

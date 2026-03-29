@@ -21,7 +21,6 @@ class CryptoXdmParser(AbstractEbModelParser):
     def __init__(self) -> None:
         """Initialize the Crypto XDM parser."""
         super().__init__()
-        self.crypto = None
 
     def parse(self, element: ET.Element, doc: EBModel):
         """
@@ -38,8 +37,6 @@ class CryptoXdmParser(AbstractEbModelParser):
 
         self.logger.info("Parse Crypto ARVersion:<%s> SwVersion:<%s>" %
                         (crypto.getArVersion().getVersion(), crypto.getSwVersion().getVersion()))
-
-        self.crypto = crypto
 
         self.read_crypto_general(element, crypto)
 

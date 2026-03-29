@@ -51,7 +51,6 @@ class Dlt(Module):
     def __init__(self, parent) -> None:
         super().__init__(parent, "Dlt")
         self.dltGeneral: DltGeneral = None
-        self.logger = logging.getLogger()
 
     def getDltGeneral(self) -> DltGeneral:
         return self.dltGeneral

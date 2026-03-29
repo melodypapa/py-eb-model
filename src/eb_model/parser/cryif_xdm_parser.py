@@ -21,7 +21,6 @@ class CryIfXdmParser(AbstractEbModelParser):
     def __init__(self) -> None:
         """Initialize the CryIf XDM parser."""
         super().__init__()
-        self.cryif = None
 
     def parse(self, element: ET.Element, doc: EBModel):
         """
@@ -38,7 +37,6 @@ class CryIfXdmParser(AbstractEbModelParser):
         self.logger.info("Parse CryIf ARVersion:<%s> SwVersion:<%s>" %
                         (cryif.getArVersion().getVersion(), cryif.getSwVersion().getVersion()))
 
-        self.cryif = cryif
         self.read_cryif_general(element, cryif)
 
     def read_cryif_general(self, element: ET.Element, cryif: CryIf):
