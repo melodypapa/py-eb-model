@@ -34,6 +34,11 @@ from ..models.pdur_xdm import PduR
 from ..models.ipdum_xdm import IpduM
 from ..models.nm_xdm import Nm
 from ..models.crc_xdm import Crc
+from ..models.memif_xdm import MemIf
+from ..models.fee_xdm import Fee
+from ..models.ea_xdm import Ea
+from ..models.memmap_xdm import MemMap
+from ..models.memacc_xdm import MemAcc
 from ..models.abstract import EcucParamConfContainerDef, EcucObject
 
 
@@ -253,6 +258,31 @@ class EBModel(AbstractModel):
         container = EcucParamConfContainerDef(self, "Crc")
         Crc(container)
         return self.find("/Crc/Crc")
+
+    def getMemIf(self) -> MemIf:
+        container = EcucParamConfContainerDef(self, "MemIf")
+        MemIf(container)
+        return self.find("/MemIf/MemIf")
+
+    def getFee(self) -> Fee:
+        container = EcucParamConfContainerDef(self, "Fee")
+        Fee(container)
+        return self.find("/Fee/Fee")
+
+    def getEa(self) -> Ea:
+        container = EcucParamConfContainerDef(self, "Ea")
+        Ea(container)
+        return self.find("/Ea/Ea")
+
+    def getMemMap(self) -> MemMap:
+        container = EcucParamConfContainerDef(self, "MemMap")
+        MemMap(container)
+        return self.find("/MemMap/MemMap")
+
+    def getMemAcc(self) -> MemAcc:
+        container = EcucParamConfContainerDef(self, "MemAcc")
+        MemAcc(container)
+        return self.find("/MemAcc/MemAcc")
 
     def addContainer(self, container: EcucParamConfContainerDef):
         if (container is None):

@@ -71,6 +71,11 @@ ipdum-xdm-xlsx = "eb_model.cli.ipdum_xdm_2_xls_cli:main"
 comm-xdm-xlsx = "eb_model.cli.comm_xdm_2_xls_cli:main"
 nm-xdm-xlsx = "eb_model.cli.nm_xdm_2_xls_cli:main"
 crc-xdm-xlsx = "eb_model.cli.crc_xdm_2_xls_cli:main"
+memif-xdm-xlsx = "eb_model.cli.memif_xdm_2_xls_cli:main"
+fee-xdm-xlsx = "eb_model.cli.fee_xdm_2_xls_cli:main"
+ea-xdm-xlsx = "eb_model.cli.ea_xdm_2_xls_cli:main"
+memmap-xdm-xlsx = "eb_model.cli.memmap_xdm_2_xls_cli:main"
+memacc-xdm-xlsx = "eb_model.cli.memacc_xdm_2_xls_cli:main"
 PrefSystemImporter = "eb_model.cli.pref_system_importer_cli:main"
 
 [tool.setuptools]
