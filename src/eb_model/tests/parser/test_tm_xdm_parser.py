@@ -19,6 +19,11 @@ class TestTmXdmParser:
             <d:ctr name="TmGeneral" type="IDENTIFIABLE">
                 <d:var name="TmDevErrorDetect" type="BOOLEAN" value="true"/>
                 <d:var name="TmMainWindowProtect" type="BOOLEAN" value="false"/>
+                <d:var name="TmVersionInfoApi" type="BOOLEAN" value="true"/>
+                <d:var name="TmEnablePredefTimer1us16bit" type="BOOLEAN" value="true"/>
+                <d:var name="TmEnablePredefTimer1us24bit" type="BOOLEAN" value="false"/>
+                <d:var name="TmEnablePredefTimer1us32bit" type="BOOLEAN" value="false"/>
+                <d:var name="TmEnablePredefTimer100us32bit" type="BOOLEAN" value="true"/>
             </d:ctr>
         </datamodel>
         """
@@ -45,6 +50,11 @@ class TestTmXdmParser:
         assert general is not None
         assert general.getTmDevErrorDetect() is True
         assert general.getTmMainWindowProtect() is False
+        assert general.getTmVersionInfoApi() is True
+        assert general.getTmEnablePredefTimer1us16bit() is True
+        assert general.getTmEnablePredefTimer1us24bit() is False
+        assert general.getTmEnablePredefTimer1us32bit() is False
+        assert general.getTmEnablePredefTimer100us32bit() is True
 
     def test_read_tm_interrupt_synchronization(self):
 
@@ -170,3 +180,87 @@ class TestTmXdmParser:
         trigger2 = triggers[1]
         assert trigger2.getName() == "Trigger2"
         assert trigger2.getTmTriggerChannelRef().getValue() == "/Gpt/Gpt/Channel2"
+
+    def test_read_common_published_information(self):
+        xml_content = """
+        <datamodel version="8.0"
+                xmlns="http://www.tresos.de/_projects/DataModel2/18/root.xsd"
+                xmlns:a="http://www.tresos.de/_projects/DataModel2/18/attribute.xsd"
+                xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+                xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+            <d:ctr name="CommonPublishedInformation" type="IDENTIFIABLE">
+                <d:var name="ArMajorVersion" type="INTEGER" value="4"/>
+                <d:var name="ArMinorVersion" type="INTEGER" value="3"/>
+                <d:var name="ArPatchVersion" type="INTEGER" value="0"/>
+                <d:var name="SwMajorVersion" type="INTEGER" value="1"/>
+                <d:var name="SwMinorVersion" type="INTEGER" value="0"/>
+                <d:var name="SwPatchVersion" type="INTEGER" value="0"/>
+            </d:ctr>
+        </datamodel>
+        """
+        element = ET.fromstring(xml_content)
+
+        model = EBModel.getInstance()
+        tm = model.getTm()
+
+        parser = TmXdmParser()
+        parser.nsmap = {
+            '': "http://www.tresos.de/_projects/DataModel2/18/root.xsd",
+            'a': "http://www.tresos.de/_projects/DataModel2/18/attribute.xsd",
+            'v': "http://www.tresos.de/_projects/DataModel2/06/schema.xsd",
+            'd': "http://www.tresos.de/_projects/DataModel2/06/data.xsd"
+        }
+
+        parser.read_common_published_information(element, tm)
+
+        pub_info = tm.getCommonPublishedInformation()
+        assert pub_info is not None
+        assert pub_info.getArMajorVersion() == 4
+        assert pub_info.getArMinorVersion() == 3
+        assert pub_info.getArPatchVersion() == 0
+        assert pub_info.getSwMajorVersion() == 1
+        assert pub_info.getSwMinorVersion() == 0
+        assert pub_info.getSwPatchVersion() == 0
+
+    def test_read_published_information(self):
+        xml_content = """
+        <datamodel version="8.0"
+                xmlns="http://www.tresos.de/_projects/DataModel2/18/root.xsd"
+                xmlns:a="http://www.tresos.de/_projects/DataModel2/18/attribute.xsd"
+                xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+                xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+            <d:ctr name="PublishedInformation" type="IDENTIFIABLE">
+                <d:var name="VendorId" type="STRING" value="Vector"/>
+                <d:var name="ArReleaseMajorVersion" type="STRING" value="4"/>
+                <d:var name="ArReleaseMinorVersion" type="STRING" value="3"/>
+                <d:var name="ArReleasePatchVersion" type="STRING" value="0"/>
+                <d:var name="SwMajorVersion" type="STRING" value="1"/>
+                <d:var name="SwMinorVersion" type="STRING" value="0"/>
+                <d:var name="SwPatchVersion" type="STRING" value="0"/>
+            </d:ctr>
+        </datamodel>
+        """
+        element = ET.fromstring(xml_content)
+
+        model = EBModel.getInstance()
+        tm = model.getTm()
+
+        parser = TmXdmParser()
+        parser.nsmap = {
+            '': "http://www.tresos.de/_projects/DataModel2/18/root.xsd",
+            'a': "http://www.tresos.de/_projects/DataModel2/18/attribute.xsd",
+            'v': "http://www.tresos.de/_projects/DataModel2/06/schema.xsd",
+            'd': "http://www.tresos.de/_projects/DataModel2/06/data.xsd"
+        }
+
+        parser.read_published_information(element, tm)
+
+        pub_info = tm.getPublishedInformation()
+        assert pub_info is not None
+        assert pub_info.getVendorId() == "Vector"
+        assert pub_info.getArReleaseMajorVersion() == "4"
+        assert pub_info.getArReleaseMinorVersion() == "3"
+        assert pub_info.getArReleasePatchVersion() == "0"
+        assert pub_info.getSwMajorVersion() == "1"
+        assert pub_info.getSwMinorVersion() == "0"
+        assert pub_info.getSwPatchVersion() == "0"

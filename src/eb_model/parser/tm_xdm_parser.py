@@ -8,7 +8,7 @@ Implements:
 """
 import xml.etree.ElementTree as ET
 from ..models.eb_doc import EBModel
-from ..models.tm_xdm import Tm, TmGeneral, TmInterruptSynchronization, TmTickTime, TmTrigger
+from ..models.tm_xdm import Tm, TmGeneral, TmInterruptSynchronization, TmTickTime, TmTrigger, CommonPublishedInformation, PublishedInformation
 from ..parser.eb_parser import AbstractEbModelParser
 
 
@@ -39,6 +39,8 @@ class TmXdmParser(AbstractEbModelParser):
         tm = doc.getTm()
 
         self.read_version(element, tm)
+        self.read_common_published_information(element, tm)
+        self.read_published_information(element, tm)
 
         self.logger.info("Parse Tm ARVersion:<%s> SwVersion:<%s>" % (tm.getArVersion().getVersion(), tm.getSwVersion().getVersion()))
 
@@ -49,12 +51,50 @@ class TmXdmParser(AbstractEbModelParser):
         self.read_tm_tick_time(element, tm)
         self.read_tm_triggers(element, tm)
 
+    def read_common_published_information(self, element: ET.Element, tm: Tm):
+        """
+        Parse CommonPublishedInformation container from XDM.
+        """
+        ctr_tag = self.find_ctr_tag(element, "CommonPublishedInformation")
+        if ctr_tag is not None:
+            pub_info = CommonPublishedInformation(tm, ctr_tag.attrib["name"])
+            pub_info.setArMajorVersion(self.read_value(ctr_tag, "ArMajorVersion"))
+            pub_info.setArMinorVersion(self.read_value(ctr_tag, "ArMinorVersion"))
+            pub_info.setArPatchVersion(self.read_value(ctr_tag, "ArPatchVersion"))
+            pub_info.setSwMajorVersion(self.read_value(ctr_tag, "SwMajorVersion"))
+            pub_info.setSwMinorVersion(self.read_value(ctr_tag, "SwMinorVersion"))
+            pub_info.setSwPatchVersion(self.read_value(ctr_tag, "SwPatchVersion"))
+            tm.setCommonPublishedInformation(pub_info)
+            self.logger.debug("Read CommonPublishedInformation")
+
+    def read_published_information(self, element: ET.Element, tm: Tm):
+        """
+        Parse PublishedInformation container from XDM.
+        """
+        ctr_tag = self.find_ctr_tag(element, "PublishedInformation")
+        if ctr_tag is not None:
+            pub_info = PublishedInformation(tm, ctr_tag.attrib["name"])
+            pub_info.setVendorId(self.read_value(ctr_tag, "VendorId"))
+            pub_info.setArReleaseMajorVersion(self.read_value(ctr_tag, "ArReleaseMajorVersion"))
+            pub_info.setArReleaseMinorVersion(self.read_value(ctr_tag, "ArReleaseMinorVersion"))
+            pub_info.setArReleasePatchVersion(self.read_value(ctr_tag, "ArReleasePatchVersion"))
+            pub_info.setSwMajorVersion(self.read_value(ctr_tag, "SwMajorVersion"))
+            pub_info.setSwMinorVersion(self.read_value(ctr_tag, "SwMinorVersion"))
+            pub_info.setSwPatchVersion(self.read_value(ctr_tag, "SwPatchVersion"))
+            tm.setPublishedInformation(pub_info)
+            self.logger.debug("Read PublishedInformation")
+
     def read_tm_general(self, element: ET.Element, tm: Tm):
         ctr_tag = self.find_ctr_tag(element, "TmGeneral")
         if ctr_tag is not None:
             general = TmGeneral(tm, ctr_tag.attrib["name"])
             general.setTmDevErrorDetect(self.read_value(ctr_tag, "TmDevErrorDetect"))
             general.setTmMainWindowProtect(self.read_optional_value(ctr_tag, "TmMainWindowProtect"))
+            general.setTmVersionInfoApi(self.read_optional_value(ctr_tag, "TmVersionInfoApi"))
+            general.setTmEnablePredefTimer1us16bit(self.read_optional_value(ctr_tag, "TmEnablePredefTimer1us16bit"))
+            general.setTmEnablePredefTimer1us24bit(self.read_optional_value(ctr_tag, "TmEnablePredefTimer1us24bit"))
+            general.setTmEnablePredefTimer1us32bit(self.read_optional_value(ctr_tag, "TmEnablePredefTimer1us32bit"))
+            general.setTmEnablePredefTimer100us32bit(self.read_optional_value(ctr_tag, "TmEnablePredefTimer100us32bit"))
             tm.setTmGeneral(general)
             self.logger.debug("Read TmGeneral")
 

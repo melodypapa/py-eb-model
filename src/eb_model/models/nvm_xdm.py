@@ -52,6 +52,7 @@ class NvMCommon(EcucParamConfContainerDef):
         self.NvMJobPrioritization: bool = None
         self.NvMMainFunctionPeriod: float = None
         self.NvMMultiBlockCallback: str = None
+        self.NvMMemAccUsage: bool = None
         self.NvMPollingMode: bool = None
         self.NvMRepeatMirrorOperations: int = None
         self.NvMSetRamBlockStatusApi: bool = None
@@ -148,6 +149,14 @@ class NvMCommon(EcucParamConfContainerDef):
     def setNvMMultiBlockCallback(self, value: str):
         if value is not None:
             self.NvMMultiBlockCallback = value
+        return self
+
+    def getNvMMemAccUsage(self) -> bool:
+        return self.NvMMemAccUsage
+
+    def setNvMMemAccUsage(self, value: bool):
+        if value is not None:
+            self.NvMMemAccUsage = value
         return self
 
     def getNvMPollingMode(self) -> bool:
@@ -253,6 +262,256 @@ class NvMInitBlockCallback(EcucParamConfContainerDef):
         return self
 
 
+class CommonPublishedInformation(EcucParamConfContainerDef):
+    """
+    Common published information containing AUTOSAR version information.
+    """
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.arMajorVersion: int = None
+        self.arMinorVersion: int = None
+        self.arPatchVersion: int = None
+        self.swMajorVersion: int = None
+        self.swMinorVersion: int = None
+        self.swPatchVersion: int = None
+
+    def getArMajorVersion(self) -> int:
+        return self.arMajorVersion
+
+    def setArMajorVersion(self, value: int):
+        if value is not None:
+            self.arMajorVersion = value
+        return self
+
+    def getArMinorVersion(self) -> int:
+        return self.arMinorVersion
+
+    def setArMinorVersion(self, value: int):
+        if value is not None:
+            self.arMinorVersion = value
+        return self
+
+    def getArPatchVersion(self) -> int:
+        return self.arPatchVersion
+
+    def setArPatchVersion(self, value: int):
+        if value is not None:
+            self.arPatchVersion = value
+        return self
+
+    def getSwMajorVersion(self) -> int:
+        return self.swMajorVersion
+
+    def setSwMajorVersion(self, value: int):
+        if value is not None:
+            self.swMajorVersion = value
+        return self
+
+    def getSwMinorVersion(self) -> int:
+        return self.swMinorVersion
+
+    def setSwMinorVersion(self, value: int):
+        if value is not None:
+            self.swMinorVersion = value
+        return self
+
+    def getSwPatchVersion(self) -> int:
+        return self.swPatchVersion
+
+    def setSwPatchVersion(self, value: int):
+        if value is not None:
+            self.swPatchVersion = value
+        return self
+
+
+class PublishedInformation(EcucParamConfContainerDef):
+    """
+    Module-specific published information.
+    """
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.vendorId: str = None
+        self.arReleaseMajorVersion: str = None
+        self.arReleaseMinorVersion: str = None
+        self.arReleasePatchVersion: str = None
+        self.swMajorVersion: str = None
+        self.swMinorVersion: str = None
+        self.swPatchVersion: str = None
+
+    def getVendorId(self) -> str:
+        return self.vendorId
+
+    def setVendorId(self, value: str):
+        if value is not None:
+            self.vendorId = value
+        return self
+
+    def getArReleaseMajorVersion(self) -> str:
+        return self.arReleaseMajorVersion
+
+    def setArReleaseMajorVersion(self, value: str):
+        if value is not None:
+            self.arReleaseMajorVersion = value
+        return self
+
+    def getArReleaseMinorVersion(self) -> str:
+        return self.arReleaseMinorVersion
+
+    def setArReleaseMinorVersion(self, value: str):
+        if value is not None:
+            self.arReleaseMinorVersion = value
+        return self
+
+    def getArReleasePatchVersion(self) -> str:
+        return self.arReleasePatchVersion
+
+    def setArReleasePatchVersion(self, value: str):
+        if value is not None:
+            self.arReleasePatchVersion = value
+        return self
+
+    def getSwMajorVersion(self) -> str:
+        return self.swMajorVersion
+
+    def setSwMajorVersion(self, value: str):
+        if value is not None:
+            self.swMajorVersion = value
+        return self
+
+    def getSwMinorVersion(self) -> str:
+        return self.swMinorVersion
+
+    def setSwMinorVersion(self, value: str):
+        if value is not None:
+            self.swMinorVersion = value
+        return self
+
+    def getSwPatchVersion(self) -> str:
+        return self.swPatchVersion
+
+    def setSwPatchVersion(self, value: str):
+        if value is not None:
+            self.swPatchVersion = value
+        return self
+
+
+class NvMDefensiveProgramming(EcucParamConfContainerDef):
+    """
+    Defensive programming configuration for NvM module.
+    """
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.nvMNullPointerCheck: bool = None
+        self.nvMParameterCheck: bool = None
+
+    def getNvMNullPointerCheck(self) -> bool:
+        return self.nvMNullPointerCheck
+
+    def setNvMNullPointerCheck(self, value: bool):
+        if value is not None:
+            self.nvMNullPointerCheck = value
+        return self
+
+    def getNvMParameterCheck(self) -> bool:
+        return self.nvMParameterCheck
+
+    def setNvMParameterCheck(self, value: bool):
+        if value is not None:
+            self.nvMParameterCheck = value
+        return self
+
+
+class NvMCommonCryptoSecurityParameters(EcucParamConfContainerDef):
+    """
+    Common crypto security parameters for NvM module.
+    """
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.nvMCryptoPrimitive: str = None
+        self.nvMKeyAddress: int = None
+
+    def getNvMCryptoPrimitive(self) -> str:
+        return self.nvMCryptoPrimitive
+
+    def setNvMCryptoPrimitive(self, value: str):
+        if value is not None:
+            self.nvMCryptoPrimitive = value
+        return self
+
+    def getNvMKeyAddress(self) -> int:
+        return self.nvMKeyAddress
+
+    def setNvMKeyAddress(self, value: int):
+        if value is not None:
+            self.nvMKeyAddress = value
+        return self
+
+
+class NvMServiceAPI(EcucParamConfContainerDef):
+    """
+    Service API configuration for NvM module.
+    """
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.nvMVersionInfoApi: bool = None
+
+    def getNvMVersionInfoApi(self) -> bool:
+        return self.nvMVersionInfoApi
+
+    def setNvMVersionInfoApi(self, value: bool):
+        if value is not None:
+            self.nvMVersionInfoApi = value
+        return self
+
+
+class NvmDemEventParameterRefs(EcucParamConfContainerDef):
+    """
+    DEM event parameter references for NvM module.
+    """
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+
+class ReportToDem(EcucParamConfContainerDef):
+    """
+    DEM reporting configuration for NvM module.
+    """
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.nvMReportStorageFailed: bool = None
+        self.nvMReportVerificationFailed: bool = None
+
+    def getNvMReportStorageFailed(self) -> bool:
+        return self.nvMReportStorageFailed
+
+    def setNvMReportStorageFailed(self, value: bool):
+        if value is not None:
+            self.nvMReportStorageFailed = value
+        return self
+
+    def getNvMReportVerificationFailed(self) -> bool:
+        return self.nvMReportVerificationFailed
+
+    def setNvMReportVerificationFailed(self, value: bool):
+        if value is not None:
+            self.nvMReportVerificationFailed = value
+        return self
+
+
+class MultiCoreCallout(EcucParamConfContainerDef):
+    """
+    Multi-core callout configuration for NvM module.
+    """
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+
 class NvMBlockDescriptor(EcucParamConfContainerDef):
     def __init__(self, parent, name):
         super().__init__(parent, name)
@@ -293,6 +552,11 @@ class NvMBlockDescriptor(EcucParamConfContainerDef):
         self.nvMWriteVerificationDataSize = None            # required
         self.nvMBlockCipheringRef = None                    # optional
         self.nvMBlockEcucPartitionRef: EcucRefType = None
+        self.nvMAdvancedRecovery: bool = False
+        self.aSR2011CallbackEnabled: bool = False
+        self.nvMExtraBlockChecks: bool = False
+        self.nvMProvideRteAdminPort: bool = False
+        self.nvMProvideRteInitBlockPort: bool = False
 
         self.nvMInitBlockCallback: NvMInitBlockCallback = None
         self.nvMSingleBlockCallback: NvMSingleBlockCallback = None
@@ -590,6 +854,46 @@ class NvMBlockDescriptor(EcucParamConfContainerDef):
             self.nvMBlockEcucPartitionRef = value
         return self
 
+    def getNvMAdvancedRecovery(self) -> bool:
+        return self.nvMAdvancedRecovery
+
+    def setNvMAdvancedRecovery(self, value: bool):
+        if value is not None:
+            self.nvMAdvancedRecovery = value
+        return self
+
+    def getASR2011CallbackEnabled(self) -> bool:
+        return self.aSR2011CallbackEnabled
+
+    def setASR2011CallbackEnabled(self, value: bool):
+        if value is not None:
+            self.aSR2011CallbackEnabled = value
+        return self
+
+    def getNvMExtraBlockChecks(self) -> bool:
+        return self.nvMExtraBlockChecks
+
+    def setNvMExtraBlockChecks(self, value: bool):
+        if value is not None:
+            self.nvMExtraBlockChecks = value
+        return self
+
+    def getNvMProvideRteAdminPort(self) -> bool:
+        return self.nvMProvideRteAdminPort
+
+    def setNvMProvideRteAdminPort(self, value: bool):
+        if value is not None:
+            self.nvMProvideRteAdminPort = value
+        return self
+
+    def getNvMProvideRteInitBlockPort(self) -> bool:
+        return self.nvMProvideRteInitBlockPort
+
+    def setNvMProvideRteInitBlockPort(self, value: bool):
+        if value is not None:
+            self.nvMProvideRteInitBlockPort = value
+        return self
+
     def getNvMInitBlockCallback(self) -> NvMInitBlockCallback:
         return self.nvMInitBlockCallback
 
@@ -637,6 +941,14 @@ class NvM(Module):
 
         self.NvMBlockDescriptors: List[NvMBlockDescriptor] = []
         self.NvMCommon: NvMCommon = None
+        self.commonPublishedInformation: CommonPublishedInformation = None
+        self.publishedInformation: PublishedInformation = None
+        self.nvMDefensiveProgramming: NvMDefensiveProgramming = None
+        self.nvMCommonCryptoSecurityParameters: NvMCommonCryptoSecurityParameters = None
+        self.nvMServiceAPI: NvMServiceAPI = None
+        self.nvmDemEventParameterRefs: NvmDemEventParameterRefs = None
+        self.reportToDem: ReportToDem = None
+        self.multiCoreCallout: MultiCoreCallout = None
 
     def getNvMCommon(self) -> NvMCommon:
         return self.NvMCommon
@@ -644,6 +956,70 @@ class NvM(Module):
     def setNvMCommon(self, value: NvMCommon):
         if value is not None:
             self.NvMCommon = value
+        return self
+
+    def getCommonPublishedInformation(self) -> CommonPublishedInformation:
+        return self.commonPublishedInformation
+
+    def setCommonPublishedInformation(self, value: CommonPublishedInformation):
+        if value is not None:
+            self.commonPublishedInformation = value
+        return self
+
+    def getPublishedInformation(self) -> PublishedInformation:
+        return self.publishedInformation
+
+    def setPublishedInformation(self, value: PublishedInformation):
+        if value is not None:
+            self.publishedInformation = value
+        return self
+
+    def getNvMDefensiveProgramming(self) -> NvMDefensiveProgramming:
+        return self.nvMDefensiveProgramming
+
+    def setNvMDefensiveProgramming(self, value: NvMDefensiveProgramming):
+        if value is not None:
+            self.nvMDefensiveProgramming = value
+        return self
+
+    def getNvMCommonCryptoSecurityParameters(self) -> NvMCommonCryptoSecurityParameters:
+        return self.nvMCommonCryptoSecurityParameters
+
+    def setNvMCommonCryptoSecurityParameters(self, value: NvMCommonCryptoSecurityParameters):
+        if value is not None:
+            self.nvMCommonCryptoSecurityParameters = value
+        return self
+
+    def getNvMServiceAPI(self) -> NvMServiceAPI:
+        return self.nvMServiceAPI
+
+    def setNvMServiceAPI(self, value: NvMServiceAPI):
+        if value is not None:
+            self.nvMServiceAPI = value
+        return self
+
+    def getNvmDemEventParameterRefs(self) -> NvmDemEventParameterRefs:
+        return self.nvmDemEventParameterRefs
+
+    def setNvmDemEventParameterRefs(self, value: NvmDemEventParameterRefs):
+        if value is not None:
+            self.nvmDemEventParameterRefs = value
+        return self
+
+    def getReportToDem(self) -> ReportToDem:
+        return self.reportToDem
+
+    def setReportToDem(self, value: ReportToDem):
+        if value is not None:
+            self.reportToDem = value
+        return self
+
+    def getMultiCoreCallout(self) -> MultiCoreCallout:
+        return self.multiCoreCallout
+
+    def setMultiCoreCallout(self, value: MultiCoreCallout):
+        if value is not None:
+            self.multiCoreCallout = value
         return self
 
     def getNvMBlockDescriptorList(self) -> List[NvMBlockDescriptor]:

@@ -3,12 +3,152 @@ import logging
 from ..models.abstract import EcucParamConfContainerDef, EcucRefType, Module  # noqa F401
 
 
+class CommonPublishedInformation(EcucParamConfContainerDef):
+    """
+    Common published information containing AUTOSAR version information.
+    """
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.arMajorVersion: int = None
+        self.arMinorVersion: int = None
+        self.arPatchVersion: int = None
+        self.swMajorVersion: int = None
+        self.swMinorVersion: int = None
+        self.swPatchVersion: int = None
+
+    def getArMajorVersion(self) -> int:
+        return self.arMajorVersion
+
+    def setArMajorVersion(self, value: int):
+        if value is not None:
+            self.arMajorVersion = value
+        return self
+
+    def getArMinorVersion(self) -> int:
+        return self.arMinorVersion
+
+    def setArMinorVersion(self, value: int):
+        if value is not None:
+            self.arMinorVersion = value
+        return self
+
+    def getArPatchVersion(self) -> int:
+        return self.arPatchVersion
+
+    def setArPatchVersion(self, value: int):
+        if value is not None:
+            self.arPatchVersion = value
+        return self
+
+    def getSwMajorVersion(self) -> int:
+        return self.swMajorVersion
+
+    def setSwMajorVersion(self, value: int):
+        if value is not None:
+            self.swMajorVersion = value
+        return self
+
+    def getSwMinorVersion(self) -> int:
+        return self.swMinorVersion
+
+    def setSwMinorVersion(self, value: int):
+        if value is not None:
+            self.swMinorVersion = value
+        return self
+
+    def getSwPatchVersion(self) -> int:
+        return self.swPatchVersion
+
+    def setSwPatchVersion(self, value: int):
+        if value is not None:
+            self.swPatchVersion = value
+        return self
+
+
+class PublishedInformation(EcucParamConfContainerDef):
+    """
+    Module-specific published information.
+    """
+    def __init__(self, parent, name) -> None:
+        super().__init__(parent, name)
+
+        self.vendorId: str = None
+        self.arReleaseMajorVersion: str = None
+        self.arReleaseMinorVersion: str = None
+        self.arReleasePatchVersion: str = None
+        self.swMajorVersion: str = None
+        self.swMinorVersion: str = None
+        self.swPatchVersion: str = None
+
+    def getVendorId(self) -> str:
+        return self.vendorId
+
+    def setVendorId(self, value: str):
+        if value is not None:
+            self.vendorId = value
+        return self
+
+    def getArReleaseMajorVersion(self) -> str:
+        return self.arReleaseMajorVersion
+
+    def setArReleaseMajorVersion(self, value: str):
+        if value is not None:
+            self.arReleaseMajorVersion = value
+        return self
+
+    def getArReleaseMinorVersion(self) -> str:
+        return self.arReleaseMinorVersion
+
+    def setArReleaseMinorVersion(self, value: str):
+        if value is not None:
+            self.arReleaseMinorVersion = value
+        return self
+
+    def getArReleasePatchVersion(self) -> str:
+        return self.arReleasePatchVersion
+
+    def setArReleasePatchVersion(self, value: str):
+        if value is not None:
+            self.arReleasePatchVersion = value
+        return self
+
+    def getSwMajorVersion(self) -> str:
+        return self.swMajorVersion
+
+    def setSwMajorVersion(self, value: str):
+        if value is not None:
+            self.swMajorVersion = value
+        return self
+
+    def getSwMinorVersion(self) -> str:
+        return self.swMinorVersion
+
+    def setSwMinorVersion(self, value: str):
+        if value is not None:
+            self.swMinorVersion = value
+        return self
+
+    def getSwPatchVersion(self) -> str:
+        return self.swPatchVersion
+
+    def setSwPatchVersion(self, value: str):
+        if value is not None:
+            self.swPatchVersion = value
+        return self
+
+
 class TmGeneral(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
         self.tmDevErrorDetect: bool = None
         self.tmMainWindowProtect: bool = None
+        self.tmVersionInfoApi: bool = None
+        self.tmEnablePredefTimer1us16bit: bool = None
+        self.tmEnablePredefTimer1us24bit: bool = None
+        self.tmEnablePredefTimer1us32bit: bool = None
+        self.tmEnablePredefTimer100us32bit: bool = None
 
     def getTmDevErrorDetect(self) -> bool:
         return self.tmDevErrorDetect
@@ -24,6 +164,46 @@ class TmGeneral(EcucParamConfContainerDef):
     def setTmMainWindowProtect(self, value: bool):
         if value is not None:
             self.tmMainWindowProtect = value
+        return self
+
+    def getTmVersionInfoApi(self) -> bool:
+        return self.tmVersionInfoApi
+
+    def setTmVersionInfoApi(self, value: bool):
+        if value is not None:
+            self.tmVersionInfoApi = value
+        return self
+
+    def getTmEnablePredefTimer1us16bit(self) -> bool:
+        return self.tmEnablePredefTimer1us16bit
+
+    def setTmEnablePredefTimer1us16bit(self, value: bool):
+        if value is not None:
+            self.tmEnablePredefTimer1us16bit = value
+        return self
+
+    def getTmEnablePredefTimer1us24bit(self) -> bool:
+        return self.tmEnablePredefTimer1us24bit
+
+    def setTmEnablePredefTimer1us24bit(self, value: bool):
+        if value is not None:
+            self.tmEnablePredefTimer1us24bit = value
+        return self
+
+    def getTmEnablePredefTimer1us32bit(self) -> bool:
+        return self.tmEnablePredefTimer1us32bit
+
+    def setTmEnablePredefTimer1us32bit(self, value: bool):
+        if value is not None:
+            self.tmEnablePredefTimer1us32bit = value
+        return self
+
+    def getTmEnablePredefTimer100us32bit(self) -> bool:
+        return self.tmEnablePredefTimer100us32bit
+
+    def setTmEnablePredefTimer100us32bit(self, value: bool):
+        if value is not None:
+            self.tmEnablePredefTimer100us32bit = value
         return self
 
 
@@ -89,6 +269,8 @@ class Tm(Module):
         self.tmInterruptSynchronization: TmInterruptSynchronization = None
         self.tmTickTime: TmTickTime = None
         self.tmTriggers: List[TmTrigger] = []
+        self.commonPublishedInformation: CommonPublishedInformation = None
+        self.publishedInformation: PublishedInformation = None
 
         self.logger = logging.getLogger()
 
@@ -122,4 +304,20 @@ class Tm(Module):
     def addTmTrigger(self, value: TmTrigger):
         self.addElement(value)
         self.tmTriggers.append(value)
+        return self
+
+    def getCommonPublishedInformation(self) -> CommonPublishedInformation:
+        return self.commonPublishedInformation
+
+    def setCommonPublishedInformation(self, value: CommonPublishedInformation):
+        if value is not None:
+            self.commonPublishedInformation = value
+        return self
+
+    def getPublishedInformation(self) -> PublishedInformation:
+        return self.publishedInformation
+
+    def setPublishedInformation(self, value: PublishedInformation):
+        if value is not None:
+            self.publishedInformation = value
         return self
