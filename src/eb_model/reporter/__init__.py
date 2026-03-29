@@ -1,37 +1,8 @@
-from .excel_reporter.os_xdm import *
-from .excel_reporter.nvm_xdm import *
-from .excel_reporter.tm_xdm import *
-from .excel_reporter.pbcfgm_xdm import *
-from .excel_reporter.ecum_xdm import *
-from .excel_reporter.det_xdm import *
-from .excel_reporter.canif_xdm import *
-from .excel_reporter.cannm_xdm import *
-from .excel_reporter.cansm_xdm import *
-from .excel_reporter.cantp_xdm import *
-from .excel_reporter.linif_xdm import *
-from .excel_reporter.linsm_xdm import *
-from .excel_reporter.lintp_xdm import *
-from .excel_reporter.ethif_xdm import *
-from .excel_reporter.ethsm_xdm import *
-from .excel_reporter.tcpip_xdm import *
-from .excel_reporter.soad_xdm import *
-from .excel_reporter.udpnm_xdm import *
-from .excel_reporter.doip_xdm import *
-from .excel_reporter.someiptp_xdm import *
-from .excel_reporter.frif_xdm import *
-from .excel_reporter.frtp_xdm import *
-from .excel_reporter.frnm_xdm import *
-from .excel_reporter.frsm_xdm import *
-from .excel_reporter.frartp_xdm import *
-from .excel_reporter.crypto_xdm import *
-from .excel_reporter.cryif_xdm import *
-from .excel_reporter.csm_xdm import *
-from .excel_reporter.secoc_xdm import *
-from .excel_reporter.fim_xdm import *
-from .excel_reporter.dcm_xdm import *
-from .excel_reporter.dem_xdm import *
-from .excel_reporter.dlt_xdm import *
-from .excel_reporter.j1939dcm_xdm import *
-from .excel_reporter.j1939nm_xdm import *
-from .excel_reporter.j1939rm_xdm import *
-from .excel_reporter.j1939tp_xdm import *
+"""
+Reporter classes for exporting AUTOSAR configuration data.
+
+Implements: SWR_REPORTER_00001 (Reporter layer)
+"""
+
+# Excel reporters
+from .excel_reporter import *

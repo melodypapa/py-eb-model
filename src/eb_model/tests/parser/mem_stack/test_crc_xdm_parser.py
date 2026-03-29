@@ -6,9 +6,9 @@ Implements:
     - SWR_CRC_00002: Crc configuration parsing tests
 """
 import xml.etree.ElementTree as ET
-from ....parser.crc_xdm_parser import CrcXdmParser
-from ....models.mem_stack.crc_xdm import Crc, CrcConfig
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.mem_stack.crc_xdm_parser import CrcXdmParser
+from eb_model.models.mem_stack.crc_xdm import Crc, CrcConfig
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestCrcXdmParser:

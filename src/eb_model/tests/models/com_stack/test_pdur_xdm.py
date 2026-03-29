@@ -2,8 +2,8 @@
 PduR Model Tests - Tests for PduR module model classes.
 """
 import pytest
-from ....models.com_stack.pdur_xdm import PduR, PduRRoutingTableEntry
-from ....models.core.eb_doc import EBModel
+from eb_model.models.com_stack.pdur_xdm import PduR, PduRRoutingTableEntry
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestPduRRoutingTableEntry:
@@ -39,7 +39,7 @@ class TestPduRRoutingTableEntry:
     def test_set_pdu_r_dest_pdu_ref(self):
         root = EBModel.getInstance()
         entry = PduRRoutingTableEntry(root, "RoutingEntry1")
-        from ....models.core.abstract import EcucRefType
+        from eb_model.models.core.abstract import EcucRefType
 
         ref = EcucRefType("/Can/CanIfTxPdu1")
         assert entry.setPduRDestPduRef(ref) == entry
@@ -48,7 +48,7 @@ class TestPduRRoutingTableEntry:
     def test_set_pdu_r_src_pdu_ref(self):
         root = EBModel.getInstance()
         entry = PduRRoutingTableEntry(root, "RoutingEntry1")
-        from ....models.core.abstract import EcucRefType
+        from eb_model.models.core.abstract import EcucRefType
 
         ref = EcucRefType("/Can/CanIfRxPdu1")
         assert entry.setPduRSrcPduRef(ref) == entry
@@ -57,7 +57,7 @@ class TestPduRRoutingTableEntry:
     def test_fluent_interface(self):
         root = EBModel.getInstance()
         entry = PduRRoutingTableEntry(root, "RoutingEntry1")
-        from ....models.core.abstract import EcucRefType
+        from eb_model.models.core.abstract import EcucRefType
 
         dest_ref = EcucRefType("/Can/DestPdu")
         src_ref = EcucRefType("/Can/SrcPdu")

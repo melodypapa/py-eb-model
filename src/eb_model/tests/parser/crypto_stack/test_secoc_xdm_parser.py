@@ -1,9 +1,9 @@
 """
 SecOC Parser Tests - Tests for SecOC XDM parser.
 """
-from ....parser.secoc_xdm_parser import SecOCXdmParser
-from ....models.crypto_stack.secoc_xdm import SecOCGeneral
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.crypto_stack.secoc_xdm_parser import SecOCXdmParser
+from eb_model.models.crypto_stack.secoc_xdm import SecOCGeneral
+from eb_model.models.core.eb_doc import EBModel
 
 import xml.etree.ElementTree as ET
 

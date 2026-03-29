@@ -2,8 +2,8 @@
 Com Model Tests - Tests for COM module model classes.
 """
 import pytest
-from ....models.com_stack.com_xdm import Com, ComGeneral
-from ....models.core.eb_doc import EBModel
+from eb_model.models.com_stack.com_xdm import Com, ComGeneral
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestComGeneral:

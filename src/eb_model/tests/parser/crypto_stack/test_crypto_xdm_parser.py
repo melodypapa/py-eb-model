@@ -1,6 +1,6 @@
-from ....parser.crypto_xdm_parser import CryptoXdmParser
-from ....models.crypto_stack.crypto_xdm import CryptoGeneral
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.crypto_stack.crypto_xdm_parser import CryptoXdmParser
+from eb_model.models.crypto_stack.crypto_xdm import CryptoGeneral
+from eb_model.models.core.eb_doc import EBModel
 
 import xml.etree.ElementTree as ET
 

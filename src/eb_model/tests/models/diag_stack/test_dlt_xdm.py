@@ -2,9 +2,9 @@
 Dlt Model Tests - Tests for Dlt module model classes.
 """
 import pytest
-from ....models.diag_stack.dlt_xdm import Dlt, DltGeneral
-from ....models.core.eb_doc import EBModel
-from ....models.core.abstract import EcucParamConfContainerDef
+from eb_model.models.diag_stack.dlt_xdm import Dlt, DltGeneral
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.core.abstract import EcucParamConfContainerDef
 
 
 class TestDlt:

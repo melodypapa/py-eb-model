@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
-from ....parser.comm_xdm_parser import ComMXdmParser
-from ....models.com_stack.comm_xdm import ComM, ComMChannel
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.com_stack.comm_xdm_parser import ComMXdmParser
+from eb_model.models.com_stack.comm_xdm import ComM, ComMChannel
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestComMXdmParser:

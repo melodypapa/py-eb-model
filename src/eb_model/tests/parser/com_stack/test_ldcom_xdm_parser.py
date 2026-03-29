@@ -5,9 +5,9 @@ Implements:
     - SWR_LDCOM_00001: LdCom module parser tests
 """
 import xml.etree.ElementTree as ET
-from ....parser.ldcom_xdm_parser import LdComXdmParser
-from ....models.com_stack.ldcom_xdm import LdCom
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.com_stack.ldcom_xdm_parser import LdComXdmParser
+from eb_model.models.com_stack.ldcom_xdm import LdCom
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestLdComXdmParser:

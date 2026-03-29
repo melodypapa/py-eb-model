@@ -2,8 +2,8 @@
 IpduM Model Tests - Tests for IpduM module model classes.
 """
 import pytest
-from ....models.com_stack.ipdum_xdm import IpduM, IpduMDynPdu
-from ....models.core.eb_doc import EBModel
+from eb_model.models.com_stack.ipdum_xdm import IpduM, IpduMDynPdu
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestIpduMDynPdu:

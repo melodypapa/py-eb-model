@@ -1,6 +1,6 @@
-from ....parser.ea_xdm_parser import EaXdmParser
-from ....models.mem_stack.ea_xdm import Ea, EaGeneral
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.mem_stack.ea_xdm_parser import EaXdmParser
+from eb_model.models.mem_stack.ea_xdm import Ea, EaGeneral
+from eb_model.models.core.eb_doc import EBModel
 
 import xml.etree.ElementTree as ET
 

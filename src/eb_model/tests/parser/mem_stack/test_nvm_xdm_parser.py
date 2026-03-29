@@ -4,9 +4,9 @@ NvM XDM Parser Tests - Tests for NvM parser functionality.
 import pytest
 import xml.etree.ElementTree as ET
 
-from ....parser.nvm_xdm_parser import NvMXdmParser
-from ....models.mem_stack.nvm_xdm import NvM
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.mem_stack.nvm_xdm_parser import NvMXdmParser
+from eb_model.models.mem_stack.nvm_xdm import NvM
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestNvMXdmParser:

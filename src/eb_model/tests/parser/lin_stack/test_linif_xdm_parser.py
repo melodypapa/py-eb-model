@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
-from ....parser.linif_xdm_parser import LinIfXdmParser
-from ....models.lin_stack.linif_xdm import LinIf, LinIfGeneral, LinIfChannel, LinIfFrame
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.lin_stack.linif_xdm_parser import LinIfXdmParser
+from eb_model.models.lin_stack.linif_xdm import LinIf, LinIfGeneral, LinIfChannel, LinIfFrame
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestLinIfXdmParser:

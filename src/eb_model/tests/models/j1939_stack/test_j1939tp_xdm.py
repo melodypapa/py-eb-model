@@ -2,9 +2,9 @@
 J1939Tp Model Tests - Tests for J1939Tp module model classes.
 """
 import pytest
-from ....models.j1939_stack.j1939tp_xdm import J1939Tp, J1939TpGeneral
-from ....models.core.eb_doc import EBModel
-from ....models.core.abstract import EcucParamConfContainerDef
+from eb_model.models.j1939_stack.j1939tp_xdm import J1939Tp, J1939TpGeneral
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.core.abstract import EcucParamConfContainerDef
 
 
 class TestJ1939Tp:

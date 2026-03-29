@@ -2,9 +2,9 @@
 Crypto Model Tests - Tests for Crypto module model classes.
 """
 import pytest
-from ....models.crypto_stack.crypto_xdm import Crypto, CryptoGeneral
-from ....models.core.eb_doc import EBModel
-from ....models.core.abstract import EcucParamConfContainerDef
+from eb_model.models.crypto_stack.crypto_xdm import Crypto, CryptoGeneral
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.core.abstract import EcucParamConfContainerDef
 
 
 class TestCrypto:

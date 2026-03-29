@@ -2,8 +2,8 @@
 Nm Model Tests - Tests for Nm module model classes.
 """
 import pytest
-from ....models.com_stack.nm_xdm import Nm, NmChannel
-from ....models.core.eb_doc import EBModel
+from eb_model.models.com_stack.nm_xdm import Nm, NmChannel
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestNmChannel:
@@ -75,7 +75,7 @@ class TestNmChannel:
     def test_set_nm_comm_m_network_handle_ref(self):
         root = EBModel.getInstance()
         channel = NmChannel(root, "Channel1")
-        from ....models.core.abstract import EcucRefType
+        from eb_model.models.core.abstract import EcucRefType
 
         ref = EcucRefType("/ComM/Channel1")
         assert channel.setNmComMNetworkHandleRef(ref) == channel
@@ -94,7 +94,7 @@ class TestNmChannel:
     def test_fluent_interface(self):
         root = EBModel.getInstance()
         channel = NmChannel(root, "Channel1")
-        from ....models.core.abstract import EcucRefType
+        from eb_model.models.core.abstract import EcucRefType
 
         ref = EcucRefType("/ComM/Channel1")
 

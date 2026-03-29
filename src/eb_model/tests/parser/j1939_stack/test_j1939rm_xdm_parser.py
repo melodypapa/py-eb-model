@@ -1,6 +1,6 @@
-from ....parser.j1939rm_xdm_parser import J1939RmXdmParser
-from ....models.j1939_stack.j1939rm_xdm import J1939RmGeneral
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.j1939_stack.j1939rm_xdm_parser import J1939RmXdmParser
+from eb_model.models.j1939_stack.j1939rm_xdm import J1939RmGeneral
+from eb_model.models.core.eb_doc import EBModel
 
 import xml.etree.ElementTree as ET
 

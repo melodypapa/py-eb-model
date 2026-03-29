@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
-from ....parser.frif_xdm_parser import FrIfXdmParser
-from ....models.fr_stack.frif_xdm import FrIf, FrIfGeneral, FrIfController
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.fr_stack.frif_xdm_parser import FrIfXdmParser
+from eb_model.models.fr_stack.frif_xdm import FrIf, FrIfGeneral, FrIfController
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestFrIfXdmParser:

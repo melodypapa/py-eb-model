@@ -1,6 +1,6 @@
-from ....parser.memif_xdm_parser import MemIfXdmParser
-from ....models.mem_stack.memif_xdm import MemIf, MemIfInit
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.mem_stack.memif_xdm_parser import MemIfXdmParser
+from eb_model.models.mem_stack.memif_xdm import MemIf, MemIfInit
+from eb_model.models.core.eb_doc import EBModel
 
 import xml.etree.ElementTree as ET
 

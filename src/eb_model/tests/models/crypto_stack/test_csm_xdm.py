@@ -2,9 +2,9 @@
 Csm Model Tests - Tests for Csm module model classes.
 """
 import pytest
-from ....models.crypto_stack.csm_xdm import Csm, CsmGeneral
-from ....models.core.eb_doc import EBModel
-from ....models.core.abstract import EcucParamConfContainerDef
+from eb_model.models.crypto_stack.csm_xdm import Csm, CsmGeneral
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.core.abstract import EcucParamConfContainerDef
 
 
 class TestCsm:

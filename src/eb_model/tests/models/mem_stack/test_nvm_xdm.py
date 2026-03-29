@@ -2,8 +2,15 @@
 NvM Model Tests - Tests for NVM module model classes.
 """
 import pytest
-from ....models.mem_stack.nvm_xdm import NvM, NvMCommon, NvMBlockDescriptor, CommonPublishedInformation, PublishedInformation, NvMDefensiveProgramming
-from ....models.core.eb_doc import EBModel
+from eb_model.models.mem_stack.nvm_xdm import (
+    NvM,
+    NvMCommon,
+    NvMBlockDescriptor,
+    CommonPublishedInformation,
+    PublishedInformation,
+    NvMDefensiveProgramming,
+)
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestNvMCommon:
