@@ -6,8 +6,6 @@ from ..models.abstract import EcucParamConfContainerDef, EcucRefType, Module  # 
 class CommonPublishedInformation(EcucParamConfContainerDef):
     """
     Common published information containing AUTOSAR version information.
-
-    Implements: SWR_TM_00004 (Version information)
     """
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
@@ -71,8 +69,6 @@ class CommonPublishedInformation(EcucParamConfContainerDef):
 class PublishedInformation(EcucParamConfContainerDef):
     """
     Module-specific published information.
-
-    Implements: SWR_TM_00005 (Module metadata)
     """
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
