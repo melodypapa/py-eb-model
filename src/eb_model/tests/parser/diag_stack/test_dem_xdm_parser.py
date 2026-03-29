@@ -1,6 +1,6 @@
-from ....parser.dem_xdm_parser import DemXdmParser
-from ....models.diag_stack.dem_xdm import DemGeneral
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.diag_stack.dem_xdm_parser import DemXdmParser
+from eb_model.models.diag_stack.dem_xdm import DemGeneral
+from eb_model.models.core.eb_doc import EBModel
 
 import xml.etree.ElementTree as ET
 

@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
-from ....parser.ethif_xdm_parser import EthIfXdmParser
-from ....models.eth_stack.ethif_xdm import EthIf, EthIfGeneral, EthIfController
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.eth_stack.ethif_xdm_parser import EthIfXdmParser
+from eb_model.models.eth_stack.ethif_xdm import EthIf, EthIfGeneral, EthIfController
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestEthIfXdmParser:

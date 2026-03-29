@@ -1,6 +1,6 @@
-from ....parser.cryif_xdm_parser import CryIfXdmParser
-from ....models.crypto_stack.cryif_xdm import CryIfGeneral
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.crypto_stack.cryif_xdm_parser import CryIfXdmParser
+from eb_model.models.crypto_stack.cryif_xdm import CryIfGeneral
+from eb_model.models.core.eb_doc import EBModel
 
 import xml.etree.ElementTree as ET
 

@@ -2,8 +2,8 @@
 ComM Model Tests - Tests for ComM module model classes.
 """
 import pytest
-from ....models.com_stack.comm_xdm import ComM, ComMChannel
-from ....models.core.eb_doc import EBModel
+from eb_model.models.com_stack.comm_xdm import ComM, ComMChannel
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestComMChannel:

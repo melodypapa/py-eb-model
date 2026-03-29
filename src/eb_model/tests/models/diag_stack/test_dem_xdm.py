@@ -2,9 +2,9 @@
 Dem Model Tests - Tests for Dem module model classes.
 """
 import pytest
-from ....models.diag_stack.dem_xdm import Dem, DemGeneral
-from ....models.core.eb_doc import EBModel
-from ....models.core.abstract import EcucParamConfContainerDef
+from eb_model.models.diag_stack.dem_xdm import Dem, DemGeneral
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.core.abstract import EcucParamConfContainerDef
 
 
 class TestDem:

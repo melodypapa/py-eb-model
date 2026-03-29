@@ -2,9 +2,9 @@
 Dlt Parser Tests - Tests for Dlt XDM parser.
 """
 import pytest
-from ....parser.dlt_xdm_parser import DltXdmParser
-from ....models.diag_stack.dlt_xdm import DltGeneral
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.diag_stack.dlt_xdm_parser import DltXdmParser
+from eb_model.models.diag_stack.dlt_xdm import DltGeneral
+from eb_model.models.core.eb_doc import EBModel
 
 import xml.etree.ElementTree as ET
 

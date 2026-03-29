@@ -2,8 +2,8 @@
 LdCom Model Tests - Tests for LdCom module model classes.
 """
 import pytest
-from ....models.com_stack.ldcom_xdm import LdCom
-from ....models.core.eb_doc import EBModel
+from eb_model.models.com_stack.ldcom_xdm import LdCom
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestLdCom:

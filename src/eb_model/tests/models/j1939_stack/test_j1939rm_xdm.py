@@ -2,9 +2,9 @@
 J1939Rm Model Tests - Tests for J1939Rm module model classes.
 """
 import pytest
-from ....models.j1939_stack.j1939rm_xdm import J1939Rm, J1939RmGeneral
-from ....models.core.eb_doc import EBModel
-from ....models.core.abstract import EcucParamConfContainerDef
+from eb_model.models.j1939_stack.j1939rm_xdm import J1939Rm, J1939RmGeneral
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.core.abstract import EcucParamConfContainerDef
 
 
 class TestJ1939Rm:

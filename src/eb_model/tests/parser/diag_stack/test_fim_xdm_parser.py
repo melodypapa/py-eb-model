@@ -1,6 +1,6 @@
-from ....parser.fim_xdm_parser import FiMXdmParser
-from ....models.diag_stack.fim_xdm import FiMGeneral
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.diag_stack.fim_xdm_parser import FiMXdmParser
+from eb_model.models.diag_stack.fim_xdm import FiMGeneral
+from eb_model.models.core.eb_doc import EBModel
 
 import xml.etree.ElementTree as ET
 

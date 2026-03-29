@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
-from ....parser.canif_xdm_parser import CanIfXdmParser
-from ....models.can_stack.canif_xdm import CanIf, CanIfGeneral, CanIfCtrlCfg, CanIfDispatchCfg
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.can_stack.canif_xdm_parser import CanIfXdmParser
+from eb_model.models.can_stack.canif_xdm import CanIf, CanIfGeneral, CanIfCtrlCfg, CanIfDispatchCfg
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestCanIfXdmParser:

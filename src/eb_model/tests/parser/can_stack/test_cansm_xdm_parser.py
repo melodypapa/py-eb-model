@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
-from ....parser.cansm_xdm_parser import CanSMXdmParser
-from ....models.can_stack.cansm_xdm import CanSM, CanSMGeneral, CanSMManagerNetwork, CanSMDemEventParameterRefs
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.can_stack.cansm_xdm_parser import CanSMXdmParser
+from eb_model.models.can_stack.cansm_xdm import CanSM, CanSMGeneral, CanSMManagerNetwork, CanSMDemEventParameterRefs
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestCanSMXdmParser:

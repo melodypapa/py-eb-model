@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
-from ....parser.nm_xdm_parser import NmXdmParser
-from ....models.com_stack.nm_xdm import Nm, NmChannel
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.com_stack.nm_xdm_parser import NmXdmParser
+from eb_model.models.com_stack.nm_xdm import Nm, NmChannel
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestNmXdmParser:

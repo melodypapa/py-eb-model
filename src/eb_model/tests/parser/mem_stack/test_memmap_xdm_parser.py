@@ -1,6 +1,6 @@
-from ....parser.memmap_xdm_parser import MemMapXdmParser
-from ....models.mem_stack.memmap_xdm import MemMap, MemMapCommon
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.mem_stack.memmap_xdm_parser import MemMapXdmParser
+from eb_model.models.mem_stack.memmap_xdm import MemMap, MemMapCommon
+from eb_model.models.core.eb_doc import EBModel
 
 import xml.etree.ElementTree as ET
 

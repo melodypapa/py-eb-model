@@ -2,8 +2,8 @@
 Crc Model Tests - Tests for Crc module model classes.
 """
 import pytest
-from ....models.mem_stack.crc_xdm import Crc, CrcConfig
-from ....models.core.eb_doc import EBModel
+from eb_model.models.mem_stack.crc_xdm import Crc, CrcConfig
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestCrcConfig:

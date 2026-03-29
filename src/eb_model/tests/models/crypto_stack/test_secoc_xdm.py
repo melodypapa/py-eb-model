@@ -2,9 +2,9 @@
 SecOC Model Tests - Tests for SecOC module model classes.
 """
 import pytest
-from ....models.crypto_stack.secoc_xdm import SecOC, SecOCGeneral
-from ....models.core.eb_doc import EBModel
-from ....models.core.abstract import EcucParamConfContainerDef
+from eb_model.models.crypto_stack.secoc_xdm import SecOC, SecOCGeneral
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.core.abstract import EcucParamConfContainerDef
 
 
 class TestSecOC:

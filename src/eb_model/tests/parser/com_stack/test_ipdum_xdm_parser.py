@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
-from ....parser.ipdum_xdm_parser import IpduMXdmParser
-from ....models.com_stack.ipdum_xdm import IpduM, IpduMDynPdu
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.com_stack.ipdum_xdm_parser import IpduMXdmParser
+from eb_model.models.com_stack.ipdum_xdm import IpduM, IpduMDynPdu
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestIpduMXdmParser:

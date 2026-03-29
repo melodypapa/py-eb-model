@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
-from ....parser.lintp_xdm_parser import LinTpXdmParser
-from ....models.lin_stack.lintp_xdm import LinTp, LinTpGeneral, LinTpRxNSdu, LinTpTxNSdu
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.lin_stack.lintp_xdm_parser import LinTpXdmParser
+from eb_model.models.lin_stack.lintp_xdm import LinTp, LinTpGeneral, LinTpRxNSdu, LinTpTxNSdu
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestLinTpXdmParser:

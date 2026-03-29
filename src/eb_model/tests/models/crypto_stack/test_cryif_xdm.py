@@ -2,9 +2,9 @@
 CryIf Model Tests - Tests for CryIf module model classes.
 """
 import pytest
-from ....models.crypto_stack.cryif_xdm import CryIf, CryIfGeneral
-from ....models.core.eb_doc import EBModel
-from ....models.core.abstract import EcucParamConfContainerDef
+from eb_model.models.crypto_stack.cryif_xdm import CryIf, CryIfGeneral
+from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.core.abstract import EcucParamConfContainerDef
 
 
 class TestCryIf:

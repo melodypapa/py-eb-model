@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
-from ....parser.linsm_xdm_parser import LinSMXdmParser
-from ....models.lin_stack.linsm_xdm import LinSM, LinSMGeneral, LinSMChannel
-from ....models.core.eb_doc import EBModel
+from eb_model.parser.lin_stack.linsm_xdm_parser import LinSMXdmParser
+from eb_model.models.lin_stack.linsm_xdm import LinSM, LinSMGeneral, LinSMChannel
+from eb_model.models.core.eb_doc import EBModel
 
 
 class TestLinSMXdmParser:
