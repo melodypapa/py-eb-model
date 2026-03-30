@@ -40,8 +40,12 @@ def setup_logger(verbose: bool = False, log_file: Optional[str] = None) -> loggi
 
     # Set up file handler if specified
     if log_file:
-        if os.path.exists(log_file):
+        # Remove existing log file if it exists
+        try:
             os.remove(log_file)
+        except OSError:
+            # File doesn't exist or can't be removed - proceed anyway
+            pass
 
         file_handler = logging.FileHandler(log_file)
         file_handler.setFormatter(formatter)

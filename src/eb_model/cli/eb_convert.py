@@ -90,17 +90,9 @@ def process_file(input_file: str, output_dir: str, logger, args: argparse.Namesp
     Returns:
         True if successful, False otherwise
     """
-    # Check input file exists
-    if not os.path.exists(input_file):
-        logger.error(f"Input file not found: {input_file}")
-        return False
-
     logger.info(f"Processing: {input_file}")
 
     try:
-        # Create output directory if it doesn't exist
-        os.makedirs(output_dir, exist_ok=True)
-
         # Auto-detect parser from XDM file
         parser = EbParserFactory.create(input_file)
         module_name = get_module_name(parser.__class__)
@@ -119,8 +111,8 @@ def process_file(input_file: str, output_dir: str, logger, args: argparse.Namesp
         # Build options dict for writer
         options = {}
         # Add module-specific options
-        if hasattr(args, 'skip_os_task'):
-            options['skip_os_task'] = args.skip_os_task
+        if hasattr(args, 'skip_os_task') and args.skip_os_task:
+            options['skip_os_task'] = True
 
         # Generate output filename
         output_file = os.path.join(output_dir, f"{module_name}.xlsx")
@@ -133,6 +125,9 @@ def process_file(input_file: str, output_dir: str, logger, args: argparse.Namesp
         logger.info(f"Successfully converted {input_file} -> {output_file}")
         return True
 
+    except FileNotFoundError:
+        logger.error(f"Input file not found: {input_file}")
+        return False
     except Exception as e:
         logger.error(f"Error processing {input_file}: {e}")
         import traceback
@@ -152,6 +147,9 @@ def main() -> int:
 
     # Set up logging
     logger = setup_logger(verbose=args.verbose, log_file=args.log)
+
+    # Create output directory if it doesn't exist
+    os.makedirs(args.output_dir, exist_ok=True)
 
     # Process each input file
     success_count = 0
