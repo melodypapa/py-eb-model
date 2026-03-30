@@ -121,12 +121,12 @@ disable_error_code = [
     "misc",
 ]
 exclude = [
-    "src/eb_model/tests/.*",
+    "tests/.*",
 ]
 
 
 [tool.pytest.ini_options]
-testpaths = ["src/eb_model/tests"]
+testpaths = ["tests"]
 python_files = "test_*.py"
 python_classes = "Test*"
 python_functions = "test*"
