@@ -17,6 +17,14 @@ CLI_OPTIONS: Dict[str, List[Dict[str, Any]]] = {
             "default": False
         }
     ],
+    "RteXdmParser": [
+        {
+            "name": "--runnable",
+            "help": "Export the runnable entities",
+            "action": "store_true",
+            "default": False
+        }
+    ],
     # Add other module-specific options as needed
     # Most modules have no specific options
 }
