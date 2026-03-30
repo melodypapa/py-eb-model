@@ -139,6 +139,7 @@ Add entry point in `setup.py` under `console_scripts` section following pattern:
 ```
 
 Currently registered CLI entry points:
+- `eb-convert`: Unified CLI command for all XDM to Excel conversions (recommended)
 - `bswm-xdm-xlsx`: BswM module XDM to Excel conversion
 - `com-xdm-xlsx`: Com module XDM to Excel conversion
 - `comm-xdm-xlsx`: ComM module XDM to Excel conversion
@@ -161,6 +162,8 @@ Currently registered CLI entry points:
 - `PrefSystemImporter`: EB preference XDM to ARXML file list or AUTOSAR builder project
 - `rte-xdm-xlsx`: Rte module XDM to Excel conversion
 - `tm-xdm-xlsx`: Tm module XDM to Excel conversion
+
+See [docs/cli.md](docs/cli.md) for detailed CLI usage documentation.
 
 ## File Structure Notes
 
