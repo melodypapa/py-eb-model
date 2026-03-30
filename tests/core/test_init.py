@@ -1,13 +1,7 @@
-import sys
-from pathlib import Path
-
-# Add src to path for imports
-src_path = Path(__file__).parent.parent.parent / "src"
-sys.path.insert(0, str(src_path))
-
+import pytest
 from eb_model.core import __all__
 
 
 def test_core_package_exists():
-    """Test that core package can be imported."""
+    """Test that core package can be imported and has empty exports."""
     assert __all__ == []
