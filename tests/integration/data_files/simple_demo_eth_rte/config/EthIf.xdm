@@ -1,0 +1,449 @@
+<?xml version='1.0'?>
+<datamodel version="7.0" 
+           xmlns="http://www.tresos.de/_projects/DataModel2/16/root.xsd" 
+           xmlns:a="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd" 
+           xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd" 
+           xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+
+  <d:ctr type="AUTOSAR" factory="autosar" 
+         xmlns:ad="http://www.tresos.de/_projects/DataModel2/08/admindata.xsd" 
+         xmlns:ce="http://www.tresos.de/_projects/DataModel2/18/childenable.xsd" 
+         xmlns:cd="http://www.tresos.de/_projects/DataModel2/08/customdata.xsd" 
+         xmlns:f="http://www.tresos.de/_projects/DataModel2/14/formulaexpr.xsd" 
+         xmlns:icc="http://www.tresos.de/_projects/DataModel2/08/implconfigclass.xsd" 
+         xmlns:mt="http://www.tresos.de/_projects/DataModel2/11/multitest.xsd"  
+         xmlns:variant="http://www.tresos.de/_projects/DataModel2/11/variant.xsd">
+    <d:lst type="TOP-LEVEL-PACKAGES">
+      <d:ctr name="EthIf" type="AR-PACKAGE">
+        <d:lst type="ELEMENTS">
+          <d:chc name="EthIf" type="AR-ELEMENT" value="MODULE-CONFIGURATION">
+            <d:ctr type="MODULE-CONFIGURATION">
+              <a:a name="DEF" value="ASPath:/TS_TxDxM1I9R0/EthIf"/>
+              <a:a name="IMPORTER_INFO" value="ImportEcuConfig"/>
+              <d:ctr name="CommonPublishedInformation" type="IDENTIFIABLE">
+                <d:var name="ArMajorVersion" type="INTEGER" value="4"/>
+                <d:var name="ArMinorVersion" type="INTEGER" value="3"/>
+                <d:var name="ArPatchVersion" type="INTEGER" value="0">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="SwMajorVersion" type="INTEGER" value="1">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="SwMinorVersion" type="INTEGER" value="9">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="SwPatchVersion" type="INTEGER" value="21"/>
+                <d:var name="ModuleId" type="INTEGER" value="65">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="VendorId" type="INTEGER" value="1">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="Release" type="STRING" value="">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+              </d:ctr>
+              <d:var name="IMPLEMENTATION_CONFIG_VARIANT" type="ENUMERATION" 
+                     value="VariantPostBuild">
+                <a:a name="IMPORTER_INFO" value="@DEF"/>
+              </d:var>
+              <d:ctr name="EthIfGeneral" type="IDENTIFIABLE">
+                <a:a name="IMPORTER_INFO" value="ImportEcuConfig"/>
+                <d:var name="EthIfDevErrorDetect" type="BOOLEAN" value="true">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfEnableRxInterrupt" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfEnableSignalQualityApi" type="BOOLEAN" 
+                       value="true">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfEnableTxInterrupt" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfEnableWEthApi" type="BOOLEAN" value="false">
+                  <a:a name="ENABLE" value="false"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfGetAndResetMeasurementDataApi" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfGetBaudRate" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfGetCounterState" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfGetCtrlIdxList" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfGetTransceiverWakeupModeApi" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="ENABLE" value="false"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfGetVlanIdSupport" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfGlobalTimeSupport" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfMainFunctionPeriod" type="FLOAT" value="0.01">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfMainFunctionStatePeriod" type="FLOAT" >
+                  <a:a name="ENABLE" value="false"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfMaxTrcvsTotal" type="INTEGER" value="1">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfPortStartupActiveTime" type="FLOAT" >
+                  <a:a name="ENABLE" value="false"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:lst name="EthIfPublicCddHeaderFile"/>
+                <d:var name="EthIfRxIndicationIterations" type="INTEGER" 
+                       value="10">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfSetForwardingModeApi" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfStartAutoNegotiation" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfSwitchManagementSupport" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfSwitchOffPortTimeDelay" type="FLOAT" >
+                  <a:a name="ENABLE" value="false"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfTrcvLinkStateChgMainReload" type="INTEGER" 
+                       value="1">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfVerifyConfigApi" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfVersionInfoApi" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfVersionInfoApiMacro" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfWakeUpSupport" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfEnableSecurityEventReporting" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:ctr name="EthIfSecurityEventRefs" type="IDENTIFIABLE">
+                  <d:ref name="ETHIF_SEV_DROP_UNKNOWN_ETHERTYPE" 
+                         type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:ref name="ETHIF_SEV_DROP_VLAN_DOUBLE_TAG" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:ref name="ETHIF_SEV_DROP_INV_VLAN" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                </d:ctr>
+                <d:var name="EthIfMiiApiEnable" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfSwitchingPortGroupSupport" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfAsyncEthTrcvModeSupport" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfAsyncEthCtrlModeSupport" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfPublicHandleTypeEnum" type="ENUMERATION" 
+                       value="UINT8">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfSupportEthAPI" type="ENUMERATION" 
+                       value="ASR422"/>
+                <d:var name="EthIfMaxCtrl" type="INTEGER" value="1">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfMaxPhyCtrl" type="INTEGER" value="1">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfMaxEthSwitches" type="INTEGER" value="0">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfMaxSwtPorts" type="INTEGER" value="0">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfMaxSwtPortGroups" type="INTEGER" value="0">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfRelocatablePbcfgEnable" type="BOOLEAN" 
+                       value="true">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfSetPhysAddrSupportEnable" type="BOOLEAN" 
+                       value="false"/>
+                <d:var name="EthIfTrcvSupportEnable" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfUpdatePhysAddrFilterSupportEnable" 
+                       type="BOOLEAN" value="false"/>
+                <d:var name="EthIfVirtualCtrlSupportEnable" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfVLANSupportEnable" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:ctr name="ReportToDem" type="IDENTIFIABLE">
+                  <d:var name="EthIfDemCtrlTestResultReportToDem" 
+                         type="ENUMERATION" value="DISABLE">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                  <d:var name="EthIfDemCtrlTestResultReportToDemDetErrorId" 
+                         type="INTEGER" value="145">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                </d:ctr>
+                <d:var name="EthIfGetArlTableApi" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfGetBufferLevelApi" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfSwtGetCounterValuesApi" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfGetPortMacAddrApi" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfResetConfigurationApi" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfStoreConfigurationApi" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfSetModeTimeout" type="FLOAT" >
+                  <a:a name="ENABLE" value="false"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfInitControllersTransceivers" type="BOOLEAN" 
+                       value="true">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfSwtPreProcessRxFrame" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfSwtAdpatTxFrame" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfDeviceAuthenticationApiEnable" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfRetransmitApiEnable" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+              </d:ctr>
+              <d:ctr name="EthIfDefensiveProgramming" type="IDENTIFIABLE">
+                <d:var name="EthIfDefProgEnabled" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfPrecondAssertEnabled" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfPostcondAssertEnabled" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfStaticAssertEnabled" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfUnreachAssertEnabled" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="EthIfInvariantAssertEnabled" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+              </d:ctr>
+              <d:ctr name="EthIfConfigSet" type="IDENTIFIABLE">
+                <a:a name="IMPORTER_INFO" value="ImportEcuConfig"/>
+                <d:lst name="EthIfPhysController" type="MAP">
+                  <a:a name="IMPORTER_INFO" value="ImportEcuConfig"/>
+                  <d:ctr name="EcuTestNode" type="IDENTIFIABLE">
+                    <a:a name="IMPORTER_INFO" value="ImportEcuConfig"/>
+                    <d:var name="EthIfPhysControllerIdx" type="INTEGER" 
+                           value="0"/>
+                    <d:ref name="EthIfEthCtrlRef" type="REFERENCE" 
+                           value="ASPath:/Eth/Eth/EthConfigSet/EcuTestNode">
+                      <a:a name="IMPORTER_INFO" value="ImportEcuConfig"/>
+                    </d:ref>
+                    <d:ref name="EthIfWEthCtrlRef" type="REFERENCE" >
+                      <a:a name="ENABLE" value="false"/>
+                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    </d:ref>
+                    <d:lst name="EthIfPhysCtrlRxMainFunctionPriorityProcessing" 
+                           type="MAP"/>
+                  </d:ctr>
+                </d:lst>
+                <d:lst name="EthIfFrameOwnerConfig" type="MAP">
+                  <d:ctr name="EthIfFrameOwnerConfig_IPv4" type="IDENTIFIABLE">
+                    <a:a name="IMPORTER_INFO" value="@REC"/>
+                    <d:var name="EthIfFrameType" type="INTEGER" value="2048">
+                      <a:a name="IMPORTER_INFO" value="@REC"/>
+                    </d:var>
+                    <d:var name="EthIfOwner" type="INTEGER" value="0">
+                      <a:a name="IMPORTER_INFO" value="@REC"/>
+                    </d:var>
+                  </d:ctr>
+                  <d:ctr name="EthIfFrameOwnerConfig_IPv6" type="IDENTIFIABLE">
+                    <a:a name="IMPORTER_INFO" value="@REC"/>
+                    <d:var name="EthIfFrameType" type="INTEGER" value="34525">
+                      <a:a name="IMPORTER_INFO" value="@REC"/>
+                    </d:var>
+                    <d:var name="EthIfOwner" type="INTEGER" value="1">
+                      <a:a name="IMPORTER_INFO" value="@REC"/>
+                    </d:var>
+                  </d:ctr>
+                  <d:ctr name="EthIfFrameOwnerConfig_ARP" type="IDENTIFIABLE">
+                    <a:a name="IMPORTER_INFO" value="@REC"/>
+                    <d:var name="EthIfFrameType" type="INTEGER" value="2054">
+                      <a:a name="IMPORTER_INFO" value="@REC"/>
+                    </d:var>
+                    <d:var name="EthIfOwner" type="INTEGER" value="2">
+                      <a:a name="IMPORTER_INFO" value="@REC"/>
+                    </d:var>
+                  </d:ctr>
+                </d:lst>
+                <d:lst name="EthIfController" type="MAP">
+                  <a:a name="IMPORTER_INFO" value="ImportEcuConfig"/>
+                  <d:ctr name="EcuTestNode_EthChannel" type="IDENTIFIABLE">
+                    <a:a name="IMPORTER_INFO" value="ImportEcuConfig"/>
+                    <d:var name="EthIfCtrlIdx" type="INTEGER" value="0"/>
+                    <d:var name="EthIfCtrlMtu" type="INTEGER" value="1500">
+                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    </d:var>
+                    <d:var name="EthIfMaxTxBufsTotal" type="INTEGER" value="1">
+                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    </d:var>
+                    <d:var name="EthIfVlanId" type="INTEGER" value="0">
+                      <a:a name="ENABLE" value="false"/>
+                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    </d:var>
+                    <d:ref name="EthIfEthTrcvRef" type="REFERENCE" >
+                      <a:a name="ENABLE" value="false"/>
+                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    </d:ref>
+                    <d:ref name="EthIfPhysControllerRef" type="REFERENCE" 
+                           value="ASPath:/EthIf/EthIf/EthIfConfigSet/EcuTestNode">
+                      <a:a name="IMPORTER_INFO" value="ImportEcuConfig"/>
+                    </d:ref>
+                    <d:ref name="EthIfSwitchRefOrPortGroupRef" type="REFERENCE" >
+                      <a:a name="ENABLE" value="false"/>
+                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    </d:ref>
+                  </d:ctr>
+                </d:lst>
+                <d:lst name="EthIfRxIndicationConfig" type="MAP">
+                  <d:ctr name="EthIfRxIndicationConfig_IPv4" 
+                         type="IDENTIFIABLE">
+                    <a:a name="IMPORTER_INFO" value="@REC"/>
+                    <d:var name="EthIfRxIndicationFunction" 
+                           type="FUNCTION-NAME" value="TcpIp_RxIndication">
+                      <a:a name="IMPORTER_INFO" value="@REC"/>
+                    </d:var>
+                  </d:ctr>
+                  <d:ctr name="EthIfRxIndicationConfig_IPv6" 
+                         type="IDENTIFIABLE">
+                    <a:a name="IMPORTER_INFO" value="@REC"/>
+                    <d:var name="EthIfRxIndicationFunction" 
+                           type="FUNCTION-NAME" value="TcpIp_RxIndication">
+                      <a:a name="IMPORTER_INFO" value="@REC"/>
+                    </d:var>
+                  </d:ctr>
+                  <d:ctr name="EthIfRxIndicationConfig_ARP" type="IDENTIFIABLE">
+                    <a:a name="IMPORTER_INFO" value="@REC"/>
+                    <d:var name="EthIfRxIndicationFunction" 
+                           type="FUNCTION-NAME" value="TcpIp_RxIndication">
+                      <a:a name="IMPORTER_INFO" value="@REC"/>
+                    </d:var>
+                  </d:ctr>
+                </d:lst>
+                <d:lst name="EthIfSwitch" type="MAP"/>
+                <d:lst name="EthIfSwitchMgmtInfoIndicationConfig" type="MAP"/>
+                <d:lst name="EthIfSwitchPortGroup" type="MAP"/>
+                <d:lst name="EthIfSwitchTimeStampIndicationConfig" type="MAP"/>
+                <d:lst name="EthIfTransceiver" type="MAP"/>
+                <d:lst name="EthIfTrcvLinkStateChgConfig" type="MAP">
+                  <d:ctr name="EthIfTrcvLinkStateChgConfig_EthSM" 
+                         type="IDENTIFIABLE">
+                    <a:a name="IMPORTER_INFO" value="@REC"/>
+                    <d:var name="EthIfTrcvLinkStateChgFunction" 
+                           type="FUNCTION-NAME" value="EthSM_TrcvLinkStateChg">
+                      <a:a name="IMPORTER_INFO" value="@REC"/>
+                    </d:var>
+                  </d:ctr>
+                </d:lst>
+                <d:lst name="EthIfTxConfirmationConfig" type="MAP">
+                  <d:ctr name="EthIfTxConfirmationConfig_0" type="IDENTIFIABLE">
+                    <a:a name="IMPORTER_INFO" value="@REC"/>
+                    <d:var name="EthIfTxConfirmationFunction" 
+                           type="FUNCTION-NAME" 
+                           value="EthIf_Up_TxConfirmationDummy">
+                      <a:a name="IMPORTER_INFO" value="@REC"/>
+                    </d:var>
+                  </d:ctr>
+                </d:lst>
+                <d:lst name="EthIfEthControllerType" type="MAP"/>
+                <d:lst name="EthIfEthTrcvType" type="MAP"/>
+                <d:lst name="EthIfEthSwtType" type="MAP"/>
+              </d:ctr>
+              <d:ctr name="PublishedInformation" type="IDENTIFIABLE">
+                <d:var name="PbcfgMSupport" type="BOOLEAN" value="true">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+              </d:ctr>
+            </d:ctr>
+          </d:chc>
+        </d:lst>
+      </d:ctr>
+    </d:lst>
+  </d:ctr>
+
+</datamodel>

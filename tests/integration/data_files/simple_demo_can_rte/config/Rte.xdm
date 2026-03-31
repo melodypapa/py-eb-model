@@ -1,0 +1,2558 @@
+<?xml version='1.0'?>
+<datamodel version="7.0" 
+           xmlns="http://www.tresos.de/_projects/DataModel2/16/root.xsd" 
+           xmlns:a="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd" 
+           xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd" 
+           xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+
+  <d:ctr type="AUTOSAR" factory="autosar" 
+         xmlns:ad="http://www.tresos.de/_projects/DataModel2/08/admindata.xsd" 
+         xmlns:ce="http://www.tresos.de/_projects/DataModel2/18/childenable.xsd" 
+         xmlns:cd="http://www.tresos.de/_projects/DataModel2/08/customdata.xsd" 
+         xmlns:f="http://www.tresos.de/_projects/DataModel2/14/formulaexpr.xsd" 
+         xmlns:icc="http://www.tresos.de/_projects/DataModel2/08/implconfigclass.xsd" 
+         xmlns:mt="http://www.tresos.de/_projects/DataModel2/11/multitest.xsd"  
+         xmlns:variant="http://www.tresos.de/_projects/DataModel2/11/variant.xsd">
+    <d:lst type="TOP-LEVEL-PACKAGES">
+      <d:ctr name="Rte" type="AR-PACKAGE">
+        <d:lst type="ELEMENTS">
+          <d:chc name="Rte" type="AR-ELEMENT" value="MODULE-CONFIGURATION">
+            <d:ctr type="MODULE-CONFIGURATION">
+              <a:a name="DEF" value="ASPath:/TS_TxDxM6I9R0/Rte"/>
+              <d:ctr name="CommonPublishedInformation" type="IDENTIFIABLE">
+                <d:var name="ArMajorVersion" type="INTEGER" value="3">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="ArMinorVersion" type="INTEGER" value="2">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="ArPatchVersion" type="INTEGER" value="0">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="SwMajorVersion" type="INTEGER" value="6">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="SwMinorVersion" type="INTEGER" value="9"/>
+                <d:var name="SwPatchVersion" type="INTEGER" value="2"/>
+                <d:var name="ModuleId" type="INTEGER" value="2">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="VendorId" type="INTEGER" value="1">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="Release" type="STRING" value="">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+              </d:ctr>
+              <d:ctr name="PublishedInformation" type="IDENTIFIABLE">
+                <d:var name="PbcfgMSupport" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+              </d:ctr>
+              <d:var name="IMPLEMENTATION_CONFIG_VARIANT" type="ENUMERATION" 
+                     value="VariantPreCompile">
+                <a:a name="IMPORTER_INFO" value="@DEF"/>
+              </d:var>
+              <d:ctr name="RteBswGeneral" type="IDENTIFIABLE">
+                <d:var name="RteSchMVersionInfoApi" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="RteSchMOsScheduleTableActivationMechanism" 
+                       type="ENUMERATION" value="RELATIVE">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="RteSchMOsScheduleTableOffset" type="FLOAT" 
+                       value="0.01">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="RteUseComShadowSignalApi" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+              </d:ctr>
+              <d:lst name="RteBswModuleInstance" type="MAP">
+                <d:ctr name="BSW_BswM" type="IDENTIFIABLE">
+                  <a:a name="IMPORTER_INFO" value="@CALC"/>
+                  <d:ref name="RteBswImplementationRef" type="REFERENCE" 
+                         value="ASPath:/EB_BswM/Implementations/BswImplementation_0">
+                    <a:a name="IMPORTER_INFO" value="@CALC"/>
+                  </d:ref>
+                  <d:ref name="RteBswModuleConfigurationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:lst name="RteBswEventToTaskMapping" type="MAP">
+                    <d:ctr name="TimingEvent_MainFunction" type="IDENTIFIABLE">
+                      <a:a name="IMPORTER_INFO" value="@CALC"/>
+                      <d:var name="RteBswActivationOffset" type="FLOAT" 
+                             value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswPeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswPositionInTask" type="INTEGER" 
+                             value="7">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:var>
+                      <d:var name="RteBswServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteBswEventRef" type="REFERENCE" 
+                             value="ASPath:/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/TimingEvent_MainFunction">
+                        <a:a name="IMPORTER_INFO" value="@CALC"/>
+                      </d:ref>
+                      <d:ref name="RteBswMappedToTaskRef" type="REFERENCE" 
+                             value="ASPath:/Os/Os/SchMDiagStateTask_20ms">
+                        <a:a name="ENABLE" value="TRUE"/>
+                        <a:a name="IMPORTER_INFO" value="@CALC"/>
+                      </d:ref>
+                      <d:var name="RteBswAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteBswUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteBswUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteBswUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                  </d:lst>
+                  <d:lst name="RteBswEventToIsrMapping" type="MAP"/>
+                  <d:lst name="RteBswExclusiveAreaImpl" type="MAP"/>
+                  <d:lst name="RteBswRequiredModeGroupConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredSenderReceiverConnection" 
+                         type="MAP"/>
+                  <d:lst name="RteBswRequiredClientServerConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredTriggerConnection" type="MAP"/>
+                  <d:ref name="RteMappedToOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:var name="ASR31SchMExclusiveAreaAPISupport" type="BOOLEAN" 
+                         value="true"/>
+                  <d:var name="ASR31SchMExclusiveAreaAPIUseInstanceParameter" 
+                         type="BOOLEAN" value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                  <d:lst name="RteBswExternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswInternalTriggerConfig" type="MAP"/>
+                </d:ctr>
+                <d:ctr name="BSW_EcuM" type="IDENTIFIABLE">
+                  <a:a name="IMPORTER_INFO" value="@CALC"/>
+                  <d:ref name="RteBswImplementationRef" type="REFERENCE" 
+                         value="ASPath:/EB_EcuM/Implementations/BswImplementation_0">
+                    <a:a name="IMPORTER_INFO" value="@CALC"/>
+                  </d:ref>
+                  <d:ref name="RteBswModuleConfigurationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:lst name="RteBswEventToTaskMapping" type="MAP">
+                    <d:ctr name="TimingEvent_MainFunction" type="IDENTIFIABLE">
+                      <a:a name="IMPORTER_INFO" value="@CALC"/>
+                      <d:var name="RteBswActivationOffset" type="FLOAT" 
+                             value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswPeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswPositionInTask" type="INTEGER" 
+                             value="6">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:var>
+                      <d:var name="RteBswServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteBswEventRef" type="REFERENCE" 
+                             value="ASPath:/AUTOSAR_EcuM/BswModuleDescriptions/EcuM/InternalBehavior_0/TimingEvent_MainFunction">
+                        <a:a name="IMPORTER_INFO" value="@CALC"/>
+                      </d:ref>
+                      <d:ref name="RteBswMappedToTaskRef" type="REFERENCE" 
+                             value="ASPath:/Os/Os/SchMDiagStateTask_20ms">
+                        <a:a name="ENABLE" value="TRUE"/>
+                        <a:a name="IMPORTER_INFO" value="@CALC"/>
+                      </d:ref>
+                      <d:var name="RteBswAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteBswUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteBswUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteBswUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                  </d:lst>
+                  <d:lst name="RteBswEventToIsrMapping" type="MAP"/>
+                  <d:lst name="RteBswExclusiveAreaImpl" type="MAP"/>
+                  <d:lst name="RteBswRequiredModeGroupConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredSenderReceiverConnection" 
+                         type="MAP"/>
+                  <d:lst name="RteBswRequiredClientServerConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredTriggerConnection" type="MAP"/>
+                  <d:ref name="RteMappedToOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:var name="ASR31SchMExclusiveAreaAPISupport" type="BOOLEAN" 
+                         value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                  <d:var name="ASR31SchMExclusiveAreaAPIUseInstanceParameter" 
+                         type="BOOLEAN" value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                  <d:lst name="RteBswExternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswInternalTriggerConfig" type="MAP"/>
+                </d:ctr>
+                <d:ctr name="BSW_Dem" type="IDENTIFIABLE">
+                  <a:a name="IMPORTER_INFO" value="@CALC"/>
+                  <d:ref name="RteBswImplementationRef" type="REFERENCE" 
+                         value="ASPath:/EB_Dem/Implementations/BswImplementation_0">
+                    <a:a name="IMPORTER_INFO" value="@CALC"/>
+                  </d:ref>
+                  <d:ref name="RteBswModuleConfigurationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:lst name="RteBswEventToTaskMapping" type="MAP">
+                    <d:ctr name="TimingEvent_MainFunction" type="IDENTIFIABLE">
+                      <a:a name="IMPORTER_INFO" value="@CALC"/>
+                      <d:var name="RteBswActivationOffset" type="FLOAT" 
+                             value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswPeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswPositionInTask" type="INTEGER" 
+                             value="8">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:var>
+                      <d:var name="RteBswServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteBswEventRef" type="REFERENCE" 
+                             value="ASPath:/AUTOSAR_Dem/BswModuleDescriptions/Dem/InternalBehavior_0/TimingEvent_MainFunction">
+                        <a:a name="IMPORTER_INFO" value="@CALC"/>
+                      </d:ref>
+                      <d:ref name="RteBswMappedToTaskRef" type="REFERENCE" 
+                             value="ASPath:/Os/Os/SchMDiagStateTask_20ms">
+                        <a:a name="ENABLE" value="TRUE"/>
+                        <a:a name="IMPORTER_INFO" value="@CALC"/>
+                      </d:ref>
+                      <d:var name="RteBswAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteBswUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteBswUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteBswUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                  </d:lst>
+                  <d:lst name="RteBswEventToIsrMapping" type="MAP"/>
+                  <d:lst name="RteBswExclusiveAreaImpl" type="MAP"/>
+                  <d:lst name="RteBswRequiredModeGroupConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredSenderReceiverConnection" 
+                         type="MAP"/>
+                  <d:lst name="RteBswRequiredClientServerConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredTriggerConnection" type="MAP"/>
+                  <d:ref name="RteMappedToOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:var name="ASR31SchMExclusiveAreaAPISupport" type="BOOLEAN" 
+                         value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                  <d:var name="ASR31SchMExclusiveAreaAPIUseInstanceParameter" 
+                         type="BOOLEAN" value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                  <d:lst name="RteBswExternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswInternalTriggerConfig" type="MAP"/>
+                </d:ctr>
+                <d:ctr name="BSW_Det" type="IDENTIFIABLE">
+                  <a:a name="IMPORTER_INFO" value="@CALC"/>
+                  <d:ref name="RteBswImplementationRef" type="REFERENCE" 
+                         value="ASPath:/EB_Det/Implementations/BswImplementation_0">
+                    <a:a name="IMPORTER_INFO" value="@CALC"/>
+                  </d:ref>
+                  <d:ref name="RteBswModuleConfigurationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:lst name="RteBswEventToTaskMapping" type="MAP"/>
+                  <d:lst name="RteBswEventToIsrMapping" type="MAP"/>
+                  <d:lst name="RteBswExclusiveAreaImpl" type="MAP"/>
+                  <d:lst name="RteBswRequiredModeGroupConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredSenderReceiverConnection" 
+                         type="MAP"/>
+                  <d:lst name="RteBswRequiredClientServerConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredTriggerConnection" type="MAP"/>
+                  <d:ref name="RteMappedToOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:var name="ASR31SchMExclusiveAreaAPISupport" type="BOOLEAN" 
+                         value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                  <d:var name="ASR31SchMExclusiveAreaAPIUseInstanceParameter" 
+                         type="BOOLEAN" value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                  <d:lst name="RteBswExternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswInternalTriggerConfig" type="MAP"/>
+                </d:ctr>
+                <d:ctr name="BSW_PbcfgM" type="IDENTIFIABLE">
+                  <d:ref name="RteBswImplementationRef" type="REFERENCE" 
+                         value="ASPath:/EB_PbcfgM/Implementations/BswImplementation_0"/>
+                  <d:ref name="RteBswModuleConfigurationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:lst name="RteBswEventToTaskMapping" type="MAP"/>
+                  <d:lst name="RteBswEventToIsrMapping" type="MAP"/>
+                  <d:lst name="RteBswExclusiveAreaImpl" type="MAP"/>
+                  <d:lst name="RteBswExternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswInternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswRequiredModeGroupConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredSenderReceiverConnection" 
+                         type="MAP"/>
+                  <d:lst name="RteBswRequiredClientServerConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredTriggerConnection" type="MAP"/>
+                  <d:ref name="RteMappedToOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:var name="ASR31SchMExclusiveAreaAPISupport" type="BOOLEAN" 
+                         value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                  <d:var name="ASR31SchMExclusiveAreaAPIUseInstanceParameter" 
+                         type="BOOLEAN" value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                </d:ctr>
+                <d:ctr name="BSW_Atomics" type="IDENTIFIABLE">
+                  <d:ref name="RteBswImplementationRef" type="REFERENCE" 
+                         value="ASPath:/EB_Atomics/Implementations/BswImplementation_0"/>
+                  <d:ref name="RteBswModuleConfigurationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:lst name="RteBswEventToTaskMapping" type="MAP"/>
+                  <d:lst name="RteBswEventToIsrMapping" type="MAP"/>
+                  <d:lst name="RteBswExclusiveAreaImpl" type="MAP"/>
+                  <d:lst name="RteBswExternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswInternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswRequiredModeGroupConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredSenderReceiverConnection" 
+                         type="MAP"/>
+                  <d:lst name="RteBswRequiredClientServerConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredTriggerConnection" type="MAP"/>
+                  <d:ref name="RteMappedToOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:var name="ASR31SchMExclusiveAreaAPISupport" type="BOOLEAN" 
+                         value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                  <d:var name="ASR31SchMExclusiveAreaAPIUseInstanceParameter" 
+                         type="BOOLEAN" value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                </d:ctr>
+                <d:ctr name="BSW_Base" type="IDENTIFIABLE">
+                  <d:ref name="RteBswImplementationRef" type="REFERENCE" 
+                         value="ASPath:/EB_Base/Implementations/BswImplementation_0"/>
+                  <d:ref name="RteBswModuleConfigurationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:lst name="RteBswEventToTaskMapping" type="MAP"/>
+                  <d:lst name="RteBswEventToIsrMapping" type="MAP"/>
+                  <d:lst name="RteBswExclusiveAreaImpl" type="MAP"/>
+                  <d:lst name="RteBswExternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswInternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswRequiredModeGroupConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredSenderReceiverConnection" 
+                         type="MAP"/>
+                  <d:lst name="RteBswRequiredClientServerConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredTriggerConnection" type="MAP"/>
+                  <d:ref name="RteMappedToOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:var name="ASR31SchMExclusiveAreaAPISupport" type="BOOLEAN" 
+                         value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                  <d:var name="ASR31SchMExclusiveAreaAPIUseInstanceParameter" 
+                         type="BOOLEAN" value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                </d:ctr>
+                <d:ctr name="BSW_PduR" type="IDENTIFIABLE">
+                  <d:ref name="RteBswImplementationRef" type="REFERENCE" 
+                         value="ASPath:/EB_PduR/Implementations/BswImplementation_0"/>
+                  <d:ref name="RteBswModuleConfigurationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:lst name="RteBswEventToTaskMapping" type="MAP"/>
+                  <d:lst name="RteBswEventToIsrMapping" type="MAP"/>
+                  <d:lst name="RteBswExclusiveAreaImpl" type="MAP"/>
+                  <d:lst name="RteBswExternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswInternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswRequiredModeGroupConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredSenderReceiverConnection" 
+                         type="MAP"/>
+                  <d:lst name="RteBswRequiredClientServerConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredTriggerConnection" type="MAP"/>
+                  <d:ref name="RteMappedToOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:var name="ASR31SchMExclusiveAreaAPISupport" type="BOOLEAN" 
+                         value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                  <d:var name="ASR31SchMExclusiveAreaAPIUseInstanceParameter" 
+                         type="BOOLEAN" value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                </d:ctr>
+                <d:ctr name="BSW_EcuC" type="IDENTIFIABLE">
+                  <d:ref name="RteBswImplementationRef" type="REFERENCE" 
+                         value="ASPath:/EB_EcuC/Implementations/BswImplementation_0"/>
+                  <d:ref name="RteBswModuleConfigurationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:lst name="RteBswEventToTaskMapping" type="MAP"/>
+                  <d:lst name="RteBswEventToIsrMapping" type="MAP"/>
+                  <d:lst name="RteBswExclusiveAreaImpl" type="MAP"/>
+                  <d:lst name="RteBswExternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswInternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswRequiredModeGroupConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredSenderReceiverConnection" 
+                         type="MAP"/>
+                  <d:lst name="RteBswRequiredClientServerConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredTriggerConnection" type="MAP"/>
+                  <d:ref name="RteMappedToOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:var name="ASR31SchMExclusiveAreaAPISupport" type="BOOLEAN" 
+                         value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                  <d:var name="ASR31SchMExclusiveAreaAPIUseInstanceParameter" 
+                         type="BOOLEAN" value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                </d:ctr>
+                <d:ctr name="BSW_Com" type="IDENTIFIABLE">
+                  <d:ref name="RteBswImplementationRef" type="REFERENCE" 
+                         value="ASPath:/EB_Com/Implementations/Implementation_0"/>
+                  <d:ref name="RteBswModuleConfigurationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:lst name="RteBswEventToTaskMapping" type="MAP">
+                    <d:ctr name="TimingEvent_MainFunctionRx" 
+                           type="IDENTIFIABLE">
+                      <d:var name="RteBswActivationOffset" type="FLOAT" 
+                             value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswPeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswPositionInTask" type="INTEGER" 
+                             value="6">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:var>
+                      <d:var name="RteBswServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteBswEventRef" type="REFERENCE" 
+                             value="ASPath:/AUTOSAR_Com/BswModuleDescriptions/Com/BswImplementation_0/TimingEvent_MainFunctionRx"/>
+                      <d:ref name="RteBswMappedToTaskRef" type="REFERENCE" 
+                             value="ASPath:/Os/Os/SchMComTask_5ms">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:ref>
+                      <d:var name="RteBswAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteBswUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteBswUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteBswUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                    <d:ctr name="TimingEvent_MainFunctionTx" 
+                           type="IDENTIFIABLE">
+                      <d:var name="RteBswActivationOffset" type="FLOAT" 
+                             value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswPeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswPositionInTask" type="INTEGER" 
+                             value="8">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:var>
+                      <d:var name="RteBswServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteBswEventRef" type="REFERENCE" 
+                             value="ASPath:/AUTOSAR_Com/BswModuleDescriptions/Com/BswImplementation_0/TimingEvent_MainFunctionTx"/>
+                      <d:ref name="RteBswMappedToTaskRef" type="REFERENCE" 
+                             value="ASPath:/Os/Os/SchMComTask_5ms">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:ref>
+                      <d:var name="RteBswAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteBswUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteBswUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteBswUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                    <d:ctr name="TimingEvent_MainFunctionRouteSignals" 
+                           type="IDENTIFIABLE">
+                      <d:var name="RteBswActivationOffset" type="FLOAT" 
+                             value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswPeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswPositionInTask" type="INTEGER" 
+                             value="7">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:var>
+                      <d:var name="RteBswServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteBswEventRef" type="REFERENCE" 
+                             value="ASPath:/AUTOSAR_Com/BswModuleDescriptions/Com/BswImplementation_0/TimingEvent_MainFunctionRouteSignals"/>
+                      <d:ref name="RteBswMappedToTaskRef" type="REFERENCE" 
+                             value="ASPath:/Os/Os/SchMComTask_5ms">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:ref>
+                      <d:var name="RteBswAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteBswUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteBswUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteBswUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                  </d:lst>
+                  <d:lst name="RteBswEventToIsrMapping" type="MAP"/>
+                  <d:lst name="RteBswExclusiveAreaImpl" type="MAP"/>
+                  <d:lst name="RteBswExternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswInternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswRequiredModeGroupConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredSenderReceiverConnection" 
+                         type="MAP"/>
+                  <d:lst name="RteBswRequiredClientServerConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredTriggerConnection" type="MAP"/>
+                  <d:ref name="RteMappedToOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:var name="ASR31SchMExclusiveAreaAPISupport" type="BOOLEAN" 
+                         value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                  <d:var name="ASR31SchMExclusiveAreaAPIUseInstanceParameter" 
+                         type="BOOLEAN" value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                </d:ctr>
+                <d:ctr name="BSW_ComM" type="IDENTIFIABLE">
+                  <d:ref name="RteBswImplementationRef" type="REFERENCE" 
+                         value="ASPath:/EB_ComM/Implementations/BswImplementation_0"/>
+                  <d:ref name="RteBswModuleConfigurationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:lst name="RteBswEventToTaskMapping" type="MAP">
+                    <d:ctr name="TimingEvent_MainFunction_0" 
+                           type="IDENTIFIABLE">
+                      <d:var name="RteBswActivationOffset" type="FLOAT" 
+                             value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswPeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswPositionInTask" type="INTEGER" 
+                             value="9">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:var>
+                      <d:var name="RteBswServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteBswEventRef" type="REFERENCE" 
+                             value="ASPath:/AUTOSAR_ComM/BswModuleDescriptions/ComM/InternalBehavior_0/TimingEvent_MainFunction_0"/>
+                      <d:ref name="RteBswMappedToTaskRef" type="REFERENCE" 
+                             value="ASPath:/Os/Os/SchMDiagStateTask_20ms">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:ref>
+                      <d:var name="RteBswAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteBswUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteBswUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteBswUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                  </d:lst>
+                  <d:lst name="RteBswEventToIsrMapping" type="MAP"/>
+                  <d:lst name="RteBswExclusiveAreaImpl" type="MAP"/>
+                  <d:lst name="RteBswExternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswInternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswRequiredModeGroupConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredSenderReceiverConnection" 
+                         type="MAP"/>
+                  <d:lst name="RteBswRequiredClientServerConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredTriggerConnection" type="MAP"/>
+                  <d:ref name="RteMappedToOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:var name="ASR31SchMExclusiveAreaAPISupport" type="BOOLEAN" 
+                         value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                  <d:var name="ASR31SchMExclusiveAreaAPIUseInstanceParameter" 
+                         type="BOOLEAN" value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                </d:ctr>
+                <d:ctr name="BSW_Can" type="IDENTIFIABLE">
+                  <d:ref name="RteBswImplementationRef" type="REFERENCE" 
+                         value="ASPath:/EB_Can/Implementations/BswImplementation_0"/>
+                  <d:ref name="RteBswModuleConfigurationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:lst name="RteBswEventToTaskMapping" type="MAP">
+                    <d:ctr name="TimingEvent_MainFunction_Mode" 
+                           type="IDENTIFIABLE">
+                      <d:var name="RteBswActivationOffset" type="FLOAT" 
+                             value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswPeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswPositionInTask" type="INTEGER" 
+                             value="5">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:var>
+                      <d:var name="RteBswServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteBswEventRef" type="REFERENCE" 
+                             value="ASPath:/AUTOSAR_Can/BswModuleDescriptions/Can/InternalBehavior_0/TimingEvent_MainFunction_Mode"/>
+                      <d:ref name="RteBswMappedToTaskRef" type="REFERENCE" 
+                             value="ASPath:/Os/Os/SchMComTask_5ms">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:ref>
+                      <d:var name="RteBswAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteBswUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteBswUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteBswUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                  </d:lst>
+                  <d:lst name="RteBswEventToIsrMapping" type="MAP"/>
+                  <d:lst name="RteBswExclusiveAreaImpl" type="MAP"/>
+                  <d:lst name="RteBswExternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswInternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswRequiredModeGroupConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredSenderReceiverConnection" 
+                         type="MAP"/>
+                  <d:lst name="RteBswRequiredClientServerConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredTriggerConnection" type="MAP"/>
+                  <d:ref name="RteMappedToOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:var name="ASR31SchMExclusiveAreaAPISupport" type="BOOLEAN" 
+                         value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                  <d:var name="ASR31SchMExclusiveAreaAPIUseInstanceParameter" 
+                         type="BOOLEAN" value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                </d:ctr>
+                <d:ctr name="BSW_CanSM" type="IDENTIFIABLE">
+                  <d:ref name="RteBswImplementationRef" type="REFERENCE" 
+                         value="ASPath:/EB_CanSM/Implementations/BswImplementation_0"/>
+                  <d:ref name="RteBswModuleConfigurationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:lst name="RteBswEventToTaskMapping" type="MAP">
+                    <d:ctr name="TimingEvent_MainFunction" type="IDENTIFIABLE">
+                      <d:var name="RteBswActivationOffset" type="FLOAT" 
+                             value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswPeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteBswPositionInTask" type="INTEGER" 
+                             value="10">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:var>
+                      <d:var name="RteBswServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteBswEventRef" type="REFERENCE" 
+                             value="ASPath:/AUTOSAR_CanSM/BswModuleDescriptions/CanSM/InternalBehavior_0/TimingEvent_MainFunction"/>
+                      <d:ref name="RteBswMappedToTaskRef" type="REFERENCE" 
+                             value="ASPath:/Os/Os/SchMDiagStateTask_20ms">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:ref>
+                      <d:var name="RteBswAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteBswUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteBswUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteBswUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                  </d:lst>
+                  <d:lst name="RteBswEventToIsrMapping" type="MAP"/>
+                  <d:lst name="RteBswExclusiveAreaImpl" type="MAP"/>
+                  <d:lst name="RteBswExternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswInternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswRequiredModeGroupConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredSenderReceiverConnection" 
+                         type="MAP"/>
+                  <d:lst name="RteBswRequiredClientServerConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredTriggerConnection" type="MAP"/>
+                  <d:ref name="RteMappedToOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:var name="ASR31SchMExclusiveAreaAPISupport" type="BOOLEAN" 
+                         value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                  <d:var name="ASR31SchMExclusiveAreaAPIUseInstanceParameter" 
+                         type="BOOLEAN" value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                </d:ctr>
+                <d:ctr name="BSW_CanIf" type="IDENTIFIABLE">
+                  <d:ref name="RteBswImplementationRef" type="REFERENCE" 
+                         value="ASPath:/EB_CanIf/Implementations/BswImplementation_0"/>
+                  <d:ref name="RteBswModuleConfigurationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:lst name="RteBswEventToTaskMapping" type="MAP"/>
+                  <d:lst name="RteBswEventToIsrMapping" type="MAP"/>
+                  <d:lst name="RteBswExclusiveAreaImpl" type="MAP"/>
+                  <d:lst name="RteBswExternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswInternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteBswRequiredModeGroupConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredSenderReceiverConnection" 
+                         type="MAP"/>
+                  <d:lst name="RteBswRequiredClientServerConnection" type="MAP"/>
+                  <d:lst name="RteBswRequiredTriggerConnection" type="MAP"/>
+                  <d:ref name="RteMappedToOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:var name="ASR31SchMExclusiveAreaAPISupport" type="BOOLEAN" 
+                         value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                  <d:var name="ASR31SchMExclusiveAreaAPIUseInstanceParameter" 
+                         type="BOOLEAN" value="false">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                </d:ctr>
+              </d:lst>
+              <d:ctr name="RteGeneration" type="IDENTIFIABLE">
+                <d:var name="ASR32RteWrapper" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="GenerateTimestamp" type="BOOLEAN" value="true">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="OverrideXfBufferComputation" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:lst name="ComTaskConfiguration" type="MAP"/>
+                <d:var name="BswmdOutputDirectory" type="STRING" >
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="RteGeneratorOutput" type="ENUMERATION" value="FULL"/>
+                <d:var name="RteCalibrationSupport" type="ENUMERATION" 
+                       value="NONE">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="OptimizeCdsGeneration" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="RteCodeVendorId" type="INTEGER" value="0">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="RteDevErrorDetect" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="DisableInvalidationDataConsistency" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="DisablePartitionActiveChecks" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="RteDevErrorDetectUninit" type="BOOLEAN" 
+                       value="true">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="RteGenerationMode" type="ENUMERATION" 
+                       value="COMPATIBILITY_MODE">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="RteMeasurementSupport" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="OsSupportsSpinlockLockMethod" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="RespectConfiguredTaskType" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="RteOptimizationMode" type="ENUMERATION" 
+                       value="MEMORY">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="SpinlockAllocationStrategy" type="ENUMERATION" 
+                       value="OnePerChannel">
+                  <a:a name="ENABLE" value="false"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="OneSendSignalQueuePerCore" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="SendSignalQueueStrategy" type="ENUMERATION" 
+                       value="Global">
+                  <a:a name="IMPORTER_INFO">
+                    <a:v>@DEF</a:v>
+                    <a:v>@CALC</a:v>
+                  </a:a>
+                </d:var>
+                <d:var name="OneScheduleTablePerPartition" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="RteToolChainSignificantCharacters" type="INTEGER" 
+                       value="31">
+                  <a:a name="ENABLE" value="false"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="RteValueRangeCheckEnabled" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:lst name="RteVfbTraceClientPrefix"/>
+                <d:var name="RteVfbTraceEnabled" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:lst name="RteVfbTraceFunction"/>
+                <d:var name="OsScheduleTableMaxExpiryPoints" type="INTEGER" 
+                       value="5000">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="OSEKCompatibilityMode" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="FunctionElision" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="UnconnectedRequirePorts" type="ENUMERATION" 
+                       value="Warning">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="DataConsistencyMechanism" type="ENUMERATION" 
+                       value="OsResource">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="RteDataModelExport" type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="InterruptBlockingFunction" type="ENUMERATION" 
+                       value="SuspendResumeAllInterrupts">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="HumanReadableBufferNames" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="ComCbkNotInterruptable" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="InterECUInvalidationHandledByRte" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="DirectReadFromCom" type="BOOLEAN" value="true">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="RteIocInteractionReturnValue" type="ENUMERATION" 
+                       value="RTE_IOC">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:ref name="OsCounterRef" type="REFERENCE" 
+                       value="ASPath:/Os/Os/Rte_Counter"/>
+                <d:var name="OsScheduleTableActivationMechanism" 
+                       type="ENUMERATION" value="RELATIVE">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="OsScheduleTableOffset" type="FLOAT" value="0.01">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:ref name="OsUserScheduleTableRef" type="REFERENCE" >
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:ref>
+                <d:var name="InterPartitionCommunication" type="ENUMERATION" 
+                       value="Disabled">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="GenerateEmptyRteStartStopStubs" type="BOOLEAN" 
+                       value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:ctr name="BswConfiguration" type="IDENTIFIABLE">
+                  <d:ref name="BswOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:var name="BswOsTaskPeriod" type="FLOAT" value="0.1">
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                  <d:ref name="BswOsTaskRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:var name="BswSendSignalQueueLength" type="INTEGER" 
+                         value="1">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                  <d:var name="BswSendSignalGroupQueueLength" type="INTEGER" 
+                         value="1">
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:var>
+                </d:ctr>
+                <d:ref name="SingleScheduleTablePartitionRef" type="REFERENCE" >
+                  <a:a name="ENABLE" value="false"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:ref>
+                <d:lst name="CooperativeTasks" type="MAP"/>
+                <d:lst name="TaskChain" type="MAP"/>
+                <d:ctr name="OsCounterAssignments" type="IDENTIFIABLE">
+                  <a:a name="ENABLE" value="false"/>
+                  <d:lst name="OsCounterAssignment" type="MAP"/>
+                </d:ctr>
+                <d:var 
+                       name="GenerateRteFreedomFromInterferenceReviewInstructions" 
+                       type="BOOLEAN" value="false">
+                  <a:a name="ENABLE" value="false"/>
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="ExecuteTransformersDespiteLocalDataUnqueued" 
+                       type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var name="ExecuteTransformersDespiteLocalDataQueued" 
+                       type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:var 
+                       name="InitializeImplicitWriteBufferBeforeRunnableExecutes" 
+                       type="BOOLEAN" value="false">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+              </d:ctr>
+              <d:lst name="RteImplicitCommunication" type="MAP"/>
+              <d:lst name="RteInitializationBehavior" type="MAP"/>
+              <d:lst name="RteInitializationRunnableBatch" type="MAP"/>
+              <d:lst name="RteOsInteraction" type="MAP"/>
+              <d:lst name="RtePostBuildVariantConfiguration" type="MAP"/>
+              <d:ctr name="RteRips" type="IDENTIFIABLE">
+                <a:a name="ENABLE" value="false"/>
+                <d:var name="RteRipsSupport" type="ENUMERATION" 
+                       value="RTE_RIPS_OFF">
+                  <a:a name="IMPORTER_INFO" value="@DEF"/>
+                </d:var>
+                <d:lst name="RteRipsPluginConfigurationRef"/>
+              </d:ctr>
+              <d:lst name="RteSwComponentInstance" type="MAP">
+                <d:ctr name="SWC_ModifyEcho" type="IDENTIFIABLE">
+                  <a:a name="IMPORTER_INFO" value="@CALC"/>
+                  <d:ctr name="DataMappings" type="IDENTIFIABLE">
+                    <a:a name="ENABLE" value="TRUE"/>
+                    <d:lst name="DataSRMapping" type="MAP">
+                      <d:ctr name="EcuMapping_1" type="IDENTIFIABLE">
+                        <d:ctr name="VariableDataPrototypeInstanceRef" 
+                               type="INSTANCE">
+                          <d:ref name="TARGET" type="REFERENCE" 
+                                 value="ASPath:/DemoApplication/PortInterfaces/If_Counter/CounterValue"/>
+                          <d:lst name="CONTEXT">
+                            <d:ref type="REFERENCE" 
+                                   value="ASPath:/DemoApplication/SwComponentTypes/SWC_ModifyEcho/R_NewCounterIn"/>
+                          </d:lst>
+                        </d:ctr>
+                        <d:chc name="DataSRKindMapping" type="IDENTIFIABLE" 
+                               value="DataSRPrimitive">
+                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                          <d:ctr name="DataSRPrimitive" type="IDENTIFIABLE">
+                            <d:ref name="SignalRef" type="REFERENCE" 
+                                   value="ASPath:/Com/Com/ComConfig/SGCounterIn_256R"/>
+                          </d:ctr>
+                          <d:ctr name="DataSRComplex" type="IDENTIFIABLE">
+                            <d:ref name="SignalGroupRef" type="REFERENCE" >
+                              <a:a name="IMPORTER_INFO" value="@DEF"/>
+                            </d:ref>
+                            <d:lst name="SignalRef"/>
+                          </d:ctr>
+                        </d:chc>
+                      </d:ctr>
+                    </d:lst>
+                  </d:ctr>
+                  <d:ref name="MappedToOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:ref name="RteSoftwareComponentInstanceRef" 
+                         type="REFERENCE" 
+                         value="ASPath:/EcuExtract/TopLevelComposition/SWC_ModifyEcho">
+                    <a:a name="ENABLE" value="TRUE"/>
+                    <a:a name="IMPORTER_INFO" value="@CALC"/>
+                  </d:ref>
+                  <d:lst name="RteEventToTaskMapping" type="MAP">
+                    <d:ctr name="DataReceivedEvent" type="IDENTIFIABLE">
+                      <d:var name="RteActivationOffset" type="FLOAT" value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePositionInTask" type="INTEGER" value="1">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:var>
+                      <d:var name="RteServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteEventRef" type="REFERENCE" 
+                             value="ASPath:/DemoApplication/SwComponentTypes/SWC_ModifyEcho/IB_SWC_ModifyEcho/DataReceivedEvent"/>
+                      <d:ref name="RteMappedToTaskRef" type="REFERENCE" 
+                             value="ASPath:/Os/Os/Rte_Event_Task">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:ref>
+                      <d:var name="RteAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsInvocationHandlerRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedInitFnc" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteVirtuallyMappedToTaskRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                  </d:lst>
+                  <d:lst name="RteEventToIsrMapping" type="MAP"/>
+                  <d:lst name="RteExclusiveAreaImplementation" type="MAP"/>
+                  <d:lst name="RteExternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteInternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteNvRamAllocation" type="MAP"/>
+                </d:ctr>
+                <d:ctr name="SWC_CyclicCounter" type="IDENTIFIABLE">
+                  <a:a name="IMPORTER_INFO" value="@CALC"/>
+                  <d:ctr name="DataMappings" type="IDENTIFIABLE">
+                    <a:a name="ENABLE" value="TRUE"/>
+                    <d:lst name="DataSRMapping" type="MAP">
+                      <d:ctr name="EcuMapping_2" type="IDENTIFIABLE">
+                        <d:ctr name="VariableDataPrototypeInstanceRef" 
+                               type="INSTANCE">
+                          <d:ref name="TARGET" type="REFERENCE" 
+                                 value="ASPath:/DemoApplication/PortInterfaces/If_Counter/CounterValue"/>
+                          <d:lst name="CONTEXT">
+                            <d:ref type="REFERENCE" 
+                                   value="ASPath:/DemoApplication/SwComponentTypes/SWC_CyclicCounter/P_CounterOut"/>
+                          </d:lst>
+                        </d:ctr>
+                        <d:chc name="DataSRKindMapping" type="IDENTIFIABLE" 
+                               value="DataSRPrimitive">
+                          <a:a name="IMPORTER_INFO" value="@DEF"/>
+                          <d:ctr name="DataSRPrimitive" type="IDENTIFIABLE">
+                            <d:ref name="SignalRef" type="REFERENCE" 
+                                   value="ASPath:/Com/Com/ComConfig/SGCounterOut_272T"/>
+                          </d:ctr>
+                          <d:ctr name="DataSRComplex" type="IDENTIFIABLE">
+                            <d:ref name="SignalGroupRef" type="REFERENCE" >
+                              <a:a name="IMPORTER_INFO" value="@DEF"/>
+                            </d:ref>
+                            <d:lst name="SignalRef"/>
+                          </d:ctr>
+                        </d:chc>
+                      </d:ctr>
+                    </d:lst>
+                  </d:ctr>
+                  <d:ref name="MappedToOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:ref name="RteSoftwareComponentInstanceRef" 
+                         type="REFERENCE" 
+                         value="ASPath:/EcuExtract/TopLevelComposition/SWC_CyclicCounter">
+                    <a:a name="ENABLE" value="TRUE"/>
+                    <a:a name="IMPORTER_INFO" value="@CALC"/>
+                  </d:ref>
+                  <d:lst name="RteEventToTaskMapping" type="MAP">
+                    <d:ctr name="SetCounterOperationInvoked" 
+                           type="IDENTIFIABLE">
+                      <d:var name="RteActivationOffset" type="FLOAT" value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePositionInTask" type="INTEGER" value="0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteEventRef" type="REFERENCE" 
+                             value="ASPath:/DemoApplication/SwComponentTypes/SWC_CyclicCounter/IB_SWC_CyclicCounter/SetCounterOperationInvoked"/>
+                      <d:ref name="RteMappedToTaskRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:var name="RteAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsInvocationHandlerRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedInitFnc" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteVirtuallyMappedToTaskRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                    <d:ctr name="CyclicEvent" type="IDENTIFIABLE">
+                      <d:var name="RteActivationOffset" type="FLOAT" value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePositionInTask" type="INTEGER" value="1">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:var>
+                      <d:var name="RteServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteEventRef" type="REFERENCE" 
+                             value="ASPath:/DemoApplication/SwComponentTypes/SWC_CyclicCounter/IB_SWC_CyclicCounter/CyclicEvent"/>
+                      <d:ref name="RteMappedToTaskRef" type="REFERENCE" 
+                             value="ASPath:/Os/Os/Rte_Time_Task">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:ref>
+                      <d:var name="RteAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsInvocationHandlerRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedInitFnc" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteVirtuallyMappedToTaskRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                    <d:ctr name="ModeSwitchedRunTwo" type="IDENTIFIABLE">
+                      <d:var name="RteActivationOffset" type="FLOAT" value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePositionInTask" type="INTEGER" value="2">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:var>
+                      <d:var name="RteServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteEventRef" type="REFERENCE" 
+                             value="ASPath:/DemoApplication/SwComponentTypes/SWC_CyclicCounter/IB_SWC_CyclicCounter/ModeSwitchedRunTwo"/>
+                      <d:ref name="RteMappedToTaskRef" type="REFERENCE" 
+                             value="ASPath:/Os/Os/Rte_Event_Task">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:ref>
+                      <d:var name="RteAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsInvocationHandlerRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedInitFnc" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteVirtuallyMappedToTaskRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                    <d:ctr name="ModeSwitchedPrpShutdown" type="IDENTIFIABLE">
+                      <d:var name="RteActivationOffset" type="FLOAT" value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePositionInTask" type="INTEGER" value="3">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:var>
+                      <d:var name="RteServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteEventRef" type="REFERENCE" 
+                             value="ASPath:/DemoApplication/SwComponentTypes/SWC_CyclicCounter/IB_SWC_CyclicCounter/ModeSwitchedPrpShutdown"/>
+                      <d:ref name="RteMappedToTaskRef" type="REFERENCE" 
+                             value="ASPath:/Os/Os/Rte_Event_Task">
+                        <a:a name="ENABLE" value="TRUE"/>
+                      </d:ref>
+                      <d:var name="RteAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsInvocationHandlerRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedInitFnc" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteVirtuallyMappedToTaskRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                  </d:lst>
+                  <d:lst name="RteEventToIsrMapping" type="MAP"/>
+                  <d:lst name="RteExclusiveAreaImplementation" type="MAP"/>
+                  <d:lst name="RteExternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteInternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteNvRamAllocation" type="MAP"/>
+                </d:ctr>
+                <d:ctr name="SWC_IoHwAbs" type="IDENTIFIABLE">
+                  <a:a name="IMPORTER_INFO" value="@CALC"/>
+                  <d:ctr name="DataMappings" type="IDENTIFIABLE">
+                    <a:a name="ENABLE" value="false"/>
+                    <d:lst name="DataSRMapping" type="MAP"/>
+                  </d:ctr>
+                  <d:ref name="MappedToOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:ref name="RteSoftwareComponentInstanceRef" 
+                         type="REFERENCE" 
+                         value="ASPath:/EcuExtract/TopLevelComposition/SWC_IoHwAbs">
+                    <a:a name="ENABLE" value="TRUE"/>
+                    <a:a name="IMPORTER_INFO" value="@CALC"/>
+                  </d:ref>
+                  <d:lst name="RteEventToTaskMapping" type="MAP">
+                    <d:ctr name="SetDiscreteValueOperationInvoked" 
+                           type="IDENTIFIABLE">
+                      <d:var name="RteActivationOffset" type="FLOAT" value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePositionInTask" type="INTEGER" value="0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteEventRef" type="REFERENCE" 
+                             value="ASPath:/DemoApplication/SwComponentTypes/SWC_IoHwAbs/IB_SWC_IoHwAbs/SetDiscreteValueOperationInvoked"/>
+                      <d:ref name="RteMappedToTaskRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:var name="RteAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsInvocationHandlerRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedInitFnc" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteVirtuallyMappedToTaskRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                  </d:lst>
+                  <d:lst name="RteEventToIsrMapping" type="MAP"/>
+                  <d:lst name="RteExclusiveAreaImplementation" type="MAP"/>
+                  <d:lst name="RteExternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteInternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteNvRamAllocation" type="MAP"/>
+                </d:ctr>
+                <d:ctr name="ComM_Prototype" type="IDENTIFIABLE">
+                  <a:a name="IMPORTER_INFO" value="@CALC"/>
+                  <d:ctr name="DataMappings" type="IDENTIFIABLE">
+                    <a:a name="ENABLE" value="false"/>
+                    <d:lst name="DataSRMapping" type="MAP"/>
+                  </d:ctr>
+                  <d:ref name="MappedToOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:ref name="RteSoftwareComponentInstanceRef" 
+                         type="REFERENCE" 
+                         value="ASPath:/EcuExtract/TopLevelComposition/ComM_Prototype">
+                    <a:a name="ENABLE" value="TRUE"/>
+                    <a:a name="IMPORTER_INFO" value="@CALC"/>
+                  </d:ref>
+                  <d:lst name="RteEventToTaskMapping" type="MAP">
+                    <d:ctr name="EV_RequestComMode_ComMUser_0" 
+                           type="IDENTIFIABLE">
+                      <d:var name="RteActivationOffset" type="FLOAT" value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePositionInTask" type="INTEGER" value="0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteEventRef" type="REFERENCE" 
+                             value="ASPath:/AUTOSAR_ComM/SwComponentTypes/ComM/SwcInternalBehavior_0/EV_RequestComMode_ComMUser_0"/>
+                      <d:ref name="RteMappedToTaskRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:var name="RteAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsInvocationHandlerRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedInitFnc" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteVirtuallyMappedToTaskRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                    <d:ctr name="EV_GetCurrentComMode_ComMUser_0" 
+                           type="IDENTIFIABLE">
+                      <d:var name="RteActivationOffset" type="FLOAT" value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePositionInTask" type="INTEGER" value="0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteEventRef" type="REFERENCE" 
+                             value="ASPath:/AUTOSAR_ComM/SwComponentTypes/ComM/SwcInternalBehavior_0/EV_GetCurrentComMode_ComMUser_0"/>
+                      <d:ref name="RteMappedToTaskRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:var name="RteAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsInvocationHandlerRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedInitFnc" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteVirtuallyMappedToTaskRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                    <d:ctr name="EV_GetMaxComMode_ComMUser_0" 
+                           type="IDENTIFIABLE">
+                      <d:var name="RteActivationOffset" type="FLOAT" value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePositionInTask" type="INTEGER" value="0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteEventRef" type="REFERENCE" 
+                             value="ASPath:/AUTOSAR_ComM/SwComponentTypes/ComM/SwcInternalBehavior_0/EV_GetMaxComMode_ComMUser_0"/>
+                      <d:ref name="RteMappedToTaskRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:var name="RteAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsInvocationHandlerRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedInitFnc" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteVirtuallyMappedToTaskRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                    <d:ctr name="EV_GetRequestedComMode_ComMUser_0" 
+                           type="IDENTIFIABLE">
+                      <d:var name="RteActivationOffset" type="FLOAT" value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePositionInTask" type="INTEGER" value="0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteEventRef" type="REFERENCE" 
+                             value="ASPath:/AUTOSAR_ComM/SwComponentTypes/ComM/SwcInternalBehavior_0/EV_GetRequestedComMode_ComMUser_0"/>
+                      <d:ref name="RteMappedToTaskRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:var name="RteAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsInvocationHandlerRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedInitFnc" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteVirtuallyMappedToTaskRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                    <d:ctr name="EV_GetCurrentPNCComMode_ComMUser_0" 
+                           type="IDENTIFIABLE">
+                      <d:var name="RteActivationOffset" type="FLOAT" value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePositionInTask" type="INTEGER" value="0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteEventRef" type="REFERENCE" 
+                             value="ASPath:/AUTOSAR_ComM/SwComponentTypes/ComM/SwcInternalBehavior_0/EV_GetCurrentPNCComMode_ComMUser_0"/>
+                      <d:ref name="RteMappedToTaskRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:var name="RteAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsInvocationHandlerRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedInitFnc" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteVirtuallyMappedToTaskRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                  </d:lst>
+                  <d:lst name="RteEventToIsrMapping" type="MAP"/>
+                  <d:lst name="RteExclusiveAreaImplementation" type="MAP"/>
+                  <d:lst name="RteExternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteInternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteNvRamAllocation" type="MAP"/>
+                </d:ctr>
+                <d:ctr name="BswM_Prototype" type="IDENTIFIABLE">
+                  <a:a name="IMPORTER_INFO" value="@CALC"/>
+                  <d:ctr name="DataMappings" type="IDENTIFIABLE">
+                    <a:a name="ENABLE" value="false"/>
+                    <d:lst name="DataSRMapping" type="MAP"/>
+                  </d:ctr>
+                  <d:ref name="MappedToOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:ref name="RteSoftwareComponentInstanceRef" 
+                         type="REFERENCE" 
+                         value="ASPath:/EcuExtract/TopLevelComposition/BswM_Prototype">
+                    <a:a name="ENABLE" value="TRUE"/>
+                    <a:a name="IMPORTER_INFO" value="@CALC"/>
+                  </d:ref>
+                  <d:lst name="RteEventToTaskMapping" type="MAP"/>
+                  <d:lst name="RteEventToIsrMapping" type="MAP"/>
+                  <d:lst name="RteExclusiveAreaImplementation" type="MAP"/>
+                  <d:lst name="RteExternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteInternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteNvRamAllocation" type="MAP"/>
+                </d:ctr>
+                <d:ctr name="DevelopmentErrorTracer_Prototype" 
+                       type="IDENTIFIABLE">
+                  <a:a name="IMPORTER_INFO" value="@CALC"/>
+                  <d:ctr name="DataMappings" type="IDENTIFIABLE">
+                    <a:a name="ENABLE" value="false"/>
+                    <d:lst name="DataSRMapping" type="MAP"/>
+                  </d:ctr>
+                  <d:ref name="MappedToOsApplicationRef" type="REFERENCE" >
+                    <a:a name="ENABLE" value="false"/>
+                    <a:a name="IMPORTER_INFO" value="@DEF"/>
+                  </d:ref>
+                  <d:ref name="RteSoftwareComponentInstanceRef" 
+                         type="REFERENCE" 
+                         value="ASPath:/EcuExtract/TopLevelComposition/DevelopmentErrorTracer_Prototype">
+                    <a:a name="ENABLE" value="TRUE"/>
+                    <a:a name="IMPORTER_INFO" value="@CALC"/>
+                  </d:ref>
+                  <d:lst name="RteEventToTaskMapping" type="MAP">
+                    <d:ctr name="EV_ReportError_SWC_0" type="IDENTIFIABLE">
+                      <d:var name="RteActivationOffset" type="FLOAT" value="0.0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePeriod" type="FLOAT" value="0.1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteImmediateRestart" type="BOOLEAN" 
+                             value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteOsSchedulePoint" type="ENUMERATION" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RtePositionInTask" type="INTEGER" value="0">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteServerQueueLength" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:var name="RteMaxNrOfProcessedRequests" type="INTEGER" 
+                             value="1">
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteEventRef" type="REFERENCE" 
+                             value="ASPath:/AUTOSAR_Det/SwComponentTypes/DevelopmentErrorTracer/InternalBehavior/EV_ReportError_SWC_0"/>
+                      <d:ref name="RteMappedToTaskRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:var name="RteAllowInterPartitionDirectCall" 
+                             type="BOOLEAN" value="false">
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:var>
+                      <d:ref name="RteRipsFillRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsFlushRoutineRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteRipsInvocationHandlerRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedInitFnc" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsAlarmRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsEventRef" type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteUsedOsSchTblExpiryPointRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                      <d:ref name="RteVirtuallyMappedToTaskRef" 
+                             type="REFERENCE" >
+                        <a:a name="ENABLE" value="false"/>
+                        <a:a name="IMPORTER_INFO" value="@DEF"/>
+                      </d:ref>
+                    </d:ctr>
+                  </d:lst>
+                  <d:lst name="RteEventToIsrMapping" type="MAP"/>
+                  <d:lst name="RteExclusiveAreaImplementation" type="MAP"/>
+                  <d:lst name="RteExternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteInternalTriggerConfig" type="MAP"/>
+                  <d:lst name="RteNvRamAllocation" type="MAP"/>
+                </d:ctr>
+              </d:lst>
+              <d:lst name="RteSwComponentType" type="MAP">
+                <d:ctr name="RteSwComponentType_0" type="IDENTIFIABLE">
+                  <d:ref name="RteComponentTypeRef" type="REFERENCE" 
+                         value="ASPath:/DemoApplication/SwComponentTypes/SWC_ModifyEcho"/>
+                  <d:ref name="RteImplementationRef" type="REFERENCE" 
+                         value="ASPath:/DemoApplication/SwcImplementations/Impl_SWC_ModifyEcho">
+                    <a:a name="ENABLE" value="TRUE"/>
+                  </d:ref>
+                  <d:ctr name="RteComponentTypeCalibration" type="IDENTIFIABLE">
+                    <a:a name="ENABLE" value="false"/>
+                    <d:var name="RteCalibrationSupportEnabled" type="BOOLEAN" 
+                           value="true">
+                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    </d:var>
+                    <d:lst name="RteCalibrationSwAddrMethodRef"/>
+                  </d:ctr>
+                </d:ctr>
+                <d:ctr name="RteSwComponentType_1" type="IDENTIFIABLE">
+                  <d:ref name="RteComponentTypeRef" type="REFERENCE" 
+                         value="ASPath:/DemoApplication/SwComponentTypes/SWC_CyclicCounter"/>
+                  <d:ref name="RteImplementationRef" type="REFERENCE" 
+                         value="ASPath:/DemoApplication/SwcImplementations/Impl_SWC_CyclicCounter">
+                    <a:a name="ENABLE" value="TRUE"/>
+                  </d:ref>
+                  <d:ctr name="RteComponentTypeCalibration" type="IDENTIFIABLE">
+                    <a:a name="ENABLE" value="false"/>
+                    <d:var name="RteCalibrationSupportEnabled" type="BOOLEAN" 
+                           value="true">
+                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    </d:var>
+                    <d:lst name="RteCalibrationSwAddrMethodRef"/>
+                  </d:ctr>
+                </d:ctr>
+                <d:ctr name="RteSwComponentType_2" type="IDENTIFIABLE">
+                  <d:ref name="RteComponentTypeRef" type="REFERENCE" 
+                         value="ASPath:/DemoApplication/SwComponentTypes/SWC_IoHwAbs"/>
+                  <d:ref name="RteImplementationRef" type="REFERENCE" 
+                         value="ASPath:/DemoApplication/SwcImplementations/Impl_SWC_IoHwAbs">
+                    <a:a name="ENABLE" value="TRUE"/>
+                  </d:ref>
+                  <d:ctr name="RteComponentTypeCalibration" type="IDENTIFIABLE">
+                    <a:a name="ENABLE" value="false"/>
+                    <d:var name="RteCalibrationSupportEnabled" type="BOOLEAN" 
+                           value="true">
+                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    </d:var>
+                    <d:lst name="RteCalibrationSwAddrMethodRef"/>
+                  </d:ctr>
+                </d:ctr>
+                <d:ctr name="RteSwComponentType_3" type="IDENTIFIABLE">
+                  <d:ref name="RteComponentTypeRef" type="REFERENCE" 
+                         value="ASPath:/AUTOSAR_BswM/SwComponentTypes/BswM"/>
+                  <d:ref name="RteImplementationRef" type="REFERENCE" 
+                         value="ASPath:/AUTOSAR_BswM/SwcImplementations/BswMImplementation">
+                    <a:a name="ENABLE" value="TRUE"/>
+                  </d:ref>
+                  <d:ctr name="RteComponentTypeCalibration" type="IDENTIFIABLE">
+                    <a:a name="ENABLE" value="false"/>
+                    <d:var name="RteCalibrationSupportEnabled" type="BOOLEAN" 
+                           value="true">
+                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    </d:var>
+                    <d:lst name="RteCalibrationSwAddrMethodRef"/>
+                  </d:ctr>
+                </d:ctr>
+                <d:ctr name="RteSwComponentType_4" type="IDENTIFIABLE">
+                  <d:ref name="RteComponentTypeRef" type="REFERENCE" 
+                         value="ASPath:/AUTOSAR_Det/SwComponentTypes/DevelopmentErrorTracer"/>
+                  <d:ref name="RteImplementationRef" type="REFERENCE" 
+                         value="ASPath:/AUTOSAR_Det/Implementation">
+                    <a:a name="ENABLE" value="TRUE"/>
+                  </d:ref>
+                  <d:ctr name="RteComponentTypeCalibration" type="IDENTIFIABLE">
+                    <a:a name="ENABLE" value="false"/>
+                    <d:var name="RteCalibrationSupportEnabled" type="BOOLEAN" 
+                           value="true">
+                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    </d:var>
+                    <d:lst name="RteCalibrationSwAddrMethodRef"/>
+                  </d:ctr>
+                </d:ctr>
+                <d:ctr name="RteSwComponentType_5" type="IDENTIFIABLE">
+                  <d:ref name="RteComponentTypeRef" type="REFERENCE" 
+                         value="ASPath:/AUTOSAR_ComM/SwComponentTypes/ComM"/>
+                  <d:ref name="RteImplementationRef" type="REFERENCE" 
+                         value="ASPath:/EB_ComM/SwcImplementations/SwcImplementation_0">
+                    <a:a name="ENABLE" value="TRUE"/>
+                  </d:ref>
+                  <d:ctr name="RteComponentTypeCalibration" type="IDENTIFIABLE">
+                    <a:a name="ENABLE" value="false"/>
+                    <d:var name="RteCalibrationSupportEnabled" type="BOOLEAN" 
+                           value="true">
+                      <a:a name="IMPORTER_INFO" value="@DEF"/>
+                    </d:var>
+                    <d:lst name="RteCalibrationSwAddrMethodRef"/>
+                  </d:ctr>
+                </d:ctr>
+              </d:lst>
+            </d:ctr>
+          </d:chc>
+        </d:lst>
+      </d:ctr>
+    </d:lst>
+  </d:ctr>
+
+</datamodel>
