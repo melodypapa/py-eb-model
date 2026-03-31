@@ -36,6 +36,7 @@ Repository = "https://github.com/melodypapa/py-eb-model"
 Issues = "https://github.com/melodypapa/py-eb-model/issues"
 
 [project.scripts]
+eb-convert = "eb_model.cli.eb_convert:main"
 bswm-xdm-xlsx = "eb_model.cli.bswm_xdm_2_xls_cli:main"
 os-xdm-xlsx = "eb_model.cli.os_xdm_2_xls_cli:main"
 rte-xdm-xlsx = "eb_model.cli.rte_xdm_2_xls_cli:main"
@@ -121,12 +122,12 @@ disable_error_code = [
     "misc",
 ]
 exclude = [
-    "src/eb_model/tests/.*",
+    "tests/.*",
 ]
 
 
 [tool.pytest.ini_options]
-testpaths = ["src/eb_model/tests"]
+testpaths = ["tests"]
 python_files = "test_*.py"
 python_classes = "Test*"
 python_functions = "test*"
