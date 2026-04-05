@@ -14,11 +14,11 @@
 
 | Metric | Count |
 |--------|-------|
-| Total Test Cases | 182 |
-| Unit Test Cases | 144 |
-| Integration Test Cases | 38 |
-| Modules Covered | 32 |
-| Requirements Covered | ~275 |
+| Total Test Cases | 230 |
+| Unit Test Cases | 177 |
+| Integration Test Cases | 53 |
+| Modules Covered | 36 |
+| Requirements Covered | ~315 |
 
 ## Coverage by Module
 
@@ -52,6 +52,9 @@
 | EcuM | 3 | - | 3 | 9 |
 | Tm | 1 | - | 1 | 6 |
 | PbcfgM | 1 | - | 1 | 6 |
+| Crypto Stack | 10 | 4 | 14 | 16 |
+| Diagnostics Stack | 14 | 4 | 18 | 16 |
+| J1939 Stack | 14 | 6 | 20 | 16 |
 | Parser | 8 | 1 | 9 | 10 |
 | Reporter | 6 | 1 | 7 | 9 |
 | CLI | 6 | 1 | 7 | 9 |
@@ -286,6 +289,85 @@
 | TC_INT_TM_00001 | Tm Module - End-to-End Integration Test | Integration | SWR_TM_00001-00006 |
 | TC_INT_PBCFGM_00001 | PbcfgM Module - End-to-End Integration Test | Integration | SWR_PBCFGM_00001-00006 |
 
+### Crypto Stack Tests
+
+| Test Case ID | Title | Type | Requirements |
+|--------------|-------|------|--------------|
+| TC_UNIT_SECOC_00001 | SECOC Parser - XDM File Parsing and Validation | Unit | SWR_SECOC_00001, SWR_SECOC_00012, SWR_SECOC_00020 |
+| TC_UNIT_SECOC_00002 | SECOC Model - Module Initialization | Unit | SWR_SECOC_00001 |
+| TC_UNIT_SECOC_00003 | SECOC Model - SecOCGeneral Initialization | Unit | SWR_SECOC_00002 |
+| TC_UNIT_SECOC_00004 | SECOC Model - DevErrorDetect Property | Unit | SWR_SECOC_00002 |
+| TC_UNIT_SECOC_00005 | SECOC Model - Enabled Property | Unit | SWR_SECOC_00002 |
+| TC_UNIT_SECOC_00006 | SECOC Model - Fluent Interface Pattern | Unit | SWR_SECOC_00006 |
+| TC_UNIT_SECOC_00007 | SECOC Parser - Parse SecOCGeneral Container | Unit | SWR_SECOC_00002 |
+| TC_UNIT_SECOC_00008 | SECOC Reporter - Excel Worksheet Generation | Unit | SWR_SECOC_00003, SWR_SECOC_00013 |
+| TC_UNIT_SECOC_00009 | SECOC CLI - Command-Line Interface | Unit | SWR_SECOC_00004 |
+| TC_UNIT_SECOC_00010 | SECOC Error Handling - Malformed XML | Unit | SWR_SECOC_00015, SWR_SECOC_00016 |
+| TC_INT_SECOC_00001 | SECOC End-to-End Parser - Complete XDM File Parsing | Integration | SWR_SECOC_00001, SWR_SECOC_00005 |
+| TC_INT_SECOC_00002 | SECOC Reporter Integration - Excel Report Generation | Integration | SWR_SECOC_00003, SWR_SECOC_00013 |
+| TC_INT_SECOC_00003 | SECOC CLI Integration - Command-Line Execution | Integration | SWR_SECOC_00004 |
+| TC_INT_SECOC_00004 | SECOC Error Handling Integration - Malformed XDM File | Integration | SWR_SECOC_00015, SWR_SECOC_00017 |
+| TC_UNIT_CRYIF_00001 | CryIf Parser - XDM File Parsing and Validation | Unit | SWR_CRYIF_00001, SWR_CRYIF_00006 |
+| TC_UNIT_CRYIF_00002 | CryIf Model - Primitive Configuration | Unit | SWR_CRYIF_00002 |
+| TC_UNIT_CRYIF_00003 | CryIf Model - CSM References | Unit | SWR_CRYIF_00003 |
+| TC_UNIT_CRYIF_00004 | CryIf Model - Key Management | Unit | SWR_CRYIF_00004 |
+| TC_UNIT_CRYIF_00005 | CryIf CLI - Command-Line Interface | Unit | SWR_CRYIF_00005 |
+| TC_INT_CRYPTO_00001 | Crypto Stack - End-to-End Integration Test | Integration | All Crypto SWR requirements |
+
+### Diagnostics Stack Tests
+
+| Test Case ID | Title | Type | Requirements |
+|--------------|-------|------|--------------|
+| TC_UNIT_DEM_00001 | DEM Parser - XDM File Parsing and Validation | Unit | SWR_DEM_00001, SWR_DEM_00012, SWR_DEM_00020 |
+| TC_UNIT_DEM_00002 | DEM Model - Module Initialization | Unit | SWR_DEM_00001 |
+| TC_UNIT_DEM_00003 | DEM Model - DemGeneral Initialization | Unit | SWR_DEM_00002 |
+| TC_UNIT_DEM_00004 | DEM Model - DemDevErrorDetect Property | Unit | SWR_DEM_00002 |
+| TC_UNIT_DEM_00005 | DEM Model - DemEnabled Property | Unit | SWR_DEM_00002 |
+| TC_UNIT_DEM_00006 | DEM Model - Fluent Interface Pattern | Unit | SWR_DEM_00006 |
+| TC_UNIT_DEM_00007 | DEM Parser - Parse DemGeneral Container | Unit | SWR_DEM_00002 |
+| TC_UNIT_DEM_00008 | DEM Reporter - Excel Worksheet Generation | Unit | SWR_DEM_00003, SWR_DEM_00013 |
+| TC_UNIT_DEM_00009 | DEM CLI - Command-Line Interface | Unit | SWR_DEM_00004 |
+| TC_UNIT_DEM_00010 | DEM Error Handling - Malformed XML | Unit | SWR_DEM_00015, SWR_DEM_00016 |
+| TC_INT_DEM_00001 | DEM End-to-End Parser - Complete XDM File Parsing | Integration | SWR_DEM_00001, SWR_DEM_00005 |
+| TC_INT_DEM_00002 | DEM Reporter Integration - Excel Report Generation | Integration | SWR_DEM_00003, SWR_DEM_00013 |
+| TC_INT_DEM_00003 | DEM CLI Integration - Command-Line Execution | Integration | SWR_DEM_00004 |
+| TC_INT_DEM_00004 | DEM Error Handling Integration - Malformed XDM File | Integration | SWR_DEM_00015, SWR_DEM_00017 |
+| TC_UNIT_DCM_00001 | Dcm Parser - XDM File Parsing and Validation | Unit | SWR_DCM_00001, SWR_DCM_00010 |
+| TC_UNIT_DCM_00002 | Dcm Model - DSID Configuration | Unit | SWR_DCM_00002 |
+| TC_UNIT_DCM_00003 | Dcm Model - DID Configuration | Unit | SWR_DCM_00003 |
+| TC_UNIT_DCM_00004 | Dcm CLI - Command-Line Interface | Unit | SWR_DCM_00004 |
+| TC_UNIT_FIM_00001 | Fim Parser - XDM File Parsing and Validation | Unit | SWR_FIM_00001, SWR_FIM_00008 |
+| TC_UNIT_FIM_00002 | Fim Model - Function Identifier Configuration | Unit | SWR_FIM_00002 |
+| TC_UNIT_FIM_00003 | Fim Model - Inhibit Configuration | Unit | SWR_FIM_00003 |
+| TC_UNIT_FIM_00004 | Fim CLI - Command-Line Interface | Unit | SWR_FIM_00004 |
+| TC_UNIT_DLT_00001 | Dlt Parser - XDM File Parsing and Validation | Unit | SWR_DLT_00001, SWR_DLT_00006 |
+| TC_UNIT_DLT_00002 | Dlt Model - Log Configuration | Unit | SWR_DLT_00002 |
+| TC_UNIT_DLT_00003 | Dlt Model - Trace Configuration | Unit | SWR_DLT_00003 |
+| TC_UNIT_DLT_00004 | Dlt CLI - Command-Line Interface | Unit | SWR_DLT_00004 |
+| TC_INT_DIAG_00001 | Diagnostics Stack - End-to-End Integration Test | Integration | All Diagnostics SWR requirements |
+
+### J1939 Stack Tests
+
+| Test Case ID | Title | Type | Requirements |
+|--------------|-------|------|--------------|
+| TC_UNIT_J1939_00001 | J1939Dcm Parser - XDM File Parsing and Validation | Unit | SWR_J1939DCM_00001 |
+| TC_UNIT_J1939_00002 | J1939Dcm Model - Module Initialization | Unit | SWR_J1939DCM_00001 |
+| TC_UNIT_J1939_00003 | J1939Dcm Model - J1939DcmGeneral Container | Unit | SWR_J1939DCM_00002, SWR_J1939DCM_00006 |
+| TC_UNIT_J1939_00004 | J1939Dcm Parser - Parse J1939DcmGeneral Container | Unit | SWR_J1939DCM_00002 |
+| TC_UNIT_J1939_00005 | J1939Nm Parser - XDM File Parsing and Validation | Unit | SWR_J1939NM_00001 |
+| TC_UNIT_J1939_00006 | J1939Nm Model - Module Initialization and General Container | Unit | SWR_J1939NM_00001, SWR_J1939NM_00002 |
+| TC_UNIT_J1939_00007 | J1939Rm Parser - XDM File Parsing and Validation | Unit | SWR_J1939RM_00001 |
+| TC_UNIT_J1939_00008 | J1939Rm Model - Module Initialization and General Container | Unit | SWR_J1939RM_00001, SWR_J1939RM_00002 |
+| TC_UNIT_J1939_00009 | J1939Tp Parser - XDM File Parsing and Validation | Unit | SWR_J1939TP_00001 |
+| TC_UNIT_J1939_00010 | J1939Tp Model - Module Initialization and General Container | Unit | SWR_J1939TP_00001, SWR_J1939TP_00002 |
+| TC_UNIT_J1939_00011 | J1939 CLI - Command-Line Interface | Unit | SWR_J1939DCM_00004, SWR_J1939NM_00004, SWR_J1939RM_00004, SWR_J1939TP_00004 |
+| TC_INT_J1939_00001 | J1939Dcm End-to-End Parser - Complete XDM File Parsing | Integration | SWR_J1939DCM_00001, SWR_J1939DCM_00005 |
+| TC_INT_J1939_00002 | J1939Nm End-to-End Parser - Complete XDM File Parsing | Integration | SWR_J1939NM_00001 |
+| TC_INT_J1939_00003 | J1939Rm End-to-End Parser - Complete XDM File Parsing | Integration | SWR_J1939RM_00001 |
+| TC_INT_J1939_00004 | J1939Tp End-to-End Parser - Complete XDM File Parsing | Integration | SWR_J1939TP_00001 |
+| TC_INT_J1939_00005 | J1939 Reporter Integration - Excel Report Generation | Integration | SWR_J1939DCM_00003, SWR_J1939NM_00003, SWR_J1939RM_00003, SWR_J1939TP_00003 |
+| TC_INT_J1939_00006 | J1939 CLI Integration - Command-Line Execution | Integration | SWR_J1939DCM_00004, SWR_J1939NM_00004, SWR_J1939RM_00004, SWR_J1939TP_00004 |
+
 ### Infrastructure Layers Tests
 
 | Test Case ID | Title | Type | Requirements |
@@ -366,6 +448,63 @@
 | SWR_RTE_00014 | CLI Interface - Command execution | TC_UNIT_RTE_00008, TC_INT_RTE_00001-00002 |
 | SWR_RTE_00015 | Non-Functional - Error handling | TC_UNIT_RTE_00009-00010, TC_INT_RTE_00003 |
 
+### SWR_SECOC Requirements
+
+| Requirement ID | Description | Test Cases |
+|----------------|-------------|------------|
+| SWR_SECOC_00001 | Parser Layer - XDM file parsing and validation | TC_UNIT_SECOC_00001, TC_INT_SECOC_00001 |
+| SWR_SECOC_00002 | SecOCGeneral Container | TC_UNIT_SECOC_00003-00004-00005-00006-00007 |
+| SWR_SECOC_00003 | Reporter Layer - Excel generation | TC_UNIT_SECOC_00008, TC_INT_SECOC_00002 |
+| SWR_SECOC_00004 | CLI Interface - Command execution | TC_UNIT_SECOC_00009, TC_INT_SECOC_00003 |
+| SWR_SECOC_00005 | End-to-End Parser Workflow | TC_INT_SECOC_00001 |
+| SWR_SECOC_00006 | Fluent Interface Pattern | TC_UNIT_SECOC_00006 |
+| SWR_SECOC_00012 | Non-Functional - Efficient processing of 10MB files | TC_UNIT_SECOC_00001 |
+| SWR_SECOC_00013 | Non-Functional - Excel performance | TC_UNIT_SECOC_00008, TC_INT_SECOC_00002 |
+| SWR_SECOC_00015 | Non-Functional - Malformed XML error handling | TC_UNIT_SECOC_00010, TC_INT_SECOC_00004 |
+| SWR_SECOC_00016 | Non-Functional - Missing optional elements handling | TC_UNIT_SECOC_00010 |
+| SWR_SECOC_00017 | Non-Functional - Required element validation | TC_INT_SECOC_00004 |
+| SWR_SECOC_00020 | Non-Functional - Inherit from AbstractEbModelParser | TC_UNIT_SECOC_00001 |
+
+### SWR_DEM Requirements
+
+| Requirement ID | Description | Test Cases |
+|----------------|-------------|------------|
+| SWR_DEM_00001 | Parser Layer - XDM file parsing and validation | TC_UNIT_DEM_00001, TC_INT_DEM_00001 |
+| SWR_DEM_00002 | DemGeneral Container | TC_UNIT_DEM_00003-00004-00005-00006-00007 |
+| SWR_DEM_00003 | Reporter Layer - Excel generation | TC_UNIT_DEM_00008, TC_INT_DEM_00002 |
+| SWR_DEM_00004 | CLI Interface - Command execution | TC_UNIT_DEM_00009, TC_INT_DEM_00003 |
+| SWR_DEM_00005 | End-to-End Parser Workflow | TC_INT_DEM_00001 |
+| SWR_DEM_00006 | Fluent Interface Pattern | TC_UNIT_DEM_00006 |
+| SWR_DEM_00012 | Non-Functional - Efficient processing of 10MB files | TC_UNIT_DEM_00001 |
+| SWR_DEM_00013 | Non-Functional - Excel performance | TC_UNIT_DEM_00008, TC_INT_DEM_00002 |
+| SWR_DEM_00015 | Non-Functional - Malformed XML error handling | TC_UNIT_DEM_00010, TC_INT_DEM_00004 |
+| SWR_DEM_00016 | Non-Functional - Missing optional elements handling | TC_UNIT_DEM_00010 |
+| SWR_DEM_00017 | Non-Functional - Required element validation | TC_INT_DEM_00004 |
+| SWR_DEM_00020 | Non-Functional - Inherit from AbstractEbModelParser | TC_UNIT_DEM_00001 |
+
+### SWR_J1939 Requirements
+
+| Requirement ID | Description | Test Cases |
+|----------------|-------------|------------|
+| SWR_J1939DCM_00001 | J1939Dcm Parser Layer - XDM file parsing and validation | TC_UNIT_J1939_00001, TC_INT_J1939_00001 |
+| SWR_J1939DCM_00002 | J1939DcmGeneral Container | TC_UNIT_J1939_00003-00004 |
+| SWR_J1939DCM_00003 | J1939Dcm Reporter Layer - Excel generation | TC_INT_J1939_00005 |
+| SWR_J1939DCM_00004 | J1939Dcm CLI Interface - Command execution | TC_UNIT_J1939_00011, TC_INT_J1939_00006 |
+| SWR_J1939DCM_00005 | J1939Dcm End-to-End Parser Workflow | TC_INT_J1939_00001 |
+| SWR_J1939DCM_00006 | J1939Dcm Fluent Interface Pattern | TC_UNIT_J1939_00003 |
+| SWR_J1939NM_00001 | J1939Nm Parser Layer - XDM file parsing and validation | TC_UNIT_J1939_00005, TC_INT_J1939_00002 |
+| SWR_J1939NM_00002 | J1939NmGeneral Container | TC_UNIT_J1939_00006 |
+| SWR_J1939NM_00003 | J1939Nm Reporter Layer - Excel generation | TC_INT_J1939_00005 |
+| SWR_J1939NM_00004 | J1939Nm CLI Interface - Command execution | TC_UNIT_J1939_00011, TC_INT_J1939_00006 |
+| SWR_J1939RM_00001 | J1939Rm Parser Layer - XDM file parsing and validation | TC_UNIT_J1939_00007, TC_INT_J1939_00003 |
+| SWR_J1939RM_00002 | J1939RmGeneral Container | TC_UNIT_J1939_00008 |
+| SWR_J1939RM_00003 | J1939Rm Reporter Layer - Excel generation | TC_INT_J1939_00005 |
+| SWR_J1939RM_00004 | J1939Rm CLI Interface - Command execution | TC_UNIT_J1939_00011, TC_INT_J1939_00006 |
+| SWR_J1939TP_00001 | J1939Tp Parser Layer - XDM file parsing and validation | TC_UNIT_J1939_00009, TC_INT_J1939_00004 |
+| SWR_J1939TP_00002 | J1939TpGeneral Container | TC_UNIT_J1939_00010 |
+| SWR_J1939TP_00003 | J1939Tp Reporter Layer - Excel generation | TC_INT_J1939_00005 |
+| SWR_J1939TP_00004 | J1939Tp CLI Interface - Command execution | TC_UNIT_J1939_00011, TC_INT_J1939_00006 |
+
 ## Document Control
 
 | Field | Value |
@@ -380,4 +519,5 @@
 
 | Version | Date | Author | Description |
 |---------|------|--------|-------------|
+| 1.1 | 2026-04-04 | Test Architect | Added SECOC, DEM, and J1939 stack modules; converted from docs/test_cases/ to ISO 29119-3 format |
 | 1.0 | 2026-03-27 | Test Architect | Initial registry creation |

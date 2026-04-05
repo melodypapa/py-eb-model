@@ -11,19 +11,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This is a layered XML parsing system with three main components:
 
 1. **Parser Layer** (`src/eb_model/parser/`): Reads EB Tresos XDM XML files
-   - `AbstractEbModelParser`: Base class with common XML parsing methods using XPath with namespace handling
-   - Module-specific parsers: `OsXdmParser`, `RteXdmParser`, `NvMXdmParser`, `EcucXdmParser`, `BswMXdmParser`, `TmXdmParser`, `PbcfgMXdmParser`, `EcuMXdmParser`, `DetXdmParser`
+   - Organized by stack type: `core/`, `can_stack/`, `lin_stack/`, `fr_stack/`, `eth_stack/`, `com_stack/`, `mem_stack/`, `crypto_stack/`, `diag_stack/`, `j1939_stack/`
+   - `AbstractEbModelParser`: Base class in `core/eb_parser.py` with common XML parsing methods using XPath with namespace handling
    - `EbParserFactory`: Automatically determines parser type from XDM file's MODULE-CONFIGURATION tag
+   - Module-specific parsers: 50+ parsers across all stacks (e.g., `OsXdmParser`, `RteXdmParser`, `CanIfXdmParser`, `EthIfXdmParser`)
 
 2. **Model Layer** (`src/eb_model/models/`): Domain objects representing AUTOSAR configuration
    - `EBModel`: Singleton root document model containing module containers
-   - `Module`: Base class for AUTOSAR modules (Os, Rte, NvM, EcuC, BswM, Tm, PbcfgM, EcuM, Det)
+   - `Module`: Base class for AUTOSAR modules (Os, Rte, NvM, EcuC, BswM, Tm, PbcfgM, EcuM, Det, etc.)
    - `EcucObject`: Abstract base for all configuration objects with hierarchical naming
    - `EcucParamConfContainerDef`: Container for configuration parameters with element management
    - `EcucRefType`: Reference type for AUTOSAR path references (ASPath format)
 
 3. **Reporter Layer** (`src/eb_model/reporter/`): Outputs data to various formats
-   - Excel reporters: `OsXdmXlsWriter`, `RteXdmXlsWriter`, `NvMXdmXlsWriter`, `EcucXdmXlsWriter`, `TmXdmXlsWriter`, `PbcfgMXdmXlsWriter`, `EcuMXdmXlsWriter`, `DetXdmXlsWriter`
+   - Organized by stack type matching parser structure: `excel_reporter/core/`, `excel_reporter/can_stack/`, etc.
+   - `AbstractEbModelXlsWriter`: Base class in `excel_reporter/core/abstract.py`
+   - Excel reporters: 50+ reporters using naming convention `{Module}Xdm` (e.g., `OsXdm`, `RteXdm`, `CanIfXdm`)
+   - `parser_writer_registry`: Auto-discovers writer classes from parser class names (e.g., `OsXdmParser` → `OsXdm`)
    - Markdown reporter: `OsApplicationMarkdownWriter`
    - Text writers: `TextPreferenceModelWriter`, `ABProjectWriter`
 
@@ -46,7 +50,7 @@ The factory pattern in `EbParserFactory` inspects the XML root's MODULE-CONFIGUR
 pytest
 
 # Run specific test file
-pytest src/eb_model/tests/parser/test_os_xdm_parser.py
+pytest tests/integration/test_xdm_file_parsing.py
 
 # Run single test method
 pytest src/eb_model/tests/models/test_abstract.py::TestModule::test_module_initialization
@@ -54,13 +58,19 @@ pytest src/eb_model/tests/models/test_abstract.py::TestModule::test_module_initi
 # Run tests with coverage
 pytest --cov=src/eb_model
 
-# Run tests in specific directory
-pytest src/eb_model/tests/parser/
+# Run only unit tests (exclude integration)
+pytest -m "not integration"
+
+# Run only integration tests
+pytest -m integration
 ```
 
 ### Building and Packaging
 ```bash
-# Build wheel distribution
+# Build distribution (preferred method)
+python -m build
+
+# Alternative: build wheel distribution with setup.py
 python setup.py bdist_wheel
 
 # Install in development mode
@@ -68,7 +78,7 @@ pip install -e .
 
 # Install dependencies
 pip install openpyxl  # runtime dependency
-pip install pytest flake8  # development dependencies
+pip install pytest ruff mypy  # development dependencies
 
 # Verify distribution before upload
 twine check dist/*
@@ -79,10 +89,13 @@ twine upload dist/*
 
 ### Linting
 ```bash
-# Project standard (from .vscode/settings.json)
+# Using ruff (configured in pyproject.toml)
+ruff check .
+
+# Using flake8 (legacy CI standard)
 flake8 . --max-line-length=150 --ignore=F401,W293,F403
 
-# CI standard (from GitHub Actions)
+# CI strict mode (from GitHub Actions)
 flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
 flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 ```
@@ -133,45 +146,37 @@ from ..models.abstract import EcucRefType
 5. Use type hints: `self.elements: Dict[str, EcucObject] = {}`
 
 ### Adding CLI Commands
-Add entry point in `setup.py` under `console_scripts` section following pattern:
+Add entry point in `pyproject.toml` under `[project.scripts]` section following pattern:
 ```python
-'module-xdm-xlsx = eb_model.cli.module_xdm_2_xls_cli:main'
+'module-xdm-xlsx = "eb_model.cli.module_xdm_2_xls_cli:main"'
 ```
 
-Currently registered CLI entry points:
-- `eb-convert`: Unified CLI command for all XDM to Excel conversions (recommended)
-- `bswm-xdm-xlsx`: BswM module XDM to Excel conversion
-- `com-xdm-xlsx`: Com module XDM to Excel conversion
-- `comm-xdm-xlsx`: ComM module XDM to Excel conversion
-- `crc-xdm-xlsx`: Crc module XDM to Excel conversion
-- `det-xdm-xlsx`: Det module XDM to Excel conversion
-- `ecuc-xdm-xlsx`: EcuC module XDM to Excel conversion
-- `ecum-xdm-xlsx`: EcuM module XDM to Excel conversion
-- `ea-xdm-xlsx`: Ea module XDM to Excel conversion
-- `fee-xdm-xlsx`: Fee module XDM to Excel conversion
-- `ipdum-xdm-xlsx`: IpduM module XDM to Excel conversion
-- `ldcom-xdm-xlsx`: LdCom module XDM to Excel conversion
-- `memacc-xdm-xlsx`: MemAcc module XDM to Excel conversion
-- `memif-xdm-xlsx`: MemIf module XDM to Excel conversion
-- `memmap-xdm-xlsx`: MemMap module XDM to Excel conversion
-- `nm-xdm-xlsx`: Nm module XDM to Excel conversion
-- `nvm-xdm-xlsx`: NvM module XDM to Excel conversion
-- `os-xdm-xlsx`: Os module XDM to Excel conversion
-- `pdur-xdm-xlsx`: PduR module XDM to Excel conversion
-- `pbcfgm-xdm-xlsx`: PbcfgM module XDM to Excel conversion
+**Unified CLI command (recommended):**
+- `eb-convert`: Auto-detects module type from XDM file, supports batch conversion
+
+**Legacy module-specific commands** (52 commands):
+- `os-xdm-xlsx`, `rte-xdm-xlsx`, `nvm-xdm-xlsx`, `ecuc-xdm-xlsx` (core modules)
+- `bswm-xdm-xlsx`, `tm-xdm-xlsx`, `pbcfgm-xdm-xlsx`, `ecum-xdm-xlsx`, `det-xdm-xlsx` (system)
+- CAN stack: `canif-xdm-xlsx`, `cannm-xdm-xlsx`, `cansm-xdm-xlsx`, `cantp-xdm-xlsx`
+- LIN stack: `linif-xdm-xlsx`, `linsm-xdm-xlsx`, `lintp-xdm-xlsx`
+- FlexRay: `frif-xdm-xlsx`, `frnm-xdm-xlsx`, `frsm-xdm-xlsx`, `frtp-xdm-xlsx`, `frartp-xdm-xlsx`
+- Ethernet: `ethif-xdm-xlsx`, `ethsm-xdm-xlsx`, `tcpip-xdm-xlsx`, `soad-xdm-xlsx`, `udpnm-xdm-xlsx`, `doip-xdm-xlsx`, `someiptp-xdm-xlsx`
+- PDU/COM: `pdur-xdm-xlsx`, `ipdum-xdm-xlsx`, `com-xdm-xlsx`, `ldcom-xdm-xlsx`, `comm-xdm-xlsx`, `nm-xdm-xlsx`, `crc-xdm-xlsx`
+- Memory: `memif-xdm-xlsx`, `fee-xdm-xlsx`, `ea-xdm-xlsx`, `memmap-xdm-xlsx`, `memacc-xdm-xlsx`
+- Crypto: `crypto-xdm-xlsx`, `cryif-xdm-xlsx`, `csm-xdm-xlsx`, `secoc-xdm-xlsx`
+- Diagnostics: `fim-xdm-xlsx`, `dcm-xdm-xlsx`, `dem-xdm-xlsx`, `dlt-xdm-xlsx`
+- J1939: `j1939dcm-xdm-xlsx`, `j1939nm-xdm-xlsx`, `j1939rm-xdm-xlsx`, `j1939tp-xdm-xlsx`
 - `PrefSystemImporter`: EB preference XDM to ARXML file list or AUTOSAR builder project
-- `rte-xdm-xlsx`: Rte module XDM to Excel conversion
-- `tm-xdm-xlsx`: Tm module XDM to Excel conversion
 
 See [docs/cli.md](docs/cli.md) for detailed CLI usage documentation.
 
 ## File Structure Notes
 
 - Source code in `src/eb_model/` using setuptools src layout
-- Tests mirror source structure: `src/eb_model/tests/parser/`, `src/eb_model/tests/models/`
+- Tests in `tests/` directory (integration tests in `tests/integration/`)
 - CLI entry points in `src/eb_model/cli/`
-- No `requirements.txt` - dependencies declared in `setup.py`
-- No pytest.ini or tox.ini - pytest uses default discovery
+- Configuration in `pyproject.toml` (build dependencies, tool config, pytest markers)
+- No `requirements.txt` - dependencies declared in `pyproject.toml`
 
 ## Known Constraints
 
@@ -180,10 +185,11 @@ See [docs/cli.md](docs/cli.md) for detailed CLI usage documentation.
 - Some AUTOSAR path references use special `@CALC(SvcAs:...)` syntax for calculated values
 - The `read_optional_value()` method checks ENABLE attribute before returning values
 - Fluent interface pattern means many methods return `self` for chaining
+- Integration tests require real EB Tresos XDM demo files in `tests/integration/data_files/`
 
 ## Version Information
 
-Current version: 1.2.3 (defined in `setup.py`)
+Current version: 1.3.0 (defined in `pyproject.toml`)
 
 Check version in code: `pkg_resources.require("py_eb_model")[0].version`
 
