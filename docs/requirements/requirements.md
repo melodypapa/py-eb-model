@@ -85,6 +85,33 @@ Examples:
 
 - [overview.md](overview.md) - System architecture overview
 - [CLAUDE.md](../../CLAUDE.md) - Development guide for contributors
+- [traceability_matrix.md](traceability_matrix.md) - Complete requirements-to-code traceability matrix (ISO/IEC/IEEE 29148 compliant)
+
+## Requirements Traceability
+
+All requirements are traced to their implementation locations using the format:
+
+```
+Requirement ID | Implementation Location | Files | Status | Last Validated
+```
+
+The complete traceability matrix is maintained in [traceability_matrix.md](traceability_matrix.md) which provides:
+
+- **Bidirectional traceability**: Requirements ↔ Code locations
+- **Implementation verification**: Files and line numbers for each requirement
+- **Status tracking**: Implemented, Pending, Draft, or Deprecated
+- **Validation dates**: Last verified date for each requirement
+
+## Traceability Format
+
+Each requirement document includes the following fields for traceability:
+
+- **Implementation**: `file_path.py:ClassName:line_number` - exact code location
+- **Verification Criteria**: Step-by-step verification checks linking back to code
+- **Last Validated**: YYYY-MM-DD format
+- **Last Changed**: YYYY-MM-DD format (when requirement was modified)
+- **Dependencies**: List of other requirements this depends on
+- **Dependants**: List of requirements that depend on this one
 
 ## Change History
 
