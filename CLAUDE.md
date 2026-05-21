@@ -39,12 +39,20 @@ The XDM format uses namespaces extensively. All parsers inherit namespace handli
 - XPath queries use namespace prefix: `.//d:var[@name='%s']` with `self.nsmap`
 - References use ASPath format: `ASPath:/path/to/element` - extracted via `read_ref_raw_value()`
 - ENABLE attribute checking determines if optional elements are active
+- Some values use calculated syntax: `@CALC(SvcAs,os.resources,1)` for dynamic references
 
 The factory pattern in `EbParserFactory` inspects the XML root's MODULE-CONFIGURATION choice tag to determine which specific parser to instantiate.
 
+**Common XML Elements:**
+- `<d:var>`: Simple values (types: INTEGER, BOOLEAN, ENUMERATION, STRING)
+- `<d:lst>`: Lists/containers of elements
+- `<d:ctr>`: Container with nested elements
+- `<d:ref>`: References to other elements with ASPath format
+- `<a:a>`: Attributes including ENABLE, IMPORTER_INFO, and calculated values
+
 ## Development Commands
 
-### Testing
+#### Testing
 ```bash
 # Run all tests
 pytest
@@ -53,17 +61,26 @@ pytest
 pytest tests/integration/test_xdm_file_parsing.py
 
 # Run single test method
-pytest src/eb_model/tests/models/test_abstract.py::TestModule::test_module_initialization
+pytest tests/parser/core/test_os_xdm_parser.py::TestOsXdmParser::test_read_os_resources
 
 # Run tests with coverage
-pytest --cov=src/eb_model
+pytest --cov=src/eb_model --cov-report=term-missing
 
 # Run only unit tests (exclude integration)
 pytest -m "not integration"
 
 # Run only integration tests
 pytest -m integration
+
+# Run tests for specific Python version (CI tests 3.9, 3.10, 3.11)
+python3.9 -m pytest
 ```
+
+**Testing Patterns:**
+- Unit tests use mock XML elements with `ET.fromstring()` for isolated testing
+- Integration tests require real EB Tresos XDM demo files in `tests/integration/data_files/`
+- Test files mirror source structure: `tests/parser/`, `tests/models/`, `tests/reporter/`
+- Pytest markers distinguish integration tests with `@pytest.mark.integration`
 
 ### Building and Packaging
 ```bash
@@ -130,13 +147,36 @@ from ..models.eb_doc import EBModel
 from ..models.abstract import EcucRefType
 ```
 
+### Module Organization
+- `src/eb_model/parser/`: XML parsing logic organized by stack type
+- `src/eb_model/models/`: Domain models mirroring parser structure
+- `src/eb_model/reporter/`: Output generators (Excel, Markdown, text)
+- `src/eb_model/cli/`: Command-line interfaces
+- `src/eb_model/writer/`: Specialized writers (preference models, project files)
+- `tests/`: Comprehensive test suite mirroring source structure
+
 ## Common Patterns
+
+### Registry Pattern
+
+The codebase uses registry patterns for automatic discovery:
+
+**Parser Registry** (`EbParserFactory._PARSERS`):
+- Maps module names to parser classes: `"Os": OsXdmParser`
+- Auto-detects parser type from XDM file's MODULE-CONFIGURATION tag
+- Supports 50+ modules across all stacks
+
+**Writer Registry** (`parser_writer_registry`):
+- Auto-discovers Excel writer classes from parser class names
+- Naming convention: `OsXdmParser` → `OsXdm` writer
+- Enables unified `eb-convert` CLI command
 
 ### Creating a New Parser
 1. Inherit from `AbstractEbModelParser`
 2. Implement `parse()` method to traverse XML and populate model objects
 3. Use inherited methods: `read_value()`, `read_optional_value()`, `read_ref_value()`, `find_ctr_tag()`
-4. Register in `EbParserFactory.create()`
+4. Register in `EbParserFactory._PARSERS` dictionary
+5. Create corresponding model class in `src/eb_model/models/`
 
 ### Creating a New Model Class
 1. Inherit from `EcucObject` or `EcucParamConfContainerDef`
@@ -145,11 +185,28 @@ from ..models.abstract import EcucRefType
 4. Provide getter/setter methods following `getProperty()`/`setProperty()` pattern
 5. Use type hints: `self.elements: Dict[str, EcucObject] = {}`
 
+### Creating a New Excel Reporter
+1. Inherit from `AbstractEbModelXlsWriter` in `excel_reporter/core/abstract.py`
+2. Implement `write()` method to generate Excel output
+3. Place in appropriate stack directory: `excel_reporter/can_stack/`, `excel_reporter/core/`, etc.
+4. Follow naming convention: `{Module}Xdm` class name
+5. Register will happen automatically via `parser_writer_registry`
+
 ### Adding CLI Commands
 Add entry point in `pyproject.toml` under `[project.scripts]` section following pattern:
 ```python
 'module-xdm-xlsx = "eb_model.cli.module_xdm_2_xls_cli:main"'
 ```
+
+**Error Handling Patterns:**
+- Use `logging.getLogger()` for logging (inherited in `AbstractEbModelParser`)
+- Raise `NotImplementedError` for unsupported module types
+- Raise `ValueError` for abstract class instantiation attempts
+- Check ENABLE attributes before processing optional elements via `read_optional_value()`
+
+**Version Checking:**
+- Use `pkg_resources.require("py_eb_model")[0].version` to get current version
+- CLI commands display version in help text
 
 **Unified CLI command (recommended):**
 - `eb-convert`: Auto-detects module type from XDM file, supports batch conversion
@@ -186,6 +243,9 @@ See [docs/cli.md](docs/cli.md) for detailed CLI usage documentation.
 - The `read_optional_value()` method checks ENABLE attribute before returning values
 - Fluent interface pattern means many methods return `self` for chaining
 - Integration tests require real EB Tresos XDM demo files in `tests/integration/data_files/`
+- Abstract classes raise `ValueError` if directly instantiated
+- Namespace prefixes must be used in XPath queries: `d:var`, `d:lst`, `d:ctr`, `d:ref`, `a:a`
+- Reference values are wrapped in `EcucRefType` objects with ASPath format
 
 ## Version Information
 

@@ -86,7 +86,7 @@ def main():
 
         if args.env is not None:
             for env in args.env:
-                m = re.match(r'(\w+)=([:\/\\\.\w]+)', env)
+                m = re.match(r'(\w+)=([:\/\\\.\-\w]+)', env)
                 if m:
                     params["env_var:%s" % m.group(1)] = m.group(2)
         # params['tresos_output_base_dir'] = args.TRESOS_OUTPUT_BASE_DIR
