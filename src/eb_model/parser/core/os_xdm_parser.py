@@ -69,13 +69,12 @@ class OsXdmParser(AbstractEbModelParser):
         self.read_os_resources(element, os)
         self.read_os_microkernel(element, os)
         self.read_common_published_information(element, os)
-        self.read_published_information(element, os)
         self.read_os_hw_incrementer(element, os)
         self.read_os_events(element, os)
-        self.read_os_spinlocks(element, os)
+        # self.read_os_spinlocks(element, os)
         self.read_os_peripheral_areas(element, os)
-        self.read_os_os(element, os)
-        self.read_os_hooks(element, os)
+        # self.read_os_os(element, os)
+        # self.read_os_hooks(element, os)
         self.read_os_core_configs(element, os)
         self.read_os_autosar_customization(element, os)
 
@@ -373,13 +372,7 @@ class OsXdmParser(AbstractEbModelParser):
         ctr_tag = self.find_ctr_tag(element, "PublishedInformation")
         if ctr_tag is not None:
             pub_info = PublishedInformation(os, ctr_tag.attrib["name"])
-            pub_info.setVendorId(self.read_value(ctr_tag, "VendorId"))
-            pub_info.setArReleaseMajorVersion(self.read_value(ctr_tag, "ArReleaseMajorVersion"))
-            pub_info.setArReleaseMinorVersion(self.read_value(ctr_tag, "ArReleaseMinorVersion"))
-            pub_info.setArReleasePatchVersion(self.read_value(ctr_tag, "ArReleasePatchVersion"))
-            pub_info.setSwMajorVersion(self.read_value(ctr_tag, "SwMajorVersion"))
-            pub_info.setSwMinorVersion(self.read_value(ctr_tag, "SwMinorVersion"))
-            pub_info.setSwPatchVersion(self.read_value(ctr_tag, "SwPatchVersion"))
+            pub_info.setPbcfgMSupport(self.read_value(ctr_tag, "PbcfgMSupport"))
             os.setPublishedInformation(pub_info)
             self.logger.debug("Read PublishedInformation")
 
@@ -397,7 +390,7 @@ class OsXdmParser(AbstractEbModelParser):
         """Parse all OsEvent containers from XDM."""
         for ctr_tag in self.find_ctr_tag_list(element, "OsEvent"):
             event = OsEvent(os, ctr_tag.attrib["name"])
-            event.setOsEventMask(self.read_value(ctr_tag, "OsEventMask"))
+            event.setOsEventMask(self.read_optional_value(ctr_tag, "OsEventMask"))
             os.addOsEvent(event)
             self.logger.debug("Read OsEvent <%s>" % event.getName())
 

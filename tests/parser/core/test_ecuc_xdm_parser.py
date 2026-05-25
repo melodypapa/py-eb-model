@@ -61,13 +61,7 @@ class TestEcucXdmParser:
                 xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
                 xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
             <d:ctr name="PublishedInformation" type="IDENTIFIABLE">
-                <d:var name="VendorId" type="STRING" value="Vector"/>
-                <d:var name="ArReleaseMajorVersion" type="STRING" value="4"/>
-                <d:var name="ArReleaseMinorVersion" type="STRING" value="3"/>
-                <d:var name="ArReleasePatchVersion" type="STRING" value="0"/>
-                <d:var name="SwMajorVersion" type="STRING" value="1"/>
-                <d:var name="SwMinorVersion" type="STRING" value="0"/>
-                <d:var name="SwPatchVersion" type="STRING" value="0"/>
+                <d:var name="PbcfgMSupport" type="BOOLEAN" value="false"/>
             </d:ctr>
         </datamodel>
         """
@@ -80,10 +74,7 @@ class TestEcucXdmParser:
 
         pub_info = ecuc.getPublishedInformation()
         assert pub_info is not None
-        assert pub_info.getVendorId() == "Vector"
-        assert pub_info.getArReleaseMajorVersion() == "4"
-        assert pub_info.getArReleaseMinorVersion() == "3"
-        assert pub_info.getArReleasePatchVersion() == "0"
+        assert pub_info.getPbcfgMSupport() is False
 
     def test_read_ecuc_general(self):
         xml_content = """

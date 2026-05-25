@@ -218,8 +218,8 @@ class OsXdmXlsWriter(ExcelReporter):
     def write(self, filename, doc: EBModel, options={"skip_os_task": False}):
         self.logger.info("Writing <%s>" % filename)
 
-        if not options['skip_os_task']:
-            self.write_os_tasks(doc)
+        # if not options['skip_os_task']:
+        self.write_os_tasks(doc)
         self.write_os_applications(doc)
         self.write_os_isrs(doc)
         self.write_os_schedule_tables(doc)

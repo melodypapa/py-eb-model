@@ -27,7 +27,7 @@ from eb_model.models import (
     OsScheduleTableEventSetting, OsScheduleTableExpiryPoint, OsScheduleTable,
     MkMemoryRegion, MkMemoryProtection, MkFunction, MkStack,
     MkThreadCustomization, MkOptimization, OsMicrokernel,
-    CommonPublishedInformation, PublishedInformation, OsHwIncrementer,
+    CommonPublishedInformation, OsHwIncrementer,
     OsEvent, OsSpinlock, OsPeripheralArea, OsOS, OsHooks,
     OsCoreConfig, OsAutosarCustomization, Os,
     RteBswGeneral, RteBswEventToIsrMapping, RteBswExclusiveAreaImpl,
