@@ -195,6 +195,27 @@ pref-system-importer --base-path /path/to/project --ab-project --project MyProje
 
 ## Change History
 
+### Version 1.3.1
+
+**Maintenance Release - Redundancy Removal and Bug Fixes**
+
+1. **Model Simplification**
+   - Removed redundant version fields from `PublishedInformation` (OS and EcuC modules), as these fields are already defined in `CommonPublishedInformation`
+   - Added `PbcfgMSupport` flag to `PublishedInformation` model
+   - Added `getTargetRef()`/`setTargetRef()` convenience methods to `EcucPartitionSoftwareComponentInstanceRef`
+
+2. **Parser Fixes**
+   - Changed `OsEventMask` parsing from `read_value` to `read_optional_value` to handle optional fields correctly
+   - Temporarily disabled non-functional parser methods (`OsSpinlock`, `OsOS`, `OsHooks`) to prevent confusion during export
+   - Fixed `Os.publishedInformation` type from `PublishedInformation` to `CommonPublishedInformation`
+
+3. **Reporter Fixes**
+   - Removed `skip_os_task` guard — OS tasks are now always written regardless of the skip option
+
+4. **CI Improvements**
+   - PyPI publish workflow updated with OIDC authentication
+   - Comprehensive Python `.gitignore` added
+
 ### Version 1.3.0
 
 **Major Release - Complete XDM Model Coverage**

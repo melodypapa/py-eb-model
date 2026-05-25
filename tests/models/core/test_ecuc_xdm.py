@@ -94,24 +94,14 @@ class TestPublishedInformation:
 
         assert pub_info.getName() == "PublishedInformation"
         assert pub_info.getParent() == root
-        assert pub_info.getVendorId() is None
-        assert pub_info.getArReleaseMajorVersion() is None
-        assert pub_info.getArReleaseMinorVersion() is None
-        assert pub_info.getArReleasePatchVersion() is None
+        assert pub_info.getPbcfgMSupport() is None
 
-    def test_set_vendor_id(self):
+    def test_set_pbcfg_m_support(self):
         root = EBModel.getInstance()
         pub_info = PublishedInformation(root, "PublishedInformation")
 
-        assert pub_info.setVendorId("Vector") == pub_info
-        assert pub_info.getVendorId() == "Vector"
-
-    def test_set_ar_release_major_version(self):
-        root = EBModel.getInstance()
-        pub_info = PublishedInformation(root, "PublishedInformation")
-
-        assert pub_info.setArReleaseMajorVersion("4") == pub_info
-        assert pub_info.getArReleaseMajorVersion() == "4"
+        assert pub_info.setPbcfgMSupport(False) == pub_info
+        assert pub_info.getPbcfgMSupport() is False
 
 
 class TestEcucGeneral:

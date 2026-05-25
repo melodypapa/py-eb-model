@@ -57,13 +57,7 @@ class EcucXdmParser(AbstractEbModelParser):
         ctr_tag = self.find_ctr_tag(element, "PublishedInformation")
         if ctr_tag is not None:
             pub_info = PublishedInformation(ecuc, ctr_tag.attrib["name"])
-            pub_info.setVendorId(self.read_value(ctr_tag, "VendorId"))
-            pub_info.setArReleaseMajorVersion(self.read_value(ctr_tag, "ArReleaseMajorVersion"))
-            pub_info.setArReleaseMinorVersion(self.read_value(ctr_tag, "ArReleaseMinorVersion"))
-            pub_info.setArReleasePatchVersion(self.read_value(ctr_tag, "ArReleasePatchVersion"))
-            pub_info.setSwMajorVersion(self.read_value(ctr_tag, "SwMajorVersion"))
-            pub_info.setSwMinorVersion(self.read_value(ctr_tag, "SwMinorVersion"))
-            pub_info.setSwPatchVersion(self.read_value(ctr_tag, "SwPatchVersion"))
+            pub_info.setPbcfgMSupport(self.read_value(ctr_tag, "PbcfgMSupport"))
             ecuc.setPublishedInformation(pub_info)
             self.logger.debug("Read PublishedInformation")
 

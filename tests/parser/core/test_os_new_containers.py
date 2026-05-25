@@ -64,13 +64,7 @@ class TestOsPublishedInformation:
                 xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
                 xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
             <d:ctr name="PublishedInformation">
-                <d:var name="VendorId" type="STRING" value="EB"/>
-                <d:var name="ArReleaseMajorVersion" type="STRING" value="4"/>
-                <d:var name="ArReleaseMinorVersion" type="STRING" value="2"/>
-                <d:var name="ArReleasePatchVersion" type="STRING" value="0"/>
-                <d:var name="SwMajorVersion" type="STRING" value="1"/>
-                <d:var name="SwMinorVersion" type="STRING" value="2"/>
-                <d:var name="SwPatchVersion" type="STRING" value="3"/>
+                <d:var name="PbcfgMSupport" type="BOOLEAN" value="false"/>
             </d:ctr>
         </datamodel>
         """
@@ -89,13 +83,7 @@ class TestOsPublishedInformation:
 
         pub_info = os.getPublishedInformation()
         assert pub_info is not None
-        assert pub_info.getVendorId() == "EB"
-        assert pub_info.getArReleaseMajorVersion() == "4"
-        assert pub_info.getArReleaseMinorVersion() == "2"
-        assert pub_info.getArReleasePatchVersion() == "0"
-        assert pub_info.getSwMajorVersion() == "1"
-        assert pub_info.getSwMinorVersion() == "2"
-        assert pub_info.getSwPatchVersion() == "3"
+        assert pub_info.getPbcfgMSupport() is False
 
 
 class TestOsHwIncrementer:
@@ -346,8 +334,6 @@ class TestOsCoreConfig:
         assert core_configs[1].getName() == "Core1"
         assert core_configs[1].getOsCoreId() == 1
         assert core_configs[1].getOsCoreMainFunction() == "Main_Core1"
-        assert core_configs[1].getOsCoreStackStartAddress() == 536875008
-        assert core_configs[1].getOsCoreStackSize() == 4096
         assert core_configs[1].getOsCoreStackStartAddress() == 536875008
         assert core_configs[1].getOsCoreStackSize() == 4096
 

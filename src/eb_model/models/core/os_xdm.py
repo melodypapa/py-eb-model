@@ -1415,75 +1415,20 @@ class CommonPublishedInformation(EcucParamConfContainerDef):
 
 class PublishedInformation(EcucParamConfContainerDef):
     """
-    Module-specific published information.
+    Module-specific published information containing PbcfgMSupport flag.
 
     Implements: SWR_OS_00011 (Module metadata)
     """
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
+        self.pbcfgMSupport: bool = None
 
-        self.vendorId: str = None
-        self.arReleaseMajorVersion: str = None
-        self.arReleaseMinorVersion: str = None
-        self.arReleasePatchVersion: str = None
-        self.swMajorVersion: str = None
-        self.swMinorVersion: str = None
-        self.swPatchVersion: str = None
+    def getPbcfgMSupport(self) -> bool:
+        return self.pbcfgMSupport
 
-    def getVendorId(self) -> str:
-        return self.vendorId
-
-    def setVendorId(self, value: str):
+    def setPbcfgMSupport(self, value: bool):
         if value is not None:
-            self.vendorId = value
-        return self
-
-    def getArReleaseMajorVersion(self) -> str:
-        return self.arReleaseMajorVersion
-
-    def setArReleaseMajorVersion(self, value: str):
-        if value is not None:
-            self.arReleaseMajorVersion = value
-        return self
-
-    def getArReleaseMinorVersion(self) -> str:
-        return self.arReleaseMinorVersion
-
-    def setArReleaseMinorVersion(self, value: str):
-        if value is not None:
-            self.arReleaseMinorVersion = value
-        return self
-
-    def getArReleasePatchVersion(self) -> str:
-        return self.arReleasePatchVersion
-
-    def setArReleasePatchVersion(self, value: str):
-        if value is not None:
-            self.arReleasePatchVersion = value
-        return self
-
-    def getSwMajorVersion(self) -> str:
-        return self.swMajorVersion
-
-    def setSwMajorVersion(self, value: str):
-        if value is not None:
-            self.swMajorVersion = value
-        return self
-
-    def getSwMinorVersion(self) -> str:
-        return self.swMinorVersion
-
-    def setSwMinorVersion(self, value: str):
-        if value is not None:
-            self.swMinorVersion = value
-        return self
-
-    def getSwPatchVersion(self) -> str:
-        return self.swPatchVersion
-
-    def setSwPatchVersion(self, value: str):
-        if value is not None:
-            self.swPatchVersion = value
+            self.pbcfgMSupport = value
         return self
 
 
@@ -1822,7 +1767,7 @@ class Os(Module):
         self.osResources: List[OsResource] = []
         self.osMicrokernel: OsMicrokernel = None
         self.commonPublishedInformation: CommonPublishedInformation = None
-        self.publishedInformation: PublishedInformation = None
+        self.publishedInformation: CommonPublishedInformation = None
         self.osHwIncrementer: OsHwIncrementer = None
         self.osEvents: List[OsEvent] = []
         self.osSpinlocks: List[OsSpinlock] = []
@@ -1931,10 +1876,10 @@ class Os(Module):
             self.commonPublishedInformation = value
         return self
 
-    def getPublishedInformation(self) -> PublishedInformation:
+    def getPublishedInformation(self) -> CommonPublishedInformation:
         return self.publishedInformation
 
-    def setPublishedInformation(self, value: PublishedInformation):
+    def setPublishedInformation(self, value: CommonPublishedInformation):
         if value is not None:
             self.publishedInformation = value
         return self
