@@ -439,6 +439,13 @@ MOCK_NVM_XDM = """<?xml version="1.0"?>
                 <d:var name="NvMCancelJobsCallout" type="FUNCTION-NAME" value=""/>
               </d:ctr>
               <d:ctr name="PublishedInformation" type="IDENTIFIABLE">
+                <d:var name="VendorId" type="INTEGER" value="1"/>
+                <d:var name="ArReleaseMajorVersion" type="INTEGER" value="4"/>
+                <d:var name="ArReleaseMinorVersion" type="INTEGER" value="7"/>
+                <d:var name="ArReleasePatchVersion" type="INTEGER" value="0"/>
+                <d:var name="SwMajorVersion" type="INTEGER" value="7"/>
+                <d:var name="SwMinorVersion" type="INTEGER" value="0"/>
+                <d:var name="SwPatchVersion" type="INTEGER" value="0"/>
                 <d:var name="PbcfgMSupport" type="BOOLEAN" value="false"/>
               </d:ctr>
             </d:ctr>

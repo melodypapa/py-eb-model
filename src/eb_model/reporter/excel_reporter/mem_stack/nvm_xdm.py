@@ -9,30 +9,37 @@ class NvMXdmXlsWriter(ExcelReporter):
         super().__init__()
 
     def write_nvm_general(self, doc: EBModel):
-        sheet = self.wb.create_sheet("General", 0)
-
-        title_row = ["Key", "Value"]
-        self.write_title_row(sheet, title_row)
-
         nvm_common = doc.getNvM().getNvMCommon()
 
         if nvm_common is None:
             self.logger.error("NvMCommon is Invalid and General updating is skipped.")
             return
 
+        sheet = self.wb.create_sheet("General", 0)
+
+        title_row = ["Key", "Value"]
+        self.write_title_row(sheet, title_row)
+
         row = 2
-        self.write_cell(sheet, row, 1, "NvMCompiledConfigId")
-        self.write_cell_center(sheet, row, 2, nvm_common.getNvMCompiledConfigId())
-        row += 1
-        self.write_cell(sheet, row, 1, "NvMDatasetSelectionBits")
-        self.write_cell_center(sheet, row, 2, nvm_common.getNvMDatasetSelectionBits())
-        row += 1
-        self.write_cell(sheet, row, 1, "NvMMaxNumOfReadRetries")
-        self.write_cell_center(sheet, row, 2, "3")
-        row += 1
-        self.write_cell(sheet, row, 1, "NvMMaxNumOfWriteRetries")
-        self.write_cell_center(sheet, row, 2, "3")
-        row += 1
+        rows_data = [
+            ("NvMCompiledConfigId", nvm_common.getNvMCompiledConfigId()),
+            ("NvMDatasetSelectionBits", nvm_common.getNvMDatasetSelectionBits()),
+            ("NvMApiConfigClass", nvm_common.getNvMApiConfigClass()),
+            ("NvMDevErrorDetect", nvm_common.getNvMDevErrorDetect()),
+            ("NvMDynamicConfiguration", nvm_common.getNvMDynamicConfiguration()),
+            ("NvMJobPrioritization", nvm_common.getNvMJobPrioritization()),
+            ("NvMMainFunctionPeriod", nvm_common.getNvMMainFunctionPeriod()),
+            ("NvMPollingMode", nvm_common.getNvMPollingMode()),
+            ("NvMRteUsage", nvm_common.getNvMRteUsage()),
+            ("NvMVersionInfoApi", nvm_common.getNvMVersionInfoApi()),
+            ("NvMMemAccUsage", nvm_common.getNvMMemAccUsage()),
+            ("NvMBufferAlignmentValue", nvm_common.getNvMBufferAlignmentValue()),
+            ("NvMRedundantRecovery", nvm_common.getNvMRedundantRecovery()),
+        ]
+        for key, value in rows_data:
+            self.write_cell(sheet, row, 1, key)
+            self.write_cell_center(sheet, row, 2, value)
+            row += 1
 
         self.auto_width(sheet)
 
@@ -84,8 +91,8 @@ class NvMXdmXlsWriter(ExcelReporter):
             if block_reference is not None:
                 if isinstance(block_reference, NvMFeeRef):
                     self.write_cell(sheet, row, 22, block_reference.getNvMNameOfFeeBlock().getShortName())
-                else:
-                    raise NotImplementedError("Unsupported Target block reference.")
+                elif isinstance(block_reference, NvMEaRef):
+                    self.write_cell(sheet, row, 22, block_reference.getNvMNameOfEaBlock().getShortName())
 
             row += 1
 
@@ -94,16 +101,16 @@ class NvMXdmXlsWriter(ExcelReporter):
         self.auto_width(sheet)
 
     def write_nvm_bsw_distribution(self, doc: EBModel):
-        sheet = self.wb.create_sheet("BSW Distribution", 1)
-
-        title_row = ["NvMEcucPartitionRef", "Master"]
-        self.write_title_row(sheet, title_row)
-
         nvm_common = doc.getNvM().getNvMCommon()
 
         if nvm_common is None:
             self.logger.error("NvMCommon is Invalid and BSW Distribution updating is skipped.")
             return
+
+        sheet = self.wb.create_sheet("BSW Distribution", 1)
+
+        title_row = ["NvMEcucPartitionRef", "Master"]
+        self.write_title_row(sheet, title_row)
 
         master_partition_ref = nvm_common.getNvMMasterEcucPartitionRef()
 
