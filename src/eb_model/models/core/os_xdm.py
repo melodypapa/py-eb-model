@@ -53,6 +53,7 @@ class OsAlarmActivateTask(OsAlarmAction):
 
     def setOsAlarmActivateTaskRef(self, value: EcucRefType):
         self.osAlarmActivateTaskRef = value
+        return self
 
 
 class OsAlarmCallback(OsAlarmAction):
@@ -67,12 +68,14 @@ class OsAlarmCallback(OsAlarmAction):
 
     def setOsAlarmCallbackName(self, value):
         self.osAlarmCallbackName = value
+        return self
 
     def getOsMemoryMappingCodeLocationRef(self):
         return self.osMemoryMappingCodeLocationRef
 
     def setOsMemoryMappingCodeLocationRef(self, value):
         self.osMemoryMappingCodeLocationRef = value
+        return self
 
 
 class OsAlarmIncrementCounter(OsAlarmAction):
@@ -86,6 +89,7 @@ class OsAlarmIncrementCounter(OsAlarmAction):
 
     def setOsAlarmIncrementCounterRef(self, value):
         self.osAlarmIncrementCounterRef = value
+        return self
 
 
 class OsAlarmSetEvent(OsAlarmAction):
@@ -1499,23 +1503,32 @@ class OsSpinlock(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
-        self.osSpinlockType: str = None
-        self.osSpinlockSpinCount: int = None
+        self.osSpinlockLockMethod: str = None
+        self.osSpinlockSuccessor: EcucRefType = None
+        self.osSpinlockAccessingApplications: List[EcucRefType] = []
 
-    def getOsSpinlockType(self) -> str:
-        return self.osSpinlockType
+    def getOsSpinlockLockMethod(self) -> str:
+        return self.osSpinlockLockMethod
 
-    def setOsSpinlockType(self, value: str):
+    def setOsSpinlockLockMethod(self, value: str):
         if value is not None:
-            self.osSpinlockType = value
+            self.osSpinlockLockMethod = value
         return self
 
-    def getOsSpinlockSpinCount(self) -> int:
-        return self.osSpinlockSpinCount
+    def getOsSpinlockSuccessor(self) -> EcucRefType:
+        return self.osSpinlockSuccessor
 
-    def setOsSpinlockSpinCount(self, value: int):
+    def setOsSpinlockSuccessor(self, value: EcucRefType):
         if value is not None:
-            self.osSpinlockSpinCount = value
+            self.osSpinlockSuccessor = value
+        return self
+
+    def getOsSpinlockAccessingApplications(self) -> List[EcucRefType]:
+        return self.osSpinlockAccessingApplications
+
+    def addOsSpinlockAccessingApplication(self, ref: EcucRefType):
+        if ref is not None:
+            self.osSpinlockAccessingApplications.append(ref)
         return self
 
 
@@ -1566,50 +1579,68 @@ class OsOS(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
-        self.osOSCoreAssignment: int = None
-        self.osOsStackMonitoring: bool = None
-        self.osOsUseGetServiceId: bool = None
-        self.osOsUseParameterAccess: bool = None
-        self.osOsUseServiceId: bool = None
+        self.osScalabilityClass: str = None
+        self.osNumberOfCores: int = None
+        self.osStackMonitoring: bool = None
+        self.osUseGetServiceId: bool = None
+        self.osUseParameterAccess: bool = None
+        self.osUseResScheduler: bool = None
+        self.osStatus: str = None
 
-    def getOsOSCoreAssignment(self) -> int:
-        return self.osOSCoreAssignment
+    def getOsScalabilityClass(self) -> str:
+        return self.osScalabilityClass
 
-    def setOsOSCoreAssignment(self, value: int):
+    def setOsScalabilityClass(self, value: str):
         if value is not None:
-            self.osOSCoreAssignment = value
+            self.osScalabilityClass = value
         return self
 
-    def getOsOsStackMonitoring(self) -> bool:
-        return self.osOsStackMonitoring
+    def getOsNumberOfCores(self) -> int:
+        return self.osNumberOfCores
 
-    def setOsOsStackMonitoring(self, value: bool):
+    def setOsNumberOfCores(self, value: int):
         if value is not None:
-            self.osOsStackMonitoring = value
+            self.osNumberOfCores = value
         return self
 
-    def getOsOsUseGetServiceId(self) -> bool:
-        return self.osOsUseGetServiceId
+    def getOsStackMonitoring(self) -> bool:
+        return self.osStackMonitoring
 
-    def setOsOsUseGetServiceId(self, value: bool):
+    def setOsStackMonitoring(self, value: bool):
         if value is not None:
-            self.osOsUseGetServiceId = value
+            self.osStackMonitoring = value
         return self
 
-    def getOsOsUseParameterAccess(self) -> bool:
-        return self.osOsUseParameterAccess
+    def getOsUseGetServiceId(self) -> bool:
+        return self.osUseGetServiceId
 
-    def setOsOsUseParameterAccess(self, value: bool):
+    def setOsUseGetServiceId(self, value: bool):
         if value is not None:
-            self.osOsUseParameterAccess = value
+            self.osUseGetServiceId = value
         return self
 
-    def getOsOsUseServiceId(self) -> bool:
-        return self.osOsUseServiceId
+    def getOsUseParameterAccess(self) -> bool:
+        return self.osUseParameterAccess
 
-    def setOsOsUseServiceId(self, value: bool):
+    def setOsUseParameterAccess(self, value: bool):
         if value is not None:
-            self.osOsUseServiceId = value
+            self.osUseParameterAccess = value
+        return self
+
+    def getOsUseResScheduler(self) -> bool:
+        return self.osUseResScheduler
+
+    def setOsUseResScheduler(self, value: bool):
+        if value is not None:
+            self.osUseResScheduler = value
+        return self
+
+    def getOsStatus(self) -> str:
+        return self.osStatus
+
+    def setOsStatus(self, value: str):
+        if value is not None:
+            self.osStatus = value
         return self
 
 
@@ -1628,6 +1659,8 @@ class OsHooks(EcucParamConfContainerDef):
         self.osPreTaskHook: bool = None
         self.osPostTaskHook: bool = None
         self.osProtectionHook: bool = None
+        self.osPreISRHook: bool = None
+        self.osPostISRHook: bool = None
 
     def getOsErrorHook(self) -> bool:
         return self.osErrorHook
@@ -1675,6 +1708,22 @@ class OsHooks(EcucParamConfContainerDef):
     def setOsProtectionHook(self, value: bool):
         if value is not None:
             self.osProtectionHook = value
+        return self
+
+    def getOsPreISRHook(self) -> bool:
+        return self.osPreISRHook
+
+    def setOsPreISRHook(self, value: bool):
+        if value is not None:
+            self.osPreISRHook = value
+        return self
+
+    def getOsPostISRHook(self) -> bool:
+        return self.osPostISRHook
+
+    def setOsPostISRHook(self, value: bool):
+        if value is not None:
+            self.osPostISRHook = value
         return self
 
 

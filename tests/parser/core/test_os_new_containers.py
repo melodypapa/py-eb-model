@@ -171,12 +171,15 @@ class TestOsSpinlock:
                 xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
             <d:lst name="OsSpinlock" type="MAP">
                 <d:ctr name="Spinlock1">
-                    <d:var name="OsSpinlockType" type="ENUMERATION" value="STANDARD"/>
-                    <d:var name="OsSpinlockSpinCount" type="INTEGER" value="100"/>
+                    <d:var name="OsSpinlockLockMethod" type="ENUMERATION" value="STANDARD"/>
+                    <d:ref name="OsSpinlockSuccessor" type="REFERENCE" value="ASPath:/Os/Spinlock2"/>
+                    <d:lst name="OsSpinlockAccessingApplication">
+                        <d:ref type="REFERENCE" value="ASPath:/Os/OsApplication_C0"/>
+                    </d:lst>
                 </d:ctr>
                 <d:ctr name="Spinlock2">
-                    <d:var name="OsSpinlockType" type="ENUMERATION" value="SCHEDULER"/>
-                    <d:var name="OsSpinlockSpinCount" type="INTEGER" value="50"/>
+                    <d:var name="OsSpinlockLockMethod" type="ENUMERATION" value="SCHEDULER"/>
+                    <d:lst name="OsSpinlockAccessingApplication"/>
                 </d:ctr>
             </d:lst>
         </datamodel>
@@ -197,11 +200,13 @@ class TestOsSpinlock:
         spinlocks = os.getOsSpinlockList()
         assert len(spinlocks) == 2
         assert spinlocks[0].getName() == "Spinlock1"
-        assert spinlocks[0].getOsSpinlockType() == "STANDARD"
-        assert spinlocks[0].getOsSpinlockSpinCount() == 100
+        assert spinlocks[0].getOsSpinlockLockMethod() == "STANDARD"
+        assert spinlocks[0].getOsSpinlockSuccessor().getValue() == "/Os/Spinlock2"
+        assert len(spinlocks[0].getOsSpinlockAccessingApplications()) == 1
         assert spinlocks[1].getName() == "Spinlock2"
-        assert spinlocks[1].getOsSpinlockType() == "SCHEDULER"
-        assert spinlocks[1].getOsSpinlockSpinCount() == 50
+        assert spinlocks[1].getOsSpinlockLockMethod() == "SCHEDULER"
+        assert spinlocks[1].getOsSpinlockSuccessor() is None
+        assert len(spinlocks[1].getOsSpinlockAccessingApplications()) == 0
 
 
 class TestOsOS:
@@ -214,11 +219,13 @@ class TestOsOS:
                 xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
                 xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
             <d:ctr name="OsOS">
-                <d:var name="OsOSCoreAssignment" type="INTEGER" value="0"/>
-                <d:var name="OsOsStackMonitoring" type="BOOLEAN" value="true"/>
-                <d:var name="OsOsUseGetServiceId" type="BOOLEAN" value="false"/>
-                <d:var name="OsOsUseParameterAccess" type="BOOLEAN" value="true"/>
-                <d:var name="OsOsUseServiceId" type="BOOLEAN" value="false"/>
+                <d:var name="OsScalabilityClass" type="ENUMERATION" value="SC1"/>
+                <d:var name="OsNumberOfCores" type="INTEGER" value="2"/>
+                <d:var name="OsStackMonitoring" type="BOOLEAN" value="true"/>
+                <d:var name="OsUseGetServiceId" type="BOOLEAN" value="false"/>
+                <d:var name="OsUseParameterAccess" type="BOOLEAN" value="true"/>
+                <d:var name="OsUseResScheduler" type="BOOLEAN" value="true"/>
+                <d:var name="OsStatus" type="ENUMERATION" value="STANDARD"/>
             </d:ctr>
         </datamodel>
         """
@@ -237,11 +244,13 @@ class TestOsOS:
 
         os_os = os.getOsOS()
         assert os_os is not None
-        assert os_os.getOsOSCoreAssignment() == 0
-        assert os_os.getOsOsStackMonitoring() is True
-        assert os_os.getOsOsUseGetServiceId() is False
-        assert os_os.getOsOsUseParameterAccess() is True
-        assert os_os.getOsOsUseServiceId() is False
+        assert os_os.getOsScalabilityClass() == "SC1"
+        assert os_os.getOsNumberOfCores() == 2
+        assert os_os.getOsStackMonitoring() is True
+        assert os_os.getOsUseGetServiceId() is False
+        assert os_os.getOsUseParameterAccess() is True
+        assert os_os.getOsUseResScheduler() is True
+        assert os_os.getOsStatus() == "STANDARD"
 
 
 class TestOsHooks:
@@ -336,6 +345,54 @@ class TestOsCoreConfig:
         assert core_configs[1].getOsCoreMainFunction() == "Main_Core1"
         assert core_configs[1].getOsCoreStackStartAddress() == 536875008
         assert core_configs[1].getOsCoreStackSize() == 4096
+
+
+class TestOsPeripheralArea:
+
+    def test_read_os_peripheral_areas(self):
+        xml_content = """
+        <datamodel version="8.0"
+                xmlns="http://www.tresos.de/_projects/DataModel2/18/root.xsd"
+                xmlns:a="http://www.tresos.de/_projects/DataModel2/18/attribute.xsd"
+                xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+                xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+            <d:lst name="OsPeripheralArea" type="MAP">
+                <d:ctr name="Peripheral1">
+                    <d:var name="OsPeripheralAreaStartAddress" type="INTEGER" value="1073741824"/>
+                    <d:var name="OsPeripheralAreaEndAddress" type="INTEGER" value="1073750015"/>
+                    <d:var name="OsPeripheralAreaAccessPermission" type="ENUMERATION" value="READ_WRITE"/>
+                </d:ctr>
+                <d:ctr name="Peripheral2">
+                    <d:var name="OsPeripheralAreaStartAddress" type="INTEGER" value="1073750016"/>
+                    <d:var name="OsPeripheralAreaEndAddress" type="INTEGER" value="1073766399"/>
+                    <d:var name="OsPeripheralAreaAccessPermission" type="ENUMERATION" value="READ_ONLY"/>
+                </d:ctr>
+            </d:lst>
+        </datamodel>
+        """
+        element = ET.fromstring(xml_content)
+        model = EBModel.getInstance()
+        os = model.getOs()
+        parser = OsXdmParser()
+        parser.nsmap = {
+            '': "http://www.tresos.de/_projects/DataModel2/18/root.xsd",
+            'a': "http://www.tresos.de/_projects/DataModel2/18/attribute.xsd",
+            'v': "http://www.tresos.de/_projects/DataModel2/06/schema.xsd",
+            'd': "http://www.tresos.de/_projects/DataModel2/06/data.xsd"
+        }
+
+        parser.read_os_peripheral_areas(element, os)
+
+        areas = os.getOsPeripheralAreaList()
+        assert len(areas) == 2
+        assert areas[0].getName() == "Peripheral1"
+        assert areas[0].getOsPeripheralAreaStartAddress() == 1073741824
+        assert areas[0].getOsPeripheralAreaEndAddress() == 1073750015
+        assert areas[0].getOsPeripheralAreaAccessPermission() == "READ_WRITE"
+        assert areas[1].getName() == "Peripheral2"
+        assert areas[1].getOsPeripheralAreaStartAddress() == 1073750016
+        assert areas[1].getOsPeripheralAreaEndAddress() == 1073766399
+        assert areas[1].getOsPeripheralAreaAccessPermission() == "READ_ONLY"
 
 
 class TestOsAutosarCustomization:

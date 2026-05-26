@@ -11,6 +11,9 @@ Implements:
     - SWR_OS_00007: Application parsing (OsApplication)
     - SWR_OS_00008: Resource parsing (OsResource)
     - SWR_OS_00009: Microkernel parsing (OsMicrokernel)
+    - SWR_OS_00014: Spinlock synchronization (OsSpinlock)
+    - SWR_OS_00016: OS configuration (OsOS)
+    - SWR_OS_00017: Hook configuration (OsHooks)
 """
 import xml.etree.ElementTree as ET
 from eb_model.models.core.eb_doc import EBModel
@@ -71,10 +74,10 @@ class OsXdmParser(AbstractEbModelParser):
         self.read_common_published_information(element, os)
         self.read_os_hw_incrementer(element, os)
         self.read_os_events(element, os)
-        # self.read_os_spinlocks(element, os)
+        self.read_os_spinlocks(element, os)
         self.read_os_peripheral_areas(element, os)
-        # self.read_os_os(element, os)
-        # self.read_os_hooks(element, os)
+        self.read_os_os(element, os)
+        self.read_os_hooks(element, os)
         self.read_os_core_configs(element, os)
         self.read_os_autosar_customization(element, os)
 
@@ -395,11 +398,16 @@ class OsXdmParser(AbstractEbModelParser):
             self.logger.debug("Read OsEvent <%s>" % event.getName())
 
     def read_os_spinlocks(self, element: ET.Element, os: Os):
-        """Parse all OsSpinlock containers from XDM."""
+        """Parse all OsSpinlock containers from XDM.
+
+        Implements: SWR_OS_00014 (Spinlock synchronization)
+        """
         for ctr_tag in self.find_ctr_tag_list(element, "OsSpinlock"):
             spinlock = OsSpinlock(os, ctr_tag.attrib["name"])
-            spinlock.setOsSpinlockType(self.read_value(ctr_tag, "OsSpinlockType"))
-            spinlock.setOsSpinlockSpinCount(self.read_value(ctr_tag, "OsSpinlockSpinCount"))
+            spinlock.setOsSpinlockLockMethod(self.read_value(ctr_tag, "OsSpinlockLockMethod"))
+            spinlock.setOsSpinlockSuccessor(self.read_optional_ref_value(ctr_tag, "OsSpinlockSuccessor"))
+            for ref in self.read_ref_value_list(ctr_tag, "OsSpinlockAccessingApplication"):
+                spinlock.addOsSpinlockAccessingApplication(ref)
             os.addOsSpinlock(spinlock)
             self.logger.debug("Read OsSpinlock <%s>" % spinlock.getName())
 
@@ -414,20 +422,28 @@ class OsXdmParser(AbstractEbModelParser):
             self.logger.debug("Read OsPeripheralArea <%s>" % area.getName())
 
     def read_os_os(self, element: ET.Element, os: Os):
-        """Parse OsOS container from XDM."""
+        """Parse OsOS container from XDM.
+
+        Implements: SWR_OS_00016 (OS configuration)
+        """
         ctr_tag = self.find_ctr_tag(element, "OsOS")
         if ctr_tag is not None:
             os_os = OsOS(os, ctr_tag.attrib["name"])
-            os_os.setOsOSCoreAssignment(self.read_value(ctr_tag, "OsOSCoreAssignment"))
-            os_os.setOsOsStackMonitoring(self.read_value(ctr_tag, "OsOsStackMonitoring"))
-            os_os.setOsOsUseGetServiceId(self.read_value(ctr_tag, "OsOsUseGetServiceId"))
-            os_os.setOsOsUseParameterAccess(self.read_value(ctr_tag, "OsOsUseParameterAccess"))
-            os_os.setOsOsUseServiceId(self.read_value(ctr_tag, "OsOsUseServiceId"))
+            os_os.setOsScalabilityClass(self.read_optional_value(ctr_tag, "OsScalabilityClass"))
+            os_os.setOsNumberOfCores(self.read_optional_value(ctr_tag, "OsNumberOfCores"))
+            os_os.setOsStackMonitoring(self.read_optional_value(ctr_tag, "OsStackMonitoring"))
+            os_os.setOsUseGetServiceId(self.read_optional_value(ctr_tag, "OsUseGetServiceId"))
+            os_os.setOsUseParameterAccess(self.read_optional_value(ctr_tag, "OsUseParameterAccess"))
+            os_os.setOsUseResScheduler(self.read_optional_value(ctr_tag, "OsUseResScheduler"))
+            os_os.setOsStatus(self.read_optional_value(ctr_tag, "OsStatus"))
             os.setOsOS(os_os)
             self.logger.debug("Read OsOS")
 
     def read_os_hooks(self, element: ET.Element, os: Os):
-        """Parse OsHooks container from XDM."""
+        """Parse OsHooks container from XDM.
+
+        Implements: SWR_OS_00017 (Hook configuration)
+        """
         ctr_tag = self.find_ctr_tag(element, "OsHooks")
         if ctr_tag is not None:
             hooks = OsHooks(os, ctr_tag.attrib["name"])
@@ -437,6 +453,8 @@ class OsXdmParser(AbstractEbModelParser):
             hooks.setOsPreTaskHook(self.read_value(ctr_tag, "OsPreTaskHook"))
             hooks.setOsPostTaskHook(self.read_value(ctr_tag, "OsPostTaskHook"))
             hooks.setOsProtectionHook(self.read_value(ctr_tag, "OsProtectionHook"))
+            hooks.setOsPreISRHook(self.read_optional_value(ctr_tag, "OsPreISRHook"))
+            hooks.setOsPostISRHook(self.read_optional_value(ctr_tag, "OsPostISRHook"))
             os.setOsHooks(hooks)
             self.logger.debug("Read OsHooks")
 
