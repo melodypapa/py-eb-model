@@ -400,72 +400,150 @@ class PublishedInformation(EcucParamConfContainerDef):
 class NvMDefensiveProgramming(EcucParamConfContainerDef):
     """
     Defensive programming configuration for NvM module.
+
+    Implements: SWR_NVM_00005
     """
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
-        self.nvMNullPointerCheck: bool = None
-        self.nvMParameterCheck: bool = None
+        self.nvMDefProgEnabled: bool = None
+        self.nvMPrecondAssertEnabled: bool = None
+        self.nvMPostcondAssertEnabled: bool = None
+        self.nvMStaticAssertEnabled: bool = None
+        self.nvMUnreachAssertEnabled: bool = None
+        self.nvMInvariantAssertEnabled: bool = None
 
-    def getNvMNullPointerCheck(self) -> bool:
-        return self.nvMNullPointerCheck
+    def getNvMDefProgEnabled(self) -> bool:
+        return self.nvMDefProgEnabled
 
-    def setNvMNullPointerCheck(self, value: bool):
+    def setNvMDefProgEnabled(self, value: bool):
         if value is not None:
-            self.nvMNullPointerCheck = value
+            self.nvMDefProgEnabled = value
         return self
 
-    def getNvMParameterCheck(self) -> bool:
-        return self.nvMParameterCheck
+    def getNvMPrecondAssertEnabled(self) -> bool:
+        return self.nvMPrecondAssertEnabled
 
-    def setNvMParameterCheck(self, value: bool):
+    def setNvMPrecondAssertEnabled(self, value: bool):
         if value is not None:
-            self.nvMParameterCheck = value
+            self.nvMPrecondAssertEnabled = value
+        return self
+
+    def getNvMPostcondAssertEnabled(self) -> bool:
+        return self.nvMPostcondAssertEnabled
+
+    def setNvMPostcondAssertEnabled(self, value: bool):
+        if value is not None:
+            self.nvMPostcondAssertEnabled = value
+        return self
+
+    def getNvMStaticAssertEnabled(self) -> bool:
+        return self.nvMStaticAssertEnabled
+
+    def setNvMStaticAssertEnabled(self, value: bool):
+        if value is not None:
+            self.nvMStaticAssertEnabled = value
+        return self
+
+    def getNvMUnreachAssertEnabled(self) -> bool:
+        return self.nvMUnreachAssertEnabled
+
+    def setNvMUnreachAssertEnabled(self, value: bool):
+        if value is not None:
+            self.nvMUnreachAssertEnabled = value
+        return self
+
+    def getNvMInvariantAssertEnabled(self) -> bool:
+        return self.nvMInvariantAssertEnabled
+
+    def setNvMInvariantAssertEnabled(self, value: bool):
+        if value is not None:
+            self.nvMInvariantAssertEnabled = value
         return self
 
 
 class NvMCommonCryptoSecurityParameters(EcucParamConfContainerDef):
     """
     Common crypto security parameters for NvM module.
+
+    Implements: SWR_NVM_00006
     """
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
-        self.nvMCryptoPrimitive: str = None
-        self.nvMKeyAddress: int = None
+        self.nvMEnableCryptoSecurityHooks: bool = None
+        self.nvMCryptoReadHook: str = None
+        self.nvMCryptoWriteHook: str = None
 
-    def getNvMCryptoPrimitive(self) -> str:
-        return self.nvMCryptoPrimitive
+    def getNvMEnableCryptoSecurityHooks(self) -> bool:
+        return self.nvMEnableCryptoSecurityHooks
 
-    def setNvMCryptoPrimitive(self, value: str):
+    def setNvMEnableCryptoSecurityHooks(self, value: bool):
         if value is not None:
-            self.nvMCryptoPrimitive = value
+            self.nvMEnableCryptoSecurityHooks = value
         return self
 
-    def getNvMKeyAddress(self) -> int:
-        return self.nvMKeyAddress
+    def getNvMCryptoReadHook(self) -> str:
+        return self.nvMCryptoReadHook
 
-    def setNvMKeyAddress(self, value: int):
+    def setNvMCryptoReadHook(self, value: str):
         if value is not None:
-            self.nvMKeyAddress = value
+            self.nvMCryptoReadHook = value
+        return self
+
+    def getNvMCryptoWriteHook(self) -> str:
+        return self.nvMCryptoWriteHook
+
+    def setNvMCryptoWriteHook(self, value: str):
+        if value is not None:
+            self.nvMCryptoWriteHook = value
         return self
 
 
 class NvMServiceAPI(EcucParamConfContainerDef):
     """
     Service API configuration for NvM module.
+
+    Implements: SWR_NVM_00007
     """
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
-        self.nvMVersionInfoApi: bool = None
+        self.nvMEnableASR32ServiceAPI: bool = None
+        self.nvMEnableASR40ServiceAPI: bool = None
+        self.nvMEnableASR42ServiceAPI: bool = None
+        self.nvMDefaultASRServiceAPI: str = None
 
-    def getNvMVersionInfoApi(self) -> bool:
-        return self.nvMVersionInfoApi
+    def getNvMEnableASR32ServiceAPI(self) -> bool:
+        return self.nvMEnableASR32ServiceAPI
 
-    def setNvMVersionInfoApi(self, value: bool):
+    def setNvMEnableASR32ServiceAPI(self, value: bool):
         if value is not None:
-            self.nvMVersionInfoApi = value
+            self.nvMEnableASR32ServiceAPI = value
+        return self
+
+    def getNvMEnableASR40ServiceAPI(self) -> bool:
+        return self.nvMEnableASR40ServiceAPI
+
+    def setNvMEnableASR40ServiceAPI(self, value: bool):
+        if value is not None:
+            self.nvMEnableASR40ServiceAPI = value
+        return self
+
+    def getNvMEnableASR42ServiceAPI(self) -> bool:
+        return self.nvMEnableASR42ServiceAPI
+
+    def setNvMEnableASR42ServiceAPI(self, value: bool):
+        if value is not None:
+            self.nvMEnableASR42ServiceAPI = value
+        return self
+
+    def getNvMDefaultASRServiceAPI(self) -> str:
+        return self.nvMDefaultASRServiceAPI
+
+    def setNvMDefaultASRServiceAPI(self, value: str):
+        if value is not None:
+            self.nvMDefaultASRServiceAPI = value
         return self
 
 

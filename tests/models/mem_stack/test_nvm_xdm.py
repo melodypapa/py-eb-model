@@ -99,19 +99,21 @@ class TestNvMDefensiveProgramming:
 
         assert defensive.getName() == "NvMDefensiveProgramming"
         assert defensive.getParent() == root
-        assert defensive.getNvMNullPointerCheck() is None
-        assert defensive.getNvMParameterCheck() is None
+        assert defensive.getNvMDefProgEnabled() is None
+        assert defensive.getNvMPrecondAssertEnabled() is None
+        assert defensive.getNvMPostcondAssertEnabled() is None
+        assert defensive.getNvMStaticAssertEnabled() is None
+        assert defensive.getNvMUnreachAssertEnabled() is None
+        assert defensive.getNvMInvariantAssertEnabled() is None
 
-    def test_set_nvm_null_pointer_check(self):
+    def test_set_nvm_def_prog_enabled(self):
         root = EBModel.getInstance()
         defensive = NvMDefensiveProgramming(root, "NvMDefensiveProgramming")
+        assert defensive.setNvMDefProgEnabled(True) == defensive
+        assert defensive.getNvMDefProgEnabled() is True
 
-        assert defensive.setNvMNullPointerCheck(True) == defensive
-        assert defensive.getNvMNullPointerCheck() is True
-
-    def test_set_nvm_parameter_check(self):
+    def test_set_nvm_precond_assert_enabled(self):
         root = EBModel.getInstance()
         defensive = NvMDefensiveProgramming(root, "NvMDefensiveProgramming")
-
-        assert defensive.setNvMParameterCheck(True) == defensive
-        assert defensive.getNvMParameterCheck() is True
+        assert defensive.setNvMPrecondAssertEnabled(True) == defensive
+        assert defensive.getNvMPrecondAssertEnabled() is True
