@@ -46,6 +46,18 @@ class NvMCommon(EcucParamConfContainerDef):
         self.NvMCompiledConfigId: int = None
         self.NvMCrcNumOfBytes: int = None
         self.NvMCsmRetryCounter: int = None
+        self.nvMSoftwareChangeCallout: str = None
+        self.nvMDrvModeSwitch: bool = None
+        self.nvMCancelInternalOperations: bool = None
+        self.nvMReadBlockHook: bool = None
+        self.nvMRteUsage: bool = None
+        self.nvMUserHeader: List[str] = []
+        self.nvMWriteBlockHook: bool = None
+        self.nvMRedundantRecovery: str = None
+        self.nvMExportBlockLengths: bool = None
+        self.nvMResultErasedBlocks: str = None
+        self.nvMEnableLegacySymbolicNames: bool = None
+        self.nvMResetRamBlockAfterReset: bool = None
         self.NvMDatasetSelectionBits: int = None
         self.NvMDevErrorDetect: bool = None
         self.NvMDynamicConfiguration: bool = None
@@ -205,6 +217,102 @@ class NvMCommon(EcucParamConfContainerDef):
     def setNvMVersionInfoApi(self, value: bool):
         if value is not None:
             self.NvMVersionInfoApi = value
+        return self
+
+    def getNvMSoftwareChangeCallout(self) -> str:
+        return self.nvMSoftwareChangeCallout
+
+    def setNvMSoftwareChangeCallout(self, value: str):
+        if value is not None:
+            self.nvMSoftwareChangeCallout = value
+        return self
+
+    def getNvMDrvModeSwitch(self) -> bool:
+        return self.nvMDrvModeSwitch
+
+    def setNvMDrvModeSwitch(self, value: bool):
+        if value is not None:
+            self.nvMDrvModeSwitch = value
+        return self
+
+    def getNvMCancelInternalOperations(self) -> bool:
+        return self.nvMCancelInternalOperations
+
+    def setNvMCancelInternalOperations(self, value: bool):
+        if value is not None:
+            self.nvMCancelInternalOperations = value
+        return self
+
+    def getNvMReadBlockHook(self) -> bool:
+        return self.nvMReadBlockHook
+
+    def setNvMReadBlockHook(self, value: bool):
+        if value is not None:
+            self.nvMReadBlockHook = value
+        return self
+
+    def getNvMRteUsage(self) -> bool:
+        return self.nvMRteUsage
+
+    def setNvMRteUsage(self, value: bool):
+        if value is not None:
+            self.nvMRteUsage = value
+        return self
+
+    def getNvMUserHeaderList(self) -> List[str]:
+        return self.nvMUserHeader
+
+    def addNvMUserHeader(self, value: str):
+        if value is not None:
+            self.nvMUserHeader.append(value)
+        return self
+
+    def getNvMWriteBlockHook(self) -> bool:
+        return self.nvMWriteBlockHook
+
+    def setNvMWriteBlockHook(self, value: bool):
+        if value is not None:
+            self.nvMWriteBlockHook = value
+        return self
+
+    def getNvMRedundantRecovery(self) -> str:
+        return self.nvMRedundantRecovery
+
+    def setNvMRedundantRecovery(self, value: str):
+        if value is not None:
+            self.nvMRedundantRecovery = value
+        return self
+
+    def getNvMExportBlockLengths(self) -> bool:
+        return self.nvMExportBlockLengths
+
+    def setNvMExportBlockLengths(self, value: bool):
+        if value is not None:
+            self.nvMExportBlockLengths = value
+        return self
+
+    def getNvMResultErasedBlocks(self) -> str:
+        return self.nvMResultErasedBlocks
+
+    def setNvMResultErasedBlocks(self, value: str):
+        if value is not None:
+            self.nvMResultErasedBlocks = value
+        return self
+
+    def getNvMEnableLegacySymbolicNames(self) -> bool:
+        return self.nvMEnableLegacySymbolicNames
+
+    def setNvMEnableLegacySymbolicNames(self, value: bool):
+        if value is not None:
+            self.nvMEnableLegacySymbolicNames = value
+        return self
+
+    def getNvMResetRamBlockAfterReset(self) -> bool:
+        return self.nvMResetRamBlockAfterReset
+
+    def setNvMResetRamBlockAfterReset(self, value: bool):
+        if value is not None:
+            self.nvMResetRamBlockAfterReset = value
         return self
 
     def getNvMBufferAlignmentValue(self) -> str:
