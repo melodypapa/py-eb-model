@@ -463,9 +463,18 @@ class TestOsXdmParser:
                     <d:var name="OsTrusted" type="BOOLEAN" value="true"/>
                     <d:var name="OsApplicationCoreAssignment" type="INTEGER" value="0"/>
                     <d:ref name="OsAppEcucPartitionRef" type="REFERENCE" value="ASPath:/Os/OsPartition1"/>
+                    <d:lst name="OsAppAlarmRef">
+                        <d:ref type="REFERENCE" value="ASPath:/Os/Alarm1"/>
+                    </d:lst>
+                    <d:lst name="OsAppCounterRef">
+                        <d:ref type="REFERENCE" value="ASPath:/Os/Counter1"/>
+                    </d:lst>
                     <d:lst name="OsAppResourceRef">
                         <d:ref type="REFERENCE" value="ASPath:/Os/OsResource1"/>
                         <d:ref type="REFERENCE" value="ASPath:/Os/OsResource2"/>
+                    </d:lst>
+                    <d:lst name="OsAppScheduleTableRef">
+                        <d:ref type="REFERENCE" value="ASPath:/Os/Schedule1"/>
                     </d:lst>
                     <d:lst name="OsAppTaskRef">
                         <d:ref type="REFERENCE" value="ASPath:/Os/OsTask1"/>
@@ -510,9 +519,16 @@ class TestOsXdmParser:
         app1 = applications[0]
         assert app1.getName() == "App1"
         assert app1.getOsTrusted() is True
+        assert len(app1.getOsAppAlarmRefs()) == 1
+        assert app1.getOsAppAlarmRefs()[0].getValue() == "/Os/Alarm1"
+        assert len(app1.getOsAppCounterRefs()) == 1
+        assert app1.getOsAppCounterRefs()[0].getValue() == "/Os/Counter1"
+        assert app1.getOsAppEcucPartitionRef().getValue() == "/Os/OsPartition1"
         assert len(app1.getOsAppResourceRefs()) == 2
         assert app1.getOsAppResourceRefs()[0].getValue() == "/Os/OsResource1"
         assert app1.getOsAppResourceRefs()[1].getValue() == "/Os/OsResource2"
+        assert len(app1.getOsAppScheduleTableRefs()) == 1
+        assert app1.getOsAppScheduleTableRefs()[0].getValue() == "/Os/Schedule1"
         assert len(app1.getOsAppTaskRefs()) == 1
         assert app1.getOsAppTaskRefs()[0].getValue() == "/Os/OsTask1"
         assert len(app1.getOsAppIsrRefs()) == 1
@@ -654,6 +670,136 @@ class TestOsXdmParser:
         with pytest.raises(KeyError, match="OsTaskActivation"):
             parser.read_os_tasks(element, os)
 
+    def test_read_os_isrs_with_memory_region_refs(self):
+        """
+        Test ISR parsing with MkMemoryRegionRef references.
+
+        Implements: TC_UNIT_OS_00003 (ISR with memory region refs)
+        """
+        xml_content = """
+        <datamodel version="8.0"
+                xmlns="http://www.tresos.de/_projects/DataModel2/18/root.xsd"
+                xmlns:a="http://www.tresos.de/_projects/DataModel2/18/attribute.xsd"
+                xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+                xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+            <d:lst name="OsIsr" type="MAP">
+                <d:ctr name="Isr_Safety">
+                    <d:var name="OsIsrCategory" type="ENUMERATION" value="2"/>
+                    <d:var name="OsStacksize" type="INTEGER" value="2048"/>
+                    <d:var name="OsIsrPriority" type="INTEGER" value="31"/>
+                    <d:lst name="OsIsrMkMemoryRegionRef">
+                        <d:ref type="REFERENCE" value="ASPath:/Os/OsMicrokernel/MkMemoryProtection/Region_Safety"/>
+                        <d:ref type="REFERENCE" value="ASPath:/Os/OsMicrokernel/MkMemoryProtection/Region_App"/>
+                    </d:lst>
+                </d:ctr>
+            </d:lst>
+        </datamodel>
+        """
+        element = ET.fromstring(xml_content)
+        model = EBModel.getInstance()
+        os = model.getOs()
+        parser = OsXdmParser()
+        parser.nsmap = {
+            '': "http://www.tresos.de/_projects/DataModel2/18/root.xsd",
+            'a': "http://www.tresos.de/_projects/DataModel2/18/attribute.xsd",
+            'v': "http://www.tresos.de/_projects/DataModel2/06/schema.xsd",
+            'd': "http://www.tresos.de/_projects/DataModel2/06/data.xsd"
+        }
+
+        parser.read_os_isrs(element, os)
+
+        isrs = os.getOsIsrList()
+        assert len(isrs) == 1
+        isr = isrs[0]
+        assert isr.getName() == "Isr_Safety"
+        assert isr.getOsIsrCategory() == "2"
+        assert isr.getOsStacksize() == 2048
+        assert isr.getOsIsrPriority() == 31
+
+        memory_refs = isr.getOsIsrMkMemoryRegionRefs()
+        assert len(memory_refs) == 2
+        assert memory_refs[0].getValue() == "/Os/OsMicrokernel/MkMemoryProtection/Region_Safety"
+        assert memory_refs[1].getValue() == "/Os/OsMicrokernel/MkMemoryProtection/Region_App"
+
+    def test_read_os_alarm_action_missing_raises_error(self):
+        """
+        Test that missing OsAlarmAction choice value raises KeyError.
+
+        When the d:chc element exists but has no 'value' attribute,
+        read_choice_value raises KeyError.
+
+        Implements: TC_UNIT_OS_00013
+        """
+        xml_content = """
+        <datamodel version="8.0"
+                xmlns="http://www.tresos.de/_projects/DataModel2/18/root.xsd"
+                xmlns:a="http://www.tresos.de/_projects/DataModel2/18/attribute.xsd"
+                xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+                xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+            <d:lst name="OsAlarm" type="MAP">
+                <d:ctr name="AlarmNoAction">
+                    <d:ref name="OsAlarmCounterRef" type="REFERENCE" value="ASPath:/Os/Counter1"/>
+                    <d:chc name="OsAlarmAction">
+                        <d:ctr name="OsAlarmActivateTask"/>
+                        <d:ctr name="OsAlarmIncrementCounter"/>
+                    </d:chc>
+                </d:ctr>
+            </d:lst>
+        </datamodel>
+        """
+        element = ET.fromstring(xml_content)
+        model = EBModel.getInstance()
+        os = model.getOs()
+        parser = OsXdmParser()
+        parser.nsmap = {
+            '': "http://www.tresos.de/_projects/DataModel2/18/root.xsd",
+            'a': "http://www.tresos.de/_projects/DataModel2/18/attribute.xsd",
+            'v': "http://www.tresos.de/_projects/DataModel2/06/schema.xsd",
+            'd': "http://www.tresos.de/_projects/DataModel2/06/data.xsd"
+        }
+
+        with pytest.raises(KeyError):
+            parser.read_os_alarms(element, os)
+
+    def test_read_os_alarm_action_unsupported_raises_error(self):
+        """
+        Test that unsupported OsAlarmAction value raises ValueError.
+
+        Implements: TC_UNIT_OS_00013
+        """
+        xml_content = """
+        <datamodel version="8.0"
+                xmlns="http://www.tresos.de/_projects/DataModel2/18/root.xsd"
+                xmlns:a="http://www.tresos.de/_projects/DataModel2/18/attribute.xsd"
+                xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+                xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+            <d:lst name="OsAlarm" type="MAP">
+                <d:ctr name="AlarmBadAction">
+                    <d:ref name="OsAlarmCounterRef" type="REFERENCE" value="ASPath:/Os/Counter1"/>
+                    <d:chc name="OsAlarmAction" value="OsAlarmInvalidAction">
+                        <d:ctr name="OsAlarmActivateTask"/>
+                        <d:ctr name="OsAlarmIncrementCounter"/>
+                        <d:ctr name="OsAlarmSetEvent"/>
+                        <d:ctr name="OsAlarmCallback"/>
+                    </d:chc>
+                </d:ctr>
+            </d:lst>
+        </datamodel>
+        """
+        element = ET.fromstring(xml_content)
+        model = EBModel.getInstance()
+        os = model.getOs()
+        parser = OsXdmParser()
+        parser.nsmap = {
+            '': "http://www.tresos.de/_projects/DataModel2/18/root.xsd",
+            'a': "http://www.tresos.de/_projects/DataModel2/18/attribute.xsd",
+            'v': "http://www.tresos.de/_projects/DataModel2/06/schema.xsd",
+            'd': "http://www.tresos.de/_projects/DataModel2/06/data.xsd"
+        }
+
+        with pytest.raises(ValueError, match="Unsupported OsAlarmAction"):
+            parser.read_os_alarms(element, os)
+
     def test_error_handling_required_elements(self):
         """
         Test that parser validates required elements and references.
@@ -735,6 +881,10 @@ class TestOsXdmParser:
                                     <d:ref name="OsScheduleTableActivateTaskRef" type="REFERENCE" value="ASPath:/Os/Task1"/>
                                 </d:ctr>
                             </d:lst>
+                            <d:ctr name="OsScheduleTblAdjustableExpPoint">
+                                <d:ref name="OsScheduleTableMaxLengthen" type="REFERENCE" value="ASPath:/Os/Counter1"/>
+                                <d:ref name="OsScheduleTableMaxShorten" type="REFERENCE" value="ASPath:/Os/Counter2"/>
+                            </d:ctr>
                         </d:ctr>
                         <d:ctr name="ExpiryPoint50">
                             <d:var name="OsScheduleTblExpPointOffset" type="INTEGER" value="50"/>
@@ -793,6 +943,13 @@ class TestOsXdmParser:
         assert task_activations[0].getName() == "TaskActivation0"
         assert task_activations[0].getOsScheduleTableActivateTaskRef().getValue() == "/Os/Task1"
 
+        # Test adjustable expiry point
+        adjustable_point = expiry0.getOsScheduleTblAdjustableExpPoint()
+        assert adjustable_point is not None
+        assert adjustable_point.getName() == "OsScheduleTblAdjustableExpPoint"
+        assert adjustable_point.getOsScheduleTableMaxLengthen().getValue() == "/Os/Counter1"
+        assert adjustable_point.getOsScheduleTableMaxShorten().getValue() == "/Os/Counter2"
+
         # Test second expiry point with event setting
         expiry50 = expiry_points[1]
         assert expiry50.getName() == "ExpiryPoint50"
@@ -829,6 +986,10 @@ class TestOsXdmParser:
             <d:lst name="OsAlarm" type="MAP">
                 <d:ctr name="Alarm1">
                     <d:ref name="OsAlarmCounterRef" type="REFERENCE" value="ASPath:/Os/Counter1"/>
+                    <d:lst name="OsAlarmAccessingApplication">
+                        <d:ref type="REFERENCE" value="ASPath:/Os/App1"/>
+                        <d:ref type="REFERENCE" value="ASPath:/Os/App2"/>
+                    </d:lst>
                     <d:chc name="OsAlarmAction" value="OsAlarmActivateTask">
                         <d:ctr name="OsAlarmActivateTask">
                             <d:ref name="OsAlarmActivateTaskRef" type="REFERENCE" value="ASPath:/Os/Task1"/>
@@ -891,13 +1052,18 @@ class TestOsXdmParser:
         alarms = os.getOsAlarmList()
         assert len(alarms) == 4
 
-        # Test Alarm1 with ActivateTask action
+        # Test Alarm1 with ActivateTask action and accessing application refs
         alarm1 = alarms[0]
         assert alarm1.getName() == "Alarm1"
         assert alarm1.getOsAlarmCounterRef().getValue() == "/Os/Counter1"
         assert alarm1.getOsAlarmAction() is not None
         assert isinstance(alarm1.getOsAlarmAction(), OsAlarmActivateTask)
         assert alarm1.getOsAlarmAction().getOsAlarmActivateTaskRef().getValue() == "/Os/Task1"
+
+        accessing_apps = alarm1.getOsAlarmAccessingApplicationRefList()
+        assert len(accessing_apps) == 2
+        assert accessing_apps[0].getValue() == "/Os/App1"
+        assert accessing_apps[1].getValue() == "/Os/App2"
 
         # Test Alarm2 with SetEvent action
         alarm2 = alarms[1]

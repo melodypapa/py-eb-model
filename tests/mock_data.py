@@ -36,6 +36,9 @@ MOCK_OS_XDM = """<?xml version="1.0"?>
                 <d:var name="SwMinorVersion" type="INTEGER" value="2"/>
                 <d:var name="SwPatchVersion" type="INTEGER" value="3"/>
               </d:ctr>
+              <d:ctr name="PublishedInformation">
+                <d:var name="PbcfgMSupport" type="BOOLEAN" value="true"/>
+              </d:ctr>
               <d:lst name="OsTask" type="MAP">
                 <d:ctr name="Task1">
                   <d:var name="OsTaskPriority" type="INTEGER" value="5"/>
@@ -71,12 +74,12 @@ MOCK_OS_XDM = """<?xml version="1.0"?>
                   <d:var name="OsScheduleTableDuration" type="INTEGER" value="1000"/>
                   <d:var name="OsScheduleTableRepeating" type="BOOLEAN" value="true"/>
                   <d:ref name="OsScheduleTableCounterRef" type="REFERENCE" value="ASPath:/Os/Counter1"/>
-                  <d:lst name="OsScheduleTblExpiryPoint" type="MAP">
+                  <d:lst name="OsScheduleTableExpiryPoint" type="MAP">
                     <d:ctr name="ExpiryPoint1">
-                      <d:var name="OsExpiryPointOffset" type="INTEGER" value="100"/>
-                      <d:lst name="OsScheduleTblTaskActivation" type="MAP">
+                      <d:var name="OsScheduleTblExpPointOffset" type="INTEGER" value="100"/>
+                      <d:lst name="OsScheduleTableTaskActivation" type="MAP">
                         <d:ctr name="Activation1">
-                          <d:ref name="OsTaskRef" type="REFERENCE" value="ASPath:/Os/Task1"/>
+                          <d:ref name="OsScheduleTableActivateTaskRef" type="REFERENCE" value="ASPath:/Os/Task1"/>
                         </d:ctr>
                       </d:lst>
                     </d:ctr>
@@ -112,6 +115,9 @@ MOCK_OS_XDM = """<?xml version="1.0"?>
                   <d:var name="OsTrusted" type="BOOLEAN" value="true"/>
                   <d:var name="OsApplicationCoreAssignment" type="INTEGER" value="0"/>
                   <d:ref name="OsAppEcucPartitionRef" type="REFERENCE" value="ASPath:/Os/Partition0"/>
+                  <d:lst name="OsAppAlarmRef">
+                    <d:ref type="REFERENCE" value="ASPath:/Os/Alarm1"/>
+                  </d:lst>
                   <d:lst name="OsAppTaskRef">
                     <d:ref type="REFERENCE" value="ASPath:/Os/Task1"/>
                   </d:lst>
@@ -148,6 +154,25 @@ MOCK_OS_XDM = """<?xml version="1.0"?>
                   <d:var name="OsSpinlockLockMethod" type="ENUMERATION" value="SCHEDULER"/>
                 </d:ctr>
               </d:lst>
+              <d:ctr name="OsHwIncrementer">
+                <d:var name="OsHwIncrementerBase" type="INTEGER" value="0"/>
+                <d:var name="OsHwIncrementerMax" type="INTEGER" value="65535"/>
+              </d:ctr>
+              <d:lst name="OsEvent" type="MAP">
+                <d:ctr name="Event1">
+                  <d:var name="OsEventMask" type="INTEGER" value="1"/>
+                </d:ctr>
+                <d:ctr name="Event2">
+                  <d:var name="OsEventMask" type="INTEGER" value="2"/>
+                </d:ctr>
+              </d:lst>
+              <d:lst name="OsPeripheralArea" type="MAP">
+                <d:ctr name="Peripheral1">
+                  <d:var name="OsPeripheralAreaStartAddress" type="INTEGER" value="1073741824"/>
+                  <d:var name="OsPeripheralAreaEndAddress" type="INTEGER" value="1073750015"/>
+                  <d:var name="OsPeripheralAreaAccessPermission" type="ENUMERATION" value="READ_WRITE"/>
+                </d:ctr>
+              </d:lst>
               <d:ctr name="OsOS">
                 <d:var name="OsScalabilityClass" type="ENUMERATION" value="SC1"/>
                 <d:var name="OsNumberOfCores" type="INTEGER" value="2"/>
@@ -164,6 +189,43 @@ MOCK_OS_XDM = """<?xml version="1.0"?>
                 <d:var name="OsPreTaskHook" type="BOOLEAN" value="false"/>
                 <d:var name="OsPostTaskHook" type="BOOLEAN" value="true"/>
                 <d:var name="OsProtectionHook" type="BOOLEAN" value="false"/>
+              </d:ctr>
+              <d:ctr name="OsMicrokernel">
+                <d:ctr name="MkMemoryProtection">
+                  <d:lst name="MkMemoryRegion" type="MAP">
+                    <d:ctr name="Region1">
+                      <d:var name="MkMemoryRegionFlags" type="INTEGER" value="1"/>
+                      <d:var name="MkMemoryRegionInitialize" type="BOOLEAN" value="true"/>
+                      <d:var name="MkMemoryRegionGlobal" type="BOOLEAN" value="false"/>
+                      <d:var name="MkMemoryRegionInitThreadAccess" type="BOOLEAN" value="true"/>
+                      <d:var name="MkMemoryRegionIdleThreadAccess" type="BOOLEAN" value="false"/>
+                      <d:var name="MkMemoryRegionOsThreadAccess" type="BOOLEAN" value="true"/>
+                      <d:var name="MkMemoryRegionErrorHookAccess" type="BOOLEAN" value="true"/>
+                      <d:var name="MkMemoryRegionProtHookAccess" type="BOOLEAN" value="true"/>
+                      <d:var name="MkMemoryRegionShutdownHookAccess" type="BOOLEAN" value="false"/>
+                      <d:var name="MkMemoryRegionShutdownAccess" type="BOOLEAN" value="false"/>
+                      <d:var name="MkMemoryRegionInitializePerCore" type="BOOLEAN" value="true"/>
+                    </d:ctr>
+                  </d:lst>
+                </d:ctr>
+              </d:ctr>
+              <d:lst name="OsCoreConfig" type="MAP">
+                <d:ctr name="Core0">
+                  <d:var name="OsCoreId" type="INTEGER" value="0"/>
+                  <d:var name="OsCoreMainFunction" type="STRING" value="Main_Core0"/>
+                  <d:var name="OsCoreStackStartAddress" type="INTEGER" value="536870912"/>
+                  <d:var name="OsCoreStackSize" type="INTEGER" value="4096"/>
+                </d:ctr>
+                <d:ctr name="Core1">
+                  <d:var name="OsCoreId" type="INTEGER" value="1"/>
+                  <d:var name="OsCoreMainFunction" type="STRING" value="Main_Core1"/>
+                  <d:var name="OsCoreStackStartAddress" type="INTEGER" value="536875008"/>
+                  <d:var name="OsCoreStackSize" type="INTEGER" value="4096"/>
+                </d:ctr>
+              </d:lst>
+              <d:ctr name="OsAutosarCustomization">
+                <d:var name="OsScalableClass" type="ENUMERATION" value="BCC"/>
+                <d:var name="OsApplicationType" type="ENUMERATION" value="SYSTEM"/>
               </d:ctr>
             </d:ctr>
           </d:chc>
