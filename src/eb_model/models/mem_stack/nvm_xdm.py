@@ -986,6 +986,22 @@ class NvMBlockDescriptor(EcucParamConfContainerDef):
         self.nvMProvideRteAdminPort: bool = False
         self.nvMProvideRteInitBlockPort: bool = False
 
+        self.nvMEnBlockCheck: bool = None
+        self.nvMEnableBlockCryptoSecurityHandling: bool = None
+        self.nvMCryptoExtraInfoSize: int = None
+        self.nvMBcEnSetAPI: bool = None
+        self.nvMBcEnAutoStart: bool = None
+        self.nvMBcEnCrcComp: bool = None
+        self.nvMBcEnRamComp: bool = None
+        self.nvMBcEnReddCopiesComp: bool = None
+        self.nvMBcEnAutoRepair: bool = None
+        self.nvMBcDelayCounter: int = None
+        self.nvMWriteBlockOnce: bool = None
+        self.nvMWriteVerification: bool = None
+        self.nvMWriteVerificationDataSize: int = None
+        self.nvMPreWriteDataComp: bool = None
+        self.nvMPreWriteDataCompDataSize: int = None
+
         self.nvMInitBlockCallback: NvMInitBlockCallback = None
         self.nvMSingleBlockCallback: NvMSingleBlockCallback = None
         self.nvMTargetBlockReference: NvMTargetBlockReference = None
@@ -1320,6 +1336,126 @@ class NvMBlockDescriptor(EcucParamConfContainerDef):
     def setNvMProvideRteInitBlockPort(self, value: bool):
         if value is not None:
             self.nvMProvideRteInitBlockPort = value
+        return self
+
+    def getNvMEnBlockCheck(self) -> bool:
+        return self.nvMEnBlockCheck
+
+    def setNvMEnBlockCheck(self, value: bool):
+        if value is not None:
+            self.nvMEnBlockCheck = value
+        return self
+
+    def getNvMEnableBlockCryptoSecurityHandling(self) -> bool:
+        return self.nvMEnableBlockCryptoSecurityHandling
+
+    def setNvMEnableBlockCryptoSecurityHandling(self, value: bool):
+        if value is not None:
+            self.nvMEnableBlockCryptoSecurityHandling = value
+        return self
+
+    def getNvMCryptoExtraInfoSize(self) -> int:
+        return self.nvMCryptoExtraInfoSize
+
+    def setNvMCryptoExtraInfoSize(self, value: int):
+        if value is not None:
+            self.nvMCryptoExtraInfoSize = value
+        return self
+
+    def getNvMBcEnSetAPI(self) -> bool:
+        return self.nvMBcEnSetAPI
+
+    def setNvMBcEnSetAPI(self, value: bool):
+        if value is not None:
+            self.nvMBcEnSetAPI = value
+        return self
+
+    def getNvMBcEnAutoStart(self) -> bool:
+        return self.nvMBcEnAutoStart
+
+    def setNvMBcEnAutoStart(self, value: bool):
+        if value is not None:
+            self.nvMBcEnAutoStart = value
+        return self
+
+    def getNvMBcEnCrcComp(self) -> bool:
+        return self.nvMBcEnCrcComp
+
+    def setNvMBcEnCrcComp(self, value: bool):
+        if value is not None:
+            self.nvMBcEnCrcComp = value
+        return self
+
+    def getNvMBcEnRamComp(self) -> bool:
+        return self.nvMBcEnRamComp
+
+    def setNvMBcEnRamComp(self, value: bool):
+        if value is not None:
+            self.nvMBcEnRamComp = value
+        return self
+
+    def getNvMBcEnReddCopiesComp(self) -> bool:
+        return self.nvMBcEnReddCopiesComp
+
+    def setNvMBcEnReddCopiesComp(self, value: bool):
+        if value is not None:
+            self.nvMBcEnReddCopiesComp = value
+        return self
+
+    def getNvMBcEnAutoRepair(self) -> bool:
+        return self.nvMBcEnAutoRepair
+
+    def setNvMBcEnAutoRepair(self, value: bool):
+        if value is not None:
+            self.nvMBcEnAutoRepair = value
+        return self
+
+    def getNvMBcDelayCounter(self) -> int:
+        return self.nvMBcDelayCounter
+
+    def setNvMBcDelayCounter(self, value: int):
+        if value is not None:
+            self.nvMBcDelayCounter = value
+        return self
+
+    def getNvMWriteBlockOnce(self) -> bool:
+        return self.nvMWriteBlockOnce
+
+    def setNvMWriteBlockOnce(self, value: bool):
+        if value is not None:
+            self.nvMWriteBlockOnce = value
+        return self
+
+    def getNvMWriteVerification(self) -> bool:
+        return self.nvMWriteVerification
+
+    def setNvMWriteVerification(self, value: bool):
+        if value is not None:
+            self.nvMWriteVerification = value
+        return self
+
+    def getNvMWriteVerificationDataSize(self) -> int:
+        return self.nvMWriteVerificationDataSize
+
+    def setNvMWriteVerificationDataSize(self, value: int):
+        if value is not None:
+            self.nvMWriteVerificationDataSize = value
+        return self
+
+    def getNvMPreWriteDataComp(self) -> bool:
+        return self.nvMPreWriteDataComp
+
+    def setNvMPreWriteDataComp(self, value: bool):
+        if value is not None:
+            self.nvMPreWriteDataComp = value
+        return self
+
+    def getNvMPreWriteDataCompDataSize(self) -> int:
+        return self.nvMPreWriteDataCompDataSize
+
+    def setNvMPreWriteDataCompDataSize(self, value: int):
+        if value is not None:
+            self.nvMPreWriteDataCompDataSize = value
         return self
 
     def getNvMInitBlockCallback(self) -> NvMInitBlockCallback:
