@@ -132,6 +132,11 @@ class TestOsAlarmAutostart:
 class TestOsCounter:
 
     def test_initialization(self):
+        """
+        Test OsCounter initialization.
+        
+        Implements: UTS_OS_MODEL_00005
+        """
         root = EBModel.getInstance()
         os = root.getOs()
         counter = OsCounter(os, "Counter1")
@@ -139,8 +144,16 @@ class TestOsCounter:
         assert counter.getName() == "Counter1"
         assert counter.getParent() == os
         assert counter.getOsCounterMaxAllowedValue() is None
+        assert counter.getOsCounterMinCycle() is None
+        assert counter.getOsCounterTicksPerBase() is None
+        assert counter.getOsCounterType() is None
 
     def test_counter_setters(self):
+        """
+        Test OsCounter setters.
+        
+        Implements: UTS_OS_MODEL_00005
+        """
         root = EBModel.getInstance()
         os = root.getOs()
         counter = OsCounter(os, "Counter1")
@@ -154,6 +167,70 @@ class TestOsCounter:
         assert counter.getOsCounterMinCycle() == 1
         assert counter.getOsCounterTicksPerBase() == 1000
         assert counter.getOsCounterType() == "SOFTWARE"
+
+    def test_set_os_counter_max_allowed_value_boundary(self):
+        """
+        Test OsCounterMaxAllowedValue with boundary values.
+        
+        Implements: UTS_OS_MODEL_00005
+        """
+        root = EBModel.getInstance()
+        os = root.getOs()
+        counter = OsCounter(os, "Counter1")
+
+        # Test min value
+        counter.setOsCounterMaxAllowedValue(1)
+        assert counter.getOsCounterMaxAllowedValue() == 1
+
+        # Test typical value
+        counter.setOsCounterMaxAllowedValue(65535)
+        assert counter.getOsCounterMaxAllowedValue() == 65535
+
+        # Test max value
+        counter.setOsCounterMaxAllowedValue(4294967295)
+        assert counter.getOsCounterMaxAllowedValue() == 4294967295
+
+    def test_set_os_counter_type(self):
+        """
+        Test OsCounterType with different values.
+        
+        Implements: UTS_OS_MODEL_00005
+        """
+        root = EBModel.getInstance()
+        os = root.getOs()
+        counter = OsCounter(os, "Counter1")
+
+        assert counter.setOsCounterType("SOFTWARE") == counter
+        assert counter.getOsCounterType() == "SOFTWARE"
+
+        counter.setOsCounterType("HARDWARE")
+        assert counter.getOsCounterType() == "HARDWARE"
+
+    def test_set_os_counter_min_cycle(self):
+        """
+        Test OsCounterMinCycle.
+        
+        Implements: UTS_OS_MODEL_00005
+        """
+        root = EBModel.getInstance()
+        os = root.getOs()
+        counter = OsCounter(os, "Counter1")
+
+        assert counter.setOsCounterMinCycle(1) == counter
+        assert counter.getOsCounterMinCycle() == 1
+
+    def test_set_os_counter_ticks_per_base(self):
+        """
+        Test OsCounterTicksPerBase.
+        
+        Implements: UTS_OS_MODEL_00005
+        """
+        root = EBModel.getInstance()
+        os = root.getOs()
+        counter = OsCounter(os, "Counter1")
+
+        assert counter.setOsCounterTicksPerBase(1000) == counter
+        assert counter.getOsCounterTicksPerBase() == 1000
 
 class TestOsEvent:
 
