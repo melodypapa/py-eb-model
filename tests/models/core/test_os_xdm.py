@@ -273,3 +273,244 @@ class TestOsSpinlock:
 
         assert spinlock.getOsSpinlockLockMethod() == "LOCK_AND_TRY"
         assert spinlock.getOsSpinlockSuccessor() == "Spinlock2"
+
+class TestOsTaskExtended:
+
+    def test_set_os_task_priority_boundary(self):
+        """
+        Test OsTaskPriority with boundary values.
+        
+        Implements: UTS_OS_MODEL_00006
+        """
+        root = EBModel.getInstance()
+        task = OsTask(root, "Task")
+
+        # Test min priority
+        task.setOsTaskPriority(0)
+        assert task.getOsTaskPriority() == 0
+
+        # Test max priority
+        task.setOsTaskPriority(255)
+        assert task.getOsTaskPriority() == 255
+
+        # Test typical priority
+        task.setOsTaskPriority(128)
+        assert task.getOsTaskPriority() == 128
+
+    def test_set_os_task_schedule(self):
+        """
+        Test OsTaskSchedule.
+        
+        Implements: UTS_OS_MODEL_00006
+        """
+        root = EBModel.getInstance()
+        task = OsTask(root, "Task")
+
+        assert task.setOsTaskSchedule("FULL") == task
+        assert task.getOsTaskSchedule() == "FULL"
+
+        task.setOsTaskSchedule("NON")
+        assert task.getOsTaskSchedule() == "NON"
+
+    def test_set_os_task_type(self):
+        """
+        Test OsTaskType.
+        
+        Implements: UTS_OS_MODEL_00006
+        """
+        root = EBModel.getInstance()
+        task = OsTask(root, "Task")
+
+        assert task.setOsTaskType("BASIC") == task
+        assert task.getOsTaskType() == "BASIC"
+
+        task.setOsTaskType("EXTENDED")
+        assert task.getOsTaskType() == "EXTENDED"
+
+    def test_set_os_task_activation(self):
+        """
+        Test OsTaskActivation.
+        
+        Implements: UTS_OS_MODEL_00006
+        """
+        root = EBModel.getInstance()
+        task = OsTask(root, "Task")
+
+        assert task.setOsTaskActivation(1) == task
+        assert task.getOsTaskActivation() == 1
+
+    def test_set_os_stacksize(self):
+        """
+        Test OsStacksize.
+        
+        Implements: UTS_OS_MODEL_00006
+        """
+        root = EBModel.getInstance()
+        task = OsTask(root, "Task")
+
+        assert task.setOsStacksize(1024) == task
+        assert task.getOsStacksize() == 1024
+
+class TestOsApplicationExtended:
+
+    def test_set_os_trusted(self):
+        """
+        Test OsTrusted flag.
+        
+        Implements: UTS_OS_MODEL_00008
+        """
+        root = EBModel.getInstance()
+        app = OsApplication(root, "App")
+
+        assert app.setOsTrusted(True) == app
+        assert app.getOsTrusted() is True
+
+        app.setOsTrusted(False)
+        assert app.getOsTrusted() is False
+
+    def test_set_os_trusted_function_name(self):
+        """
+        Test OsTrustedFunctionName.
+        
+        Implements: UTS_OS_MODEL_00008
+        """
+        root = EBModel.getInstance()
+        app = OsApplication(root, "App")
+
+        app.setOsTrustedFunctionName("TrustedFunc")
+        assert app.getOsTrustedFunctionName() == "TrustedFunc"
+
+    def test_set_os_application_core_assignment(self):
+        """
+        Test OsApplicationCoreAssignment.
+        
+        Implements: UTS_OS_MODEL_00008
+        """
+        root = EBModel.getInstance()
+        app = OsApplication(root, "App")
+
+        app.setOsApplicationCoreAssignment(0)
+        assert app.getOsApplicationCoreAssignment() == 0
+
+class TestOsResource:
+
+    def test_initialization(self):
+        """
+        Test OsResource initialization.
+        
+        Implements: UTS_OS_MODEL_00009
+        """
+        root = EBModel.getInstance()
+        resource = OsResource(root, "Resource")
+
+        assert resource.getName() == "Resource"
+        assert resource.getOsResourceProperty() is None
+
+    def test_set_os_resource_property(self):
+        """
+        Test OsResourceProperty.
+        
+        Implements: UTS_OS_MODEL_00009
+        """
+        root = EBModel.getInstance()
+        resource = OsResource(root, "Resource")
+
+        assert resource.setOsResourceProperty("STANDARD") == resource
+        assert resource.getOsResourceProperty() == "STANDARD"
+
+        resource.setOsResourceProperty("LINKED")
+        assert resource.getOsResourceProperty() == "LINKED"
+
+    def test_set_os_linked_resource_ref(self):
+        """
+        Test OsResourceLinkedResourceRefs.
+        
+        Implements: UTS_OS_MODEL_00009
+        """
+        root = EBModel.getInstance()
+        resource2 = OsResource(root, "Resource2")
+
+        ref = EcucRefType("ASPath:/Os/Resource1")
+        resource2.setOsResourceLinkedResourceRefs([ref])
+        assert resource2.getOsResourceLinkedResourceRefs() == [ref]
+
+class TestOsHooks:
+
+    def test_initialization(self):
+        """
+        Test OsHooks initialization.
+        
+        Implements: UTS_OS_MODEL_00010
+        """
+        root = EBModel.getInstance()
+        hooks = OsHooks(root, "OsHooks")
+
+        assert hooks.getName() == "OsHooks"
+        assert hooks.getOsStartupHook() is None
+        assert hooks.getOsShutdownHook() is None
+        assert hooks.getOsErrorHook() is None
+        assert hooks.getOsPreTaskHook() is None
+        assert hooks.getOsPostTaskHook() is None
+
+    def test_set_os_startup_hook(self):
+        """
+        Test OsStartupHook.
+        
+        Implements: UTS_OS_MODEL_00010
+        """
+        root = EBModel.getInstance()
+        hooks = OsHooks(root, "OsHooks")
+
+        assert hooks.setOsStartupHook(True) == hooks
+        assert hooks.getOsStartupHook() is True
+
+    def test_set_os_shutdown_hook(self):
+        """
+        Test OsShutdownHook.
+        
+        Implements: UTS_OS_MODEL_00010
+        """
+        root = EBModel.getInstance()
+        hooks = OsHooks(root, "OsHooks")
+
+        assert hooks.setOsShutdownHook(True) == hooks
+        assert hooks.getOsShutdownHook() is True
+
+    def test_set_os_error_hook(self):
+        """
+        Test OsErrorHook.
+        
+        Implements: UTS_OS_MODEL_00010
+        """
+        root = EBModel.getInstance()
+        hooks = OsHooks(root, "OsHooks")
+
+        assert hooks.setOsErrorHook(True) == hooks
+        assert hooks.getOsErrorHook() is True
+
+    def test_hook_combinations(self):
+        """
+        Test OsHooks flag combinations.
+        
+        Implements: UTS_OS_MODEL_00010
+        """
+        root = EBModel.getInstance()
+        hooks = OsHooks(root, "OsHooks")
+
+        # All enabled
+        hooks.setOsStartupHook(True).setOsShutdownHook(True).setOsErrorHook(True)
+        hooks.setOsPreTaskHook(True).setOsPostTaskHook(True)
+        assert hooks.getOsStartupHook() is True
+        assert hooks.getOsShutdownHook() is True
+        assert hooks.getOsErrorHook() is True
+        assert hooks.getOsPreTaskHook() is True
+        assert hooks.getOsPostTaskHook() is True
+
+        # All disabled
+        hooks.setOsStartupHook(False).setOsShutdownHook(False).setOsErrorHook(False)
+        hooks.setOsPreTaskHook(False).setOsPostTaskHook(False)
+        assert hooks.getOsStartupHook() is False
+        assert hooks.getOsShutdownHook() is False
+        assert hooks.getOsErrorHook() is False
+        assert hooks.getOsPreTaskHook() is False
+        assert hooks.getOsPostTaskHook() is False
