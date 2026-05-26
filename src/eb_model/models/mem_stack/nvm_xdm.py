@@ -658,44 +658,286 @@ class NvMServiceAPI(EcucParamConfContainerDef):
 class NvmDemEventParameterRefs(EcucParamConfContainerDef):
     """
     DEM event parameter references for NvM module.
+
+    Implements: SWR_NVM_00008
     """
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
+
+        self.demEventRefs: List[EcucRefType] = []
+
+    def getDemEventRefList(self) -> List[EcucRefType]:
+        return self.demEventRefs
+
+    def addDemEventRef(self, value: EcucRefType):
+        if value is not None:
+            self.demEventRefs.append(value)
+        return self
 
 
 class ReportToDem(EcucParamConfContainerDef):
     """
     DEM reporting configuration for NvM module.
+
+    Implements: SWR_NVM_00009
     """
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
-        self.nvMReportStorageFailed: bool = None
-        self.nvMReportVerificationFailed: bool = None
+        self.nvMUserCalloutFunctionProductionErrors: str = None
+        self.nvMUserCalloutFunctionPassedProductionErrors: str = None
+        self.nvMIntegrityFailedReportToDem: str = None
+        self.nvMIntegrityFailedReportToDemDetErrorId: int = None
+        self.nvMRequestFailedReportToDem: str = None
+        self.nvMRequestFailedReportToDemDetErrorId: int = None
+        self.nvMWrongBlockIdReportToDem: str = None
+        self.nvMWrongBlockIdReportToDemDetErrorId: int = None
+        self.nvMLossOfRedundancyReportToDem: str = None
+        self.nvMLossOfRedundancyReportToDemDetErrorId: int = None
+        self.nvMQueueOverflowReportToDem: str = None
+        self.nvMQueueOverflowReportToDemDetErrorId: int = None
+        self.nvMVerifyFailedReportToDem: str = None
+        self.nvMVerifyFailedReportToDemDetErrorId: int = None
+        self.nvMWriteProtectedReportToDem: str = None
+        self.nvMWriteProtectedReportToDemDetErrorId: int = None
+        self.nvMBlockCheckReportProdError: str = None
+        self.nvMBlockCheckReportProdErrorId: int = None
 
-    def getNvMReportStorageFailed(self) -> bool:
-        return self.nvMReportStorageFailed
+    def getNvMUserCalloutFunctionProductionErrors(self) -> str:
+        return self.nvMUserCalloutFunctionProductionErrors
 
-    def setNvMReportStorageFailed(self, value: bool):
+    def setNvMUserCalloutFunctionProductionErrors(self, value: str):
         if value is not None:
-            self.nvMReportStorageFailed = value
+            self.nvMUserCalloutFunctionProductionErrors = value
         return self
 
-    def getNvMReportVerificationFailed(self) -> bool:
-        return self.nvMReportVerificationFailed
+    def getNvMUserCalloutFunctionPassedProductionErrors(self) -> str:
+        return self.nvMUserCalloutFunctionPassedProductionErrors
 
-    def setNvMReportVerificationFailed(self, value: bool):
+    def setNvMUserCalloutFunctionPassedProductionErrors(self, value: str):
         if value is not None:
-            self.nvMReportVerificationFailed = value
+            self.nvMUserCalloutFunctionPassedProductionErrors = value
+        return self
+
+    def getNvMIntegrityFailedReportToDem(self) -> str:
+        return self.nvMIntegrityFailedReportToDem
+
+    def setNvMIntegrityFailedReportToDem(self, value: str):
+        if value is not None:
+            self.nvMIntegrityFailedReportToDem = value
+        return self
+
+    def getNvMIntegrityFailedReportToDemDetErrorId(self) -> int:
+        return self.nvMIntegrityFailedReportToDemDetErrorId
+
+    def setNvMIntegrityFailedReportToDemDetErrorId(self, value: int):
+        if value is not None:
+            self.nvMIntegrityFailedReportToDemDetErrorId = value
+        return self
+
+    def getNvMRequestFailedReportToDem(self) -> str:
+        return self.nvMRequestFailedReportToDem
+
+    def setNvMRequestFailedReportToDem(self, value: str):
+        if value is not None:
+            self.nvMRequestFailedReportToDem = value
+        return self
+
+    def getNvMRequestFailedReportToDemDetErrorId(self) -> int:
+        return self.nvMRequestFailedReportToDemDetErrorId
+
+    def setNvMRequestFailedReportToDemDetErrorId(self, value: int):
+        if value is not None:
+            self.nvMRequestFailedReportToDemDetErrorId = value
+        return self
+
+    def getNvMWrongBlockIdReportToDem(self) -> str:
+        return self.nvMWrongBlockIdReportToDem
+
+    def setNvMWrongBlockIdReportToDem(self, value: str):
+        if value is not None:
+            self.nvMWrongBlockIdReportToDem = value
+        return self
+
+    def getNvMWrongBlockIdReportToDemDetErrorId(self) -> int:
+        return self.nvMWrongBlockIdReportToDemDetErrorId
+
+    def setNvMWrongBlockIdReportToDemDetErrorId(self, value: int):
+        if value is not None:
+            self.nvMWrongBlockIdReportToDemDetErrorId = value
+        return self
+
+    def getNvMLossOfRedundancyReportToDem(self) -> str:
+        return self.nvMLossOfRedundancyReportToDem
+
+    def setNvMLossOfRedundancyReportToDem(self, value: str):
+        if value is not None:
+            self.nvMLossOfRedundancyReportToDem = value
+        return self
+
+    def getNvMLossOfRedundancyReportToDemDetErrorId(self) -> int:
+        return self.nvMLossOfRedundancyReportToDemDetErrorId
+
+    def setNvMLossOfRedundancyReportToDemDetErrorId(self, value: int):
+        if value is not None:
+            self.nvMLossOfRedundancyReportToDemDetErrorId = value
+        return self
+
+    def getNvMQueueOverflowReportToDem(self) -> str:
+        return self.nvMQueueOverflowReportToDem
+
+    def setNvMQueueOverflowReportToDem(self, value: str):
+        if value is not None:
+            self.nvMQueueOverflowReportToDem = value
+        return self
+
+    def getNvMQueueOverflowReportToDemDetErrorId(self) -> int:
+        return self.nvMQueueOverflowReportToDemDetErrorId
+
+    def setNvMQueueOverflowReportToDemDetErrorId(self, value: int):
+        if value is not None:
+            self.nvMQueueOverflowReportToDemDetErrorId = value
+        return self
+
+    def getNvMVerifyFailedReportToDem(self) -> str:
+        return self.nvMVerifyFailedReportToDem
+
+    def setNvMVerifyFailedReportToDem(self, value: str):
+        if value is not None:
+            self.nvMVerifyFailedReportToDem = value
+        return self
+
+    def getNvMVerifyFailedReportToDemDetErrorId(self) -> int:
+        return self.nvMVerifyFailedReportToDemDetErrorId
+
+    def setNvMVerifyFailedReportToDemDetErrorId(self, value: int):
+        if value is not None:
+            self.nvMVerifyFailedReportToDemDetErrorId = value
+        return self
+
+    def getNvMWriteProtectedReportToDem(self) -> str:
+        return self.nvMWriteProtectedReportToDem
+
+    def setNvMWriteProtectedReportToDem(self, value: str):
+        if value is not None:
+            self.nvMWriteProtectedReportToDem = value
+        return self
+
+    def getNvMWriteProtectedReportToDemDetErrorId(self) -> int:
+        return self.nvMWriteProtectedReportToDemDetErrorId
+
+    def setNvMWriteProtectedReportToDemDetErrorId(self, value: int):
+        if value is not None:
+            self.nvMWriteProtectedReportToDemDetErrorId = value
+        return self
+
+    def getNvMBlockCheckReportProdError(self) -> str:
+        return self.nvMBlockCheckReportProdError
+
+    def setNvMBlockCheckReportProdError(self, value: str):
+        if value is not None:
+            self.nvMBlockCheckReportProdError = value
+        return self
+
+    def getNvMBlockCheckReportProdErrorId(self) -> int:
+        return self.nvMBlockCheckReportProdErrorId
+
+    def setNvMBlockCheckReportProdErrorId(self, value: int):
+        if value is not None:
+            self.nvMBlockCheckReportProdErrorId = value
         return self
 
 
 class MultiCoreCallout(EcucParamConfContainerDef):
     """
     Multi-core callout configuration for NvM module.
+
+    Implements: SWR_NVM_00010
     """
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
+
+        self.nvMReadBlockCallout: str = None
+        self.nvMWriteBlockCallout: str = None
+        self.nvMRestoreBlockDefaultsCallout: str = None
+        self.nvMReadPRAMBlockCallout: str = None
+        self.nvMWritePRAMBlockCallout: str = None
+        self.nvMRestorePRAMBlockDefaultsCallout: str = None
+        self.nvMEraseNvBlockCallout: str = None
+        self.nvMInvalidateNvBlockCallout: str = None
+        self.nvMCancelJobsCallout: str = None
+
+    def getNvMReadBlockCallout(self) -> str:
+        return self.nvMReadBlockCallout
+
+    def setNvMReadBlockCallout(self, value: str):
+        if value is not None:
+            self.nvMReadBlockCallout = value
+        return self
+
+    def getNvMWriteBlockCallout(self) -> str:
+        return self.nvMWriteBlockCallout
+
+    def setNvMWriteBlockCallout(self, value: str):
+        if value is not None:
+            self.nvMWriteBlockCallout = value
+        return self
+
+    def getNvMRestoreBlockDefaultsCallout(self) -> str:
+        return self.nvMRestoreBlockDefaultsCallout
+
+    def setNvMRestoreBlockDefaultsCallout(self, value: str):
+        if value is not None:
+            self.nvMRestoreBlockDefaultsCallout = value
+        return self
+
+    def getNvMReadPRAMBlockCallout(self) -> str:
+        return self.nvMReadPRAMBlockCallout
+
+    def setNvMReadPRAMBlockCallout(self, value: str):
+        if value is not None:
+            self.nvMReadPRAMBlockCallout = value
+        return self
+
+    def getNvMWritePRAMBlockCallout(self) -> str:
+        return self.nvMWritePRAMBlockCallout
+
+    def setNvMWritePRAMBlockCallout(self, value: str):
+        if value is not None:
+            self.nvMWritePRAMBlockCallout = value
+        return self
+
+    def getNvMRestorePRAMBlockDefaultsCallout(self) -> str:
+        return self.nvMRestorePRAMBlockDefaultsCallout
+
+    def setNvMRestorePRAMBlockDefaultsCallout(self, value: str):
+        if value is not None:
+            self.nvMRestorePRAMBlockDefaultsCallout = value
+        return self
+
+    def getNvMEraseNvBlockCallout(self) -> str:
+        return self.nvMEraseNvBlockCallout
+
+    def setNvMEraseNvBlockCallout(self, value: str):
+        if value is not None:
+            self.nvMEraseNvBlockCallout = value
+        return self
+
+    def getNvMInvalidateNvBlockCallout(self) -> str:
+        return self.nvMInvalidateNvBlockCallout
+
+    def setNvMInvalidateNvBlockCallout(self, value: str):
+        if value is not None:
+            self.nvMInvalidateNvBlockCallout = value
+        return self
+
+    def getNvMCancelJobsCallout(self) -> str:
+        return self.nvMCancelJobsCallout
+
+    def setNvMCancelJobsCallout(self, value: str):
+        if value is not None:
+            self.nvMCancelJobsCallout = value
+        return self
 
 
 class NvMBlockDescriptor(EcucParamConfContainerDef):
