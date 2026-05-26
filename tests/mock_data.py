@@ -54,6 +54,22 @@ MOCK_OS_XDM = """<?xml version="1.0"?>
                   <d:var name="OsStacksize" type="INTEGER" value="2048"/>
                   <d:var name="OsTaskType" type="ENUMERATION" value="EXTENDED"/>
                 </d:ctr>
+                <d:ctr name="Task3">
+                  <d:var name="OsTaskPriority" type="INTEGER" value="1"/>
+                  <d:var name="OsTaskActivation" type="INTEGER" value="1"/>
+                  <d:var name="OsTaskSchedule" type="ENUMERATION" value="NON"/>
+                  <d:var name="OsStacksize" type="INTEGER" value="512"/>
+                  <d:var name="OsTaskType" type="ENUMERATION" value="BASIC"/>
+                  <d:var name="OsTaskAutostart" type="BOOLEAN" value="true"/>
+                </d:ctr>
+                <d:ctr name="TaskExtended">
+                  <d:var name="OsTaskPriority" type="INTEGER" value="10"/>
+                  <d:var name="OsTaskActivation" type="INTEGER" value="5"/>
+                  <d:var name="OsTaskSchedule" type="ENUMERATION" value="FULL"/>
+                  <d:var name="OsStacksize" type="INTEGER" value="4096"/>
+                  <d:var name="OsTaskType" type="ENUMERATION" value="EXTENDED"/>
+                  <d:var name="OsTaskAutostart" type="BOOLEAN" value="false"/>
+                </d:ctr>
               </d:lst>
               <d:lst name="OsIsr" type="MAP">
                 <d:ctr name="Isr1">
@@ -109,6 +125,31 @@ MOCK_OS_XDM = """<?xml version="1.0"?>
                     </d:ctr>
                   </d:chc>
                 </d:ctr>
+                <d:ctr name="AlarmSetEvent">
+                  <d:ref name="OsAlarmCounterRef" type="REFERENCE" value="ASPath:/Os/Counter1"/>
+                  <d:chc name="OsAlarmAction" value="OsAlarmSetEvent">
+                    <d:ctr name="OsAlarmSetEvent">
+                      <d:ref name="OsAlarmSetEventTaskRef" type="REFERENCE" value="ASPath:/Os/Task1"/>
+                      <d:ref name="OsAlarmSetEventRef" type="REFERENCE" value="ASPath:/Os/Event1"/>
+                    </d:ctr>
+                  </d:chc>
+                </d:ctr>
+                <d:ctr name="AlarmIncrementCounter">
+                  <d:ref name="OsAlarmCounterRef" type="REFERENCE" value="ASPath:/Os/Counter2"/>
+                  <d:chc name="OsAlarmAction" value="OsAlarmIncrementCounter">
+                    <d:ctr name="OsAlarmIncrementCounter">
+                      <d:ref name="OsAlarmIncrementCounterRef" type="REFERENCE" value="ASPath:/Os/Counter1"/>
+                    </d:ctr>
+                  </d:chc>
+                </d:ctr>
+                <d:ctr name="AlarmCallback">
+                  <d:ref name="OsAlarmCounterRef" type="REFERENCE" value="ASPath:/Os/Counter1"/>
+                  <d:chc name="OsAlarmAction" value="OsAlarmCallback">
+                    <d:ctr name="OsAlarmCallback">
+                      <d:var name="OsAlarmCallbackName" type="FUNCTION-NAME" value="AlarmCallbackFunction"/>
+                    </d:ctr>
+                  </d:chc>
+                </d:ctr>
               </d:lst>
               <d:lst name="OsApplication" type="MAP">
                 <d:ctr name="App1">
@@ -136,13 +177,35 @@ MOCK_OS_XDM = """<?xml version="1.0"?>
                     <d:ref type="REFERENCE" value="ASPath:/Os/Isr2"/>
                   </d:lst>
                 </d:ctr>
+                <d:ctr name="AppTrusted">
+                  <d:var name="OsTrusted" type="BOOLEAN" value="true"/>
+                  <d:var name="OsTrustedFunction" type="BOOLEAN" value="true"/>
+                  <d:var name="OsRestartTask" type="BOOLEAN" value="true"/>
+                </d:ctr>
+                <d:ctr name="AppUntrusted">
+                  <d:var name="OsTrusted" type="BOOLEAN" value="false"/>
+                  <d:var name="OsTrustedFunction" type="BOOLEAN" value="false"/>
+                  <d:var name="OsRestartTask" type="BOOLEAN" value="false"/>
+                </d:ctr>
+                <d:ctr name="AppMixed">
+                  <d:var name="OsTrusted" type="BOOLEAN" value="false"/>
+                  <d:var name="OsTrustedFunction" type="BOOLEAN" value="true"/>
+                  <d:var name="OsRestartTask" type="BOOLEAN" value="true"/>
+                </d:ctr>
               </d:lst>
               <d:lst name="OsResource" type="MAP">
                 <d:ctr name="Resource1">
                   <d:var name="OsResourceProperty" type="ENUMERATION" value="STANDARD"/>
+                  <d:lst name="OsResourceAccessingApplication" type="MAP">
+                    <d:ref type="REFERENCE" value="ASPath:/Os/AppTrusted"/>
+                  </d:lst>
                 </d:ctr>
                 <d:ctr name="Resource2">
                   <d:var name="OsResourceProperty" type="ENUMERATION" value="LINKED"/>
+                </d:ctr>
+                <d:ctr name="ResourceLinked">
+                  <d:var name="OsResourceProperty" type="ENUMERATION" value="LINKED"/>
+                  <d:ref name="OsLinkedResourceRef" type="REFERENCE" value="ASPath:/Os/Resource1"/>
                 </d:ctr>
               </d:lst>
               <d:lst name="OsSpinlock" type="MAP">
@@ -153,6 +216,10 @@ MOCK_OS_XDM = """<?xml version="1.0"?>
                 <d:ctr name="Spinlock2">
                   <d:var name="OsSpinlockLockMethod" type="ENUMERATION" value="SCHEDULER"/>
                 </d:ctr>
+                <d:ctr name="Spinlock3">
+                  <d:var name="OsSpinlockLockMethod" type="ENUMERATION" value="LOCK_ALL"/>
+                  <d:var name="OsSpinlockPriority" type="INTEGER" value="1"/>
+                </d:ctr>
               </d:lst>
               <d:ctr name="OsHwIncrementer">
                 <d:var name="OsHwIncrementerBase" type="INTEGER" value="0"/>
@@ -161,9 +228,11 @@ MOCK_OS_XDM = """<?xml version="1.0"?>
               <d:lst name="OsEvent" type="MAP">
                 <d:ctr name="Event1">
                   <d:var name="OsEventMask" type="INTEGER" value="1"/>
+                  <d:var name="OsEventProperty" type="ENUMERATION" value="STANDARD"/>
                 </d:ctr>
                 <d:ctr name="Event2">
                   <d:var name="OsEventMask" type="INTEGER" value="2"/>
+                  <d:var name="OsEventProperty" type="ENUMERATION" value="STANDARD"/>
                 </d:ctr>
               </d:lst>
               <d:lst name="OsPeripheralArea" type="MAP">
@@ -205,6 +274,10 @@ MOCK_OS_XDM = """<?xml version="1.0"?>
                       <d:var name="MkMemoryRegionShutdownHookAccess" type="BOOLEAN" value="false"/>
                       <d:var name="MkMemoryRegionShutdownAccess" type="BOOLEAN" value="false"/>
                       <d:var name="MkMemoryRegionInitializePerCore" type="BOOLEAN" value="true"/>
+                      <d:var name="MkMemoryRegionStart" type="INTEGER" value="0x1000"/>
+                      <d:var name="MkMemoryRegionSize" type="INTEGER" value="0x1000"/>
+                      <d:var name="MkMemoryRegionRead" type="BOOLEAN" value="true"/>
+                      <d:var name="MkMemoryRegionWrite" type="BOOLEAN" value="true"/>
                     </d:ctr>
                   </d:lst>
                 </d:ctr>
