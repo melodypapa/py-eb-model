@@ -150,24 +150,23 @@ class OsXdmParser(AbstractEbModelParser):
     def read_os_alarm_action(self, element: ET.Element, os_alarm: OsAlarm):
         """Parse OsAlarmAction choice and create appropriate action object."""
         chc = self.read_choice_value(element, "OsAlarmAction")
-        if chc is None:
-            raise ValueError("OsAlarmAction is required.")
-        if chc == "OsAlarmActivateTask":
-            os_alarm_action = OsAlarmActivateTask(os_alarm, "OsAlarmActivateTask") \
-                .setOsAlarmActivateTaskRef(self.read_ref_value(element, "OsAlarmActivateTaskRef"))
-        elif chc == "OsAlarmIncrementCounter":
-            os_alarm_action = OsAlarmIncrementCounter(os_alarm, "OsAlarmIncrementCounter") \
-                .setOsAlarmIncrementCounterRef(self.read_ref_value(element, "OsAlarmIncrementCounterRef"))
-        elif chc == "OsAlarmSetEvent":
-            os_alarm_action = OsAlarmSetEvent(os_alarm, "OsAlarmSetEvent") \
-                .setOsAlarmSetEventRef(self.read_ref_value(element, "OsAlarmSetEventRef")) \
-                .setOsAlarmSetEventTaskRef(self.read_ref_value(element, "OsAlarmSetEventTaskRef"))
-        elif chc == "OsAlarmCallback":
-            os_alarm_action = OsAlarmCallback(os_alarm, "OsAlarmCallback") \
-                .setOsAlarmCallbackName(self.read_value(element, "OsAlarmCallbackName"))
-        else:
-            raise ValueError("Unsupported OsAlarmAction <%s>" % chc)
-        os_alarm.setOsAlarmAction(os_alarm_action)
+        if chc is not None:
+            if chc == "OsAlarmActivateTask":
+                os_alarm_action = OsAlarmActivateTask(os_alarm, "OsAlarmActivateTask") \
+                    .setOsAlarmActivateTaskRef(self.read_ref_value(element, "OsAlarmActivateTaskRef"))
+            elif chc == "OsAlarmIncrementCounter":
+                os_alarm_action = OsAlarmIncrementCounter(os_alarm, "OsAlarmIncrementCounter") \
+                    .setOsAlarmIncrementCounterRef(self.read_ref_value(element, "OsAlarmIncrementCounterRef"))
+            elif chc == "OsAlarmSetEvent":
+                os_alarm_action = OsAlarmSetEvent(os_alarm, "OsAlarmSetEvent") \
+                    .setOsAlarmSetEventRef(self.read_ref_value(element, "OsAlarmSetEventRef")) \
+                    .setOsAlarmSetEventTaskRef(self.read_ref_value(element, "OsAlarmSetEventTaskRef"))
+            elif chc == "OsAlarmCallback":
+                os_alarm_action = OsAlarmCallback(os_alarm, "OsAlarmCallback") \
+                    .setOsAlarmCallbackName(self.read_value(element, "OsAlarmCallbackName"))
+            else:
+                raise ValueError("Unsupported OsAlarmAction <%s>" % chc)
+            os_alarm.setOsAlarmAction(os_alarm_action)
 
         # Read callback name if available
         os_alarm.setOsAlarmCallbackName(self.read_optional_value(element, "OsAlarmCallbackName"))
