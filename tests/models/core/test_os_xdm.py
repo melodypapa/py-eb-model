@@ -4,8 +4,14 @@ Os Model Tests - Tests for OS module model classes.
 Implements: TC_UNIT_OS_00002, TC_UNIT_OS_00005, TC_UNIT_OS_00015, TC_UNIT_OS_00016
 """
 import pytest
-from eb_model.models.core.os_xdm import Os, OsTask, OsApplication, OsAlarm, OsCounter, OsEvent, OsSpinlock
+from eb_model.models.core.os_xdm import (
+    Os, OsTask, OsApplication, OsAlarm, OsCounter, OsEvent, OsSpinlock,
+    OsAlarmAction, OsAlarmAutostart, OsAlarmActivateTask, OsAlarmSetEvent,
+    OsAlarmIncrementCounter, OsAlarmCallback, OsResource, OsHooks,
+    OsApplication as OsApplicationExtended
+)
 from eb_model.models.core.eb_doc import EBModel
+from eb_model.models.core.abstract import EcucRefType
 
 
 class TestOsTask:
@@ -47,6 +53,20 @@ class TestOsAlarm:
         assert alarm.getName() == "OsAlarm"
         assert alarm.getParent() == root
         assert alarm.getOsAlarmCounterRef() is None
+
+class TestOsAlarmAction:
+
+    def test_initialization(self):
+        """
+        Test OsAlarmAction initialization.
+        
+        Implements: UTS_OS_MODEL_00001
+        """
+        root = EBModel.getInstance()
+        action = OsAlarmAction(root, "TestAction")
+
+        assert action.getName() == "TestAction"
+        assert action.getParent() == root
 
 class TestOsCounter:
 
