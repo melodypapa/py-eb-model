@@ -1,9 +1,9 @@
 import argparse
-import pkg_resources
 import logging
 import sys
 import os.path
 
+from eb_model import __version__
 from eb_model.parser import TcpIpXdmParser
 from eb_model.models import EBModel
 from eb_model.reporter import TcpIpXdmXlsWriter
@@ -11,10 +11,8 @@ from eb_model.reporter import TcpIpXdmXlsWriter
 
 def main():
     """CLI entry point for TcpIp XDM to Excel conversion."""
-    version = pkg_resources.require("py_eb_model")[0].version
-
     ap = argparse.ArgumentParser()
-    ap.description = "Version: %s" % version
+    ap.description = f"Version: {__version__}"
     ap.add_argument("-v", "--verbose", required=False, help="Print debug information.", action="store_true")
     ap.add_argument("INPUT", help="The path of TcpIp.xdm.")
     ap.add_argument("OUTPUT", help="The path of excel file.")

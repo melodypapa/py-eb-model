@@ -1,19 +1,17 @@
 import argparse
-import pkg_resources
 import logging
 import sys
 import os.path
 
+from eb_model import __version__
 from eb_model.parser import OsXdmParser
 from eb_model.models import EBModel
 from eb_model.reporter import OsXdmXlsWriter
 
 
 def main():
-    version = pkg_resources.require("py_eb_model")[0].version
-
     ap = argparse.ArgumentParser()
-    ap.description = "Version: %s" % version
+    ap.description = f"Version: {__version__}"
     ap.add_argument("-v", "--verbose", required=False, help="Print debug information.", action="store_true")
     ap.add_argument("--skip-os-task", required=False, help="Skip to generate Os task.", action="store_true")
     ap.add_argument("INPUT", help="The path of Os.xdm.")
