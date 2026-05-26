@@ -59,7 +59,7 @@ class TestOsAlarmAction:
     def test_initialization(self):
         """
         Test OsAlarmAction initialization.
-        
+
         Implements: UTS_OS_MODEL_00001
         """
         root = EBModel.getInstance()
@@ -73,7 +73,7 @@ class TestOsAlarmAutostart:
     def test_initialization(self):
         """
         Test OsAlarmAutostart initialization.
-        
+
         Implements: UTS_OS_MODEL_00002
         """
         root = EBModel.getInstance()
@@ -87,7 +87,7 @@ class TestOsAlarmAutostart:
     def test_set_os_alarm_autostart_type(self):
         """
         Test setting OsAlarmAutostart type.
-        
+
         Implements: UTS_OS_MODEL_00002
         """
         root = EBModel.getInstance()
@@ -99,7 +99,7 @@ class TestOsAlarmAutostart:
     def test_set_os_alarm_alarm_time_boundary_values(self):
         """
         Test setting OsAlarmAlarmTime with boundary values.
-        
+
         Implements: UTS_OS_MODEL_00002
         """
         root = EBModel.getInstance()
@@ -120,7 +120,7 @@ class TestOsAlarmAutostart:
     def test_set_os_alarm_cycle_time(self):
         """
         Test setting OsAlarmCycleTime.
-        
+
         Implements: UTS_OS_MODEL_00002
         """
         root = EBModel.getInstance()
@@ -134,7 +134,7 @@ class TestOsCounter:
     def test_initialization(self):
         """
         Test OsCounter initialization.
-        
+
         Implements: UTS_OS_MODEL_00005
         """
         root = EBModel.getInstance()
@@ -151,7 +151,7 @@ class TestOsCounter:
     def test_counter_setters(self):
         """
         Test OsCounter setters.
-        
+
         Implements: UTS_OS_MODEL_00005
         """
         root = EBModel.getInstance()
@@ -171,7 +171,7 @@ class TestOsCounter:
     def test_set_os_counter_max_allowed_value_boundary(self):
         """
         Test OsCounterMaxAllowedValue with boundary values.
-        
+
         Implements: UTS_OS_MODEL_00005
         """
         root = EBModel.getInstance()
@@ -193,7 +193,7 @@ class TestOsCounter:
     def test_set_os_counter_type(self):
         """
         Test OsCounterType with different values.
-        
+
         Implements: UTS_OS_MODEL_00005
         """
         root = EBModel.getInstance()
@@ -209,7 +209,7 @@ class TestOsCounter:
     def test_set_os_counter_min_cycle(self):
         """
         Test OsCounterMinCycle.
-        
+
         Implements: UTS_OS_MODEL_00005
         """
         root = EBModel.getInstance()
@@ -222,7 +222,7 @@ class TestOsCounter:
     def test_set_os_counter_ticks_per_base(self):
         """
         Test OsCounterTicksPerBase.
-        
+
         Implements: UTS_OS_MODEL_00005
         """
         root = EBModel.getInstance()
@@ -279,7 +279,7 @@ class TestOsTaskExtended:
     def test_set_os_task_priority_boundary(self):
         """
         Test OsTaskPriority with boundary values.
-        
+
         Implements: UTS_OS_MODEL_00006
         """
         root = EBModel.getInstance()
@@ -300,7 +300,7 @@ class TestOsTaskExtended:
     def test_set_os_task_schedule(self):
         """
         Test OsTaskSchedule.
-        
+
         Implements: UTS_OS_MODEL_00006
         """
         root = EBModel.getInstance()
@@ -315,7 +315,7 @@ class TestOsTaskExtended:
     def test_set_os_task_type(self):
         """
         Test OsTaskType.
-        
+
         Implements: UTS_OS_MODEL_00006
         """
         root = EBModel.getInstance()
@@ -330,7 +330,7 @@ class TestOsTaskExtended:
     def test_set_os_task_activation(self):
         """
         Test OsTaskActivation.
-        
+
         Implements: UTS_OS_MODEL_00006
         """
         root = EBModel.getInstance()
@@ -342,7 +342,7 @@ class TestOsTaskExtended:
     def test_set_os_stacksize(self):
         """
         Test OsStacksize.
-        
+
         Implements: UTS_OS_MODEL_00006
         """
         root = EBModel.getInstance()
@@ -356,7 +356,7 @@ class TestOsApplicationExtended:
     def test_set_os_trusted(self):
         """
         Test OsTrusted flag.
-        
+
         Implements: UTS_OS_MODEL_00008
         """
         root = EBModel.getInstance()
@@ -371,7 +371,7 @@ class TestOsApplicationExtended:
     def test_set_os_trusted_function_name(self):
         """
         Test OsTrustedFunctionName.
-        
+
         Implements: UTS_OS_MODEL_00008
         """
         root = EBModel.getInstance()
@@ -383,7 +383,7 @@ class TestOsApplicationExtended:
     def test_set_os_application_core_assignment(self):
         """
         Test OsApplicationCoreAssignment.
-        
+
         Implements: UTS_OS_MODEL_00008
         """
         root = EBModel.getInstance()
@@ -397,7 +397,7 @@ class TestOsResource:
     def test_initialization(self):
         """
         Test OsResource initialization.
-        
+
         Implements: UTS_OS_MODEL_00009
         """
         root = EBModel.getInstance()
@@ -409,7 +409,7 @@ class TestOsResource:
     def test_set_os_resource_property(self):
         """
         Test OsResourceProperty.
-        
+
         Implements: UTS_OS_MODEL_00009
         """
         root = EBModel.getInstance()
@@ -424,7 +424,7 @@ class TestOsResource:
     def test_set_os_linked_resource_ref(self):
         """
         Test OsResourceLinkedResourceRefs.
-        
+
         Implements: UTS_OS_MODEL_00009
         """
         root = EBModel.getInstance()
@@ -439,7 +439,7 @@ class TestOsHooks:
     def test_initialization(self):
         """
         Test OsHooks initialization.
-        
+
         Implements: UTS_OS_MODEL_00010
         """
         root = EBModel.getInstance()
@@ -455,7 +455,7 @@ class TestOsHooks:
     def test_set_os_startup_hook(self):
         """
         Test OsStartupHook.
-        
+
         Implements: UTS_OS_MODEL_00010
         """
         root = EBModel.getInstance()
@@ -467,7 +467,7 @@ class TestOsHooks:
     def test_set_os_shutdown_hook(self):
         """
         Test OsShutdownHook.
-        
+
         Implements: UTS_OS_MODEL_00010
         """
         root = EBModel.getInstance()
@@ -479,7 +479,7 @@ class TestOsHooks:
     def test_set_os_error_hook(self):
         """
         Test OsErrorHook.
-        
+
         Implements: UTS_OS_MODEL_00010
         """
         root = EBModel.getInstance()
@@ -491,7 +491,7 @@ class TestOsHooks:
     def test_hook_combinations(self):
         """
         Test OsHooks flag combinations.
-        
+
         Implements: UTS_OS_MODEL_00010
         """
         root = EBModel.getInstance()

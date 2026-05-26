@@ -1418,30 +1418,6 @@ class NvMBlockDescriptor(EcucParamConfContainerDef):
             self.nvMBcDelayCounter = value
         return self
 
-    def getNvMWriteBlockOnce(self) -> bool:
-        return self.nvMWriteBlockOnce
-
-    def setNvMWriteBlockOnce(self, value: bool):
-        if value is not None:
-            self.nvMWriteBlockOnce = value
-        return self
-
-    def getNvMWriteVerification(self) -> bool:
-        return self.nvMWriteVerification
-
-    def setNvMWriteVerification(self, value: bool):
-        if value is not None:
-            self.nvMWriteVerification = value
-        return self
-
-    def getNvMWriteVerificationDataSize(self) -> int:
-        return self.nvMWriteVerificationDataSize
-
-    def setNvMWriteVerificationDataSize(self, value: int):
-        if value is not None:
-            self.nvMWriteVerificationDataSize = value
-        return self
-
     def getNvMPreWriteDataComp(self) -> bool:
         return self.nvMPreWriteDataComp
 
