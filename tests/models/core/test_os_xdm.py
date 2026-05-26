@@ -68,6 +68,67 @@ class TestOsAlarmAction:
         assert action.getName() == "TestAction"
         assert action.getParent() == root
 
+class TestOsAlarmAutostart:
+
+    def test_initialization(self):
+        """
+        Test OsAlarmAutostart initialization.
+        
+        Implements: UTS_OS_MODEL_00002
+        """
+        root = EBModel.getInstance()
+        autostart = OsAlarmAutostart(root, "Autostart")
+
+        assert autostart.getName() == "Autostart"
+        assert autostart.getOsAlarmAutostartType() is None
+        assert autostart.getOsAlarmAlarmTime() is None
+        assert autostart.getOsAlarmCycleTime() is None
+
+    def test_set_os_alarm_autostart_type(self):
+        """
+        Test setting OsAlarmAutostart type.
+        
+        Implements: UTS_OS_MODEL_00002
+        """
+        root = EBModel.getInstance()
+        autostart = OsAlarmAutostart(root, "Autostart")
+
+        autostart.setOsAlarmAutostartType("ABSOLUTE")
+        assert autostart.getOsAlarmAutostartType() == "ABSOLUTE"
+
+    def test_set_os_alarm_alarm_time_boundary_values(self):
+        """
+        Test setting OsAlarmAlarmTime with boundary values.
+        
+        Implements: UTS_OS_MODEL_00002
+        """
+        root = EBModel.getInstance()
+        autostart = OsAlarmAutostart(root, "Autostart")
+
+        # Test min value
+        autostart.setOsAlarmAlarmTime(0)
+        assert autostart.getOsAlarmAlarmTime() == 0
+
+        # Test max value
+        autostart.setOsAlarmAlarmTime(65535)
+        assert autostart.getOsAlarmAlarmTime() == 65535
+
+        # Test typical value
+        autostart.setOsAlarmAlarmTime(1000)
+        assert autostart.getOsAlarmAlarmTime() == 1000
+
+    def test_set_os_alarm_cycle_time(self):
+        """
+        Test setting OsAlarmCycleTime.
+        
+        Implements: UTS_OS_MODEL_00002
+        """
+        root = EBModel.getInstance()
+        autostart = OsAlarmAutostart(root, "Autostart")
+
+        autostart.setOsAlarmCycleTime(500)
+        assert autostart.getOsAlarmCycleTime() == 500
+
 class TestOsCounter:
 
     def test_initialization(self):
