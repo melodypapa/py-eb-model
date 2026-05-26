@@ -37,7 +37,7 @@ Verify the complete end-to-end workflow of parsing an OS XDM file, modeling all 
 |--------------|-------------------|---------|
 | Input File | `data/test/Os_complete.xdm` | XDM with all OS entity types |
 | Output File | `test_output/Os_test.xlsx` | Generated Excel report |
-| Expected Worksheets | OsTask, OsIsr, OsScheduleTable, OsCounter, OsAlarm, OsResource, OsApplication | List of expected sheets |
+| Expected Worksheets | OsSpinlock, OsOS, OsHooks, OsTask, OsIsr, OsScheduleTable, OsCounter, OsAlarm, OsResource, OsApplication, MkMemoryRegion (conditional) | List of expected sheets |
 | Task Count | 10-20 | Expected number of tasks |
 | ISR Count | 5-10 | Expected number of ISRs |
 | Schedule Table Count | 3-5 | Expected number of schedule tables |
@@ -52,27 +52,32 @@ Verify the complete end-to-end workflow of parsing an OS XDM file, modeling all 
 |------|--------|-----------------|
 | 1 | Execute CLI command: `os-xdm-xlsx data/test/Os_complete.xdm test_output/Os_test.xlsx` | Command completes successfully |
 | 2 | Verify Excel file exists | File created at output path |
-| 3 | Open Excel file and verify worksheets | All expected worksheets present |
-| 4 | Verify OsTask worksheet contains all tasks | Task count matches input, all columns populated |
-| 5 | Verify OsIsr worksheet contains all ISRs | ISR count matches input, hardware attributes populated |
-| 6 | Verify OsScheduleTable worksheet | Tables and expiry points correctly extracted |
-| 7 | Verify OsCounter worksheet | Counter configurations correctly extracted |
-| 8 | Verify OsAlarm worksheet | Alarm configurations correctly extracted |
-| 9 | Verify OsResource worksheet | Resource configurations correctly extracted |
-| 10 | Verify OsApplication worksheet | Applications correctly extracted with mappings |
-| 11 | Verify column auto-width formatting | Columns sized to fit content |
-| 12 | Verify numeric data centering | Numeric columns are center-aligned |
-| 13 | Verify task-to-application mappings | Application references correctly populated |
-| 14 | Verify ISR-to-application mappings | Application references correctly populated |
-| 15 | Verify schedule table counter references | Counter references correctly resolved |
-| 16 | Execute with --skip-os-task flag | OsTask worksheet is skipped |
-| 17 | Execute with --skip-os-isr flag | OsIsr worksheet is skipped |
-| 18 | Verify total execution time | Execution completes within 5 seconds for 10MB file |
+| 3 | Open Excel file and verify worksheets | All expected worksheets present including OsSpinlock, OsOS, OsHooks |
+| 4 | Verify OsSpinlock worksheet | Spinlock lock methods, successors and accessing apps populated |
+| 5 | Verify OsOS worksheet | ScalabilityClass, NumberOfCores, Status, StackMonitoring etc. correct |
+| 6 | Verify OsHooks worksheet | All hook flags including PreISRHook, PostISRHook populated |
+| 7 | Verify OsTask worksheet contains all tasks | Task count matches input, all columns populated |
+| 8 | Verify OsIsr worksheet contains all ISRs | ISR count matches input, hardware attributes populated |
+| 9 | Verify OsScheduleTable worksheet | Tables and expiry points correctly extracted |
+| 10 | Verify OsCounter worksheet | Counter configurations correctly extracted |
+| 11 | Verify OsAlarm worksheet | Alarm configurations correctly extracted |
+| 12 | Verify OsResource worksheet | Resource configurations correctly extracted |
+| 13 | Verify OsApplication worksheet | Applications correctly extracted with mappings |
+| 14 | Verify column auto-width formatting | Columns sized to fit content |
+| 15 | Verify numeric data centering | Numeric columns are center-aligned |
+| 16 | Verify task-to-application mappings | Application references correctly populated |
+| 17 | Verify ISR-to-application mappings | Application references correctly populated |
+| 18 | Verify schedule table counter references | Counter references correctly resolved |
+| 19 | Execute with --skip-os-task flag | OsTask worksheet is skipped |
+| 20 | Verify total execution time | Execution completes within 5 seconds for 10MB file |
 
 ## Expected Results
 
 - Excel file generated successfully with no errors
-- All 7 expected worksheets present (or reduced when skip flags used)
+- All 10+ expected worksheets present (OsSpinlock, OsOS, OsHooks, OsTask, OsIsr, OsScheduleTable, OsCounter, OsAlarm, OsResource, OsApplication, MkMemoryRegion conditional)
+- OsSpinlock data includes: name, lock method, successor, accessing applications
+- OsOS data includes: ScalabilityClass, NumberOfCores, StackMonitoring, UseGetServiceId, UseParameterAccess, UseResScheduler, Status
+- OsHooks data includes: ErrorHook, ShutdownHook, StartupHook, PreTaskHook, PostTaskHook, ProtectionHook, PreISRHook, PostISRHook
 - Task data includes: name, priority, activation, schedule type, stack size, autostart
 - ISR data includes: category, priority, vector, stack size, hardware attributes
 - Schedule table data includes: duration, repeating, counter reference, expiry points
@@ -106,11 +111,11 @@ Verify the complete end-to-end workflow of parsing an OS XDM file, modeling all 
 | SWR_OS_00006 | Applications - Application mapping | Covered |
 | SWR_OS_00007 | Alarms - Alarm extraction | Covered |
 | SWR_OS_00008 | Resources - Resource extraction | Covered |
-| SWR_OS_00010 | Reporter Layer - Excel generation | Covered |
-| SWR_OS_00011 | CLI Interface - Command execution | Covered |
-| SWR_OS_00013 | Non-Functional - Excel performance | Covered |
-| SWR_OS_00014 | Non-Functional - O(1) lookup performance | Covered |
-| SWR_OS_00019 | Non-Functional - Memory efficiency | Covered |
+| SWR_OS_00019 | Reporter Layer - Excel generation | Covered |
+| SWR_OS_00020 | CLI Interface - Command execution | Covered |
+| SWR_OS_00022 | Non-Functional - Excel performance | Covered |
+| SWR_OS_00023 | Non-Functional - O(1) lookup performance | Covered |
+| SWR_OS_00028 | Non-Functional - Memory efficiency | Covered |
 
 ## References
 
@@ -217,7 +222,7 @@ Verify the OS parser can handle complex configurations including multiple applic
 | SWR_OS_00004 | Schedule Tables - Schedule table extraction | Covered |
 | SWR_OS_00006 | Applications - Application mapping | Covered |
 | SWR_OS_00008 | Resources - Resource extraction | Covered |
-| SWR_OS_00014 | Non-Functional - O(1) lookup performance | Covered |
+| SWR_OS_00023 | Non-Functional - O(1) lookup performance | Covered |
 
 ## References
 
@@ -315,11 +320,11 @@ Verify the OS module gracefully handles error conditions including missing files
 
 | Requirement ID | Description | Status |
 |----------------|-------------|--------|
-| SWR_OS_00015 | Non-Functional - Malformed XML error handling | Covered |
-| SWR_OS_00016 | Non-Functional - Missing optional elements handling | Covered |
-| SWR_OS_00017 | Non-Functional - Required element validation | Covered |
-| SWR_OS_00018 | Non-Functional - Path validation | Covered |
-| SWR_OS_00019 | Non-Functional - Memory efficiency | Covered |
+| SWR_OS_00024 | Non-Functional - Malformed XML error handling | Covered |
+| SWR_OS_00025 | Non-Functional - Missing optional elements handling | Covered |
+| SWR_OS_00026 | Non-Functional - Required element validation | Covered |
+| SWR_OS_00027 | Non-Functional - Path validation | Covered |
+| SWR_OS_00028 | Non-Functional - Memory efficiency | Covered |
 
 ## References
 
@@ -334,3 +339,112 @@ Verify the OS module gracefully handles error conditions including missing files
 | Version | Date | Author | Description |
 |---------|------|--------|-------------|
 | 1.0 | 2026-03-27 | Test Architect | Initial test case |
+| 1.1 | 2026-05-26 | Claude Code | Updated SWR ID references, added TC_INT_OS_00004 |
+
+---
+
+# Test Case: TC_INT_OS_00004
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_INT_OS_00004 |
+| Title | OS Module - New Features Integration (Spinlocks, OsOS, Hooks, Events, CoreConfig) |
+| Version | 1.0 |
+| Date | 2026-05-26 |
+| Author | Test Architect |
+| Test Type | Integration |
+| Priority | Medium |
+
+## Purpose/Objective
+
+Verify the complete end-to-end workflow for newly added OS features: parsing spinlock synchronization, OS-level configuration (OsOS), hook configuration with PreISRHook/PostISRHook, events, core configs, peripheral areas, AUTOSAR customization, and version information. Ensure these are correctly modeled and exported in Excel.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed and accessible |
+| 2 | Complete Os.xdm file with all new entity types (spinlocks, OsOS, hooks, events, core configs, peripheral areas, customization) is available |
+| 3 | Output directory for Excel file is writable |
+| 4 | EBModel singleton is clean |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| Input File | data/test/Os_complete.xdm | XDM with all entity types |
+| Output File | test_output/Os_new_features.xlsx | Generated Excel report |
+| Expected Worksheets | OsSpinlock, OsOS, OsHooks | New worksheets to verify |
+| Spinlock Count | 2-5 | Expected number of spinlocks |
+| Core Config Count | 1-2 | Expected number of core configs |
+| Event Count | 3-8 | Expected number of events |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Execute CLI command to parse XDM and generate Excel | Command completes successfully |
+| 2 | Verify Excel file contains OsSpinlock worksheet | Worksheet present |
+| 3 | Verify OsSpinlock data: lock method, successor, accessing apps | All spinlock attributes populated |
+| 4 | Verify Excel file contains OsOS worksheet | Worksheet present |
+| 5 | Verify OsOS data: ScalabilityClass, NumberOfCores, Status, boolean flags | All OS config parameters populated |
+| 6 | Verify Excel file contains OsHooks worksheet | Worksheet present |
+| 7 | Verify OsHooks data: all 8 hook flags including PreISRHook, PostISRHook | All hook flags populated and formatted as booleans |
+| 8 | Verify event parsing from model | OsEvent objects created with masks |
+| 9 | Verify core config parsing from model | OsCoreConfig objects created with core attributes |
+| 10 | Verify peripheral area parsing | OsPeripheralArea objects with address ranges |
+| 11 | Verify AUTOSAR customization parsing | OsAutosarCustomization with scalable class and app type |
+| 12 | Verify empty spinlock list is handled | No errors when no spinlocks defined |
+| 13 | Verify absent OsOS container is handled | OsOS sheet omitted when no data |
+| 14 | Verify absent OsHooks container is handled | OsHooks sheet omitted when no data |
+| 15 | Verify version information extraction | CommonPublishedInformation with correct version numbers |
+| 16 | Verify total execution time | Execution completes within 5 seconds |
+
+## Expected Results
+
+- All new feature worksheets are generated correctly
+- Spinlock, OsOS, and Hooks data is accurate and complete
+- Missing optional containers are handled gracefully (sheets omitted)
+- Events, core configs, peripheral areas, and customization are correctly modeled
+- Version information is correctly extracted
+- Performance remains acceptable
+- No data loss in existing worksheets
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | Excel file persists for review |
+| 2 | No memory leaks in parser/reporter |
+| 3 | EBModel singleton can be reset for next test |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_OS_00010 | Version Information - AUTOSAR and software version extraction | Covered |
+| SWR_OS_00011 | Hardware Incrementer - Hardware timer configuration | Covered |
+| SWR_OS_00012 | Event Synchronization - Event mask definition extraction | Covered |
+| SWR_OS_00013 | Spinlock Synchronization - Multi-core spinlock configuration | Covered |
+| SWR_OS_00014 | Peripheral Areas - Memory-mapped peripheral region configs | Covered |
+| SWR_OS_00015 | OS Configuration (OsOS) - OS-level config parameter extraction | Covered |
+| SWR_OS_00016 | Hook Configuration - OS hook routine enable/disable settings | Covered |
+| SWR_OS_00017 | Core Configuration - Multi-core configuration per core | Covered |
+| SWR_OS_00018 | AUTOSAR Customization - Scalability class and application type | Covered |
+| SWR_OS_00019 | Reporter Layer - Excel generation with new worksheets | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_os-module.md |
+| Parser Documentation | ../../src/eb_model/parser/core/os_xdm_parser.py |
+| Reporter Documentation | ../../src/eb_model/reporter/excel_reporter/core/os_xdm.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-05-26 | Test Architect | Initial test case |

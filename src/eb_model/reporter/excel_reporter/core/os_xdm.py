@@ -27,6 +27,116 @@ class OsXdmXlsWriter(ExcelReporter):
         """Initialize the OS Excel reporter."""
         super().__init__()
 
+    def write_os_spinlocks(self, doc: EBModel):
+        sheet = self.wb.create_sheet("OsSpinlock", 0)
+
+        title_row = ["Name", "LockMethod", "Successor", "AccessingApplications"]
+        self.write_title_row(sheet, title_row)
+
+        row = 2
+        for spinlock in doc.getOs().getOsSpinlockList():
+            self.write_cell(sheet, row, 1, spinlock.getName())
+            self.write_cell(sheet, row, 2, spinlock.getOsSpinlockLockMethod())
+
+            successor = spinlock.getOsSpinlockSuccessor()
+            if successor is not None:
+                self.write_cell(sheet, row, 3, successor.getShortName())
+
+            accessing_apps = [ref.getShortName() for ref in spinlock.getOsSpinlockAccessingApplications()]
+            if len(accessing_apps) > 0:
+                cell = self.write_cell(sheet, row, 4, "\n".join(accessing_apps))
+                if len(accessing_apps) > 1:
+                    cell.alignment = Alignment(wrapText=True)
+
+            row += 1
+            self.logger.debug("Write OsSpinlock <%s>" % spinlock.getName())
+
+        self.auto_width(sheet, {"D": 30})
+
+    def write_os_os(self, doc: EBModel):
+        os_os = doc.getOs().getOsOS()
+        if os_os is not None:
+            sheet = self.wb.create_sheet("OsOS", 0)
+
+            title_row = ["Parameter", "Value"]
+            self.write_title_row(sheet, title_row)
+
+            row = 2
+            self.write_cell(sheet, row, 1, "ScalabilityClass")
+            self.write_cell(sheet, row, 2, os_os.getOsScalabilityClass())
+            row += 1
+
+            self.write_cell(sheet, row, 1, "NumberOfCores")
+            self.write_cell(sheet, row, 2, os_os.getOsNumberOfCores())
+            row += 1
+
+            self.write_cell(sheet, row, 1, "StackMonitoring")
+            self.write_cell(sheet, row, 2, self.format_boolean(os_os.getOsStackMonitoring()))
+            row += 1
+
+            self.write_cell(sheet, row, 1, "UseGetServiceId")
+            self.write_cell(sheet, row, 2, self.format_boolean(os_os.getOsUseGetServiceId()))
+            row += 1
+
+            self.write_cell(sheet, row, 1, "UseParameterAccess")
+            self.write_cell(sheet, row, 2, self.format_boolean(os_os.getOsUseParameterAccess()))
+            row += 1
+
+            self.write_cell(sheet, row, 1, "UseResScheduler")
+            self.write_cell(sheet, row, 2, self.format_boolean(os_os.getOsUseResScheduler()))
+            row += 1
+
+            self.write_cell(sheet, row, 1, "Status")
+            self.write_cell(sheet, row, 2, os_os.getOsStatus())
+            row += 1
+
+            self.logger.debug("Write OsOS")
+            self.auto_width(sheet, {"A": 20, "B": 25})
+
+    def write_os_hooks(self, doc: EBModel):
+        hooks = doc.getOs().getOsHooks()
+        if hooks is not None:
+            sheet = self.wb.create_sheet("OsHooks", 0)
+
+            title_row = ["Hook", "Enabled"]
+            self.write_title_row(sheet, title_row)
+
+            row = 2
+            self.write_cell(sheet, row, 1, "ErrorHook")
+            self.write_cell(sheet, row, 2, self.format_boolean(hooks.getOsErrorHook()))
+            row += 1
+
+            self.write_cell(sheet, row, 1, "ShutdownHook")
+            self.write_cell(sheet, row, 2, self.format_boolean(hooks.getOsShutdownHook()))
+            row += 1
+
+            self.write_cell(sheet, row, 1, "StartupHook")
+            self.write_cell(sheet, row, 2, self.format_boolean(hooks.getOsStartupHook()))
+            row += 1
+
+            self.write_cell(sheet, row, 1, "PreTaskHook")
+            self.write_cell(sheet, row, 2, self.format_boolean(hooks.getOsPreTaskHook()))
+            row += 1
+
+            self.write_cell(sheet, row, 1, "PostTaskHook")
+            self.write_cell(sheet, row, 2, self.format_boolean(hooks.getOsPostTaskHook()))
+            row += 1
+
+            self.write_cell(sheet, row, 1, "ProtectionHook")
+            self.write_cell(sheet, row, 2, self.format_boolean(hooks.getOsProtectionHook()))
+            row += 1
+
+            self.write_cell(sheet, row, 1, "PreISRHook")
+            self.write_cell(sheet, row, 2, self.format_boolean(hooks.getOsPreISRHook()))
+            row += 1
+
+            self.write_cell(sheet, row, 1, "PostISRHook")
+            self.write_cell(sheet, row, 2, self.format_boolean(hooks.getOsPostISRHook()))
+            row += 1
+
+            self.logger.debug("Write OsHooks")
+            self.auto_width(sheet, {"A": 15, "B": 10})
+
     def write_os_tasks(self, doc: EBModel):
         sheet = self.wb.create_sheet("OsTask", 0)
 
@@ -219,6 +329,9 @@ class OsXdmXlsWriter(ExcelReporter):
         self.logger.info("Writing <%s>" % filename)
 
         # if not options['skip_os_task']:
+        self.write_os_spinlocks(doc)
+        self.write_os_os(doc)
+        self.write_os_hooks(doc)
         self.write_os_tasks(doc)
         self.write_os_applications(doc)
         self.write_os_isrs(doc)

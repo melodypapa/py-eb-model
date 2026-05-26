@@ -75,8 +75,8 @@ Verify that the OS parser correctly extracts XML namespace definitions from EB T
 | Requirement ID | Description | Status |
 |----------------|-------------|--------|
 | SWR_OS_00001 | Parser Layer - XDM file parsing and validation | Covered |
-| SWR_OS_00012 | Non-Functional - Efficient processing of 10MB files | Covered |
-| SWR_OS_00020 | Non-Functional - Inherit from AbstractEbModelParser | Covered |
+| SWR_OS_00021 | Non-Functional - Efficient processing of 10MB files | Covered |
+| SWR_OS_00029 | Non-Functional - Inherit from AbstractEbModelParser | Covered |
 
 ## References
 
@@ -168,7 +168,7 @@ Verify that the OS parser correctly extracts all task attributes from XDM config
 | Requirement ID | Description | Status |
 |----------------|-------------|--------|
 | SWR_OS_00002 | Task Management - Task attribute extraction and modeling | Covered |
-| SWR_OS_00014 | Non-Functional - O(1) lookup performance using dictionary | Covered |
+| SWR_OS_00023 | Non-Functional - O(1) lookup performance using dictionary | Covered |
 
 ## References
 
@@ -876,8 +876,8 @@ Verify that the OS reporter correctly generates Excel worksheets for all OS enti
 
 | Requirement ID | Description | Status |
 |----------------|-------------|--------|
-| SWR_OS_00010 | Reporter Layer - Excel worksheet generation and formatting | Covered |
-| SWR_OS_00013 | Non-Functional - Excel generation performance | Covered |
+| SWR_OS_00019 | Reporter Layer - Excel worksheet generation and formatting | Covered |
+| SWR_OS_00022 | Non-Functional - Excel generation performance | Covered |
 
 ## References
 
@@ -968,7 +968,7 @@ Verify that the OS CLI correctly parses command-line arguments, executes the par
 
 | Requirement ID | Description | Status |
 |----------------|-------------|--------|
-| SWR_OS_00011 | CLI Interface - Command-line argument parsing and execution | Covered |
+| SWR_OS_00020 | CLI Interface - Command-line argument parsing and execution | Covered |
 
 ## References
 
@@ -1055,8 +1055,8 @@ Verify that the OS parser correctly handles malformed XML files with missing tag
 
 | Requirement ID | Description | Status |
 |----------------|-------------|--------|
-| SWR_OS_00015 | Non-Functional - Malformed XML error handling | Covered |
-| SWR_OS_00016 | Non-Functional - Missing optional elements handling | Covered |
+| SWR_OS_00024 | Non-Functional - Malformed XML error handling | Covered |
+| SWR_OS_00025 | Non-Functional - Missing optional elements handling | Covered |
 
 ## References
 
@@ -1142,8 +1142,8 @@ Verify that the OS parser correctly validates required elements and references, 
 
 | Requirement ID | Description | Status |
 |----------------|-------------|--------|
-| SWR_OS_00017 | Non-Functional - Required element validation | Covered |
-| SWR_OS_00018 | Non-Functional - Path validation | Covered |
+| SWR_OS_00026 | Non-Functional - Required element validation | Covered |
+| SWR_OS_00027 | Non-Functional - Path validation | Covered |
 
 ## References
 
@@ -1157,3 +1157,745 @@ Verify that the OS parser correctly validates required elements and references, 
 | Version | Date | Author | Description |
 |---------|------|--------|-------------|
 | 1.0 | 2026-03-27 | Test Architect | Initial test case |
+---
+
+# Test Case: TC_UNIT_OS_00014
+
+## Document Information
+
+| Field | Value |
+|-------|----
+
+---
+
+# Test Case: TC_UNIT_OS_00014
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_OS_00014 |
+| Title | OS Model - Version Information Parsing |
+| Version | 1.0 |
+| Date | 2026-05-26 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | Medium |
+
+## Purpose/Objective
+
+Verify that the OS parser correctly extracts AUTOSAR and software version information from CommonPublishedInformation and PublishedInformation containers.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | XML fragment with CommonPublishedInformation container is available |
+| 3 | EBModel singleton is initialized |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| ArMajorVersion | 4 | AUTOSAR major version |
+| ArMinorVersion | 3 | AUTOSAR minor version |
+| ArPatchVersion | 0 | AUTOSAR patch version |
+| SwMajorVersion | 1 | Software major version |
+| SwMinorVersion | 2 | Software minor version |
+| SwPatchVersion | 3 | Software patch version |
+| PbcfgMSupport | true | Post-build configuration support flag |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Parse XML fragment with CommonPublishedInformation | CommonPublishedInformation object created |
+| 2 | Verify ArMajorVersion extraction | getArMajorVersion() returns 4 |
+| 3 | Verify ArMinorVersion extraction | getArMinorVersion() returns 3 |
+| 4 | Verify ArPatchVersion extraction | getArPatchVersion() returns 0 |
+| 5 | Verify SwMajorVersion extraction | getSwMajorVersion() returns 1 |
+| 6 | Verify SwMinorVersion extraction | getSwMinorVersion() returns 2 |
+| 7 | Verify SwPatchVersion extraction | getSwPatchVersion() returns 3 |
+| 8 | Parse PublishedInformation with PbcfgMSupport | PbcfgMSupport is true |
+| 9 | Verify absence of PublishedInformation is handled | No error when missing |
+
+## Expected Results
+
+- All version fields are extracted as integers
+- Version information is accessible through getter methods
+- Absence of PublishedInformation does not cause errors
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | Version objects remain in memory for verification |
+| 2 | No orphaned objects created |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_OS_00010 | Version Information - AUTOSAR and software version extraction | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_os-module.md |
+| Model Documentation | ../../src/eb_model/models/core/os_xdm.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-05-26 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_OS_00015
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_OS_00015 |
+| Title | OS Model - Event Synchronization Parsing |
+| Version | 1.0 |
+| Date | 2026-05-26 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | Medium |
+
+## Purpose/Objective
+
+Verify that the OS parser correctly extracts OsEvent containers with event masks from XDM configuration.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | XML fragment containing OsEvent containers is available |
+| 3 | EBModel singleton is initialized |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| Event Name | Event1 | Example event identifier |
+| Event Mask | 1 | Event mask value |
+| Event Name 2 | Event2 | Second event |
+| Event Mask 2 | 4 | Second event mask value |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Parse XML fragment with OsEvent containers | OsEvent objects created |
+| 2 | Verify event name extraction | getName() returns Event1 |
+| 3 | Verify event mask extraction | getOsEventMask() returns 1 |
+| 4 | Verify multiple events are parsed | Multiple events in list |
+| 5 | Verify event without mask is handled | No error |
+
+## Expected Results
+
+- Events with masks are extracted correctly
+- Multiple events are supported
+- Missing mask does not cause errors
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | OsEvent objects remain in memory |
+| 2 | EBModel contains updated event collection |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_OS_00012 | Event Synchronization - Event mask definition extraction | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_os-module.md |
+| Model Documentation | ../../src/eb_model/models/core/os_xdm.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-05-26 | Test Architect | Initial test case |
+
+
+
+# Test Case: TC_UNIT_OS_00016
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_OS_00016 |
+| Title | OS Model - Spinlock Synchronization Parsing |
+| Version | 1.0 |
+| Date | 2026-05-26 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | Medium |
+
+## Purpose/Objective
+
+Verify that the OS parser correctly extracts spinlock synchronization primitives including lock method, successor reference, and accessing applications.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | XML fragment containing OsSpinlock containers is available |
+| 3 | EBModel singleton is initialized |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| Spinlock Name | Spinlock1 | Example spinlock identifier |
+| Lock Method | LOCK_AND_TRY | Locking method type |
+| Successor | Spinlock2 | Optional successor spinlock reference |
+| Accessing Applications | App1, App2 | List of accessing application refs |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Parse XML fragment with OsSpinlock container | OsSpinlock object created |
+| 2 | Verify spinlock name extraction | getName() returns Spinlock1 |
+| 3 | Verify lock method extraction | getOsSpinlockLockMethod() returns LOCK_AND_TRY |
+| 4 | Verify successor reference extraction | getOsSpinlockSuccessor() is populated |
+| 5 | Verify accessing applications extraction | getOsSpinlockAccessingApplications() contains 2 refs |
+| 6 | Parse spinlock without successor | Successor is None, no error |
+| 7 | Parse spinlock without accessing applications | Empty list returned, no error |
+
+## Expected Results
+
+- All spinlock attributes are extracted correctly
+- Optional successor reference is handled when absent
+- Empty accessing applications list is returned as empty list
+- Spinlock is registered with parent OS module
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | OsSpinlock objects remain in memory |
+| 2 | EBModel contains updated spinlock collection |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_OS_00013 | Spinlock Synchronization - Multi-core spinlock configuration | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_os-module.md |
+| Parser Documentation | ../../src/eb_model/parser/core/os_xdm_parser.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-05-26 | Test Architect | Initial test case |
+
+
+
+# Test Case: TC_UNIT_OS_00017
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_OS_00017 |
+| Title | OS Model - Peripheral Area Parsing |
+| Version | 1.0 |
+| Date | 2026-05-26 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | Medium |
+
+## Purpose/Objective
+
+Verify that the OS parser correctly extracts peripheral memory area configurations including address ranges and access permissions.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | XML fragment containing OsPeripheralArea containers is available |
+| 3 | EBModel singleton is initialized |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| Area Name | Peripheral1 | Example peripheral area identifier |
+| Start Address | 0x40000000 | Area start address |
+| End Address | 0x40000FFF | Area end address |
+| Access Permission | READ_WRITE | Access permission type |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Parse XML fragment with OsPeripheralArea container | OsPeripheralArea object created |
+| 2 | Verify area name extraction | getName() returns Peripheral1 |
+| 3 | Verify start address extraction | getOsPeripheralAreaStartAddress() returns 0x40000000 |
+| 4 | Verify end address extraction | getOsPeripheralAreaEndAddress() returns 0x40000FFF |
+| 5 | Verify access permission extraction | getOsPeripheralAreaAccessPermission() returns READ_WRITE |
+| 6 | Verify multiple peripheral areas are supported | Multiple areas parsed |
+
+## Expected Results
+
+- All peripheral area attributes are extracted correctly
+- Address ranges are preserved as integers
+- Multiple areas are supported
+- Area is registered with parent OS module
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | OsPeripheralArea objects remain in memory |
+| 2 | EBModel contains updated peripheral area collection |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_OS_00014 | Peripheral Areas - Memory-mapped peripheral region configs | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_os-module.md |
+| Model Documentation | ../../src/eb_model/models/core/os_xdm.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-05-26 | Test Architect | Initial test case |
+
+
+
+# Test Case: TC_UNIT_OS_00018
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_OS_00018 |
+| Title | OS Model - OS Configuration (OsOS) Parsing |
+| Version | 1.0 |
+| Date | 2026-05-26 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | Medium |
+
+## Purpose/Objective
+
+Verify that the OS parser correctly extracts OS-level configuration parameters from the OsOS container.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | XML fragment containing OsOS container is available |
+| 3 | EBModel singleton is initialized |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| ScalabilityClass | SC1 | OS scalability class |
+| NumberOfCores | 2 | Multi-core count |
+| StackMonitoring | true | Stack monitoring flag |
+| UseGetServiceId | true | GetServiceId API flag |
+| UseParameterAccess | false | Parameter access flag |
+| UseResScheduler | true | Resource scheduler flag |
+| Status | STANDARD | OS status |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Parse XML fragment with OsOS container | OsOS object created |
+| 2 | Verify ScalabilityClass extraction | getOsScalabilityClass() returns SC1 |
+| 3 | Verify NumberOfCores extraction | getOsNumberOfCores() returns 2 |
+| 4 | Verify StackMonitoring extraction | getOsStackMonitoring() returns true |
+| 5 | Verify UseGetServiceId extraction | getOsUseGetServiceId() returns true |
+| 6 | Verify UseParameterAccess extraction | getOsUseParameterAccess() returns false |
+| 7 | Verify UseResScheduler extraction | getOsUseResScheduler() returns true |
+| 8 | Verify Status extraction | getOsStatus() returns STANDARD |
+| 9 | Verify absence of OsOS container is handled | No error when missing |
+
+## Expected Results
+
+- All OsOS parameters are extracted as optional values
+- Boolean parameters are correctly typed
+- Absence of OsOS does not cause errors
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | OsOS object remains in memory |
+| 2 | EBModel contains updated OS configuration |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_OS_00015 | OS Configuration (OsOS) - OS-level config parameter extraction | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_os-module.md |
+| Parser Documentation | ../../src/eb_model/parser/core/os_xdm_parser.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-05-26 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_OS_00019
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_OS_00019 |
+| Title | OS Model - Hook Configuration Parsing |
+| Version | 1.0 |
+| Date | 2026-05-26 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | Medium |
+
+## Purpose/Objective
+
+Verify that the OS parser correctly extracts hook configuration flags from the OsHooks container including standard and ISR hooks.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | XML fragment containing OsHooks container is available |
+| 3 | EBModel singleton is initialized |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| ErrorHook | true | Error hook flag |
+| ShutdownHook | false | Shutdown hook flag |
+| StartupHook | true | Startup hook flag |
+| PreTaskHook | false | Pre-task hook flag |
+| PostTaskHook | true | Post-task hook flag |
+| ProtectionHook | false | Protection hook flag |
+| PreISRHook | true | Pre-ISR hook flag |
+| PostISRHook | false | Post-ISR hook flag |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Parse XML fragment with OsHooks container | OsHooks object created |
+| 2 | Verify ErrorHook extraction | getOsErrorHook() returns true |
+| 3 | Verify ShutdownHook extraction | getOsShutdownHook() returns false |
+| 4 | Verify StartupHook extraction | getOsStartupHook() returns true |
+| 5 | Verify PreTaskHook extraction | getOsPreTaskHook() returns false |
+| 6 | Verify PostTaskHook extraction | getOsPostTaskHook() returns true |
+| 7 | Verify ProtectionHook extraction | getOsProtectionHook() returns false |
+| 8 | Verify PreISRHook extraction | getOsPreISRHook() returns true |
+| 9 | Verify PostISRHook extraction | getOsPostISRHook() returns false |
+| 10 | Verify absence of OsHooks container is handled | No error when missing |
+
+## Expected Results
+
+- All hook flags are extracted as booleans
+- PreISRHook and PostISRHook are correctly parsed
+- Absence of OsHooks does not cause errors
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | OsHooks object remains in memory |
+| 2 | EBModel contains updated hook configuration |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_OS_00016 | Hook Configuration - OS hook routine enable/disable settings | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_os-module.md |
+| Parser Documentation | ../../src/eb_model/parser/core/os_xdm_parser.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-05-26 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_OS_00020
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_OS_00020 |
+| Title | OS Model - Core Configuration Parsing |
+| Version | 1.0 |
+| Date | 2026-05-26 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | Medium |
+
+## Purpose/Objective
+
+Verify that the OS parser correctly extracts multi-core configuration from OsCoreConfig containers.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | XML fragment containing OsCoreConfig containers is available |
+| 3 | EBModel singleton is initialized |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| Core ID | 0 | Core identifier |
+| Main Function | Os_Core0_Main | Core main function name |
+| Stack Start Address | 0x10000000 | Core stack start address |
+| Stack Size | 4096 | Core stack size |
+| Core ID 2 | 1 | Second core identifier |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Parse XML fragment with multiple OsCoreConfig containers | OsCoreConfig objects created |
+| 2 | Verify core ID extraction | getOsCoreId() returns 0 |
+| 3 | Verify main function extraction | getOsCoreMainFunction() returns Os_Core0_Main |
+| 4 | Verify stack start address extraction | getOsCoreStackStartAddress() returns 0x10000000 |
+| 5 | Verify stack size extraction | getOsCoreStackSize() returns 4096 |
+| 6 | Verify second core configuration | Second OsCoreConfig has coreId=1 |
+
+## Expected Results
+
+- All core attributes are extracted correctly
+- Multiple core configurations are supported
+- Each core config is registered with parent OS module
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | OsCoreConfig objects remain in memory |
+| 2 | EBModel contains updated core config collection |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_OS_00017 | Core Configuration - Multi-core configuration per core | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_os-module.md |
+| Parser Documentation | ../../src/eb_model/parser/core/os_xdm_parser.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-05-26 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_OS_00021
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_OS_00021 |
+| Title | OS Model - AUTOSAR Customization Parsing |
+| Version | 1.0 |
+| Date | 2026-05-26 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | Low |
+
+## Purpose/Objective
+
+Verify that the OS parser correctly extracts AUTOSAR customization parameters from the OsAutosarCustomization container.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | XML fragment containing OsAutosarCustomization container is available |
+| 3 | EBModel singleton is initialized |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| ScalableClass | SC1 | Scalability class designation |
+| ApplicationType | APPLICATION_TYPE_A | Application type designation |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Parse XML fragment with OsAutosarCustomization | OsAutosarCustomization object created |
+| 2 | Verify ScalableClass extraction | getOsScalableClass() returns SC1 |
+| 3 | Verify ApplicationType extraction | getOsApplicationType() returns APPLICATION_TYPE_A |
+| 4 | Verify absence of container is handled | No error when missing |
+
+## Expected Results
+
+- All customization parameters are extracted correctly
+- Absence of container does not cause errors
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | OsAutosarCustomization object remains in memory |
+| 2 | EBModel contains updated customization |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_OS_00018 | AUTOSAR Customization - Scalability class and application type | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_os-module.md |
+| Model Documentation | ../../src/eb_model/models/core/os_xdm.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-05-26 | Test Architect | Initial test case |
+
+---
+
+# Test Case: TC_UNIT_OS_00022
+
+## Document Information
+
+| Field | Value |
+|-------|-------|
+| Test Case ID | TC_UNIT_OS_00022 |
+| Title | OS Model - Hardware Incrementer Parsing |
+| Version | 1.0 |
+| Date | 2026-05-26 |
+| Author | Test Architect |
+| Test Type | Unit |
+| Priority | Low |
+
+## Purpose/Objective
+
+Verify that the OS parser correctly extracts hardware incrementer configuration from the OsHwIncrementer container.
+
+## Preconditions
+
+| # | Description |
+|---|-------------|
+| 1 | py-eb-model package is installed |
+| 2 | XML fragment containing OsHwIncrementer container is available |
+| 3 | EBModel singleton is initialized |
+
+## Test Data/Input Specifications
+
+| Data Element | Value/Description | Purpose |
+|--------------|-------------------|---------|
+| HwIncrementerBase | 1000 | Base timer value |
+| HwIncrementerMax | 65535 | Maximum timer value |
+
+## Test Steps
+
+| Step | Action | Expected Result |
+|------|--------|-----------------|
+| 1 | Parse XML fragment with OsHwIncrementer | OsHwIncrementer object created |
+| 2 | Verify base value extraction | getOsHwIncrementerBase() returns 1000 |
+| 3 | Verify max value extraction | getOsHwIncrementerMax() returns 65535 |
+| 4 | Verify absence of container is handled | No error when missing |
+
+## Expected Results
+
+- All hardware incrementer parameters are extracted correctly
+- Absence of container does not cause errors
+
+## Post-conditions
+
+| # | Description |
+|---|-------------|
+| 1 | OsHwIncrementer object remains in memory |
+| 2 | EBModel contains updated incrementer config |
+
+## Requirements Coverage
+
+| Requirement ID | Description | Status |
+|----------------|-------------|--------|
+| SWR_OS_00011 | Hardware Incrementer - Hardware timer configuration | Covered |
+
+## References
+
+| Document Type | Reference |
+|---------------|-----------|
+| Requirement Document | ../requirements/swr_os-module.md |
+| Model Documentation | ../../src/eb_model/models/core/os_xdm.py |
+
+## Change History
+
+| Version | Date | Author | Description |
+|---------|------|--------|-------------|
+| 1.0 | 2026-05-26 | Test Architect | Initial test case |
+
