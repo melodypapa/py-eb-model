@@ -161,6 +161,8 @@ MOCK_OS_XDM = """<?xml version="1.0"?>
                   </d:lst>
                   <d:lst name="OsAppTaskRef">
                     <d:ref type="REFERENCE" value="ASPath:/Os/Task1"/>
+                    <d:ref type="REFERENCE" value="ASPath:/Os/Task3"/>
+                    <d:ref type="REFERENCE" value="ASPath:/Os/TaskExtended"/>
                   </d:lst>
                   <d:lst name="OsAppIsrRef">
                     <d:ref type="REFERENCE" value="ASPath:/Os/Isr1"/>
@@ -181,16 +183,22 @@ MOCK_OS_XDM = """<?xml version="1.0"?>
                   <d:var name="OsTrusted" type="BOOLEAN" value="true"/>
                   <d:var name="OsTrustedFunction" type="BOOLEAN" value="true"/>
                   <d:var name="OsRestartTask" type="BOOLEAN" value="true"/>
+                  <d:var name="OsApplicationCoreAssignment" type="INTEGER" value="0"/>
+                  <d:ref name="OsAppEcucPartitionRef" type="REFERENCE" value="ASPath:/Os/Partition0"/>
                 </d:ctr>
                 <d:ctr name="AppUntrusted">
                   <d:var name="OsTrusted" type="BOOLEAN" value="false"/>
                   <d:var name="OsTrustedFunction" type="BOOLEAN" value="false"/>
                   <d:var name="OsRestartTask" type="BOOLEAN" value="false"/>
+                  <d:var name="OsApplicationCoreAssignment" type="INTEGER" value="1"/>
+                  <d:ref name="OsAppEcucPartitionRef" type="REFERENCE" value="ASPath:/Os/Partition1"/>
                 </d:ctr>
                 <d:ctr name="AppMixed">
                   <d:var name="OsTrusted" type="BOOLEAN" value="false"/>
                   <d:var name="OsTrustedFunction" type="BOOLEAN" value="true"/>
                   <d:var name="OsRestartTask" type="BOOLEAN" value="true"/>
+                  <d:var name="OsApplicationCoreAssignment" type="INTEGER" value="0"/>
+                  <d:ref name="OsAppEcucPartitionRef" type="REFERENCE" value="ASPath:/Os/Partition0"/>
                 </d:ctr>
               </d:lst>
               <d:lst name="OsResource" type="MAP">
