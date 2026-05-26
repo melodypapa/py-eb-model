@@ -61,8 +61,12 @@ class TestNvMXdmParser:
                 xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
                 xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
             <d:ctr name="NvMDefensiveProgramming" type="IDENTIFIABLE">
-                <d:var name="NvMNullPointerCheck" type="BOOLEAN" value="true"/>
-                <d:var name="NvMParameterCheck" type="BOOLEAN" value="true"/>
+                <d:var name="NvMDefProgEnabled" type="BOOLEAN" value="true"/>
+                <d:var name="NvMPrecondAssertEnabled" type="BOOLEAN" value="false"/>
+                <d:var name="NvMPostcondAssertEnabled" type="BOOLEAN" value="false"/>
+                <d:var name="NvMStaticAssertEnabled" type="BOOLEAN" value="true"/>
+                <d:var name="NvMUnreachAssertEnabled" type="BOOLEAN" value="false"/>
+                <d:var name="NvMInvariantAssertEnabled" type="BOOLEAN" value="false"/>
             </d:ctr>
         </datamodel>
         """
@@ -75,8 +79,10 @@ class TestNvMXdmParser:
 
         defensive = nvm.getNvMDefensiveProgramming()
         assert defensive is not None
-        assert defensive.getNvMNullPointerCheck() is True
-        assert defensive.getNvMParameterCheck() is True
+        assert defensive.getNvMDefProgEnabled() is True
+        assert defensive.getNvMPrecondAssertEnabled() is False
+        assert defensive.getNvMStaticAssertEnabled() is True
+        assert defensive.getNvMInvariantAssertEnabled() is False
 
     def test_read_report_to_dem(self):
         xml_content = """
@@ -86,8 +92,10 @@ class TestNvMXdmParser:
                 xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
                 xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
             <d:ctr name="ReportToDem" type="IDENTIFIABLE">
-                <d:var name="NvMReportStorageFailed" type="BOOLEAN" value="true"/>
-                <d:var name="NvMReportVerificationFailed" type="BOOLEAN" value="false"/>
+                <d:var name="NvMIntegrityFailedReportToDem" type="ENUMERATION" value="DISABLE"/>
+                <d:var name="NvMIntegrityFailedReportToDemDetErrorId" type="INTEGER" value="25"/>
+                <d:var name="NvMRequestFailedReportToDem" type="ENUMERATION" value="ENABLE"/>
+                <d:var name="NvMRequestFailedReportToDemDetErrorId" type="INTEGER" value="26"/>
             </d:ctr>
         </datamodel>
         """
@@ -100,8 +108,10 @@ class TestNvMXdmParser:
 
         report = nvm.getReportToDem()
         assert report is not None
-        assert report.getNvMReportStorageFailed() is True
-        assert report.getNvMReportVerificationFailed() is False
+        assert report.getNvMIntegrityFailedReportToDem() == "DISABLE"
+        assert report.getNvMIntegrityFailedReportToDemDetErrorId() == 25
+        assert report.getNvMRequestFailedReportToDem() == "ENABLE"
+        assert report.getNvMRequestFailedReportToDemDetErrorId() == 26
 
     def test_read_nvm_common(self):
         xml_content = """
@@ -127,6 +137,17 @@ class TestNvMXdmParser:
                 <d:var name="NvMSizeStandardJobQueue" type="INTEGER" value="10"/>
                 <d:var name="NvMVersionInfoApi" type="BOOLEAN" value="false"/>
                 <d:var name="NvMBufferAlignmentValue" type="STRING" value=""/>
+                <d:var name="NvMSoftwareChangeCallout" type="FUNCTION-NAME" value=""/>
+                <d:var name="NvMDrvModeSwitch" type="BOOLEAN" value="false"/>
+                <d:var name="NvMCancelInternalOperations" type="BOOLEAN" value="false"/>
+                <d:var name="NvMReadBlockHook" type="BOOLEAN" value="false"/>
+                <d:var name="NvMRteUsage" type="BOOLEAN" value="true"/>
+                <d:var name="NvMWriteBlockHook" type="BOOLEAN" value="false"/>
+                <d:var name="NvMRedundantRecovery" type="ENUMERATION" value="NVM_RECOVERY_ON_REQUEST"/>
+                <d:var name="NvMExportBlockLengths" type="BOOLEAN" value="false"/>
+                <d:var name="NvMResultErasedBlocks" type="ENUMERATION" value="MEMIF_BLOCK_INCONSISTENT"/>
+                <d:var name="NvMEnableLegacySymbolicNames" type="BOOLEAN" value="true"/>
+                <d:var name="NvMResetRamBlockAfterReset" type="BOOLEAN" value="false"/>
             </d:ctr>
         </datamodel>
         """
@@ -142,6 +163,17 @@ class TestNvMXdmParser:
         assert common.getNvMApiConfigClass() == "NVM_CCP"
         assert common.getNvMDevErrorDetect() is True
         assert common.getNvMMemAccUsage() is True
+        assert common.getNvMCompiledConfigId() == 0
+        assert common.getNvMDrvModeSwitch() is False
+        assert common.getNvMCancelInternalOperations() is False
+        assert common.getNvMReadBlockHook() is False
+        assert common.getNvMRteUsage() is True
+        assert common.getNvMWriteBlockHook() is False
+        assert common.getNvMRedundantRecovery() == "NVM_RECOVERY_ON_REQUEST"
+        assert common.getNvMExportBlockLengths() is False
+        assert common.getNvMResultErasedBlocks() == "MEMIF_BLOCK_INCONSISTENT"
+        assert common.getNvMEnableLegacySymbolicNames() is True
+        assert common.getNvMResetRamBlockAfterReset() is False
 
     def test_read_nvm_block_descriptors(self):
         xml_content = """
@@ -212,3 +244,95 @@ class TestNvMXdmParser:
         assert block.getNvMExtraBlockChecks() is False
         assert block.getNvMProvideRteAdminPort() is True
         assert block.getNvMProvideRteInitBlockPort() is False
+
+    def test_read_nvm_common_crypto_security_parameters(self):
+        xml_content = """
+        <datamodel version="8.0"
+                xmlns="http://www.tresos.de/_projects/DataModel2/18/root.xsd"
+                xmlns:a="http://www.tresos.de/_projects/DataModel2/18/attribute.xsd"
+                xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+                xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+            <d:ctr name="NvMCommonCryptoSecurityParameters" type="IDENTIFIABLE">
+                <d:var name="NvMEnableCryptoSecurityHooks" type="BOOLEAN" value="true"/>
+                <d:var name="NvMCryptoReadHook" type="FUNCTION-NAME" value="NvM_CryptoRead"/>
+                <d:var name="NvMCryptoWriteHook" type="FUNCTION-NAME" value="NvM_CryptoWrite"/>
+            </d:ctr>
+        </datamodel>
+        """
+        element = ET.fromstring(xml_content)
+        model = EBModel.getInstance()
+        nvm = model.getNvM()
+        self.parser.read_nvm_common_crypto_security_parameters(element, nvm)
+        crypto = nvm.getNvMCommonCryptoSecurityParameters()
+        assert crypto is not None
+        assert crypto.getNvMEnableCryptoSecurityHooks() is True
+        assert crypto.getNvMCryptoReadHook() == "NvM_CryptoRead"
+        assert crypto.getNvMCryptoWriteHook() == "NvM_CryptoWrite"
+
+    def test_read_nvm_service_api(self):
+        xml_content = """
+        <datamodel version="8.0"
+                xmlns="http://www.tresos.de/_projects/DataModel2/18/root.xsd"
+                xmlns:a="http://www.tresos.de/_projects/DataModel2/18/attribute.xsd"
+                xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+                xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+            <d:ctr name="NvMServiceAPI" type="IDENTIFIABLE">
+                <d:var name="NvMEnableASR32ServiceAPI" type="BOOLEAN" value="false"/>
+                <d:var name="NvMEnableASR40ServiceAPI" type="BOOLEAN" value="false"/>
+                <d:var name="NvMEnableASR42ServiceAPI" type="BOOLEAN" value="true"/>
+                <d:var name="NvMDefaultASRServiceAPI" type="ENUMERATION" value="AUTOSAR_42"/>
+            </d:ctr>
+        </datamodel>
+        """
+        element = ET.fromstring(xml_content)
+        model = EBModel.getInstance()
+        nvm = model.getNvM()
+        self.parser.read_nvm_service_api(element, nvm)
+        api = nvm.getNvMServiceAPI()
+        assert api is not None
+        assert api.getNvMEnableASR32ServiceAPI() is False
+        assert api.getNvMEnableASR42ServiceAPI() is True
+        assert api.getNvMDefaultASRServiceAPI() == "AUTOSAR_42"
+
+    def test_read_nvm_dem_event_parameter_refs(self):
+        xml_content = """
+        <datamodel version="8.0"
+                xmlns="http://www.tresos.de/_projects/DataModel2/18/root.xsd"
+                xmlns:a="http://www.tresos.de/_projects/DataModel2/18/attribute.xsd"
+                xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+                xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+            <d:ctr name="NvmDemEventParameterRefs" type="IDENTIFIABLE">
+                <d:ref name="NVM_E_INTEGRITY_FAILED" type="REFERENCE" value="ASPath:/Dem/Dem/DemEvent"/>
+                <d:ref name="NVM_E_REQ_FAILED" type="REFERENCE" value="ASPath:/Dem/Dem/DemEvent2"/>
+            </d:ctr>
+        </datamodel>
+        """
+        element = ET.fromstring(xml_content)
+        model = EBModel.getInstance()
+        nvm = model.getNvM()
+        self.parser.read_nvm_dem_event_parameter_refs(element, nvm)
+        dem_params = nvm.getNvmDemEventParameterRefs()
+        assert dem_params is not None
+        assert len(dem_params.getDemEventRefList()) == 2
+
+    def test_read_multi_core_callout(self):
+        xml_content = """
+        <datamodel version="8.0"
+                xmlns="http://www.tresos.de/_projects/DataModel2/18/root.xsd"
+                xmlns:a="http://www.tresos.de/_projects/DataModel2/18/attribute.xsd"
+                xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+                xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+            <d:ctr name="MultiCoreCallout" type="IDENTIFIABLE">
+                <d:var name="NvMReadBlockCallout" type="FUNCTION-NAME" value="NvM_ReadBlock_Callout"/>
+                <d:var name="NvMWriteBlockCallout" type="FUNCTION-NAME" value="NvM_WriteBlock_Callout"/>
+            </d:ctr>
+        </datamodel>
+        """
+        element = ET.fromstring(xml_content)
+        model = EBModel.getInstance()
+        nvm = model.getNvM()
+        self.parser.read_multi_core_callout(element, nvm)
+        callout = nvm.getMultiCoreCallout()
+        assert callout is not None
+        assert callout.getNvMReadBlockCallout() == "NvM_ReadBlock_Callout"
+        assert callout.getNvMWriteBlockCallout() == "NvM_WriteBlock_Callout"

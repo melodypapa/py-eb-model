@@ -196,23 +196,32 @@ class NvMXdmParser(AbstractEbModelParser):
         ctr_tag = self.find_ctr_tag(element, "NvmDemEventParameterRefs")
         if ctr_tag is not None:
             dem_params = NvmDemEventParameterRefs(nvm, ctr_tag.attrib["name"])
-            for ref in self.read_ref_value_list(ctr_tag, "NVM_E_INTEGRITY_FAILED"):
+            ref = self.read_optional_ref_value(ctr_tag, "NVM_E_INTEGRITY_FAILED")
+            if ref:
                 dem_params.addDemEventRef(ref)
-            for ref in self.read_ref_value_list(ctr_tag, "NVM_E_LOSS_OF_REDUNDANCY"):
+            ref = self.read_optional_ref_value(ctr_tag, "NVM_E_LOSS_OF_REDUNDANCY")
+            if ref:
                 dem_params.addDemEventRef(ref)
-            for ref in self.read_ref_value_list(ctr_tag, "NVM_E_QUEUE_OVERFLOW"):
+            ref = self.read_optional_ref_value(ctr_tag, "NVM_E_QUEUE_OVERFLOW")
+            if ref:
                 dem_params.addDemEventRef(ref)
-            for ref in self.read_ref_value_list(ctr_tag, "NVM_E_REQ_FAILED"):
+            ref = self.read_optional_ref_value(ctr_tag, "NVM_E_REQ_FAILED")
+            if ref:
                 dem_params.addDemEventRef(ref)
-            for ref in self.read_ref_value_list(ctr_tag, "NVM_E_VERIFY_FAILED"):
+            ref = self.read_optional_ref_value(ctr_tag, "NVM_E_VERIFY_FAILED")
+            if ref:
                 dem_params.addDemEventRef(ref)
-            for ref in self.read_ref_value_list(ctr_tag, "NVM_E_WRITE_PROTECTED"):
+            ref = self.read_optional_ref_value(ctr_tag, "NVM_E_WRITE_PROTECTED")
+            if ref:
                 dem_params.addDemEventRef(ref)
-            for ref in self.read_ref_value_list(ctr_tag, "NVM_E_WRONG_BLOCK_ID"):
+            ref = self.read_optional_ref_value(ctr_tag, "NVM_E_WRONG_BLOCK_ID")
+            if ref:
                 dem_params.addDemEventRef(ref)
-            for ref in self.read_ref_value_list(ctr_tag, "NVM_E_BLOCK_CHECK"):
+            ref = self.read_optional_ref_value(ctr_tag, "NVM_E_BLOCK_CHECK")
+            if ref:
                 dem_params.addDemEventRef(ref)
-            for ref in self.read_ref_value_list(ctr_tag, "NVM_E_HARDWARE"):
+            ref = self.read_optional_ref_value(ctr_tag, "NVM_E_HARDWARE")
+            if ref:
                 dem_params.addDemEventRef(ref)
             nvm.setNvmDemEventParameterRefs(dem_params)
             self.logger.debug("Read NvmDemEventParameterRefs")
