@@ -89,6 +89,23 @@ class NvMXdmParser(AbstractEbModelParser):
             for ref in self.read_ref_value_list(ctr_tag, "NvMEcucPartitionRef"):
                 nvm_common.addNvMEcucPartitionRef(ref)
             nvm_common.setNvMMasterEcucPartitionRef(self.read_optional_ref_value(ctr_tag, "NvMMasterEcucPartitionRef"))
+            nvm_common.setNvMSoftwareChangeCallout(self.read_optional_value(ctr_tag, "NvMSoftwareChangeCallout"))
+            nvm_common.setNvMDrvModeSwitch(self.read_optional_value(ctr_tag, "NvMDrvModeSwitch"))
+            nvm_common.setNvMCancelInternalOperations(self.read_optional_value(ctr_tag, "NvMCancelInternalOperations"))
+            nvm_common.setNvMReadBlockHook(self.read_optional_value(ctr_tag, "NvMReadBlockHook"))
+            nvm_common.setNvMRteUsage(self.read_optional_value(ctr_tag, "NvMRteUsage"))
+            header_lst = self.find_lst_tag(ctr_tag, "NvMUserHeader")
+            if header_lst is not None:
+                for var in header_lst.findall("d:var", self.nsmap):
+                    value = var.get("value")
+                    if value:
+                        nvm_common.addNvMUserHeader(value)
+            nvm_common.setNvMWriteBlockHook(self.read_optional_value(ctr_tag, "NvMWriteBlockHook"))
+            nvm_common.setNvMRedundantRecovery(self.read_optional_value(ctr_tag, "NvMRedundantRecovery"))
+            nvm_common.setNvMExportBlockLengths(self.read_optional_value(ctr_tag, "NvMExportBlockLengths"))
+            nvm_common.setNvMResultErasedBlocks(self.read_optional_value(ctr_tag, "NvMResultErasedBlocks"))
+            nvm_common.setNvMEnableLegacySymbolicNames(self.read_optional_value(ctr_tag, "NvMEnableLegacySymbolicNames"))
+            nvm_common.setNvMResetRamBlockAfterReset(self.read_optional_value(ctr_tag, "NvMResetRamBlockAfterReset"))
 
             nvm.setNvMCommon(nvm_common)
 
@@ -126,57 +143,153 @@ class NvMXdmParser(AbstractEbModelParser):
             self.logger.debug("Read PublishedInformation")
 
     def read_nvm_defensive_programming(self, element: ET.Element, nvm: NvM):
-        """Parse NvMDefensiveProgramming container from XDM."""
+        """Parse NvMDefensiveProgramming container from XDM.
+
+        Implements: SWR_NVM_00005
+        """
         ctr_tag = self.find_ctr_tag(element, "NvMDefensiveProgramming")
         if ctr_tag is not None:
             defensive = NvMDefensiveProgramming(nvm, ctr_tag.attrib["name"])
-            defensive.setNvMNullPointerCheck(self.read_optional_value(ctr_tag, "NvMNullPointerCheck"))
-            defensive.setNvMParameterCheck(self.read_optional_value(ctr_tag, "NvMParameterCheck"))
+            defensive.setNvMDefProgEnabled(self.read_optional_value(ctr_tag, "NvMDefProgEnabled"))
+            defensive.setNvMPrecondAssertEnabled(self.read_optional_value(ctr_tag, "NvMPrecondAssertEnabled"))
+            defensive.setNvMPostcondAssertEnabled(self.read_optional_value(ctr_tag, "NvMPostcondAssertEnabled"))
+            defensive.setNvMStaticAssertEnabled(self.read_optional_value(ctr_tag, "NvMStaticAssertEnabled"))
+            defensive.setNvMUnreachAssertEnabled(self.read_optional_value(ctr_tag, "NvMUnreachAssertEnabled"))
+            defensive.setNvMInvariantAssertEnabled(self.read_optional_value(ctr_tag, "NvMInvariantAssertEnabled"))
             nvm.setNvMDefensiveProgramming(defensive)
             self.logger.debug("Read NvMDefensiveProgramming")
 
     def read_nvm_common_crypto_security_parameters(self, element: ET.Element, nvm: NvM):
-        """Parse NvMCommonCryptoSecurityParameters container from XDM."""
+        """Parse NvMCommonCryptoSecurityParameters container from XDM.
+
+        Implements: SWR_NVM_00006
+        """
         ctr_tag = self.find_ctr_tag(element, "NvMCommonCryptoSecurityParameters")
         if ctr_tag is not None:
             crypto = NvMCommonCryptoSecurityParameters(nvm, ctr_tag.attrib["name"])
-            crypto.setNvMCryptoPrimitive(self.read_optional_value(ctr_tag, "NvMCryptoPrimitive"))
-            crypto.setNvMKeyAddress(self.read_optional_value(ctr_tag, "NvMKeyAddress"))
+            crypto.setNvMEnableCryptoSecurityHooks(self.read_optional_value(ctr_tag, "NvMEnableCryptoSecurityHooks"))
+            crypto.setNvMCryptoReadHook(self.read_optional_value(ctr_tag, "NvMCryptoReadHook"))
+            crypto.setNvMCryptoWriteHook(self.read_optional_value(ctr_tag, "NvMCryptoWriteHook"))
             nvm.setNvMCommonCryptoSecurityParameters(crypto)
             self.logger.debug("Read NvMCommonCryptoSecurityParameters")
 
     def read_nvm_service_api(self, element: ET.Element, nvm: NvM):
-        """Parse NvMServiceAPI container from XDM."""
+        """Parse NvMServiceAPI container from XDM.
+
+        Implements: SWR_NVM_00007
+        """
         ctr_tag = self.find_ctr_tag(element, "NvMServiceAPI")
         if ctr_tag is not None:
             service_api = NvMServiceAPI(nvm, ctr_tag.attrib["name"])
-            service_api.setNvMVersionInfoApi(self.read_optional_value(ctr_tag, "NvMVersionInfoApi"))
+            service_api.setNvMEnableASR32ServiceAPI(self.read_optional_value(ctr_tag, "NvMEnableASR32ServiceAPI"))
+            service_api.setNvMEnableASR40ServiceAPI(self.read_optional_value(ctr_tag, "NvMEnableASR40ServiceAPI"))
+            service_api.setNvMEnableASR42ServiceAPI(self.read_optional_value(ctr_tag, "NvMEnableASR42ServiceAPI"))
+            service_api.setNvMDefaultASRServiceAPI(self.read_optional_value(ctr_tag, "NvMDefaultASRServiceAPI"))
             nvm.setNvMServiceAPI(service_api)
             self.logger.debug("Read NvMServiceAPI")
 
     def read_nvm_dem_event_parameter_refs(self, element: ET.Element, nvm: NvM):
-        """Parse NvmDemEventParameterRefs container from XDM."""
+        """Parse NvmDemEventParameterRefs container from XDM.
+
+        Implements: SWR_NVM_00008
+        """
         ctr_tag = self.find_ctr_tag(element, "NvmDemEventParameterRefs")
         if ctr_tag is not None:
             dem_params = NvmDemEventParameterRefs(nvm, ctr_tag.attrib["name"])
+            ref = self.read_optional_ref_value(ctr_tag, "NVM_E_INTEGRITY_FAILED")
+            if ref:
+                dem_params.addDemEventRef(ref)
+            ref = self.read_optional_ref_value(ctr_tag, "NVM_E_LOSS_OF_REDUNDANCY")
+            if ref:
+                dem_params.addDemEventRef(ref)
+            ref = self.read_optional_ref_value(ctr_tag, "NVM_E_QUEUE_OVERFLOW")
+            if ref:
+                dem_params.addDemEventRef(ref)
+            ref = self.read_optional_ref_value(ctr_tag, "NVM_E_REQ_FAILED")
+            if ref:
+                dem_params.addDemEventRef(ref)
+            ref = self.read_optional_ref_value(ctr_tag, "NVM_E_VERIFY_FAILED")
+            if ref:
+                dem_params.addDemEventRef(ref)
+            ref = self.read_optional_ref_value(ctr_tag, "NVM_E_WRITE_PROTECTED")
+            if ref:
+                dem_params.addDemEventRef(ref)
+            ref = self.read_optional_ref_value(ctr_tag, "NVM_E_WRONG_BLOCK_ID")
+            if ref:
+                dem_params.addDemEventRef(ref)
+            ref = self.read_optional_ref_value(ctr_tag, "NVM_E_BLOCK_CHECK")
+            if ref:
+                dem_params.addDemEventRef(ref)
+            ref = self.read_optional_ref_value(ctr_tag, "NVM_E_HARDWARE")
+            if ref:
+                dem_params.addDemEventRef(ref)
             nvm.setNvmDemEventParameterRefs(dem_params)
             self.logger.debug("Read NvmDemEventParameterRefs")
 
     def read_report_to_dem(self, element: ET.Element, nvm: NvM):
-        """Parse ReportToDem container from XDM."""
+        """Parse ReportToDem container from XDM.
+
+        Implements: SWR_NVM_00009
+        """
         ctr_tag = self.find_ctr_tag(element, "ReportToDem")
         if ctr_tag is not None:
             report = ReportToDem(nvm, ctr_tag.attrib["name"])
-            report.setNvMReportStorageFailed(self.read_optional_value(ctr_tag, "NvMReportStorageFailed"))
-            report.setNvMReportVerificationFailed(self.read_optional_value(ctr_tag, "NvMReportVerificationFailed"))
+            report.setNvMUserCalloutFunctionProductionErrors(
+                self.read_optional_value(ctr_tag, "NvMUserCalloutFunctionProductionErrors"))
+            report.setNvMUserCalloutFunctionPassedProductionErrors(
+                self.read_optional_value(ctr_tag, "NvMUserCalloutFunctionPassedProductionErrors"))
+            report.setNvMIntegrityFailedReportToDem(
+                self.read_optional_value(ctr_tag, "NvMIntegrityFailedReportToDem"))
+            report.setNvMIntegrityFailedReportToDemDetErrorId(
+                self.read_optional_value(ctr_tag, "NvMIntegrityFailedReportToDemDetErrorId"))
+            report.setNvMRequestFailedReportToDem(
+                self.read_optional_value(ctr_tag, "NvMRequestFailedReportToDem"))
+            report.setNvMRequestFailedReportToDemDetErrorId(
+                self.read_optional_value(ctr_tag, "NvMRequestFailedReportToDemDetErrorId"))
+            report.setNvMWrongBlockIdReportToDem(
+                self.read_optional_value(ctr_tag, "NvMWrongBlockIdReportToDem"))
+            report.setNvMWrongBlockIdReportToDemDetErrorId(
+                self.read_optional_value(ctr_tag, "NvMWrongBlockIdReportToDemDetErrorId"))
+            report.setNvMLossOfRedundancyReportToDem(
+                self.read_optional_value(ctr_tag, "NvMLossOfRedundancyReportToDem"))
+            report.setNvMLossOfRedundancyReportToDemDetErrorId(
+                self.read_optional_value(ctr_tag, "NvMLossOfRedundancyReportToDemDetErrorId"))
+            report.setNvMQueueOverflowReportToDem(
+                self.read_optional_value(ctr_tag, "NvMQueueOverflowReportToDem"))
+            report.setNvMQueueOverflowReportToDemDetErrorId(
+                self.read_optional_value(ctr_tag, "NvMQueueOverflowReportToDemDetErrorId"))
+            report.setNvMVerifyFailedReportToDem(
+                self.read_optional_value(ctr_tag, "NvMVerifyFailedReportToDem"))
+            report.setNvMVerifyFailedReportToDemDetErrorId(
+                self.read_optional_value(ctr_tag, "NvMVerifyFailedReportToDemDetErrorId"))
+            report.setNvMWriteProtectedReportToDem(
+                self.read_optional_value(ctr_tag, "NvMWriteProtectedReportToDem"))
+            report.setNvMWriteProtectedReportToDemDetErrorId(
+                self.read_optional_value(ctr_tag, "NvMWriteProtectedReportToDemDetErrorId"))
+            report.setNvMBlockCheckReportProdError(
+                self.read_optional_value(ctr_tag, "NvMBlockCheckReportProdError"))
+            report.setNvMBlockCheckReportProdErrorId(
+                self.read_optional_value(ctr_tag, "NvMBlockCheckReportProdErrorId"))
             nvm.setReportToDem(report)
             self.logger.debug("Read ReportToDem")
 
     def read_multi_core_callout(self, element: ET.Element, nvm: NvM):
-        """Parse MultiCoreCallout container from XDM."""
+        """Parse MultiCoreCallout container from XDM.
+
+        Implements: SWR_NVM_00010
+        """
         ctr_tag = self.find_ctr_tag(element, "MultiCoreCallout")
         if ctr_tag is not None:
             callout = MultiCoreCallout(nvm, ctr_tag.attrib["name"])
+            callout.setNvMReadBlockCallout(self.read_optional_value(ctr_tag, "NvMReadBlockCallout"))
+            callout.setNvMWriteBlockCallout(self.read_optional_value(ctr_tag, "NvMWriteBlockCallout"))
+            callout.setNvMRestoreBlockDefaultsCallout(self.read_optional_value(ctr_tag, "NvMRestoreBlockDefaultsCallout"))
+            callout.setNvMReadPRAMBlockCallout(self.read_optional_value(ctr_tag, "NvMReadPRAMBlockCallout"))
+            callout.setNvMWritePRAMBlockCallout(self.read_optional_value(ctr_tag, "NvMWritePRAMBlockCallout"))
+            callout.setNvMRestorePRAMBlockDefaultsCallout(self.read_optional_value(ctr_tag, "NvMRestorePRAMBlockDefaultsCallout"))
+            callout.setNvMEraseNvBlockCallout(self.read_optional_value(ctr_tag, "NvMEraseNvBlockCallout"))
+            callout.setNvMInvalidateNvBlockCallout(self.read_optional_value(ctr_tag, "NvMInvalidateNvBlockCallout"))
+            callout.setNvMCancelJobsCallout(self.read_optional_value(ctr_tag, "NvMCancelJobsCallout"))
             nvm.setMultiCoreCallout(callout)
             self.logger.debug("Read MultiCoreCallout")
 
@@ -244,11 +357,42 @@ class NvMXdmParser(AbstractEbModelParser):
             nvm_block.setNvMWriteRamBlockToNvCallback(self.read_optional_value(ctr_tag, "NvMWriteRamBlockToNvCallback"))
             nvm_block.setNvMBlockUseSyncMechanism(self.read_value(ctr_tag, "NvMBlockUseSyncMechanism"))
 
+            nvm_block.setNvMEnBlockCheck(self.read_optional_value(ctr_tag, "NvMEnBlockCheck"))
+            nvm_block.setNvMEnableBlockCryptoSecurityHandling(self.read_optional_value(ctr_tag, "NvMEnableBlockCryptoSecurityHandling"))
+            nvm_block.setNvMCryptoExtraInfoSize(self.read_optional_value(ctr_tag, "NvMCryptoExtraInfoSize"))
+            nvm_block.setNvMBcEnSetAPI(self.read_optional_value(ctr_tag, "NvMBcEnSetAPI"))
+            nvm_block.setNvMBcEnAutoStart(self.read_optional_value(ctr_tag, "NvMBcEnAutoStart"))
+            nvm_block.setNvMBcEnCrcComp(self.read_optional_value(ctr_tag, "NvMBcEnCrcComp"))
+            nvm_block.setNvMBcEnRamComp(self.read_optional_value(ctr_tag, "NvMBcEnRamComp"))
+            nvm_block.setNvMBcEnReddCopiesComp(self.read_optional_value(ctr_tag, "NvMBcEnReddCopiesComp"))
+            nvm_block.setNvMBcEnAutoRepair(self.read_optional_value(ctr_tag, "NvMBcEnAutoRepair"))
+            nvm_block.setNvMBcDelayCounter(self.read_optional_value(ctr_tag, "NvMBcDelayCounter"))
+            nvm_block.setNvMWriteBlockOnce(self.read_optional_value(ctr_tag, "NvMWriteBlockOnce"))
+            nvm_block.setNvMWriteVerification(self.read_optional_value(ctr_tag, "NvMWriteVerification"))
+            nvm_block.setNvMWriteVerificationDataSize(self.read_optional_value(ctr_tag, "NvMWriteVerificationDataSize"))
+            nvm_block.setNvMPreWriteDataComp(self.read_optional_value(ctr_tag, "NvMPreWriteDataComp"))
+            nvm_block.setNvMPreWriteDataCompDataSize(self.read_optional_value(ctr_tag, "NvMPreWriteDataCompDataSize"))
+
             self.read_nvm_init_block_callback(ctr_tag, nvm_block)
             self.read_nvm_single_block_callback(ctr_tag, nvm_block)
 
             nvm_block.setNvMNvBlockBaseNumber(self.read_value(ctr_tag, "NvMNvBlockBaseNumber"))
             self.read_nvm_block_target_block_reference(ctr_tag, nvm_block)
+
+            nvm_block.setNvMBlockWriteProt(self.read_optional_value(ctr_tag, "NvMBlockWriteProt"))
+            nvm_block.setNvMBswMBlockStatusInformation(self.read_optional_value(ctr_tag, "NvMBswMBlockStatusInformation"))
+            nvm_block.setNvMBlockUseAutoValidation(self.read_optional_value(ctr_tag, "NvMBlockUseAutoValidation"))
+            nvm_block.setNvMBlockUseCompression(self.read_optional_value(ctr_tag, "NvMBlockUseCompression"))
+            nvm_block.setNvMBlockUsePort(self.read_optional_value(ctr_tag, "NvMBlockUsePort"))
+            nvm_block.setNvMBlockUseSetRamBlockStatus(self.read_optional_value(ctr_tag, "NvMBlockUseSetRamBlockStatus"))
+            nvm_block.setNvMCalcRamBlockCrc(self.read_optional_value(ctr_tag, "NvMCalcRamBlockCrc"))
+            nvm_block.setNvMMaxNumOfReadRetries(self.read_optional_value(ctr_tag, "NvMMaxNumOfReadRetries"))
+            nvm_block.setNvMMaxNumOfWriteRetries(self.read_optional_value(ctr_tag, "NvMMaxNumOfWriteRetries"))
+            nvm_block.setNvMSelectBlockForFirstInitAll(self.read_optional_value(ctr_tag, "NvMSelectBlockForFirstInitAll"))
+            nvm_block.setNvMStaticBlockIDCheck(self.read_optional_value(ctr_tag, "NvMStaticBlockIDCheck"))
+            nvm_block.setNvMNvramDeviceId(self.read_optional_value(ctr_tag, "NvMNvramDeviceId"))
+            nvm_block.setNvMBlockHeaderInclude(self.read_optional_value(ctr_tag, "NvMBlockHeaderInclude"))
+            nvm_block.setNvMBlockCipheringRef(self.read_optional_ref_value(ctr_tag, "NvMBlockCipheringRef"))
 
             nvm.addNvMBlockDescriptor(nvm_block)
 
