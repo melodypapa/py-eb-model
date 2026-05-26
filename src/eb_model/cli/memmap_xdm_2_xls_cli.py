@@ -5,8 +5,8 @@ import sys
 import argparse
 import os.path
 import logging
-import pkg_resources
 
+from eb_model import __version__
 from eb_model.parser.eb_parser_factory import EbParserFactory
 from eb_model.models.core.eb_doc import EBModel
 from eb_model.reporter.excel_reporter.memmap_xdm import MemMapXdmXlsWriter
@@ -14,9 +14,7 @@ from eb_model.reporter.excel_reporter.memmap_xdm import MemMapXdmXlsWriter
 
 def main():
     """Convert MemMap XDM file to Excel format."""
-    version = pkg_resources.require("py_eb_model")[0].version
-
-    ap = argparse.ArgumentParser(description='Version: %s' % version)
+    ap = argparse.ArgumentParser(description=f'Version: {__version__}')
     ap.add_argument("-v", "--verbose", required=False, help="Print debug information.", action="store_true")
     ap.add_argument("INPUT", help="The path of MemMap.xdm.")
     ap.add_argument("OUTPUT", help="The path of excel file.")

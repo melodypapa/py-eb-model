@@ -1,20 +1,18 @@
 import argparse
-import pkg_resources
 import logging
 import sys
 import os.path
 import re
 
+from eb_model import __version__
 from eb_model.writer import TextPreferenceModelWriter, ABProjectWriter
 from eb_model.parser import PerfXdmParser
 from eb_model.models import PreferenceModel
 
 
 def main():
-    version = pkg_resources.require("py_eb_model")[0].version
-
     ap = argparse.ArgumentParser()
-    ap.description = "PrefSystemImporter ver: %s" % version
+    ap.description = f"PrefSystemImporter ver: {__version__}"
     ap.add_argument("-v", "--verbose", required=False,
                     help="print debug information.", action="store_true")
     ap.add_argument("--file-list", required=False,

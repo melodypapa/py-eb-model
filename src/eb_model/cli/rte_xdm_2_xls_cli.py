@@ -36,7 +36,7 @@ def process_logger(args):
 
 
 def main():
-    # version = pkg_resources.require("py_eb_model")[0].version
+    # version = __version__
 
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--verbose", required=False, help="Print debug information", action="store_true")
