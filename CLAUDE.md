@@ -225,7 +225,7 @@ Add entry point in `pyproject.toml` under `[project.scripts]` section following 
 - J1939: `j1939dcm-xdm-xlsx`, `j1939nm-xdm-xlsx`, `j1939rm-xdm-xlsx`, `j1939tp-xdm-xlsx`
 - `PrefSystemImporter`: EB preference XDM to ARXML file list or AUTOSAR builder project
 
-See [docs/cli.md](docs/cli.md) for detailed CLI usage documentation.
+See [docs/usage/cli.md](docs/usage/cli.md) for detailed CLI usage documentation.
 
 ## File Structure Notes
 
@@ -234,6 +234,33 @@ See [docs/cli.md](docs/cli.md) for detailed CLI usage documentation.
 - CLI entry points in `src/eb_model/cli/`
 - Configuration in `pyproject.toml` (build dependencies, tool config, pytest markers)
 - No `requirements.txt` - dependencies declared in `pyproject.toml`
+
+### Documentation Structure
+
+The project uses a three-tier documentation structure:
+
+```
+docs/
+├── requirements/          # Software requirements (273 requirements)
+│   ├── can_stack/        # CAN stack requirements
+│   ├── core/             # Core modules (OS, RTE, EcuC, BSW)
+│   ├── eth_stack/        # Ethernet stack requirements
+│   ├── mem_stack/        # Memory stack requirements
+│   └── ...               # Other stacks
+├── tests/                # Test specifications (765 test cases)
+│   ├── unit/             # Unit test specs (UTS_*.md)
+│   ├── integration/      # Integration test specs (ITS_*.md)
+│   ├── system/           # System test specs (SYTS_*.md)
+│   └── requirements-traceability-matrix.md
+└── usage/                # User documentation
+    └── cli.md            # CLI usage guide
+```
+
+**Key Points:**
+- Requirements organized by stack type (not flat structure)
+- Tests organized by test type (unit/integration/system)
+- User documentation in separate `usage/` folder
+- Complete traceability matrix linking requirements to tests
 
 ## Known Constraints
 
