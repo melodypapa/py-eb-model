@@ -1,0 +1,16 @@
+[
+  {"query": "Generate model layer requirements from data/Os_schema.xdm", "should_trigger": true},
+  {"query": "Create SWR_OS_MODELS.md from the OS XDM schema file", "should_trigger": true},
+  {"query": "Parse data/CanIf_schema.xdm and generate requirements documentation", "should_trigger": true},
+  {"query": "Update docs/requirements/core/models/swr_ecuc_models.md from the EcuC schema", "should_trigger": true},
+  {"query": "Extract AUTOSAR configuration parameters from data/EcuC_schema.xdm", "should_trigger": true},
+  {"query": "Generate the SWR requirements markdown for the NvM module from its XDM schema file", "should_trigger": true},
+  {"query": "Analyze data/Rte_schema.xdm to produce the model layer requirements document", "should_trigger": true},
+  {"query": "Run the test suite for the OS module", "should_trigger": false},
+  {"query": "Add a new parser for the MemMap module", "should_trigger": false},
+  {"query": "Fix the bug in the can_stack parser where references are not resolved", "should_trigger": false},
+  {"query": "Convert the Os XDM data file to Excel", "should_trigger": false},
+  {"query": "What does the OsTask model class look like?", "should_trigger": false},
+  {"query": "Create a new model class for OsApplication", "should_trigger": false},
+  {"query": "Lint the source code with ruff", "should_trigger": false}
+]

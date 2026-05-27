@@ -264,7 +264,7 @@ docs/
 
 ## Known Constraints
 
-- Python 3.9+ (tested on 3.9, 3.10, 3.11 in CI)
+- Python 3.9+ (tested on 3.9, 3.10, 3.11, 3.14 in CI)
 - EB Tresos XDM files use proprietary XML schema with namespace handling
 - Some AUTOSAR path references use special `@CALC(SvcAs:...)` syntax for calculated values
 - The `read_optional_value()` method checks ENABLE attribute before returning values
@@ -276,9 +276,19 @@ docs/
 
 ## Version Information
 
-Current version: 1.3.0 (defined in `pyproject.toml`)
+Current version: 1.3.1 (defined in `pyproject.toml`)
 
 Check version in code: `pkg_resources.require("py_eb_model")[0].version`
+
+## CI/CD
+
+**Testing**: GitHub Actions CI runs on Python 3.9, 3.10, 3.11, and 3.14 with both linting (flake8) and testing (pytest)
+
+**Publishing**: PyPI publishing happens automatically via GitHub Actions when releases are created (using OIDC authentication)
+
+**Coverage**: pytest always runs with coverage reporting due to `addopts` in `pyproject.toml` configuration
+
+**Type Checking**: mypy is configured but very permissive (many error codes disabled) - type annotations are present but not strictly enforced
 
 ## Documentation Conventions
 

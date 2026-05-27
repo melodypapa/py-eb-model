@@ -1,0 +1,82 @@
+{
+  "skill_name": "xdm-schema-req",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Generate model layer requirements from the XDM schema at data/TestModule_schema.xdm. Write the output to docs/requirements/core/models/swr_testmodule_models.md.",
+      "expected_output": "A requirements markdown file documenting TestContainer and TestSubContainer entities with various field types",
+      "files": ["data/TestModule_schema.xdm"],
+      "assertions": [
+        {
+          "id": "output-file-exists",
+          "text": "Output is written to docs/requirements/core/models/swr_testmodule_models.md"
+        },
+        {
+          "id": "entities-present",
+          "text": "Document includes TestContainer and TestSubContainer entity sections"
+        },
+        {
+          "id": "integer-ranges",
+          "text": "INTEGER fields include range info in descriptions, e.g. (0-100)"
+        },
+        {
+          "id": "enum-class-names",
+          "text": "ENUMERATION fields use <ContainerName><FieldName> class names (e.g. TestContainerTestMode)"
+        },
+        {
+          "id": "bool-defaults",
+          "text": "Boolean fields note default values, e.g. (default true)"
+        },
+        {
+          "id": "choice-containers",
+          "text": "Choice sub-containers (TestActionStart, TestActionStop) are listed as separate requirement entries"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Generate model layer requirements from the XDM schema at data/TestModule2_schema.xdm. Write the output to docs/requirements/core/models/swr_testmodule2_models.md.",
+      "expected_output": "A requirements markdown file documenting TaskConfig and ResourceConfig entities. TaskDeadline and ResourceCeiling (ENABLE=false) must be absent. Descriptions must be concise (3-8 words). MULTILINE-STRING maps to str. RANGE attribute used for StackSize bounds.",
+      "files": ["data/TestModule2_schema.xdm"],
+      "assertions": [
+        {
+          "id": "output-file-exists",
+          "text": "Output is written to docs/requirements/core/models/swr_testmodule2_models.md"
+        },
+        {
+          "id": "no-disabled-annotation",
+          "text": "No descriptions contain the phrase '(disabled by default)'"
+        },
+        {
+          "id": "disabled-fields-skipped",
+          "text": "TaskDeadline and ResourceCeiling (ENABLE=false) do NOT appear in the field tables"
+        },
+        {
+          "id": "multiline-string-type",
+          "text": "TaskComment field maps to str type (MULTILINE-STRING → str)"
+        },
+        {
+          "id": "range-attribute-bounds",
+          "text": "StackSize field includes range annotation (64-65536) extracted from RANGE attribute"
+        },
+        {
+          "id": "conditional-enable-included",
+          "text": "TaskPeriod field (XPath ENABLE condition) IS included in the field table"
+        },
+        {
+          "id": "concise-descriptions",
+          "text": "Field descriptions do not contain truncated text with '...' — all descriptions are concise"
+        },
+        {
+          "id": "enum-class-names",
+          "text": "Enum fields use <ContainerName><FieldName> naming (e.g. TaskConfigTaskSchedule)"
+        },
+        {
+          "id": "function-name-type",
+          "text": "TaskEntry field maps to str type (FUNCTION-NAME → str)"
+        }
+      ]
+    }
+  ]
+}
+

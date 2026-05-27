@@ -135,6 +135,7 @@ cython_debug/
 # Claude Code specific
 .claude/settings.local.json
 .claude/scheduled_tasks.json
+.claude/skills/*/*-workspace
 .worktrees/
 
 # Project specific
