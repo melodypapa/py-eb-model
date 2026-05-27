@@ -189,9 +189,10 @@ pref-system-importer --base-path /path/to/project --ab-project --project MyProje
 ## Documentation
 
 - **[CLAUDE.md](CLAUDE.md)**: Development guide for contributors
-- **[docs/cli.md](docs/cli.md)**: Detailed CLI usage documentation
-- **[docs/requirements/](docs/requirements/)**: Software requirements with traceability
-- **[docs/tests/](docs/tests/)**: ISO 29119 compliant test documentation
+- **[docs/usage/cli.md](docs/usage/cli.md)**: Detailed CLI usage documentation
+- **[docs/requirements/](docs/requirements/)**: Software requirements organized by stack (273 requirements)
+- **[docs/tests/](docs/tests/)**: ISO/IEC/IEEE 29119 compliant test documentation (765 test cases)
+- **[docs/tests/requirements-traceability-matrix.md](docs/tests/requirements-traceability-matrix.md)**: Complete requirements-to-tests traceability
 
 ## Change History
 
