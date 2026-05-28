@@ -325,6 +325,52 @@ class OsXdmXlsWriter(ExcelReporter):
 
             self.auto_width(sheet, {"B": 15})
 
+    def write_os_appmodes(self, doc: EBModel):
+        """
+        Write OsAppMode sheet to Excel workbook.
+
+        Implements: SWR_OS_REPORTER_00013 (Application Modes Sheet)
+        """
+        appmodes = doc.getOs().getOsAppModeList()
+        if len(appmodes) > 0:
+            sheet = self.wb.create_sheet("OsAppMode", 0)
+
+            title_row = ["Name"]
+            self.write_title_row(sheet, title_row)
+
+            row = 2
+            for appmode in appmodes:
+                self.write_cell(sheet, row, 1, appmode.getName())
+                row += 1
+                self.logger.debug("Write OsAppMode <%s>" % appmode.getName())
+
+            self.auto_width(sheet, {"A": 30})
+
+    def write_os_peripheral_areas(self, doc: EBModel):
+        """
+        Write OsPeripheralArea sheet to Excel workbook.
+
+        Implements: SWR_OS_REPORTER_00014 (Peripheral Areas Sheet)
+        """
+        areas = doc.getOs().getOsPeripheralAreaList()
+        if len(areas) > 0:
+            sheet = self.wb.create_sheet("OsPeripheralArea", 0)
+
+            title_row = ["Name", "Start Address", "End Address", "ID", "Access Permission"]
+            self.write_title_row(sheet, title_row)
+
+            row = 2
+            for area in areas:
+                self.write_cell(sheet, row, 1, area.getName())
+                self.write_cell(sheet, row, 2, area.getOsPeripheralAreaStartAddress())
+                self.write_cell(sheet, row, 3, area.getOsPeripheralAreaEndAddress())
+                self.write_cell(sheet, row, 4, area.getOsPeripheralAreaId())
+                self.write_cell(sheet, row, 5, area.getOsPeripheralAreaAccessPermission())
+                row += 1
+                self.logger.debug("Write OsPeripheralArea <%s>" % area.getName())
+
+            self.auto_width(sheet, {"A": 30, "B": 15, "C": 15, "D": 10, "E": 20})
+
     def write(self, filename, doc: EBModel, options={"skip_os_task": False}):
         self.logger.info("Writing <%s>" % filename)
 
@@ -339,5 +385,7 @@ class OsXdmXlsWriter(ExcelReporter):
         self.write_os_counters(doc)
         self.write_expiry_points(doc)
         self.write_mk_memory_regions(doc)
+        self.write_os_appmodes(doc)
+        self.write_os_peripheral_areas(doc)
 
         self.save(filename)

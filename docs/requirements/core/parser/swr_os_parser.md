@@ -204,6 +204,34 @@ The parser shall parse OsOS configuration elements from XDM.
 
 ---
 
+### SWR_OS_PARSER_00014 - Application Mode Parsing
+
+The parser shall parse OsAppMode elements from XDM.
+
+- Extract OsAppMode name
+- Add OsAppMode to Os model
+
+**Implementation:** `os_xdm_parser.py:read_os_appmodes`
+**Status:** Not Implemented
+**Last Validated:** N/A
+
+---
+
+### SWR_OS_PARSER_00015 - Peripheral Area Parsing
+
+The parser shall parse OsPeripheralArea elements from XDM.
+
+- Extract OsPeripheralAreaStartAddress
+- Extract OsPeripheralAreaEndAddress
+- Extract OsPeripheralAreaId
+- Extract OsPeripheralAreaAccessPermission
+
+**Implementation:** `os_xdm_parser.py:read_os_peripheral_areas`
+**Status:** Partially Implemented (missing OsPeripheralAreaId)
+**Last Validated:** 2026-05-26
+
+---
+
 ## Traceability
 
 | Requirement ID | Implementation | Test Cases |
@@ -221,3 +249,5 @@ The parser shall parse OsOS configuration elements from XDM.
 | SWR_OS_PARSER_00011 | os_xdm_parser.py:read_os_spinlocks | TC_UNIT_OS_00011 |
 | SWR_OS_PARSER_00012 | os_xdm_parser.py:read_os_hooks | TC_UNIT_OS_00012 |
 | SWR_OS_PARSER_00013 | os_xdm_parser.py:read_os_os | TC_UNIT_OS_00013 |
+| SWR_OS_PARSER_00014 | os_xdm_parser.py:read_os_appmodes | TC_UNIT_OS_00014 |
+| SWR_OS_PARSER_00015 | os_xdm_parser.py:read_os_peripheral_areas | TC_UNIT_OS_00015 |

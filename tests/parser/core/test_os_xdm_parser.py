@@ -1245,3 +1245,89 @@ class TestOsXdmParser:
         assert region2.getMkMemoryRegionInitialize() is False
         assert region2.getMkMemoryRegionGlobal() is True
         assert region2.getMkMemoryRegionOsThreadAccess() is True
+
+    def test_appmode_parsing(self):
+        """
+        Test OsAppMode parsing.
+
+        Implements: UTS_OS_PARSER_00023
+        """
+        xml_content = """
+        <datamodel version="8.0"
+                xmlns="http://www.tresos.de/_projects/DataModel2/18/root.xsd"
+                xmlns:a="http://www.tresos.de/_projects/DataModel2/18/attribute.xsd"
+                xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+                xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+            <d:lst name="OsAppMode" type="MAP">
+                <d:ctr name="AppMode1"/>
+                <d:ctr name="AppMode2"/>
+            </d:lst>
+        </datamodel>
+        """
+        element = ET.fromstring(xml_content)
+        model = EBModel.getInstance()
+        os = model.getOs()
+        parser = OsXdmParser()
+        parser.nsmap = {
+            '': "http://www.tresos.de/_projects/DataModel2/18/root.xsd",
+            'a': "http://www.tresos.de/_projects/DataModel2/18/attribute.xsd",
+            'v': "http://www.tresos.de/_projects/DataModel2/06/schema.xsd",
+            'd': "http://www.tresos.de/_projects/DataModel2/06/data.xsd"
+        }
+
+        parser.read_os_appmodes(element, os)
+
+        appmodes = os.getOsAppModeList()
+        assert len(appmodes) == 2
+
+        appmode1 = appmodes[0]
+        assert appmode1.getName() == "AppMode1"
+        assert appmode1.getParent() == os
+
+        appmode2 = appmodes[1]
+        assert appmode2.getName() == "AppMode2"
+
+    def test_peripheral_area_parsing_complete(self):
+        """
+        Test OsPeripheralArea parsing with all fields including OsPeripheralAreaId.
+
+        Implements: UTS_OS_PARSER_00024
+        """
+        xml_content = """
+        <datamodel version="8.0"
+                xmlns="http://www.tresos.de/_projects/DataModel2/18/root.xsd"
+                xmlns:a="http://www.tresos.de/_projects/DataModel2/18/attribute.xsd"
+                xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+                xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+            <d:lst name="OsPeripheralArea" type="MAP">
+                <d:ctr name="PeripheralArea1">
+                    <d:var name="OsPeripheralAreaStartAddress" type="INTEGER" value="4096"/>
+                    <d:var name="OsPeripheralAreaEndAddress" type="INTEGER" value="8191"/>
+                    <d:var name="OsPeripheralAreaId" type="INTEGER" value="1"/>
+                    <d:var name="OsPeripheralAreaAccessPermission" type="ENUMERATION" value="READ-WRITE"/>
+                </d:ctr>
+            </d:lst>
+        </datamodel>
+        """
+        element = ET.fromstring(xml_content)
+        model = EBModel.getInstance()
+        os = model.getOs()
+        parser = OsXdmParser()
+        parser.nsmap = {
+            '': "http://www.tresos.de/_projects/DataModel2/18/root.xsd",
+            'a': "http://www.tresos.de/_projects/DataModel2/18/attribute.xsd",
+            'v': "http://www.tresos.de/_projects/DataModel2/06/schema.xsd",
+            'd': "http://www.tresos.de/_projects/DataModel2/06/data.xsd"
+        }
+
+        parser.read_os_peripheral_areas(element, os)
+
+        areas = os.getOsPeripheralAreaList()
+        assert len(areas) == 1
+
+        area = areas[0]
+        assert area.getName() == "PeripheralArea1"
+        assert area.getOsPeripheralAreaStartAddress() == 4096
+        assert area.getOsPeripheralAreaEndAddress() == 8191
+        assert area.getOsPeripheralAreaId() == 1
+        assert area.getOsPeripheralAreaAccessPermission() == "READ-WRITE"

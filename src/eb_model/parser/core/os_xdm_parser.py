@@ -76,6 +76,7 @@ class OsXdmParser(AbstractEbModelParser):
         self.read_os_events(element, os)
         self.read_os_spinlocks(element, os)
         self.read_os_peripheral_areas(element, os)
+        self.read_os_appmodes(element, os)
         self.read_os_os(element, os)
         self.read_os_hooks(element, os)
         self.read_os_core_configs(element, os)
@@ -416,9 +417,21 @@ class OsXdmParser(AbstractEbModelParser):
             area = OsPeripheralArea(os, ctr_tag.attrib["name"])
             area.setOsPeripheralAreaStartAddress(self.read_value(ctr_tag, "OsPeripheralAreaStartAddress"))
             area.setOsPeripheralAreaEndAddress(self.read_value(ctr_tag, "OsPeripheralAreaEndAddress"))
+            area.setOsPeripheralAreaId(self.read_optional_value(ctr_tag, "OsPeripheralAreaId"))
             area.setOsPeripheralAreaAccessPermission(self.read_value(ctr_tag, "OsPeripheralAreaAccessPermission"))
             os.addOsPeripheralArea(area)
             self.logger.debug("Read OsPeripheralArea <%s>" % area.getName())
+
+    def read_os_appmodes(self, element: ET.Element, os: Os):
+        """Parse all OsAppMode containers from XDM.
+
+        Implements: SWR_OS_PARSER_00014 (Application Mode Parsing)
+        """
+        from eb_model.models.core.os_xdm import OsAppMode
+        for ctr_tag in self.find_ctr_tag_list(element, "OsAppMode"):
+            appmode = OsAppMode(os, ctr_tag.attrib["name"])
+            os.addOsAppMode(appmode)
+            self.logger.debug("Read OsAppMode <%s>" % appmode.getName())
 
     def read_os_os(self, element: ET.Element, os: Os):
         """Parse OsOS container from XDM.
