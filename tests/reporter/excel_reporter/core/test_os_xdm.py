@@ -326,3 +326,80 @@ class TestOsXdmXlsWriter:
         region = MkMemoryRegion(protection, "Region1")
         protection.addMkMemoryRegion(region)
         assert writer.mk_memory_region_exists(doc) is True
+
+    def test_write_appmodes_sheet(self):
+        """
+        Test Application Modes sheet writing.
+
+        Implements: UTS_OS_REPORTER_00025
+        """
+        writer = OsXdmXlsWriter()
+
+        with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as f:
+            filename = f.name
+
+        try:
+            doc = EBModel.getInstance()
+            os_mod = doc.getOs()
+
+            from eb_model.models.core.os_xdm import OsAppMode
+            appmode1 = OsAppMode(os_mod, "AppMode1")
+            appmode2 = OsAppMode(os_mod, "AppMode2")
+            os_mod.addOsAppMode(appmode1)
+            os_mod.addOsAppMode(appmode2)
+
+            writer.write(filename, doc)
+
+            wb = load_workbook(filename)
+            assert "OsAppMode" in wb.sheetnames
+            sheet = wb["OsAppMode"]
+            assert sheet.cell(row=1, column=1).value == "Name"
+            assert sheet.cell(row=2, column=1).value == "AppMode1"
+            assert sheet.cell(row=3, column=1).value == "AppMode2"
+            wb.close()
+        finally:
+            if os.path.exists(filename):
+                os.remove(filename)
+
+    def test_write_peripheral_areas_sheet(self):
+        """
+        Test Peripheral Areas sheet writing.
+
+        Implements: UTS_OS_REPORTER_00026
+        """
+        writer = OsXdmXlsWriter()
+
+        with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as f:
+            filename = f.name
+
+        try:
+            doc = EBModel.getInstance()
+            os_mod = doc.getOs()
+
+            from eb_model.models.core.os_xdm import OsPeripheralArea
+            area = OsPeripheralArea(os_mod, "PeripheralArea1")
+            area.setOsPeripheralAreaStartAddress(4096)
+            area.setOsPeripheralAreaEndAddress(8191)
+            area.setOsPeripheralAreaId(1)
+            area.setOsPeripheralAreaAccessPermission("READ-WRITE")
+            os_mod.addOsPeripheralArea(area)
+
+            writer.write(filename, doc)
+
+            wb = load_workbook(filename)
+            assert "OsPeripheralArea" in wb.sheetnames
+            sheet = wb["OsPeripheralArea"]
+            assert sheet.cell(row=1, column=1).value == "Name"
+            assert sheet.cell(row=1, column=2).value == "Start Address"
+            assert sheet.cell(row=1, column=3).value == "End Address"
+            assert sheet.cell(row=1, column=4).value == "ID"
+            assert sheet.cell(row=1, column=5).value == "Access Permission"
+            assert sheet.cell(row=2, column=1).value == "PeripheralArea1"
+            assert sheet.cell(row=2, column=2).value == 4096
+            assert sheet.cell(row=2, column=3).value == 8191
+            assert sheet.cell(row=2, column=4).value == 1
+            assert sheet.cell(row=2, column=5).value == "READ-WRITE"
+            wb.close()
+        finally:
+            if os.path.exists(filename):
+                os.remove(filename)

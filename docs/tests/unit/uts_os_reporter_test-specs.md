@@ -251,13 +251,49 @@ This document defines unit test specifications for the OS Reporter Layer. Tests 
 
 ---
 
+### UTS_OS_REPORTER_00025 : Application Modes Sheet Writing
+
+**Type:** Functional | **Priority:** High | **Status:** Not Implemented
+
+**Traces-To:** SWR_OS_REPORTER_00013
+
+**Test Steps:**
+1. Create Os model with OsAppMode elements
+2. Write Application Modes sheet
+3. Verify sheet columns and data
+
+**Verification Criteria:**
+1. Verify "Application Modes" sheet exists
+2. Verify Name column exists
+3. Verify OsAppMode data is written correctly
+
+---
+
+### UTS_OS_REPORTER_00026 : Peripheral Areas Sheet Writing
+
+**Type:** Functional | **Priority:** High | **Status:** Not Implemented
+
+**Traces-To:** SWR_OS_REPORTER_00014
+
+**Test Steps:**
+1. Create Os model with OsPeripheralArea elements
+2. Write Peripheral Areas sheet
+3. Verify sheet columns and data
+
+**Verification Criteria:**
+1. Verify "Peripheral Areas" sheet exists
+2. Verify Name, Start Address, End Address, ID, Access Permission columns exist
+3. Verify OsPeripheralArea data is written correctly
+
+---
+
 ## Test Coverage Summary
 
 | Technique | Requirements | Test Cases | Coverage |
 |-----------|--------------|------------|----------|
-| Equivalence Partitioning | 10 | 20 | 83% |
-| Boundary Value Analysis | 2 | 4 | 17% |
-| **Total** | **12** | **24** | **100%** |
+| Equivalence Partitioning | 12 | 24 | 92% |
+| Boundary Value Analysis | 2 | 4 | 8% |
+| **Total** | **14** | **28** | **100%** |
 
 ---
 

@@ -8,7 +8,8 @@ from eb_model.models.core.os_xdm import (
     Os, OsTask, OsApplication, OsAlarm, OsCounter, OsEvent, OsSpinlock,
     OsAlarmAction, OsAlarmAutostart, OsAlarmActivateTask, OsAlarmSetEvent,
     OsAlarmIncrementCounter, OsAlarmCallback, OsResource, OsHooks,
-    OsApplication as OsApplicationExtended
+    OsApplication as OsApplicationExtended, OsAppMode, OsIsr, OsPeripheralArea,
+    OsScheduleTable
 )
 from eb_model.models.core.eb_doc import EBModel
 from eb_model.models.core.abstract import EcucRefType
@@ -514,3 +515,259 @@ class TestOsHooks:
         assert hooks.getOsErrorHook() is False
         assert hooks.getOsPreTaskHook() is False
         assert hooks.getOsPostTaskHook() is False
+
+
+class TestOsAppMode:
+
+    def test_initialization(self):
+        """
+        Test OsAppMode initialization.
+
+        Implements: UTS_OS_MODEL_00004
+        """
+        root = EBModel.getInstance()
+        os = root.getOs()
+        app_mode = OsAppMode(os, "AppMode1")
+
+        assert app_mode.getName() == "AppMode1"
+        assert app_mode.getParent() == os
+
+
+class TestOsIsr:
+
+    def test_initialization(self):
+        """
+        Test OsIsr initialization.
+
+        Implements: UTS_OS_MODEL_00014
+        """
+        root = EBModel.getInstance()
+        os = root.getOs()
+        isr = OsIsr(os, "ISR1")
+
+        assert isr.getName() == "ISR1"
+        assert isr.getParent() == os
+        assert isr.getOsIsrCategory() is None
+        assert isr.getOsStacksize() is None
+
+    def test_set_os_isr_category(self):
+        """
+        Test OsIsrCategory with different values.
+
+        Implements: UTS_OS_MODEL_00015
+        """
+        root = EBModel.getInstance()
+        os = root.getOs()
+        isr = OsIsr(os, "ISR1")
+
+        isr.setOsIsrCategory("CATEGORY_1")
+        assert isr.getOsIsrCategory() == "CATEGORY_1"
+
+        isr.setOsIsrCategory("CATEGORY_2")
+        assert isr.getOsIsrCategory() == "CATEGORY_2"
+
+    def test_set_os_stacksize_boundary_values(self):
+        """
+        Test OsStacksize with boundary values.
+
+        Implements: UTS_OS_MODEL_00016
+        """
+        root = EBModel.getInstance()
+        os = root.getOs()
+        isr = OsIsr(os, "ISR1")
+
+        # Test min value
+        isr.setOsStacksize(0)
+        assert isr.getOsStacksize() == 0
+
+        # Test typical small stack
+        isr.setOsStacksize(1024)
+        assert isr.getOsStacksize() == 1024
+
+        # Test typical medium stack
+        isr.setOsStacksize(4096)
+        assert isr.getOsStacksize() == 4096
+
+        # Test max value
+        isr.setOsStacksize(2000000000)
+        assert isr.getOsStacksize() == 2000000000
+
+
+class TestOsPeripheralArea:
+
+    def test_initialization(self):
+        """
+        Test OsPeripheralArea initialization.
+
+        Implements: UTS_OS_MODEL_00020
+        """
+        root = EBModel.getInstance()
+        os = root.getOs()
+        peripheral_area = OsPeripheralArea(os, "PeripheralArea1")
+
+        assert peripheral_area.getName() == "PeripheralArea1"
+        assert peripheral_area.getParent() == os
+        assert peripheral_area.getOsPeripheralAreaStartAddress() is None
+        assert peripheral_area.getOsPeripheralAreaEndAddress() is None
+        assert peripheral_area.getOsPeripheralAreaId() is None
+
+    def test_set_peripheral_area_addresses(self):
+        """
+        Test OsPeripheralArea address fields.
+
+        Implements: UTS_OS_MODEL_00021
+        """
+        root = EBModel.getInstance()
+        os = root.getOs()
+        peripheral_area = OsPeripheralArea(os, "PeripheralArea1")
+
+        # Test min values
+        peripheral_area.setOsPeripheralAreaStartAddress(0)
+        peripheral_area.setOsPeripheralAreaEndAddress(0)
+        peripheral_area.setOsPeripheralAreaId(0)
+
+        assert peripheral_area.getOsPeripheralAreaStartAddress() == 0
+        assert peripheral_area.getOsPeripheralAreaEndAddress() == 0
+        assert peripheral_area.getOsPeripheralAreaId() == 0
+
+        # Test max values
+        peripheral_area.setOsPeripheralAreaStartAddress(9223372036854775807)
+        peripheral_area.setOsPeripheralAreaEndAddress(9223372036854775807)
+        peripheral_area.setOsPeripheralAreaId(9223372036854775807)
+
+        assert peripheral_area.getOsPeripheralAreaStartAddress() == 9223372036854775807
+        assert peripheral_area.getOsPeripheralAreaEndAddress() == 9223372036854775807
+        assert peripheral_area.getOsPeripheralAreaId() == 9223372036854775807
+
+
+class TestOsScheduleTable:
+
+    def test_initialization(self):
+        """
+        Test OsScheduleTable initialization.
+
+        Implements: UTS_OS_MODEL_00024
+        """
+        root = EBModel.getInstance()
+        os = root.getOs()
+        schedule_table = OsScheduleTable(os, "ScheduleTable1")
+
+        assert schedule_table.getName() == "ScheduleTable1"
+        assert schedule_table.getParent() == os
+        assert schedule_table.getOsScheduleTableDuration() is None
+        assert schedule_table.getOsScheduleTableRepeating() is None
+        assert schedule_table.getOsScheduleTableCounterRef() is None
+
+    def test_set_duration_and_repeating(self):
+        """
+        Test OsScheduleTable duration and repeating fields.
+
+        Implements: UTS_OS_MODEL_00025
+        """
+        root = EBModel.getInstance()
+        os = root.getOs()
+        schedule_table = OsScheduleTable(os, "ScheduleTable1")
+
+        schedule_table.setOsScheduleTableDuration(100)
+        schedule_table.setOsScheduleTableRepeating(True)
+
+        assert schedule_table.getOsScheduleTableDuration() == 100
+        assert schedule_table.getOsScheduleTableRepeating() is True
+
+        schedule_table.setOsScheduleTableDuration(1000)
+        schedule_table.setOsScheduleTableRepeating(False)
+
+        assert schedule_table.getOsScheduleTableDuration() == 1000
+        assert schedule_table.getOsScheduleTableRepeating() is False
+
+    def test_set_counter_ref(self):
+        """
+        Test OsScheduleTableCounterRef field.
+
+        Implements: UTS_OS_MODEL_00026
+        """
+        root = EBModel.getInstance()
+        os = root.getOs()
+        schedule_table = OsScheduleTable(os, "ScheduleTable1")
+
+        counter_ref = EcucRefType("/Os/Counter1")
+        schedule_table.setOsScheduleTableCounterRef(counter_ref)
+
+        assert schedule_table.getOsScheduleTableCounterRef() == counter_ref
+
+
+class TestOsRoot:
+
+    def test_initialization(self):
+        """
+        Test Os root model initialization.
+
+        Implements: UTS_OS_MODEL_00027
+        """
+        root = EBModel.getInstance()
+        os = root.getOs()
+
+        assert os is not None
+        assert os.getOsTaskList() == []
+        assert os.getOsIsrList() == []
+        assert os.getOsAlarmList() == []
+
+    def test_entity_list_methods(self):
+        """
+        Test Os root model entity list methods.
+
+        Implements: UTS_OS_MODEL_00028
+        """
+        root = EBModel.getInstance()
+        os = root.getOs()
+
+        # Add entities
+        task = OsTask(os, "Task1")
+        isr = OsIsr(os, "ISR1")
+        alarm = OsAlarm(os, "Alarm1")
+        counter = OsCounter(os, "Counter1")
+        app = OsApplication(os, "App1")
+        resource = OsResource(os, "Resource1")
+        event = OsEvent(os, "Event1")
+        spinlock = OsSpinlock(os, "Spinlock1")
+        peripheral_area = OsPeripheralArea(os, "PeripheralArea1")
+        schedule_table = OsScheduleTable(os, "ScheduleTable1")
+
+        os.addOsTask(task)
+        os.addOsIsr(isr)
+        os.addOsAlarm(alarm)
+        os.addOsCounter(counter)
+        os.addOsApplication(app)
+        os.addOsResource(resource)
+        os.addOsEvent(event)
+        os.addOsSpinlock(spinlock)
+        os.addOsPeripheralArea(peripheral_area)
+        os.addOsScheduleTable(schedule_table)
+
+        assert len(os.getOsTaskList()) == 1
+        assert len(os.getOsIsrList()) == 1
+        assert len(os.getOsAlarmList()) == 1
+        assert len(os.getOsCounterList()) == 1
+        assert len(os.getOsApplicationList()) == 1
+        assert len(os.getOsResourceList()) == 1
+        assert len(os.getOsEventList()) == 1
+        assert len(os.getOsSpinlockList()) == 1
+        assert len(os.getOsPeripheralAreaList()) == 1
+        assert len(os.getOsScheduleTableList()) == 1
+
+    def test_appmode_list_method(self):
+        """
+        Test Os root model getOsAppModeList method.
+
+        Implements: UTS_OS_MODEL_00029
+        """
+        root = EBModel.getInstance()
+        os = root.getOs()
+
+        app_mode1 = OsAppMode(os, "AppMode1")
+        app_mode2 = OsAppMode(os, "AppMode2")
+
+        os.addOsAppMode(app_mode1)
+        os.addOsAppMode(app_mode2)
+
+        assert len(os.getOsAppModeList()) == 2

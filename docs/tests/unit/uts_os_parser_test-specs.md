@@ -26,10 +26,10 @@ This document defines unit test specifications for the OS Parser Layer requireme
 
 | Metric | Count | Percentage |
 |--------|-------|------------|
-| Total Requirements | 13 | 100% |
-| Requirements with Tests | 13 | 100% |
+| Total Requirements | 15 | 100% |
+| Requirements with Tests | 15 | 100% |
 | Requirements without Tests | 0 | 0% |
-| Total Test Cases | 26 | - |
+| Total Test Cases | 28 | - |
 
 ---
 
@@ -50,6 +50,8 @@ This document defines unit test specifications for the OS Parser Layer requireme
 | SWR_OS_PARSER_00011 | UTS_OS_PARSER_00020 | ✅ Covered | 2026-05-26 |
 | SWR_OS_PARSER_00012 | UTS_OS_PARSER_00021 | ✅ Covered | 2026-05-26 |
 | SWR_OS_PARSER_00013 | UTS_OS_PARSER_00022 | ✅ Covered | 2026-05-26 |
+| SWR_OS_PARSER_00014 | UTS_OS_PARSER_00023 | ✅ Covered | 2026-05-28 |
+| SWR_OS_PARSER_00015 | UTS_OS_PARSER_00024 | ✅ Covered | 2026-05-28 |
 
 ---
 
@@ -962,6 +964,91 @@ Verify OsHooks parsing.
 
 **Rationale:**
 Verify OsOS configuration parsing.
+
+---
+
+### UTS_OS_PARSER_00023 : Application Mode Parsing
+
+**Type:** Functional
+**Priority:** High
+**Status:** Not Implemented
+
+**Traces-To:** SWR_OS_PARSER_00014
+**Test Implementation:** test_os_xdm_parser.py:test_appmode_parsing
+**Last Validated:** N/A
+**Last Changed:** 2026-05-28
+
+**Test Design Technique:** Equivalence Partitioning
+
+**Preconditions:**
+1. XDM file with OsAppMode elements exists
+
+**Test Steps:**
+1. **Given:** XDM file with OsAppMode elements
+2. **When:** Parse OsAppMode elements
+3. **Then:** Application modes are extracted correctly
+
+**Test Data:**
+| Field | Value |
+|-------|-------|
+| OsAppMode name | "AppMode1" |
+
+**Expected Results:**
+- OsAppMode is created
+- OsAppMode is added to Os model
+- OsAppMode name is extracted
+
+**Verification Criteria:**
+1. Verify OsAppMode exists in Os model
+2. Verify OsAppMode name is "AppMode1"
+
+**Rationale:**
+Verify OsAppMode parsing functionality.
+
+---
+
+### UTS_OS_PARSER_00024 : Peripheral Area Parsing - Complete Fields
+
+**Type:** Functional
+**Priority:** High
+**Status:** Not Implemented
+
+**Traces-To:** SWR_OS_PARSER_00015
+**Test Implementation:** test_os_xdm_parser.py:test_peripheral_area_parsing_complete
+**Last Validated:** N/A
+**Last Changed:** 2026-05-28
+
+**Test Design Technique:** Equivalence Partitioning
+
+**Preconditions:**
+1. XDM file with OsPeripheralArea elements with all fields exists
+
+**Test Steps:**
+1. **Given:** XDM file with OsPeripheralArea elements
+2. **When:** Parse OsPeripheralArea elements
+3. **Then:** All fields including OsPeripheralAreaId are extracted correctly
+
+**Test Data:**
+| Field | Value |
+|-------|-------|
+| OsPeripheralAreaStartAddress | 0x1000 |
+| OsPeripheralAreaEndAddress | 0x1FFF |
+| OsPeripheralAreaId | 1 |
+| OsPeripheralAreaAccessPermission | "READ-WRITE" |
+
+**Expected Results:**
+- OsPeripheralArea is created
+- All fields are extracted including OsPeripheralAreaId
+- OsPeripheralArea is added to Os model
+
+**Verification Criteria:**
+1. Verify OsPeripheralAreaStartAddress is 0x1000
+2. Verify OsPeripheralAreaEndAddress is 0x1FFF
+3. Verify OsPeripheralAreaId is 1
+4. Verify OsPeripheralAreaAccessPermission is "READ-WRITE"
+
+**Rationale:**
+Verify complete OsPeripheralArea parsing including OsPeripheralAreaId field.
 
 ---
 

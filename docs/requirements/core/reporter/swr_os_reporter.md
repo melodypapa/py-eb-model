@@ -229,6 +229,36 @@ The reporter shall resolve task and ISR application assignments.
 
 ---
 
+### SWR_OS_REPORTER_00013 - Application Modes Sheet
+
+The reporter shall write application mode configuration to the Application Modes worksheet.
+
+**Columns:**
+- Name
+
+**Implementation:** `os_xdm.py:write_appmodes`
+**Status:** Not Implemented
+**Last Validated:** N/A
+
+---
+
+### SWR_OS_REPORTER_00014 - Peripheral Areas Sheet
+
+The reporter shall write peripheral area configuration to the Peripheral Areas worksheet.
+
+**Columns:**
+- Name
+- Start Address
+- End Address
+- ID
+- Access Permission
+
+**Implementation:** `os_xdm.py:write_peripheral_areas`
+**Status:** Not Implemented
+**Last Validated:** N/A
+
+---
+
 ## Traceability
 
 | Requirement ID | Implementation | Test Cases |
@@ -245,3 +275,5 @@ The reporter shall resolve task and ISR application assignments.
 | SWR_OS_REPORTER_00010 | os_xdm.py:write_spinlocks | TC_UNIT_OS_RPT_00010 |
 | SWR_OS_REPORTER_00011 | os_xdm.py:write_schedule_tables | TC_UNIT_OS_RPT_00011 |
 | SWR_OS_REPORTER_00012 | os_xdm.py:write_tasks | TC_UNIT_OS_RPT_00012 |
+| SWR_OS_REPORTER_00013 | os_xdm.py:write_appmodes | TC_UNIT_OS_RPT_00013 |
+| SWR_OS_REPORTER_00014 | os_xdm.py:write_peripheral_areas | TC_UNIT_OS_RPT_00014 |

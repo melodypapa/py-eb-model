@@ -1543,6 +1543,7 @@ class OsPeripheralArea(EcucParamConfContainerDef):
 
         self.osPeripheralAreaStartAddress: int = None
         self.osPeripheralAreaEndAddress: int = None
+        self.osPeripheralAreaId: int = None
         self.osPeripheralAreaAccessPermission: str = None
 
     def getOsPeripheralAreaStartAddress(self) -> int:
@@ -1559,6 +1560,14 @@ class OsPeripheralArea(EcucParamConfContainerDef):
     def setOsPeripheralAreaEndAddress(self, value: int):
         if value is not None:
             self.osPeripheralAreaEndAddress = value
+        return self
+
+    def getOsPeripheralAreaId(self) -> int:
+        return self.osPeripheralAreaId
+
+    def setOsPeripheralAreaId(self, value: int):
+        if value is not None:
+            self.osPeripheralAreaId = value
         return self
 
     def getOsPeripheralAreaAccessPermission(self) -> str:
@@ -1814,6 +1823,7 @@ class Os(Module):
         self.osCounters: List[OsCounter] = []
         self.osApplications: List[OsApplication] = []
         self.osResources: List[OsResource] = []
+        self.osAppModes: List[OsAppMode] = []
         self.osMicrokernel: OsMicrokernel = None
         self.commonPublishedInformation: CommonPublishedInformation = None
         self.publishedInformation: CommonPublishedInformation = None
@@ -1889,6 +1899,14 @@ class Os(Module):
                               (task_ref.getShortName(), value.getName()))
             self.osTaskToOsAppMappings[task_ref.getShortName()] = value
 
+        return self
+
+    def getOsAppModeList(self) -> List[OsAppMode]:
+        return list(sorted(filter(lambda a: isinstance(a, OsAppMode), self.elements.values()), key=lambda o: o.name))
+
+    def addOsAppMode(self, os_app_mode: OsAppMode):
+        self.addElement(os_app_mode)
+        self.osAppModes.append(os_app_mode)
         return self
 
     def getOsResourceList(self) -> List[OsResource]:
