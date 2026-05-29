@@ -2,8 +2,20 @@
 OS XDM Excel Reporter - Generates Excel reports for OS module configuration.
 
 Implements:
-    - SWR_REPORTER_00002: Excel output generation
-    - SWR_OS_00010: OS configuration reporting
+    - SWR_OS_REPORTER_00001: Excel Workbook Creation
+    - SWR_OS_REPORTER_00002: General Sheet
+    - SWR_OS_REPORTER_00003: Tasks Sheet
+    - SWR_OS_REPORTER_00004: ISRs Sheet
+    - SWR_OS_REPORTER_00005: Alarms Sheet
+    - SWR_OS_REPORTER_00006: Counters Sheet
+    - SWR_OS_REPORTER_00007: Applications Sheet
+    - SWR_OS_REPORTER_00008: Resources Sheet
+    - SWR_OS_REPORTER_00009: Events Sheet
+    - SWR_OS_REPORTER_00010: Spinlocks Sheet
+    - SWR_OS_REPORTER_00011: Schedule Tables Sheet
+    - SWR_OS_REPORTER_00012: Application Resolution
+    - SWR_OS_REPORTER_00013: Application Modes Sheet
+    - SWR_OS_REPORTER_00014: Peripheral Areas Sheet
 """
 import re
 from openpyxl.styles import Alignment
@@ -18,9 +30,10 @@ class OsXdmXlsWriter(ExcelReporter):
     Excel reporter for AUTOSAR OS module configuration.
 
     Generates Excel workbook with sheets for tasks, ISRs, alarms,
-    schedule tables, counters, applications, and resources.
+    schedule tables, counters, applications, resources, events,
+    spinlocks, application modes, and peripheral areas.
 
-    Implements: SWR_OS_00010 (OS Configuration Reporting)
+    Implements: SWR_OS_REPORTER_00001 (Excel Workbook Creation)
     """
 
     def __init__(self) -> None:
@@ -28,6 +41,16 @@ class OsXdmXlsWriter(ExcelReporter):
         super().__init__()
 
     def write_os_spinlocks(self, doc: EBModel):
+        """
+        Write spinlock configuration to the OsSpinlock worksheet.
+
+        Creates a sheet with columns: Name, LockMethod, Successor, AccessingApplications.
+
+        Args:
+            doc: EBModel document containing OS configuration data.
+
+        Implements: SWR_OS_REPORTER_00010 (Spinlocks Sheet)
+        """
         sheet = self.wb.create_sheet("OsSpinlock", 0)
 
         title_row = ["Name", "LockMethod", "Successor", "AccessingApplications"]
@@ -54,6 +77,17 @@ class OsXdmXlsWriter(ExcelReporter):
         self.auto_width(sheet, {"D": 30})
 
     def write_os_os(self, doc: EBModel):
+        """
+        Write OS-level configuration to the OsOS worksheet.
+
+        Creates a sheet with OS parameters including scalability class,
+        number of cores, and various OS features.
+
+        Args:
+            doc: EBModel document containing OS configuration data.
+
+        Implements: SWR_OS_REPORTER_00002 (General Sheet)
+        """
         os_os = doc.getOs().getOsOS()
         if os_os is not None:
             sheet = self.wb.create_sheet("OsOS", 0)
@@ -94,6 +128,16 @@ class OsXdmXlsWriter(ExcelReporter):
             self.auto_width(sheet, {"A": 20, "B": 25})
 
     def write_os_hooks(self, doc: EBModel):
+        """
+        Write hook configuration to the OsHooks worksheet.
+
+        Creates a sheet with hook function enable/disable settings.
+
+        Args:
+            doc: EBModel document containing OS configuration data.
+
+        Implements: SWR_OS_REPORTER_00012 (Application Resolution)
+        """
         hooks = doc.getOs().getOsHooks()
         if hooks is not None:
             sheet = self.wb.create_sheet("OsHooks", 0)
@@ -138,6 +182,17 @@ class OsXdmXlsWriter(ExcelReporter):
             self.auto_width(sheet, {"A": 15, "B": 10})
 
     def write_os_tasks(self, doc: EBModel):
+        """
+        Write task configuration to the OsTask worksheet.
+
+        Creates a sheet with columns: Name, OsApplication, OsTaskActivation,
+        OsTaskPriority, OsTaskAutostart, OsTaskSchedule, OsTaskType, OsStacksize.
+
+        Args:
+            doc: EBModel document containing OS configuration data.
+
+        Implements: SWR_OS_REPORTER_00003 (Tasks Sheet)
+        """
         sheet = self.wb.create_sheet("OsTask", 0)
 
         title_row = ["Name", "OsApplication", "OsTaskActivation", "OsTaskPriority", "OsTaskAutostart",
@@ -174,6 +229,17 @@ class OsXdmXlsWriter(ExcelReporter):
         self.auto_width(sheet)
 
     def write_os_applications(self, doc: EBModel):
+        """
+        Write application configuration to the OsApplications worksheet.
+
+        Creates a sheet with columns: Name, OsTrusted, OsApplicationCoreAssignment,
+        OsAppEcucPartitionRef.
+
+        Args:
+            doc: EBModel document containing OS configuration data.
+
+        Implements: SWR_OS_REPORTER_00007 (Applications Sheet)
+        """
         sheet = self.wb.create_sheet("OsApplications", 0)
 
         title_row = ["Name", "OsTrusted", "OsApplicationCoreAssignment", "OsAppEcucPartitionRef"]
@@ -194,6 +260,17 @@ class OsXdmXlsWriter(ExcelReporter):
         self.auto_width(sheet)
 
     def write_os_isrs(self, doc: EBModel):
+        """
+        Write ISR configuration to the OsIsr worksheet.
+
+        Creates a sheet with columns: Name, OsApplication, OsIsrCategory,
+        OsStacksize, OsIsrPriority, OsIsrVector, MkMemoryRegion.
+
+        Args:
+            doc: EBModel document containing OS configuration data.
+
+        Implements: SWR_OS_REPORTER_00004 (ISRs Sheet)
+        """
         sheet = self.wb.create_sheet("OsIsr", 1)
 
         title_row = ["Name", "OsApplication", "OsIsrCategory", "OsStacksize", "OsIsrPriority", "OsIsrVector", "MkMemoryRegion"]
@@ -220,6 +297,16 @@ class OsXdmXlsWriter(ExcelReporter):
         self.auto_width(sheet, {"G": 25})
 
     def write_os_schedule_tables(self, doc: EBModel):
+        """
+        Write schedule table configuration to the OsScheduleTable worksheet.
+
+        Creates a sheet with columns: Name, Duration, Repeating, OsCount.
+
+        Args:
+            doc: EBModel document containing OS configuration data.
+
+        Implements: SWR_OS_REPORTER_00011 (Schedule Tables Sheet)
+        """
         sheet = self.wb.create_sheet("OsScheduleTable", 2)
 
         title_row = ["Name", "Duration", "Repeating", "OsCount"]
@@ -238,6 +325,17 @@ class OsXdmXlsWriter(ExcelReporter):
         self.auto_width(sheet)
 
     def write_os_counters(self, doc: EBModel):
+        """
+        Write counter configuration to the OsCounter worksheet.
+
+        Creates a sheet with columns: Name, MaxAllowedValue, MinCycle,
+        TicksPerBase, Type, SecondsPerTick.
+
+        Args:
+            doc: EBModel document containing OS configuration data.
+
+        Implements: SWR_OS_REPORTER_00006 (Counters Sheet)
+        """
         sheet = self.wb.create_sheet("OsCounter", 3)
 
         title_row = ["Name", "MaxAllowedValue", "MinCycle", "TicksPerBase", "Type", "SecondsPerTick"]
@@ -327,7 +425,12 @@ class OsXdmXlsWriter(ExcelReporter):
 
     def write_os_appmodes(self, doc: EBModel):
         """
-        Write OsAppMode sheet to Excel workbook.
+        Write application mode configuration to the OsAppMode worksheet.
+
+        Creates a sheet with column: Name.
+
+        Args:
+            doc: EBModel document containing OS configuration data.
 
         Implements: SWR_OS_REPORTER_00013 (Application Modes Sheet)
         """
@@ -348,7 +451,13 @@ class OsXdmXlsWriter(ExcelReporter):
 
     def write_os_peripheral_areas(self, doc: EBModel):
         """
-        Write OsPeripheralArea sheet to Excel workbook.
+        Write peripheral area configuration to the OsPeripheralArea worksheet.
+
+        Creates a sheet with columns: Name, Start Address, End Address, ID,
+        Access Permission.
+
+        Args:
+            doc: EBModel document containing OS configuration data.
 
         Implements: SWR_OS_REPORTER_00014 (Peripheral Areas Sheet)
         """

@@ -1,3 +1,20 @@
+"""
+OS XDM Models - Python classes representing AUTOSAR OS configuration entities.
+
+Implements:
+    - SWR_OS_MODELS_00001: OsAlarm Model
+    - SWR_OS_MODELS_00002: OsAppMode Model
+    - SWR_OS_MODELS_00003: OsApplication Model
+    - SWR_OS_MODELS_00004: OsCounter Model
+    - SWR_OS_MODELS_00005: OsEvent Model
+    - SWR_OS_MODELS_00006: OsSpinlock Model
+    - SWR_OS_MODELS_00007: OsIsr Model
+    - SWR_OS_MODELS_00008: OsTask Model
+    - SWR_OS_MODELS_00009: OsPeripheralArea Model
+    - SWR_OS_MODELS_00010: OsResource Model
+    - SWR_OS_MODELS_00011: OsScheduleTable Model
+    - SWR_OS_MODELS_00012: Os Model (Root)
+"""
 from typing import Dict, List                                                       # noqa F401
 import logging
 from eb_model.models.core.abstract import EcucEnumerationParamDef, EcucParamConfContainerDef, EcucObject, EcucRefType, Module
