@@ -126,21 +126,17 @@ Documentation Structure
 
 .. toctree::
    :maxdepth: 2
+   :caption: User Guide
 
-   api/index
    usage/cli
    requirements/index
    testing/index
 
-API Reference
--------------
-
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
+   :caption: API Reference
 
-   api/models
-   api/parsers
-   api/reporters
+   api/modules
 
 Indices and tables
 ==================
