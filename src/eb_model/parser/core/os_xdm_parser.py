@@ -2,18 +2,21 @@
 OS XDM Parser Module - Extracts AUTOSAR OS configuration from EB Tresos XDM files.
 
 Implements:
-    - SWR_OS_00001: OS module parsing
-    - SWR_OS_00002: Task parsing (OsTask)
-    - SWR_OS_00003: ISR parsing (OsIsr)
-    - SWR_OS_00004: Alarm parsing (OsAlarm)
-    - SWR_OS_00005: Schedule table parsing (OsScheduleTable)
-    - SWR_OS_00006: Counter parsing (OsCounter)
-    - SWR_OS_00007: Application parsing (OsApplication)
-    - SWR_OS_00008: Resource parsing (OsResource)
-    - SWR_OS_00009: Microkernel parsing (OsMicrokernel)
-    - SWR_OS_00014: Spinlock synchronization (OsSpinlock)
-    - SWR_OS_00016: OS configuration (OsOS)
-    - SWR_OS_00017: Hook configuration (OsHooks)
+    - SWR_OS_PARSER_00001: Module Validation
+    - SWR_OS_PARSER_00002: Version Extraction
+    - SWR_OS_PARSER_00003: Task Parsing
+    - SWR_OS_PARSER_00004: ISR Parsing
+    - SWR_OS_PARSER_00005: Schedule Table Parsing
+    - SWR_OS_PARSER_00006: Counter Parsing
+    - SWR_OS_PARSER_00007: Application Parsing
+    - SWR_OS_PARSER_00008: Alarm Parsing
+    - SWR_OS_PARSER_00009: Resource Parsing
+    - SWR_OS_PARSER_00010: Event Parsing
+    - SWR_OS_PARSER_00011: Spinlock Parsing
+    - SWR_OS_PARSER_00012: Hooks Parsing
+    - SWR_OS_PARSER_00013: OS Configuration Parsing
+    - SWR_OS_PARSER_00014: Application Mode Parsing
+    - SWR_OS_PARSER_00015: Peripheral Area Parsing
 """
 import xml.etree.ElementTree as ET
 from eb_model.models.core.eb_doc import EBModel
@@ -35,9 +38,10 @@ class OsXdmParser(AbstractEbModelParser):
     Parser for AUTOSAR OS module configuration from EB Tresos XDM files.
 
     Extracts OS configuration including tasks, ISRs, alarms, schedule tables,
-    counters, applications, resources, and microkernel settings.
+    counters, applications, resources, events, spinlocks, application modes,
+    peripheral areas, and microkernel settings.
 
-    Implements: SWR_OS_00001 (OS Module Parser)
+    Implements: SWR_OS_PARSER_00001 (Module Validation)
     """
 
     def __init__(self, ) -> None:
@@ -50,7 +54,17 @@ class OsXdmParser(AbstractEbModelParser):
         """
         Parse OS module configuration from XDM element.
 
-        Implements: SWR_OS_00001
+        Validates that the XDM file contains OS module configuration,
+        extracts version information, and parses all OS entities.
+
+        Args:
+            element: XDM root element containing OS module configuration.
+            doc: EBModel document instance to populate with parsed data.
+
+        Raises:
+            ValueError: If the XDM file does not contain OS module configuration.
+
+        Implements: SWR_OS_PARSER_00001 (Module Validation)
         """
         if self.get_component_name(element) != "Os":
             raise ValueError("Invalid <%s> xdm file" % "Os")
@@ -83,7 +97,13 @@ class OsXdmParser(AbstractEbModelParser):
         self.read_os_autosar_customization(element, os)
 
     def read_os_task_autostart(self, element: ET.Element, os_task: OsTask):
-        """Parse OsTaskAutostart configuration for a task."""
+        """
+        Parse OsTaskAutostart configuration for a task.
+
+        Args:
+            element: XDM element containing OsTaskAutostart container.
+            os_task: OsTask instance to update with autostart configuration.
+        """
         ctr_tag = self.find_ctr_tag(element, "OsTaskAutostart")
         if ctr_tag is not None:
             autostart = OsTaskAutostart(os_task, ctr_tag.attrib["name"])
@@ -95,7 +115,14 @@ class OsXdmParser(AbstractEbModelParser):
         """
         Parse all OsTask containers from XDM.
 
-        Implements: SWR_OS_00002 (Task parsing)
+        Extracts task configuration including priority, activation, schedule,
+        stack size, and resource/event references.
+
+        Args:
+            element: XDM root element containing OsTask containers.
+            os: Os model instance to populate with task data.
+
+        Implements: SWR_OS_PARSER_00003 (Task Parsing)
         """
         for ctr_tag in self.find_ctr_tag_list(element, "OsTask"):
             os_task = OsTask(os, ctr_tag.attrib["name"])
@@ -120,7 +147,14 @@ class OsXdmParser(AbstractEbModelParser):
         """
         Parse all OsIsr containers from XDM.
 
-        Implements: SWR_OS_00003 (ISR parsing)
+        Extracts ISR configuration including category, priority, stack size,
+        and platform-specific interrupt settings.
+
+        Args:
+            element: XDM root element containing OsIsr containers.
+            os: Os model instance to populate with ISR data.
+
+        Implements: SWR_OS_PARSER_00004 (ISR Parsing)
         """
         for ctr_tag in self.find_ctr_tag_list(element, "OsIsr"):
             os_isr = OsIsr(os, ctr_tag.attrib["name"])
@@ -176,7 +210,14 @@ class OsXdmParser(AbstractEbModelParser):
         """
         Parse all OsAlarm containers from XDM.
 
-        Implements: SWR_OS_00004 (Alarm parsing)
+        Extracts alarm configuration including counter reference, action,
+        and autostart settings.
+
+        Args:
+            element: XDM root element containing OsAlarm containers.
+            os: Os model instance to populate with alarm data.
+
+        Implements: SWR_OS_PARSER_00008 (Alarm Parsing)
         """
         for ctr_tag in self.find_ctr_tag_list(element, "OsAlarm"):
             os_alarm = OsAlarm(os, ctr_tag.attrib["name"]) \
@@ -229,7 +270,14 @@ class OsXdmParser(AbstractEbModelParser):
         """
         Parse all OsScheduleTable containers from XDM.
 
-        Implements: SWR_OS_00005 (Schedule table parsing)
+        Extracts schedule table configuration including counter reference,
+        expiry points, and autostart settings.
+
+        Args:
+            element: XDM root element containing OsScheduleTable containers.
+            os: Os model instance to populate with schedule table data.
+
+        Implements: SWR_OS_PARSER_00005 (Schedule Table Parsing)
         """
         for ctr_tag in self.find_ctr_tag_list(element, "OsScheduleTable"):
             table = OsScheduleTable(os, ctr_tag.attrib["name"]) \
@@ -247,7 +295,14 @@ class OsXdmParser(AbstractEbModelParser):
         """
         Parse all OsCounter containers from XDM.
 
-        Implements: SWR_OS_00006 (Counter parsing)
+        Extracts counter configuration including type, min/max cycles,
+        and ticks per base.
+
+        Args:
+            element: XDM root element containing OsCounter containers.
+            os: Os model instance to populate with counter data.
+
+        Implements: SWR_OS_PARSER_00006 (Counter Parsing)
         """
         for ctr_tag in self.find_ctr_tag_list(element, "OsCounter"):
             counter = OsCounter(os, ctr_tag.attrib["name"]) \
@@ -268,7 +323,14 @@ class OsXdmParser(AbstractEbModelParser):
         """
         Parse all OsApplication containers from XDM.
 
-        Implements: SWR_OS_00007 (Application parsing)
+        Extracts application configuration including trusted status,
+        core assignment, and resource access permissions.
+
+        Args:
+            element: XDM root element containing OsApplication containers.
+            os: Os model instance to populate with application data.
+
+        Implements: SWR_OS_PARSER_00007 (Application Parsing)
         """
         for ctr_tag in self.find_ctr_tag_list(element, "OsApplication"):
             os_app = OsApplication(os, ctr_tag.attrib["name"])
@@ -305,7 +367,14 @@ class OsXdmParser(AbstractEbModelParser):
         """
         Parse all OsResource containers from XDM.
 
-        Implements: SWR_OS_00008 (Resource parsing)
+        Extracts resource configuration including property, type,
+        and linked resources.
+
+        Args:
+            element: XDM root element containing OsResource containers.
+            os: Os model instance to populate with resource data.
+
+        Implements: SWR_OS_PARSER_00009 (Resource Parsing)
         """
         for ctr_tag in self.find_ctr_tag_list(element, "OsResource"):
             os_res = OsResource(os, ctr_tag.attrib["name"])
@@ -390,7 +459,17 @@ class OsXdmParser(AbstractEbModelParser):
             self.logger.debug("Read OsHwIncrementer")
 
     def read_os_events(self, element: ET.Element, os: Os):
-        """Parse all OsEvent containers from XDM."""
+        """
+        Parse all OsEvent containers from XDM.
+
+        Extracts event configuration including event mask.
+
+        Args:
+            element: XDM root element containing OsEvent containers.
+            os: Os model instance to populate with event data.
+
+        Implements: SWR_OS_PARSER_00010 (Event Parsing)
+        """
         for ctr_tag in self.find_ctr_tag_list(element, "OsEvent"):
             event = OsEvent(os, ctr_tag.attrib["name"])
             event.setOsEventMask(self.read_optional_value(ctr_tag, "OsEventMask"))
@@ -398,9 +477,17 @@ class OsXdmParser(AbstractEbModelParser):
             self.logger.debug("Read OsEvent <%s>" % event.getName())
 
     def read_os_spinlocks(self, element: ET.Element, os: Os):
-        """Parse all OsSpinlock containers from XDM.
+        """
+        Parse all OsSpinlock containers from XDM.
 
-        Implements: SWR_OS_00014 (Spinlock synchronization)
+        Extracts spinlock configuration including lock method, successor,
+        and accessing applications.
+
+        Args:
+            element: XDM root element containing OsSpinlock containers.
+            os: Os model instance to populate with spinlock data.
+
+        Implements: SWR_OS_PARSER_00011 (Spinlock Parsing)
         """
         for ctr_tag in self.find_ctr_tag_list(element, "OsSpinlock"):
             spinlock = OsSpinlock(os, ctr_tag.attrib["name"])
@@ -412,7 +499,18 @@ class OsXdmParser(AbstractEbModelParser):
             self.logger.debug("Read OsSpinlock <%s>" % spinlock.getName())
 
     def read_os_peripheral_areas(self, element: ET.Element, os: Os):
-        """Parse all OsPeripheralArea containers from XDM."""
+        """
+        Parse all OsPeripheralArea containers from XDM.
+
+        Extracts peripheral area configuration including start address,
+        end address, ID, and access permissions.
+
+        Args:
+            element: XDM root element containing OsPeripheralArea containers.
+            os: Os model instance to populate with peripheral area data.
+
+        Implements: SWR_OS_PARSER_00015 (Peripheral Area Parsing)
+        """
         for ctr_tag in self.find_ctr_tag_list(element, "OsPeripheralArea"):
             area = OsPeripheralArea(os, ctr_tag.attrib["name"])
             area.setOsPeripheralAreaStartAddress(self.read_value(ctr_tag, "OsPeripheralAreaStartAddress"))
@@ -423,7 +521,14 @@ class OsXdmParser(AbstractEbModelParser):
             self.logger.debug("Read OsPeripheralArea <%s>" % area.getName())
 
     def read_os_appmodes(self, element: ET.Element, os: Os):
-        """Parse all OsAppMode containers from XDM.
+        """
+        Parse all OsAppMode containers from XDM.
+
+        Extracts application mode names for OS startup configuration.
+
+        Args:
+            element: XDM root element containing OsAppMode containers.
+            os: Os model instance to populate with application mode data.
 
         Implements: SWR_OS_PARSER_00014 (Application Mode Parsing)
         """
@@ -434,9 +539,16 @@ class OsXdmParser(AbstractEbModelParser):
             self.logger.debug("Read OsAppMode <%s>" % appmode.getName())
 
     def read_os_os(self, element: ET.Element, os: Os):
-        """Parse OsOS container from XDM.
+        """
+        Parse OsOS container from XDM.
 
-        Implements: SWR_OS_00016 (OS configuration)
+        Extracts OS-level configuration including status, hooks, and system properties.
+
+        Args:
+            element: XDM root element containing OsOS container.
+            os: Os model instance to populate with OS configuration data.
+
+        Implements: SWR_OS_PARSER_00013 (OS Configuration Parsing)
         """
         ctr_tag = self.find_ctr_tag(element, "OsOS")
         if ctr_tag is not None:
@@ -452,9 +564,17 @@ class OsXdmParser(AbstractEbModelParser):
             self.logger.debug("Read OsOS")
 
     def read_os_hooks(self, element: ET.Element, os: Os):
-        """Parse OsHooks container from XDM.
+        """
+        Parse OsHooks container from XDM.
 
-        Implements: SWR_OS_00017 (Hook configuration)
+        Extracts hook function configuration including error hook, 
+        pre/post task hooks, and startup/shutdown hooks.
+
+        Args:
+            element: XDM root element containing OsHooks container.
+            os: Os model instance to populate with hook configuration data.
+
+        Implements: SWR_OS_PARSER_00012 (Hooks Parsing)
         """
         ctr_tag = self.find_ctr_tag(element, "OsHooks")
         if ctr_tag is not None:
