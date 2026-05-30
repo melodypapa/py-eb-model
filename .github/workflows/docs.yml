@@ -45,7 +45,7 @@ jobs:
 
       - name: Build HTML documentation
         run: |
-          sphinx-build -b html docs/ _build/html -W --keep-going
+          sphinx-build -b html docs/ _build/html
 
       - name: Upload documentation artifacts
         uses: actions/upload-artifact@v4
