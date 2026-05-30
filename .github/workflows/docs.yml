@@ -1,0 +1,60 @@
+name: Documentation
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/**'
+      - 'src/**'
+      - '.readthedocs.yaml'
+      - 'pyproject.toml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'docs/**'
+      - 'src/**'
+      - '.readthedocs.yaml'
+      - 'pyproject.toml'
+
+jobs:
+  build-docs:
+    name: Build Documentation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Install documentation dependencies
+        run: |
+          pip install -r docs/requirements.txt
+
+      - name: Generate API documentation
+        run: |
+          sphinx-apidoc -o docs/api src/eb_model --force --separate
+
+      - name: Build HTML documentation
+        run: |
+          sphinx-build -b html docs/ _build/html
+
+      - name: Upload documentation artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation-html
+          path: _build/html/
+          retention-days: 7
+
+      - name: Check for broken links
+        run: |
+          sphinx-build -b linkcheck docs/ _build/linkcheck
+        continue-on-error: true
