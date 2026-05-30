@@ -28,6 +28,8 @@ classifiers = [
 
 dependencies = [
     "openpyxl",
+    "lxml",
+    "colorama",
 ]
 
 [project.optional-dependencies]
