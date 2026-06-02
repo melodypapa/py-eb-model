@@ -601,7 +601,7 @@ class TestOsXdmParser:
         assert isr1.getOsIsrCategory() == "2"
         assert isr1.getOsIsrPeriod() == 0.001
         assert isr1.getOsStacksize() == 512
-        assert isr1.getOsIsrPriority() == 42  # Set by OsTricoreIrqLevel
+        assert isr1.getOsIsrPriority() is None  # Not present in XML
         assert isr1.getOsTricoreIrqLevel() == 42
         assert isr1.getOsTricoreVector() == 256
 
@@ -610,7 +610,7 @@ class TestOsXdmParser:
         assert isr2.getName() == "Isr2_ARM"
         assert isr2.getOsIsrCategory() == "1"
         assert isr2.getOsStacksize() == 256
-        assert isr2.getOsIsrPriority() == 32  # Set by OsARMIrqLevel
+        assert isr2.getOsIsrPriority() is None  # Not present in XML
         assert isr2.getOsARMIrqLevel() == 32
         assert isr2.getOsARMVector() == 128
 
@@ -1331,3 +1331,221 @@ class TestOsXdmParser:
         assert area.getOsPeripheralAreaEndAddress() == 8191
         assert area.getOsPeripheralAreaId() == 1
         assert area.getOsPeripheralAreaAccessPermission() == "READ-WRITE"
+
+    def test_isr_platform_specific_fields_preserved(self):
+        """
+        Verify that platform-specific ISR fields are parsed correctly without overwriting.
+        
+        Implements: UTS_OS_PARSER_00008 (ISR Platform-Specific Fields)
+        """
+        xml_content = """
+        <datamodel version="8.0"
+                xmlns="http://www.tresos.de/_projects/DataModel2/18/root.xsd"
+                xmlns:a="http://www.tresos.de/_projects/DataModel2/18/attribute.xsd"
+                xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+                xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+            <d:lst name="OsIsr" type="MAP">
+                <d:ctr name="IsrTriCore">
+                    <d:var name="OsIsrCategory" type="INTEGER" value="2"/>
+                    <d:var name="OsStacksize" type="INTEGER" value="1024"/>
+                    <d:var name="OsIsrPriority" type="INTEGER" value="10"/>
+                    <d:var name="OsTricoreIrqLevel" type="INTEGER" value="5"/>
+                    <d:var name="OsTricoreVector" type="INTEGER" value="100"/>
+                </d:ctr>
+                <d:ctr name="IsrARM">
+                    <d:var name="OsIsrCategory" type="INTEGER" value="2"/>
+                    <d:var name="OsStacksize" type="INTEGER" value="2048"/>
+                    <d:var name="OsIsrPriority" type="INTEGER" value="8"/>
+                    <d:var name="OsARMIrqLevel" type="INTEGER" value="3"/>
+                    <d:var name="OsARMVector" type="INTEGER" value="50"/>
+                </d:ctr>
+            </d:lst>
+        </datamodel>
+        """
+        element = ET.fromstring(xml_content)
+        model = EBModel.getInstance()
+        os = model.getOs()
+        parser = OsXdmParser()
+        parser.nsmap = {
+            '': "http://www.tresos.de/_projects/DataModel2/18/root.xsd",
+            'a': "http://www.tresos.de/_projects/DataModel2/18/attribute.xsd",
+            'v': "http://www.tresos.de/_projects/DataModel2/06/schema.xsd",
+            'd': "http://www.tresos.de/_projects/DataModel2/06/data.xsd"
+        }
+
+        parser.read_os_isrs(element, os)
+
+        isr_list = os.getOsIsrList()
+        assert len(isr_list) == 2
+
+        isr_tricore = next((isr for isr in isr_list if isr.getName() == "IsrTriCore"), None)
+        assert isr_tricore is not None
+        assert isr_tricore.getOsIsrPriority() == 10, "OsIsrPriority should be 10, not overwritten"
+        assert isr_tricore.getOsTricoreIrqLevel() == 5, "OsTricoreIrqLevel should be 5"
+        assert isr_tricore.getOsTricoreVector() == 100, "OsTricoreVector should be 100"
+
+        isr_arm = next((isr for isr in isr_list if isr.getName() == "IsrARM"), None)
+        assert isr_arm is not None
+        assert isr_arm.getOsIsrPriority() == 8, "OsIsrPriority should be 8, not overwritten"
+        assert isr_arm.getOsARMIrqLevel() == 3, "OsARMIrqLevel should be 3"
+        assert isr_arm.getOsARMVector() == 50, "OsARMVector should be 50"
+
+    def test_task_event_ref_parsing(self):
+        """
+        Verify that OsTaskEventRef list is parsed correctly.
+        
+        Implements: SWR_OS_PARSER_00003 (Task Parsing - Event References)
+        """
+        xml_content = """
+        <datamodel version="8.0"
+                xmlns="http://www.tresos.de/_projects/DataModel2/18/root.xsd"
+                xmlns:a="http://www.tresos.de/_projects/DataModel2/18/attribute.xsd"
+                xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+                xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+            <d:lst name="OsTask" type="MAP">
+                <d:ctr name="Task1">
+                    <d:var name="OsTaskPriority" type="INTEGER" value="5"/>
+                    <d:var name="OsTaskActivation" type="INTEGER" value="1"/>
+                    <d:var name="OsTaskSchedule" type="ENUMERATION" value="FULL"/>
+                    <d:var name="OsStacksize" type="INTEGER" value="1024"/>
+                    <d:lst name="OsTaskEventRef">
+                        <d:ref type="REFERENCE" value="ASPath:/Os/Event1"/>
+                        <d:ref type="REFERENCE" value="ASPath:/Os/Event2"/>
+                    </d:lst>
+                </d:ctr>
+            </d:lst>
+        </datamodel>
+        """
+        element = ET.fromstring(xml_content)
+        model = EBModel.getInstance()
+        os = model.getOs()
+        parser = OsXdmParser()
+        parser.nsmap = {
+            '': "http://www.tresos.de/_projects/DataModel2/18/root.xsd",
+            'a': "http://www.tresos.de/_projects/DataModel2/18/attribute.xsd",
+            'v': "http://www.tresos.de/_projects/DataModel2/06/schema.xsd",
+            'd': "http://www.tresos.de/_projects/DataModel2/06/data.xsd"
+        }
+
+        parser.read_os_tasks(element, os)
+
+        task_list = os.getOsTaskList()
+        assert len(task_list) == 1
+        task = task_list[0]
+        assert task.getName() == "Task1"
+
+        event_refs = task.getOsTaskEventRefList()
+        assert len(event_refs) == 2, "Should have 2 event references"
+        assert event_refs[0].getShortName() == "Event1"
+        assert event_refs[1].getShortName() == "Event2"
+
+    def test_resource_linked_ref_parsing(self):
+        """
+        Verify that OsLinkedResourceRef is parsed correctly for LINKED resources.
+        
+        Implements: SWR_OS_PARSER_00009 (Resource Parsing - Linked Resources)
+        """
+        xml_content = """
+        <datamodel version="8.0"
+                xmlns="http://www.tresos.de/_projects/DataModel2/18/root.xsd"
+                xmlns:a="http://www.tresos.de/_projects/DataModel2/18/attribute.xsd"
+                xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+                xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+            <d:lst name="OsResource" type="MAP">
+                <d:ctr name="ResourceStandard">
+                    <d:var name="OsResourceProperty" type="ENUMERATION" value="STANDARD"/>
+                </d:ctr>
+                <d:ctr name="ResourceLinked">
+                    <d:var name="OsResourceProperty" type="ENUMERATION" value="LINKED"/>
+                    <d:ref name="OsLinkedResourceRef" type="REFERENCE" value="ASPath:/Os/ResourceStandard"/>
+                </d:ctr>
+            </d:lst>
+        </datamodel>
+        """
+        element = ET.fromstring(xml_content)
+        model = EBModel.getInstance()
+        os = model.getOs()
+        parser = OsXdmParser()
+        parser.nsmap = {
+            '': "http://www.tresos.de/_projects/DataModel2/18/root.xsd",
+            'a': "http://www.tresos.de/_projects/DataModel2/18/attribute.xsd",
+            'v': "http://www.tresos.de/_projects/DataModel2/06/schema.xsd",
+            'd': "http://www.tresos.de/_projects/DataModel2/06/data.xsd"
+        }
+
+        parser.read_os_resources(element, os)
+
+        resource_list = os.getOsResourceList()
+        assert len(resource_list) == 2
+
+        standard_res = next((res for res in resource_list if res.getName() == "ResourceStandard"), None)
+        assert standard_res is not None
+        assert standard_res.getOsResourceProperty() == "STANDARD"
+
+        linked_res = next((res for res in resource_list if res.getName() == "ResourceLinked"), None)
+        assert linked_res is not None
+        assert linked_res.getOsResourceProperty() == "LINKED"
+
+        linked_ref = linked_res.getOsLinkedResourceRef()
+        assert linked_ref is not None, "OsLinkedResourceRef should be parsed"
+        assert linked_ref.getShortName() == "ResourceStandard"
+
+    def test_alarm_autostart_parsing(self):
+        """
+        Verify that OsAlarmAutostart configuration is parsed correctly.
+        
+        Implements: SWR_OS_PARSER_00008 (Alarm Parsing - Autostart)
+        """
+        xml_content = """
+        <datamodel version="8.0"
+                xmlns="http://www.tresos.de/_projects/DataModel2/18/root.xsd"
+                xmlns:a="http://www.tresos.de/_projects/DataModel2/18/attribute.xsd"
+                xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+                xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+            <d:lst name="OsAlarm" type="MAP">
+                <d:ctr name="Alarm1">
+                    <d:ref name="OsAlarmCounterRef" type="REFERENCE" value="ASPath:/Os/Counter1"/>
+                    <d:chc name="OsAlarmAction" value="OsAlarmActivateTask">
+                        <d:ctr name="OsAlarmActivateTask">
+                            <d:ref name="OsAlarmActivateTaskRef" type="REFERENCE" value="ASPath:/Os/Task1"/>
+                        </d:ctr>
+                    </d:chc>
+                    <d:ctr name="OsAlarmAutostart">
+                        <d:var name="OsAlarmAlarmTime" type="INTEGER" value="100"/>
+                        <d:var name="OsAlarmAutostartType" type="ENUMERATION" value="ABSOLUTE"/>
+                        <d:var name="OsAlarmCycleTime" type="INTEGER" value="50"/>
+                        <d:lst name="OsAlarmAppModeRef">
+                            <d:ref type="REFERENCE" value="ASPath:/Os/AppMode1"/>
+                        </d:lst>
+                    </d:ctr>
+                </d:ctr>
+            </d:lst>
+        </datamodel>
+        """
+        element = ET.fromstring(xml_content)
+        model = EBModel.getInstance()
+        os = model.getOs()
+        parser = OsXdmParser()
+        parser.nsmap = {
+            '': "http://www.tresos.de/_projects/DataModel2/18/root.xsd",
+            'a': "http://www.tresos.de/_projects/DataModel2/18/attribute.xsd",
+            'v': "http://www.tresos.de/_projects/DataModel2/06/schema.xsd",
+            'd': "http://www.tresos.de/_projects/DataModel2/06/data.xsd"
+        }
+
+        parser.read_os_alarms(element, os)
+
+        alarm_list = os.getOsAlarmList()
+        assert len(alarm_list) == 1
+        alarm = alarm_list[0]
+        assert alarm.getName() == "Alarm1"
+
+        autostart = alarm.getOsAlarmAutostart()
+        assert autostart is not None, "OsAlarmAutostart should be parsed"
+        assert autostart.getOsAlarmAlarmTime() == 100
+        assert autostart.getOsAlarmAutostartType() == "ABSOLUTE"
+        assert autostart.getOsAlarmCycleTime() == 50
+
+        app_mode_refs = autostart.getOsAlarmAppModeRefs()
+        assert len(app_mode_refs) == 1
+        assert app_mode_refs[0].getShortName() == "AppMode1"

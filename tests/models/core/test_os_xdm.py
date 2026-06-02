@@ -424,7 +424,7 @@ class TestOsResource:
 
     def test_set_os_linked_resource_ref(self):
         """
-        Test OsResourceLinkedResourceRefs.
+        Test OsLinkedResourceRef.
 
         Implements: UTS_OS_MODEL_00009
         """
@@ -432,8 +432,8 @@ class TestOsResource:
         resource2 = OsResource(root, "Resource2")
 
         ref = EcucRefType("ASPath:/Os/Resource1")
-        resource2.setOsResourceLinkedResourceRefs([ref])
-        assert resource2.getOsResourceLinkedResourceRefs() == [ref]
+        resource2.setOsLinkedResourceRef(ref)
+        assert resource2.getOsLinkedResourceRef() == ref
 
 class TestOsHooks:
 

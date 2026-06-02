@@ -600,7 +600,7 @@ class OsResource(EcucParamConfContainerDef):
 
         self.osResourceProperty: EcucEnumerationParamDef = None
         self.osResourceAccessingApplicationRefs: List[EcucRefType] = []
-        self.osResourceLinkedResourceRefs: List[EcucRefType] = []
+        self.osLinkedResourceRef: EcucRefType = None
 
     def getOsResourceProperty(self):
         return self.osResourceProperty
@@ -618,12 +618,12 @@ class OsResource(EcucParamConfContainerDef):
             self.osResourceAccessingApplicationRefs.append(value)
         return self
 
-    def getOsResourceLinkedResourceRefs(self):
-        return self.osResourceLinkedResourceRefs
+    def getOsLinkedResourceRef(self):
+        return self.osLinkedResourceRef
 
-    def setOsResourceLinkedResourceRefs(self, value):
+    def setOsLinkedResourceRef(self, value):
         if value is not None:
-            self.osResourceLinkedResourceRefs = value
+            self.osLinkedResourceRef = value
         return self
 
 
@@ -827,7 +827,7 @@ class OsTask(EcucObject):
         self.osStacksize = 0                            # type: int
         self.osMemoryMappingCodeLocationRef = None      # type: EcucRefType
         self.osTaskAccessingApplication = None
-        self.osTaskEventRef = None                      # type: EcucRefType
+        self.osTaskEventRefs = []                       # type: List[EcucRefType]
         self.osTaskResourceRefs = []                    # type: List[EcucRefType]
         self.osTaskAutostart = None                     # type: OsTaskAutostart
         self.osMeasureMaxRuntime: bool = None
@@ -885,11 +885,11 @@ class OsTask(EcucObject):
         self.osTaskAccessingApplication = value
         return self
 
-    def getOsTaskEventRef(self):
-        return self.osTaskEventRef
+    def getOsTaskEventRefList(self) -> List[EcucRefType]:
+        return self.osTaskEventRefs
 
-    def setOsTaskEventRef(self, value):
-        self.osTaskEventRef = value
+    def addOsTaskEventRef(self, value: EcucRefType):
+        self.osTaskEventRefs.append(value)
         return self
 
     def getOsTaskResourceRefList(self) -> List[EcucRefType]:
