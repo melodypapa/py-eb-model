@@ -22,6 +22,7 @@ import xml.etree.ElementTree as ET
 from eb_model.models.core.eb_doc import EBModel
 from eb_model.models.core.os_xdm import Os, OsAlarm, OsAlarmActivateTask, OsAlarmCallback
 from eb_model.models.core.os_xdm import OsAlarmIncrementCounter, OsAlarmSetEvent, OsCounter, OsResource
+from eb_model.models.core.os_xdm import OsAlarmAutostart
 from eb_model.models.core.os_xdm import CommonPublishedInformation, PublishedInformation, OsHwIncrementer
 from eb_model.models.core.os_xdm import OsEvent, OsSpinlock, OsPeripheralArea, OsOS, OsHooks
 from eb_model.models.core.os_xdm import OsCoreConfig, OsAutosarCustomization
@@ -138,6 +139,10 @@ class OsXdmParser(AbstractEbModelParser):
             for resource_ref in self.read_ref_value_list(ctr_tag, "OsTaskResourceRef"):
                 os_task.addOsTaskResourceRef(resource_ref)
 
+            # Parse OsTaskEventRef list [1..*]
+            for event_ref in self.read_ref_value_list(ctr_tag, "OsTaskEventRef"):
+                os_task.addOsTaskEventRef(event_ref)
+
             self.read_os_task_autostart(ctr_tag, os_task)
 
             self.logger.debug("Read OsTask <%s>" % os_task.getName())
@@ -161,19 +166,15 @@ class OsXdmParser(AbstractEbModelParser):
             os_isr.setOsIsrCategory(self.read_value(ctr_tag, "OsIsrCategory"))
             os_isr.setOsIsrPeriod(self.read_optional_value(ctr_tag, "OsIsrPeriod", 0.0))
             os_isr.setOsStacksize(int(self.read_value(ctr_tag, "OsStacksize")))
-            os_isr.setOsIsrPriority(self.read_eb_origin_value(ctr_tag, "OsIsrPriority"))
+            os_isr.setOsIsrPriority(self.read_optional_value(ctr_tag, "OsIsrPriority"))
 
-            # Infineon Aurix Tricore
-            os_isr.setOsIsrPriority(self.read_eb_origin_value(ctr_tag, "OsTricoreIrqLevel"))
-            os_isr.setOsIsrVector(self.read_eb_origin_value(ctr_tag, "OsTricoreVector"))
-            os_isr.setOsTricoreIrqLevel(self.read_eb_origin_value(ctr_tag, "OsTricoreIrqLevel"))
-            os_isr.setOsTricoreVector(self.read_eb_origin_value(ctr_tag, "OsTricoreVector"))
+            # Infineon Aurix Tricore - platform-specific fields [0..1]
+            os_isr.setOsTricoreIrqLevel(self.read_optional_value(ctr_tag, "OsTricoreIrqLevel"))
+            os_isr.setOsTricoreVector(self.read_optional_value(ctr_tag, "OsTricoreVector"))
 
-            # ARM Core
-            os_isr.setOsIsrPriority(self.read_eb_origin_value(ctr_tag, "OsARMIrqLevel"))
-            os_isr.setOsIsrVector(self.read_eb_origin_value(ctr_tag, "OsARMVector"))
-            os_isr.setOsARMIrqLevel(self.read_eb_origin_value(ctr_tag, "OsARMIrqLevel"))
-            os_isr.setOsARMVector(self.read_eb_origin_value(ctr_tag, "OsARMVector"))
+            # ARM Core - platform-specific fields [0..1]
+            os_isr.setOsARMIrqLevel(self.read_optional_value(ctr_tag, "OsARMIrqLevel"))
+            os_isr.setOsARMVector(self.read_optional_value(ctr_tag, "OsARMVector"))
 
             # EB Safety OS
             for ref in self.read_ref_value_list(ctr_tag, "OsIsrMkMemoryRegionRef"):
@@ -203,6 +204,28 @@ class OsXdmParser(AbstractEbModelParser):
                 raise ValueError("Unsupported OsAlarmAction <%s>" % chc)
             os_alarm.setOsAlarmAction(os_alarm_action)
 
+    def read_os_alarm_autostart(self, element: ET.Element, os_alarm: OsAlarm):
+        """
+        Parse OsAlarmAutostart configuration for an alarm.
+
+        Args:
+            element: XDM element containing OsAlarmAutostart container.
+            os_alarm: OsAlarm instance to update with autostart configuration.
+
+        Implements: SWR_OS_PARSER_00008 (Alarm Parsing - Autostart)
+        """
+        ctr_tag = self.find_ctr_tag(element, "OsAlarmAutostart")
+        if ctr_tag is not None:
+            autostart = OsAlarmAutostart(os_alarm, ctr_tag.attrib["name"])
+            autostart.setOsAlarmAlarmTime(self.read_value(ctr_tag, "OsAlarmAlarmTime"))
+            autostart.setOsAlarmAutostartType(self.read_value(ctr_tag, "OsAlarmAutostartType"))
+            autostart.setOsAlarmCycleTime(self.read_optional_value(ctr_tag, "OsAlarmCycleTime"))
+
+            for app_mode_ref in self.read_ref_value_list(ctr_tag, "OsAlarmAppModeRef"):
+                autostart.addOsAlarmAppModeRef(app_mode_ref)
+
+            os_alarm.setOsAlarmAutostart(autostart)
+
         # Read callback name if available
         os_alarm.setOsAlarmCallbackName(self.read_optional_value(element, "OsAlarmCallbackName"))
 
@@ -227,6 +250,7 @@ class OsXdmParser(AbstractEbModelParser):
                 os_alarm.addOsAlarmAccessingApplicationRef(ref)
 
             self.read_os_alarm_action(ctr_tag, os_alarm)
+            self.read_os_alarm_autostart(ctr_tag, os_alarm)
 
             self.logger.debug("Read OsAlarm <%s>" % os_alarm.getName())
             os.addOsAlarm(os_alarm)
@@ -383,6 +407,10 @@ class OsXdmParser(AbstractEbModelParser):
 
             for ref in self.read_ref_value_list(ctr_tag, "OsResourceAccessingApplication"):
                 os_res.addOsResourceAccessingApplicationRefs(ref)
+
+            linked_ref = self.read_optional_ref_value(ctr_tag, "OsLinkedResourceRef")
+            if linked_ref is not None:
+                os_res.setOsLinkedResourceRef(linked_ref)
 
             os.addOsResource(os_res)
 

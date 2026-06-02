@@ -111,17 +111,11 @@ class AbstractEbModelParser(metaclass=ABCMeta):
 
         Raises KeyError if the value does not exist.
 
-        Implements: SWR_PARSER_00003 (Value reading - mandatory values)
+        Implements: SWR_INFRA_PARSER_00001 (Mandatory Value Reading)
         """
         tag = parent.find(".//d:var[@name='%s']" % name, self.nsmap)
         if tag is None:
             raise KeyError("XPath d:var[@name='%s'] is invalid" % name)
-        return self._convert_value(tag)
-
-    def read_eb_origin_value(self, parent: ET.Element, name: str) -> str:
-        tag = parent.find(".//d:var[@name='%s']" % name, self.nsmap)
-        if tag is None:
-            return None
         return self._convert_value(tag)
 
     def read_optional_value(self, parent: ET.Element, name: str, default_value=None) -> str:
@@ -130,7 +124,7 @@ class AbstractEbModelParser(metaclass=ABCMeta):
 
         Checks ENABLE attribute and returns default if disabled.
 
-        Implements: SWR_PARSER_00003 (Value reading - optional values)
+        Implements: SWR_INFRA_PARSER_00002 (Optional Value Reading)
         """
         tag = parent.find(".//d:var[@name='%s']" % name, self.nsmap)
         if tag is None:
@@ -151,7 +145,7 @@ class AbstractEbModelParser(metaclass=ABCMeta):
 
         Raises KeyError if the choice does not exist or has no value attribute.
 
-        Implements: SWR_PARSER_00003 (Value reading - mandatory choice)
+        Implements: SWR_INFRA_PARSER_00003 (Mandatory Choice Value Reading)
         """
         tag = self.find_choice_tag(parent, name)
         return tag.attrib['value']
@@ -162,7 +156,7 @@ class AbstractEbModelParser(metaclass=ABCMeta):
 
         Returns default_value if the choice tag doesn't exist or has no 'value' attribute.
 
-        Implements: SWR_PARSER_00003 (Value reading - optional choice)
+        Implements: SWR_INFRA_PARSER_00004 (Optional Choice Value Reading)
         """
         tag = self.find_choice_tag(parent, name)
         if tag is None:
@@ -173,7 +167,7 @@ class AbstractEbModelParser(metaclass=ABCMeta):
         """
         Read a mandatory reference value in ASPath format.
 
-        Implements: SWR_PARSER_00004 (Reference handling - single reference)
+        Implements: SWR_INFRA_PARSER_00005 (Mandatory Reference Reading)
         """
         tag = parent.find(".//d:ref[@name='%s']" % name, self.nsmap)
         if tag is None:
@@ -186,7 +180,7 @@ class AbstractEbModelParser(metaclass=ABCMeta):
         """
         Read an optional reference value in ASPath format.
 
-        Implements: SWR_PARSER_00004 (Reference handling - optional reference)
+        Implements: SWR_INFRA_PARSER_00006 (Optional Reference Reading)
         """
         tag = parent.find(".//d:ref[@name='%s']" % name, self.nsmap)
         if tag is None:
@@ -203,7 +197,7 @@ class AbstractEbModelParser(metaclass=ABCMeta):
         """
         Read a list of reference values in ASPath format.
 
-        Implements: SWR_PARSER_00004 (Reference handling - multiple references)
+        Implements: SWR_INFRA_PARSER_00007 (Reference List Reading)
         """
         ref_value_list = []
         for tag in parent.findall(".//d:lst[@name='%s']/d:ref" % name, self.nsmap):
@@ -217,7 +211,7 @@ class AbstractEbModelParser(metaclass=ABCMeta):
         """
         Find all container tags with the given name.
 
-        Implements: SWR_PARSER_00006 (Container tag finding - multiple)
+        Implements: SWR_INFRA_PARSER_00009 (Container Tag Finding - Multiple)
         """
         return parent.findall(".//d:lst[@name='%s']/d:ctr" % name, self.nsmap)
 
@@ -231,7 +225,7 @@ class AbstractEbModelParser(metaclass=ABCMeta):
 
         Returns None if not found or disabled.
 
-        Implements: SWR_PARSER_00006 (Container tag finding - single)
+        Implements: SWR_INFRA_PARSER_00008 (Container Tag Finding - Single)
         """
         tag = parent.find(".//d:ctr[@name='%s']" % name, self.nsmap)
         if tag is None:
