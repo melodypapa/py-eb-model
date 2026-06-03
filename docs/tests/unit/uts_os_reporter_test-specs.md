@@ -26,10 +26,10 @@ This document defines unit test specifications for the OS Reporter Layer. Tests 
 
 | Metric | Count | Percentage |
 |--------|-------|------------|
-| Total Requirements | 12 | 100% |
-| Requirements with Tests | 12 | 100% |
+| Total Requirements | 14 | 100% |
+| Requirements with Tests | 14 | 100% |
 | Requirements without Tests | 0 | 0% |
-| Total Test Cases | 24 | - |
+| Total Test Cases | 34 | - |
 
 ---
 
@@ -253,7 +253,7 @@ This document defines unit test specifications for the OS Reporter Layer. Tests 
 
 ### UTS_OS_REPORTER_00025 : Application Modes Sheet Writing
 
-**Type:** Functional | **Priority:** High | **Status:** Not Implemented
+**Type:** Functional | **Priority:** High | **Status:** Passed
 
 **Traces-To:** SWR_OS_REPORTER_00013
 
@@ -271,7 +271,7 @@ This document defines unit test specifications for the OS Reporter Layer. Tests 
 
 ### UTS_OS_REPORTER_00026 : Peripheral Areas Sheet Writing
 
-**Type:** Functional | **Priority:** High | **Status:** Not Implemented
+**Type:** Functional | **Priority:** High | **Status:** Passed
 
 **Traces-To:** SWR_OS_REPORTER_00014
 
@@ -287,13 +287,167 @@ This document defines unit test specifications for the OS Reporter Layer. Tests 
 
 ---
 
+### UTS_OS_REPORTER_00027 : Multiple OsApplications Row Ordering
+
+**Type:** Regression | **Priority:** Critical | **Status:** Passed
+
+**Traces-To:** SWR_OS_REPORTER_00007
+
+**Test Steps:**
+1. Create 3 OsApplication objects with distinct names (AppAlpha, AppBeta, AppGamma)
+2. Write Excel report
+3. Open OsApplications sheet and verify row positions
+
+**Verification Criteria:**
+1. Verify row 2 = AppAlpha (first alphabetically)
+2. Verify row 3 = AppBeta
+3. Verify row 4 = AppGamma
+4. Verify row 5 is empty (no phantom rows)
+5. Verify Name, OsTrusted, OsApplicationCoreAssignment, OsAppEcucPartitionRef columns
+
+---
+
+### UTS_OS_REPORTER_00028 : Multiple OsTasks Row Ordering
+
+**Type:** Regression | **Priority:** Critical | **Status:** Passed
+
+**Traces-To:** SWR_OS_REPORTER_00003
+
+**Test Steps:**
+1. Create 2 OsTask objects with distinct names (TaskAlpha, TaskBeta), each mapped to an OsApplication
+2. Write Excel report
+3. Open OsTask sheet and verify row positions
+
+**Verification Criteria:**
+1. Verify row 2 = TaskAlpha (first alphabetically)
+2. Verify row 3 = TaskBeta
+3. Verify row 4 is empty (no phantom rows)
+4. Verify Name column for both rows
+
+---
+
+### UTS_OS_REPORTER_00029 : Multiple OsIsrs Row Ordering
+
+**Type:** Regression | **Priority:** Critical | **Status:** Passed
+
+**Traces-To:** SWR_OS_REPORTER_00004
+
+**Test Steps:**
+1. Create 2 OsIsr objects with distinct names (IsrAlpha, IsrBeta), each mapped to an OsApplication
+2. Write Excel report
+3. Open OsIsr sheet and verify row positions
+
+**Verification Criteria:**
+1. Verify row 2 = IsrAlpha (first alphabetically)
+2. Verify row 3 = IsrBeta
+3. Verify row 4 is empty (no phantom rows)
+4. Verify Name column for both rows
+
+---
+
+### UTS_OS_REPORTER_00030 : Multiple OsSpinlocks Row Ordering
+
+**Type:** Regression | **Priority:** High | **Status:** Passed
+
+**Traces-To:** SWR_OS_REPORTER_00010
+
+**Test Steps:**
+1. Create 2 OsSpinlock objects with distinct names (SpinlockAlpha, SpinlockBeta)
+2. Write Excel report
+3. Open OsSpinlock sheet and verify row positions
+
+**Verification Criteria:**
+1. Verify row 2 = SpinlockAlpha (first alphabetically)
+2. Verify row 3 = SpinlockBeta
+3. Verify row 4 is empty (no phantom rows)
+4. Verify Name and LockMethod columns for both rows
+
+---
+
+### UTS_OS_REPORTER_00031 : Multiple OsCounters Row Ordering
+
+**Type:** Regression | **Priority:** High | **Status:** Passed
+
+**Traces-To:** SWR_OS_REPORTER_00006
+
+**Test Steps:**
+1. Create 2 OsCounter objects with distinct names (CounterAlpha, CounterBeta)
+2. Write Excel report
+3. Open OsCounter sheet and verify row positions
+
+**Verification Criteria:**
+1. Verify row 2 = CounterAlpha (first alphabetically)
+2. Verify row 3 = CounterBeta
+3. Verify row 4 is empty (no phantom rows)
+4. Verify Name and MaxAllowedValue columns for both rows
+
+---
+
+### UTS_OS_REPORTER_00032 : Multiple OsScheduleTables Row Ordering
+
+**Type:** Regression | **Priority:** High | **Status:** Passed
+
+**Traces-To:** SWR_OS_REPORTER_00011
+
+**Test Steps:**
+1. Create 2 OsScheduleTable objects with distinct names (TableAlpha, TableBeta)
+2. Write Excel report
+3. Open OsScheduleTable sheet and verify row positions
+
+**Verification Criteria:**
+1. Verify row 2 = TableAlpha (first alphabetically)
+2. Verify row 3 = TableBeta
+3. Verify row 4 is empty (no phantom rows)
+4. Verify Name column for both rows
+
+---
+
+### UTS_OS_REPORTER_00033 : Multiple MkMemoryRegions Row Ordering
+
+**Type:** Regression | **Priority:** High | **Status:** Passed
+
+**Traces-To:** SWR_OS_REPORTER_00001
+
+**Test Steps:**
+1. Create 2 MkMemoryRegion objects with distinct names (RegionAlpha, RegionBeta)
+2. Write Excel report
+3. Open MkMemoryRegion sheet and verify row positions
+
+**Verification Criteria:**
+1. Verify row 2 = RegionAlpha (first alphabetically)
+2. Verify row 3 = RegionBeta
+3. Verify row 4 is empty (no phantom rows)
+4. Verify Name column for both rows
+
+---
+
+### UTS_OS_REPORTER_00034 : Multiple OsPeripheralAreas Row Ordering
+
+**Type:** Regression | **Priority:** High | **Status:** Passed
+
+**Traces-To:** SWR_OS_REPORTER_00014
+
+**Test Steps:**
+1. Create 2 OsPeripheralArea objects with distinct names (AreaAlpha, AreaBeta)
+2. Write Excel report
+3. Open OsPeripheralArea sheet and verify row positions
+
+**Verification Criteria:**
+1. Verify row 2 = AreaAlpha (first alphabetically)
+2. Verify row 3 = AreaBeta
+3. Verify row 4 is empty (no phantom rows)
+4. Verify Name column for both rows
+
+---
+
 ## Test Coverage Summary
 
 | Technique | Requirements | Test Cases | Coverage |
 |-----------|--------------|------------|----------|
-| Equivalence Partitioning | 12 | 24 | 92% |
-| Boundary Value Analysis | 2 | 4 | 8% |
-| **Total** | **14** | **28** | **100%** |
+| Equivalence Partitioning | 12 | 24 | 71% |
+| Boundary Value Analysis | 2 | 4 | 12% |
+| Regression (multi-item row ordering) | 8 | 8 | 24% |
+| **Total** | **22** | **36** | **100%** |
 
 ---
 
@@ -302,3 +456,4 @@ This document defines unit test specifications for the OS Reporter Layer. Tests 
 | Date | Version | Description | Author |
 |------|---------|-------------|--------|
 | 2026-05-27 | 1.0 | Initial unit test specification document | req-traceability skill |
+| 2026-06-03 | 1.1 | Mark UTS_OS_REPORTER_00025/00026 as Passed; add UTS_OS_REPORTER_00027-00034 (multi-item row ordering regression tests) | Copilot |
