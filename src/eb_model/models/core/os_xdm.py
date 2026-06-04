@@ -801,6 +801,21 @@ class OsTaskResourceLock(EcucObject):
         super().__init__(parent, name)
 
         self.osTaskResourceLockBudget = None
+        self.osTaskResourceLockResourceRef = None
+
+    def getOsTaskResourceLockBudget(self):
+        return self.osTaskResourceLockBudget
+
+    def setOsTaskResourceLockBudget(self, value):
+        self.osTaskResourceLockBudget = value
+        return self
+
+    def getOsTaskResourceLockResourceRef(self) -> EcucRefType:
+        return self.osTaskResourceLockResourceRef
+
+    def setOsTaskResourceLockResourceRef(self, value: EcucRefType):
+        self.osTaskResourceLockResourceRef = value
+        return self
 
 
 class OsTaskTimingProtection(EcucObject):
@@ -965,7 +980,7 @@ class OsScheduleTableAutostart(EcucParamConfContainerDef):
 
         self.osScheduleTableAutostartType = None        # Multiplicity: 1
         self.osScheduleTableStartValue = None           # Multiplicity: 0..1
-        self.osScheduleTableAppModeRef = None           # Multiplicity: 1..*
+        self.osScheduleTableAppModeRefs: List[EcucRefType] = []  # Multiplicity: 1..*
 
     def getOsScheduleTableAutostartType(self):
         return self.osScheduleTableAutostartType
@@ -981,11 +996,11 @@ class OsScheduleTableAutostart(EcucParamConfContainerDef):
         self.osScheduleTableStartValue = value
         return self
 
-    def getOsScheduleTableAppModeRef(self):
-        return self.osScheduleTableAppModeRef
+    def getOsScheduleTableAppModeRefList(self) -> List[EcucRefType]:
+        return self.osScheduleTableAppModeRefs
 
-    def setOsScheduleTableAppModeRef(self, value):
-        self.osScheduleTableAppModeRef = value
+    def addOsScheduleTableAppModeRef(self, value: EcucRefType):
+        self.osScheduleTableAppModeRefs.append(value)
         return self
 
 
@@ -1562,6 +1577,7 @@ class OsPeripheralArea(EcucParamConfContainerDef):
         self.osPeripheralAreaEndAddress: int = None
         self.osPeripheralAreaId: int = None
         self.osPeripheralAreaAccessPermission: str = None
+        self.osPeripheralAreaAccessingApplication: EcucRefType = None
 
     def getOsPeripheralAreaStartAddress(self) -> int:
         return self.osPeripheralAreaStartAddress
@@ -1593,6 +1609,14 @@ class OsPeripheralArea(EcucParamConfContainerDef):
     def setOsPeripheralAreaAccessPermission(self, value: str):
         if value is not None:
             self.osPeripheralAreaAccessPermission = value
+        return self
+
+    def getOsPeripheralAreaAccessingApplication(self) -> EcucRefType:
+        return self.osPeripheralAreaAccessingApplication
+
+    def setOsPeripheralAreaAccessingApplication(self, value: EcucRefType):
+        if value is not None:
+            self.osPeripheralAreaAccessingApplication = value
         return self
 
 
