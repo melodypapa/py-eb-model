@@ -27,6 +27,7 @@ class DataGenerator:
     def __init__(self, strategy=None, list_entries: Optional[int] = None) -> None:
         self.strategy = strategy or DefaultsStrategy()
         self.list_entries = list_entries
+        self._ns_for_output = dict(_XDM_NS)
 
     def generate(self, schema_root: SchemaRoot) -> ET.ElementTree:
         """Generate a complete model XDM element tree from schema root."""
@@ -35,9 +36,10 @@ class DataGenerator:
         d_ns = ns.get('d', '')
         d_prefix = '{%s}' % d_ns if d_ns else ''
 
-        # Register namespaces for proper serialization
-        for prefix, uri in ns.items():
-            ET.register_namespace(prefix, uri)
+        # Register d: prefix so ET uses it instead of auto-generated ns0
+        if d_ns:
+            ET.register_namespace('d', d_ns)
+        self._ns_for_output = dict(ns)
 
         # Build datamodel root
         datamodel = ET.Element('datamodel')
@@ -167,8 +169,28 @@ class DataGenerator:
             self._generate_ctr(first, elem, d_prefix)
 
     def toString(self, tree: ET.ElementTree) -> str:
-        """Serialize element tree to XML string."""
+        """Serialize element tree to XML string with proper namespace declarations."""
         ET.indent(tree, space='  ')
         root = tree.getroot()
+
         xml_bytes = ET.tostring(root, encoding='unicode', xml_declaration=False)
+
+        # Build xmlns declarations for the root <datamodel> tag.
+        # ET already emits xmlns:d (registered prefix), so skip 'd' here.
+        ns_decls = ''
+        for prefix, uri in self._ns_for_output.items():
+            if prefix == 'd':
+                continue  # ET handles d: prefix via register_namespace
+            if prefix:
+                ns_decls += '\n           xmlns:%s="%s"' % (prefix, uri)
+            else:
+                ns_decls += '\n           xmlns="%s"' % uri
+
+        # Inject xmlns declarations into the opening <datamodel> tag
+        xml_bytes = xml_bytes.replace(
+            '<datamodel ',
+            '<datamodel %s\n           ' % ns_decls,
+            1,
+        )
+
         return "<?xml version='1.0'?>\n" + xml_bytes
