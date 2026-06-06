@@ -195,3 +195,40 @@ No new runtime dependencies. Uses only:
 - Unit tests for DataGenerator (schema model → element tree)
 - Integration test: generate model from CanIf schema, verify parsers can read it
 - Integration test: generate model → parse with `CanIfXdmParser` → verify model populated
+
+## Verification with eb-convert
+
+The generated model XDM must be parseable by the existing `eb-convert` CLI tool. This serves as end-to-end validation:
+
+### CanIf Verification
+
+```bash
+# Generate model from CanIf schema
+model-xdm-generator doc/canif/schema/CanIf.xdm -o /tmp/CanIf_generated.xdm --variant defaults
+
+# Verify eb-convert can parse it
+eb-convert /tmp/CanIf_generated.xdm -o /tmp/CanIf_output.xlsx
+
+# Verify with boundary variant
+model-xdm-generator doc/canif/schema/CanIf.xdm -o /tmp/CanIf_boundary.xdm --variant boundary
+eb-convert /tmp/CanIf_boundary.xdm -o /tmp/CanIf_boundary_output.xlsx
+```
+
+### Os Verification
+
+```bash
+# Generate model from Os schema
+model-xdm-generator doc/os/schema/Os.xdm -o /tmp/Os_generated.xdm --variant defaults
+
+# Verify eb-convert can parse it
+eb-convert /tmp/Os_generated.xdm -o /tmp/Os_output.xlsx
+```
+
+### Automated Verification Test
+
+Integration test that:
+1. Generates model XDM from each available schema (CanIf, Os)
+2. Runs `eb-convert` on generated XDM
+3. Asserts exit code 0 (successful parse)
+4. Asserts output Excel file is non-empty
+5. Runs all three variants (defaults, boundary, random)
