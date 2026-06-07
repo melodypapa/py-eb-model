@@ -1492,7 +1492,9 @@ git commit -m "docs: Add generator API reference"
 
 ---
 
-## Chunk 4: Phase 4 - Complete Reference (Ongoing)
+## Chunk 4: Phase 4 Starter - Additional Usage Documentation
+
+**Note:** Phase 4 in the spec is "Complete Reference (Ongoing)" for comprehensive API documentation covering parser, models, and reporters layers. This chunk provides starter usage documentation. Full API reference (parser.rst, models.rst, reporters.rst) is future work to be done incrementally by stack priority (core → CAN → ETH → LIN → FR → MEM → DIAG).
 
 ### Task 16: Create Python API Guide
 
@@ -1853,33 +1855,58 @@ git commit -m "docs: Add CLI usage examples"
 ### Task 18: Update Main Index with New Content
 
 **Files:**
-- Modify: `docs/index.rst`
+- Modify: `docs/index.rst:94-150` (Documentation Structure section)
 
-- [ ] **Step 1: Add examples to toctree**
+- [ ] **Step 1: Add examples section to main index**
 
-Add examples section after API Reference:
+First, read the current Documentation Structure section to understand exact formatting:
 
 ```bash
-# Find the API Reference toctree and add examples after it
-# Edit docs/index.rst to include:
-
-# .. toctree::
-#    :maxdepth: 2
-#    :caption: Examples
-#
-#    examples/cli-usage
-#    examples/README
+grep -A 60 "Documentation Structure" docs/index.rst
 ```
 
-- [ ] **Step 2: Update getting-started to include generator quickstart**
-
-The getting-started/index.rst already includes generator-quickstart from Task 6, so this is done.
-
-- [ ] **Step 3: Add python-api to usage toctree**
+Add the Examples toctree after API Reference section. The exact addition:
 
 ```bash
-# Add to the User Guide section:
-# usage/python-api
+# Insert this after the API Reference toctree (around line 140):
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Examples
+
+   examples/cli-usage
+   examples/README
+```
+
+To apply, edit docs/index.rst manually or use:
+
+```bash
+# Find the line with ".. toctree::" under "API Reference" 
+# Add the Examples section after it
+```
+
+- [ ] **Step 2: Verify getting-started includes python-api in usage**
+
+The getting-started/index.rst already includes generator-quickstart from Task 11 (not Task 6 - that was index.rst).
+
+Check that usage/python-api will be accessible. The main index should reference it in the User Guide section. Verify the current structure:
+
+```bash
+grep -A 10 "User Guide" docs/index.rst
+```
+
+- [ ] **Step 3: Add python-api link if not present**
+
+If `usage/python-api` is not in the User Guide toctree, add it:
+
+```bash
+# The User Guide section should include:
+# getting-started/index
+# usage/cli
+# usage/model-xdm-generator  
+# usage/python-api  <-- Add this if missing
+# requirements/index
+# testing/index
 ```
 
 - [ ] **Step 4: Build and verify all links**
@@ -1987,11 +2014,23 @@ After implementing all tasks:
 - [ ] Phase 1 complete: Foundation fixed, navigation works
 - [ ] Phase 2 complete: Getting-started guides new users
 - [ ] Phase 3 complete: Generator documentation comprehensive
-- [ ] Phase 4 starter: Basic reference docs added
+- [ ] Phase 4 starter: Usage examples and basic API guide added (comprehensive API reference is future work)
 - [ ] Documentation builds without errors
 - [ ] All key navigation paths tested
 - [ ] Version information accurate
 - [ ] Ready for ReadTheDocs deployment
+
+## Phase 4 Future Work
+
+For comprehensive "Complete Reference" as specified in the design spec, future iterations should add:
+
+- `docs/api/parser.rst` - Parser layer documentation
+- `docs/api/models.rst` - Model layer documentation  
+- `docs/api/reporters.rst` - Reporter layer documentation
+- `docs/examples/batch-processing.md` - Advanced batch processing examples
+- Per-stack module documentation (core → CAN → ETH → LIN → FR → MEM → DIAG priority)
+
+These should be done incrementally as needed by users.
 
 ## Deployment
 
