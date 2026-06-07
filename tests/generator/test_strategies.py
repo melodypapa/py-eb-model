@@ -125,3 +125,75 @@ class TestRandomStrategy:
         var = SchemaVar(name="Test", var_type="STRING")
         val = self.strategy.generateValue(var)
         assert isinstance(val, str)
+
+
+class TestCombinedStrategy:
+    def setup_method(self):
+        self.strategy = RandomStrategy(seed=42)
+
+    def test_cycles_through_strategies(self):
+        from eb_model.generator.strategies import CombinedStrategy
+        strategy = CombinedStrategy(seed=42)
+
+        var = SchemaVar(name="Test", var_type="INTEGER",
+                        range_info=SchemaRange(min_value=0, max_value=100))
+
+        # Entry 0: defaults (0 for INTEGER without default)
+        val0 = strategy.generateValue(var)
+        assert val0 == "0"
+
+        # Entry 1: boundary (min_value = 0)
+        val1 = strategy.generateValue(var)
+        assert val1 == "0"
+
+        # Entry 2: random
+        val2 = strategy.generateValue(var)
+        assert isinstance(int(val2), int)
+
+        # Entry 3: back to defaults
+        val3 = strategy.generateValue(var)
+        assert val3 == "0"
+
+    def test_cycles_with_default_value(self):
+        from eb_model.generator.strategies import CombinedStrategy
+        strategy = CombinedStrategy(seed=42)
+
+        var = SchemaVar(name="Test", var_type="INTEGER", default="42",
+                        range_info=SchemaRange(min_value=0, max_value=100))
+
+        # Entry 0: defaults (uses default)
+        val0 = strategy.generateValue(var)
+        assert val0 == "42"
+
+        # Entry 1: boundary (min_value = 0)
+        val1 = strategy.generateValue(var)
+        assert val1 == "0"
+
+    def test_enum_cycles(self):
+        from eb_model.generator.strategies import CombinedStrategy
+        strategy = CombinedStrategy(seed=42)
+
+        var = SchemaVar(name="Test", var_type="ENUMERATION",
+                        range_info=SchemaRange(enum_values=["A", "B", "C"]))
+
+        # Entry 0: defaults (first enum)
+        val0 = strategy.generateValue(var)
+        assert val0 == "A"
+
+        # Entry 1: boundary (first enum)
+        val1 = strategy.generateValue(var)
+        assert val1 == "A"
+
+        # Entry 2: random (any enum)
+        val2 = strategy.generateValue(var)
+        assert val2 in ["A", "B", "C"]
+
+    def test_reference_random(self):
+        from eb_model.generator.strategies import CombinedStrategy
+        strategy = CombinedStrategy(seed=42)
+
+        ref = SchemaRef(name="TestRef", ref_type="REFERENCE",
+                        ref_targets=["ASPathDataOfSchema:/Mod/Cfg/Target"])
+        result = strategy.generateRefValue(ref)
+        assert result is not None
+        assert "ASPath:" in result

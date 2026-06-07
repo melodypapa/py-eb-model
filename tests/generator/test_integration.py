@@ -9,7 +9,7 @@ import pytest
 
 from eb_model.generator.schema_parser import SchemaParser
 from eb_model.generator.data_generator import DataGenerator
-from eb_model.generator.strategies import DefaultsStrategy, BoundaryStrategy, RandomStrategy
+from eb_model.generator.strategies import DefaultsStrategy, BoundaryStrategy, RandomStrategy, CombinedStrategy
 
 
 SCHEMA_DIR = os.path.join(os.path.dirname(__file__), '..', '..', 'doc')
@@ -97,6 +97,20 @@ class TestCanIfGeneration:
         finally:
             os.unlink(tmp_path)
 
+    @pytest.mark.skipif(not _schema_exists(CANIF_SCHEMA), reason="CanIf schema not available")
+    def test_generate_canif_combined(self):
+        """Generate CanIf model XDM with combined variant."""
+        tree = ET.parse(CANIF_SCHEMA)
+        parser = SchemaParser()
+        schema_root = parser.parse(tree.getroot())
+
+        gen = DataGenerator(CombinedStrategy(seed=42))
+        result = gen.generate(schema_root)
+        xml_str = gen.toString(result)
+        parsed = ET.fromstring(xml_str)
+        assert parsed is not None
+        assert 'ENABLE' in xml_str
+
 
 class TestOsGeneration:
     @pytest.mark.skipif(not _schema_exists(OS_SCHEMA), reason="Os schema not available")
@@ -137,3 +151,17 @@ class TestOsGeneration:
             xml_str = gen.toString(result)
             parsed = ET.fromstring(xml_str)
             assert parsed is not None
+
+    @pytest.mark.skipif(not _schema_exists(OS_SCHEMA), reason="Os schema not available")
+    def test_generate_os_combined(self):
+        """Generate Os model XDM with combined variant."""
+        tree = ET.parse(OS_SCHEMA)
+        parser = SchemaParser()
+        schema_root = parser.parse(tree.getroot())
+
+        gen = DataGenerator(CombinedStrategy(seed=42))
+        result = gen.generate(schema_root)
+        xml_str = gen.toString(result)
+        parsed = ET.fromstring(xml_str)
+        assert parsed is not None
+        assert 'ENABLE' in xml_str

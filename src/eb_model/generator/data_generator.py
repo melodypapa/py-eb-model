@@ -9,7 +9,7 @@ from typing import Optional
 from .schema_model import (
     SchemaChc, SchemaCtr, SchemaLst, SchemaRef, SchemaRoot, SchemaVar,
 )
-from .strategies import DefaultsStrategy
+from .strategies import DefaultsStrategy, CombinedStrategy
 
 
 # Standard XDM namespaces
@@ -39,6 +39,10 @@ class DataGenerator:
         # Register d: prefix so ET uses it instead of auto-generated ns0
         if d_ns:
             ET.register_namespace('d', d_ns)
+        # Register a: prefix for ENABLE attributes
+        a_ns = ns.get('a', '')
+        if a_ns:
+            ET.register_namespace('a', a_ns)
         self._ns_for_output = dict(ns)
 
         # Build datamodel root
@@ -102,12 +106,28 @@ class DataGenerator:
         if value:
             elem.set('value', value)
 
+        # For combined variant, add ENABLE attribute to ensure optional items are active
+        if isinstance(self.strategy, CombinedStrategy):
+            a_ns = self._ns_for_output.get('a', '')
+            a_prefix = '{%s}' % a_ns if a_ns else ''
+            enable = ET.SubElement(elem, '%sa' % a_prefix)
+            enable.set('name', 'ENABLE')
+            enable.set('value', 'true')
+
     def _generate_ctr(self, ctr: SchemaCtr, parent: ET.Element, d_prefix: str) -> None:
         """Generate a d:ctr element."""
         elem = ET.SubElement(parent, '%sctr' % d_prefix)
         elem.set('name', ctr.name)
         elem.set('type', ctr.ctr_type)
         self._generate_children(ctr.children, elem, d_prefix)
+
+        # For combined variant, add ENABLE attribute to ensure optional items are active
+        if isinstance(self.strategy, CombinedStrategy):
+            a_ns = self._ns_for_output.get('a', '')
+            a_prefix = '{%s}' % a_ns if a_ns else ''
+            enable = ET.SubElement(elem, '%sa' % a_prefix)
+            enable.set('name', 'ENABLE')
+            enable.set('value', 'true')
 
     def _generate_lst(self, lst: SchemaLst, parent: ET.Element, d_prefix: str) -> None:
         """Generate a d:lst element with entries."""
@@ -117,7 +137,17 @@ class DataGenerator:
             elem.set('type', lst.lst_type)
 
         # Determine number of entries
-        num_entries = lst.min_entries
+        # If min_entries == 0: generate 2 entries (basic coverage)
+        # If min_entries > 0: generate min_entries + 2 (verify multiplicity)
+        # Cap at max_entries if set
+        if lst.min_entries == 0:
+            num_entries = 2
+        else:
+            num_entries = max(lst.min_entries + 2, 3)
+        if lst.max_entries is not None:
+            num_entries = min(num_entries, lst.max_entries)
+
+        # Override if explicit list_entries specified
         if self.list_entries is not None:
             num_entries = min(self.list_entries, lst.max_entries or self.list_entries)
 
@@ -158,15 +188,32 @@ class DataGenerator:
         if value:
             elem.set('value', value)
 
-    def _generate_chc(self, chc: SchemaChc, parent: ET.Element, d_prefix: str) -> None:
-        """Generate a d:chc element using first choice."""
-        elem = ET.SubElement(parent, '%schc' % d_prefix)
-        elem.set('name', chc.name)
-        elem.set('type', chc.chc_type)
+        # For combined variant, add ENABLE attribute to ensure optional items are active
+        if isinstance(self.strategy, CombinedStrategy):
+            a_ns = self._ns_for_output.get('a', '')
+            a_prefix = '{%s}' % a_ns if a_ns else ''
+            enable = ET.SubElement(elem, '%sa' % a_prefix)
+            enable.set('name', 'ENABLE')
+            enable.set('value', 'true')
 
-        if chc.choices:
-            first = chc.choices[0]
-            self._generate_ctr(first, elem, d_prefix)
+    def _generate_chc(self, chc: SchemaChc, parent: ET.Element, d_prefix: str) -> None:
+        """Generate a d:chc element using first choice (or all for combined variant)."""
+        # For combined variant, generate all choice options
+        if isinstance(self.strategy, CombinedStrategy) and chc.choices:
+            for choice in chc.choices:
+                elem = ET.SubElement(parent, '%schc' % d_prefix)
+                elem.set('name', chc.name)
+                elem.set('type', chc.chc_type)
+                self._generate_ctr(choice, elem, d_prefix)
+        else:
+            # Other variants: generate first choice only
+            elem = ET.SubElement(parent, '%schc' % d_prefix)
+            elem.set('name', chc.name)
+            elem.set('type', chc.chc_type)
+
+            if chc.choices:
+                first = chc.choices[0]
+                self._generate_ctr(first, elem, d_prefix)
 
     def toString(self, tree: ET.ElementTree) -> str:
         """Serialize element tree to XML string with proper namespace declarations."""
@@ -176,10 +223,10 @@ class DataGenerator:
         xml_bytes = ET.tostring(root, encoding='unicode', xml_declaration=False)
 
         # Build xmlns declarations for the root <datamodel> tag.
-        # ET already emits xmlns:d (registered prefix), so skip 'd' here.
+        # ET already emits xmlns:d and xmlns:a (registered prefixes), so skip them here.
         parts = []
         for prefix, uri in self._ns_for_output.items():
-            if prefix == 'd':
+            if prefix in ('d', 'a'):
                 continue
             if prefix:
                 parts.append('xmlns:%s="%s"' % (prefix, uri))
