@@ -126,6 +126,7 @@ class SchemaParser:
         name = element.get('name', '')
         ctr_type = element.get('type', 'IDENTIFIABLE')
         name_pattern = self._get_attribute_value(element, 'NAME_PATTERN')
+        enabled = self._get_da_value(element, 'ENABLE')
 
         children = []
         for child in element:
@@ -146,6 +147,7 @@ class SchemaParser:
             ctr_type=ctr_type,
             children=children,
             name_pattern=name_pattern,
+            enabled=enabled,
         )
 
     def _parse_var(self, element: ET.Element) -> SchemaVar:
@@ -154,6 +156,7 @@ class SchemaParser:
         var_type = element.get('type', 'STRING')
         default = self._get_da_value(element, 'DEFAULT')
         label = self._get_attribute_value(element, 'LABEL')
+        enabled = self._get_da_value(element, 'ENABLE')
         range_info = self._parse_range(element)
 
         return SchemaVar(
@@ -162,6 +165,7 @@ class SchemaParser:
             default=default,
             range_info=range_info,
             label=label,
+            enabled=enabled,
         )
 
     def _parse_lst(self, element: ET.Element) -> SchemaLst:
@@ -207,6 +211,7 @@ class SchemaParser:
         """Parse a v:ref element into SchemaRef."""
         name = element.get('name', '')
         ref_type = element.get('type', 'REFERENCE')
+        enabled = self._get_da_value(element, 'ENABLE')
 
         ref_targets = []
         range_targets = []
@@ -224,6 +229,7 @@ class SchemaParser:
             ref_type=ref_type,
             ref_targets=ref_targets,
             range_targets=range_targets,
+            enabled=enabled,
         )
 
     def _parse_chc(self, element: ET.Element) -> SchemaChc:

@@ -121,3 +121,35 @@ class RandomStrategy:
     def generateRefValue(self, ref: SchemaRef) -> Optional[str]:
         """Generate a mock ASPath reference value."""
         return _generate_mock_refpath(ref.ref_targets, self.rng.choice)
+
+
+class CombinedStrategy:
+    """Generate values cycling through defaults, boundary, and random strategies.
+
+    Entry 0 uses defaults, entry 1 uses boundary, entry 2+ uses random.
+    This ensures comprehensive test coverage in a single generated XDM.
+
+    Implements: SWR_GEN_00003 (Combined Strategy)
+    """
+
+    def __init__(self, seed: Optional[int] = None) -> None:
+        self._counter = 0
+        self._defaults = DefaultsStrategy()
+        self._boundary = BoundaryStrategy()
+        self._random = RandomStrategy(seed)
+
+    def generateValue(self, var: SchemaVar) -> str:
+        """Generate a value cycling through defaults, boundary, random."""
+        idx = self._counter
+        self._counter += 1
+
+        if idx % 3 == 0:
+            return self._defaults.generateValue(var)
+        elif idx % 3 == 1:
+            return self._boundary.generateValue(var)
+        else:
+            return self._random.generateValue(var)
+
+    def generateRefValue(self, ref: SchemaRef) -> Optional[str]:
+        """Generate a mock ASPath reference value (random choice)."""
+        return self._random.generateRefValue(ref)

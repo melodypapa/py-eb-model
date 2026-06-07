@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 
 from .schema_parser import SchemaParser
 from .data_generator import DataGenerator
-from .strategies import DefaultsStrategy, BoundaryStrategy, RandomStrategy
+from .strategies import DefaultsStrategy, BoundaryStrategy, RandomStrategy, CombinedStrategy
 
 
 def create_parser() -> argparse.ArgumentParser:
@@ -29,9 +29,9 @@ def create_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         '--variant',
-        choices=['defaults', 'boundary', 'random'],
-        default='defaults',
-        help='Value generation variant (default: defaults)',
+        choices=['combined', 'defaults', 'boundary', 'random'],
+        default='combined',
+        help='Value generation variant (default: combined)',
     )
     parser.add_argument(
         '--seed',
@@ -51,6 +51,7 @@ def create_parser() -> argparse.ArgumentParser:
 def getStrategy(variant: str, seed=None):
     """Get the appropriate strategy for the variant."""
     strategies = {
+        'combined': CombinedStrategy,
         'defaults': DefaultsStrategy,
         'boundary': BoundaryStrategy,
         'random': RandomStrategy,
@@ -58,7 +59,7 @@ def getStrategy(variant: str, seed=None):
     cls = strategies.get(variant)
     if cls is None:
         raise ValueError("Unknown variant: %s" % variant)
-    return cls(seed=seed) if variant == 'random' else cls()
+    return cls(seed=seed) if variant in ('random', 'combined') else cls()
 
 
 def main(args=None) -> int:

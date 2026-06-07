@@ -25,6 +25,7 @@ class SchemaVar:
     range_info: Optional[SchemaRange] = None
     label: Optional[str] = None
     desc: Optional[str] = None
+    enabled: Optional[str] = None  # ENABLE data attribute value
 
 
 @dataclass
@@ -34,6 +35,7 @@ class SchemaRef:
     ref_type: str  # REFERENCE
     ref_targets: List[str] = field(default_factory=list)
     range_targets: List[str] = field(default_factory=list)
+    enabled: Optional[str] = None  # ENABLE data attribute value
 
 
 @dataclass
@@ -44,6 +46,7 @@ class SchemaCtr:
     children: List = field(default_factory=list)  # List of schema nodes
     name_pattern: Optional[str] = None
     label: Optional[str] = None
+    enabled: Optional[str] = None  # ENABLE data attribute value
 
 
 @dataclass
