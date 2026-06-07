@@ -6,7 +6,7 @@ Implements: SWR_GEN_00003 (Generation Strategies)
 import random
 import re
 import string
-from typing import Optional
+from typing import List, Optional
 
 from .schema_model import SchemaRange, SchemaRef, SchemaVar
 
@@ -22,6 +22,16 @@ _TYPE_DEFAULTS = {
     'LINKER-SYMBOL': '',
 }
 
+_ASPATH_TRANSFORM = re.compile(r'^ASPath\w*:')
+
+
+def _generate_mock_refpath(targets: List[str], chooser) -> Optional[str]:
+    """Generate a mock ASPath reference value from target list."""
+    if not targets:
+        return None
+    target = chooser(targets)
+    return _ASPATH_TRANSFORM.sub('ASPath:', target)
+
 
 class DefaultsStrategy:
     """Generate values using DEFAULT attributes from schema."""
@@ -36,11 +46,7 @@ class DefaultsStrategy:
 
     def generateRefValue(self, ref: SchemaRef) -> Optional[str]:
         """Generate a mock ASPath reference value."""
-        if not ref.ref_targets:
-            return None
-        target = ref.ref_targets[0]
-        mock_path = re.sub(r'^ASPath\w*:', 'ASPath:', target)
-        return mock_path
+        return _generate_mock_refpath(ref.ref_targets, lambda t: t[0])
 
 
 class BoundaryStrategy:
@@ -71,11 +77,7 @@ class BoundaryStrategy:
 
     def generateRefValue(self, ref: SchemaRef) -> Optional[str]:
         """Generate a mock ASPath reference value."""
-        if not ref.ref_targets:
-            return None
-        target = ref.ref_targets[0]
-        mock_path = re.sub(r'^ASPath\w*:', 'ASPath:', target)
-        return mock_path
+        return _generate_mock_refpath(ref.ref_targets, lambda t: t[0])
 
 
 class RandomStrategy:
@@ -118,8 +120,4 @@ class RandomStrategy:
 
     def generateRefValue(self, ref: SchemaRef) -> Optional[str]:
         """Generate a mock ASPath reference value."""
-        if not ref.ref_targets:
-            return None
-        target = self.rng.choice(ref.ref_targets)
-        mock_path = re.sub(r'^ASPath\w*:', 'ASPath:', target)
-        return mock_path
+        return _generate_mock_refpath(ref.ref_targets, self.rng.choice)

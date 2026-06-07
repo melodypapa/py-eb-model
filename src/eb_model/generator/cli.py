@@ -50,13 +50,15 @@ def create_parser() -> argparse.ArgumentParser:
 
 def getStrategy(variant: str, seed=None):
     """Get the appropriate strategy for the variant."""
-    if variant == 'defaults':
-        return DefaultsStrategy()
-    elif variant == 'boundary':
-        return BoundaryStrategy()
-    elif variant == 'random':
-        return RandomStrategy(seed=seed)
-    raise ValueError("Unknown variant: %s" % variant)
+    strategies = {
+        'defaults': DefaultsStrategy,
+        'boundary': BoundaryStrategy,
+        'random': RandomStrategy,
+    }
+    cls = strategies.get(variant)
+    if cls is None:
+        raise ValueError("Unknown variant: %s" % variant)
+    return cls(seed=seed) if variant == 'random' else cls()
 
 
 def main(args=None) -> int:

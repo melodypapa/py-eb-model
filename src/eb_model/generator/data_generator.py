@@ -177,16 +177,16 @@ class DataGenerator:
 
         # Build xmlns declarations for the root <datamodel> tag.
         # ET already emits xmlns:d (registered prefix), so skip 'd' here.
-        ns_decls = ''
+        parts = []
         for prefix, uri in self._ns_for_output.items():
             if prefix == 'd':
-                continue  # ET handles d: prefix via register_namespace
+                continue
             if prefix:
-                ns_decls += '\n           xmlns:%s="%s"' % (prefix, uri)
+                parts.append('xmlns:%s="%s"' % (prefix, uri))
             else:
-                ns_decls += '\n           xmlns="%s"' % uri
+                parts.append('xmlns="%s"' % uri)
 
-        # Inject xmlns declarations into the opening <datamodel> tag
+        ns_decls = '\n           '.join(parts)
         xml_bytes = xml_bytes.replace(
             '<datamodel ',
             '<datamodel %s\n           ' % ns_decls,
