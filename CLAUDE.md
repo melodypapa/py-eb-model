@@ -121,6 +121,12 @@ flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statist
 
 **Do NOT add Claude as co-author** to commits. When creating commits, use only the actual human author information. Do not include `Co-Authored-By: Claude Opus` or similar attribution lines in commit messages.
 
+**ALWAYS work on feature branches, not main.**
+- Create a feature branch for any work (feature/feature-name)
+- Commit all work to the feature branch
+- Only merge to main after work is complete and reviewed
+- Never commit directly to main unless explicitly authorized
+
 ## Code Style Conventions
 
 **Important**: This codebase uses **camelCase** for methods and properties (not snake_case per Python conventions). This is intentional for consistency with AUTOSAR naming conventions.
