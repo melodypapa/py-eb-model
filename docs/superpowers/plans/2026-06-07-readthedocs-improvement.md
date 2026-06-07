@@ -1463,11 +1463,18 @@ EOF
 
 - [ ] **Step 2: Update api/modules.rst to include generator**
 
-Check if `api/modules.rst` exists and add generator:
+First check if the file exists:
 
 ```bash
-# Add generator to the modules list
-grep -q "generator" docs/api/modules.rst || echo "
+ls docs/api/modules.rst
+```
+
+If it exists, add generator to the modules list:
+
+```bash
+# Check if generator already exists, then add if not
+grep -q "generator" docs/api/modules.rst || cat >> docs/api/modules.rst << 'EOF'
+
 Generator
 ---------
 
@@ -1475,7 +1482,34 @@ Generator
    :maxdepth: 1
 
    generator
-" >> docs/api/modules.rst
+EOF
+```
+
+If the file doesn't exist, create it with generator content:
+
+```bash
+cat > docs/api/modules.rst << 'EOF'
+API Modules
+===========
+
+Core Modules
+------------
+
+.. toctree::
+   :maxdepth: 1
+
+   eb_model
+   cli
+   core
+
+Generator
+---------
+
+.. toctree::
+   :maxdepth: 1
+
+   generator
+EOF
 ```
 
 - [ ] **Step 3: Build and verify**
@@ -1855,61 +1889,53 @@ git commit -m "docs: Add CLI usage examples"
 ### Task 18: Update Main Index with New Content
 
 **Files:**
-- Modify: `docs/index.rst:94-150` (Documentation Structure section)
+- Modify: `docs/index.rst`
 
-- [ ] **Step 1: Add examples section to main index**
-
-First, read the current Documentation Structure section to understand exact formatting:
+- [ ] **Step 1: Read current Documentation Structure section**
 
 ```bash
 grep -A 60 "Documentation Structure" docs/index.rst
 ```
 
-Add the Examples toctree after API Reference section. The exact addition:
+This shows you the current toctree structure so you know where to add new entries.
 
-```bash
-# Insert this after the API Reference toctree (around line 140):
+- [ ] **Step 2: Add Examples section to main index**
+
+Edit `docs/index.rst` manually. Find the "Documentation Structure" section (around line 125-145) and add the Examples toctree after the "API Reference" section.
+
+The exact content to add:
+
+```rst
+Examples
+--------
 
 .. toctree::
    :maxdepth: 2
-   :caption: Examples
 
    examples/cli-usage
    examples/README
 ```
 
-To apply, edit docs/index.rst manually or use:
+Place this after the `.. toctree::` block that ends with `api/modules`.
 
-```bash
-# Find the line with ".. toctree::" under "API Reference" 
-# Add the Examples section after it
+- [ ] **Step 3: Add python-api to User Guide section**
+
+In the same "Documentation Structure" section, find the "User Guide" toctree and add `usage/python-api` if not present:
+
+```rst
+.. toctree::
+   :maxdepth: 2
+   :caption: User Guide
+
+   getting-started/index
+   usage/cli
+   usage/model-xdm-generator
+   usage/python-api
+   requirements/index
+   testing/index
 ```
 
-- [ ] **Step 2: Verify getting-started includes python-api in usage**
-
-The getting-started/index.rst already includes generator-quickstart from Task 11 (not Task 6 - that was index.rst).
-
-Check that usage/python-api will be accessible. The main index should reference it in the User Guide section. Verify the current structure:
-
-```bash
-grep -A 10 "User Guide" docs/index.rst
-```
-
-- [ ] **Step 3: Add python-api link if not present**
-
-If `usage/python-api` is not in the User Guide toctree, add it:
-
-```bash
-# The User Guide section should include:
-# getting-started/index
-# usage/cli
-# usage/model-xdm-generator  
-# usage/python-api  <-- Add this if missing
-# requirements/index
-# testing/index
-```
-
-- [ ] **Step 4: Build and verify all links**
+- [ ] **Step 4: Verify changes**
 
 Run: `cd docs && make clean && make html`
 
@@ -1969,7 +1995,7 @@ ls docs/_build/html/getting-started/first-xdm.html
 ls docs/_build/html/getting-started/concepts.html
 ls docs/_build/html/getting-started/generator-quickstart.html
 
-# Test usage
+# Test usage (including new python-api)
 ls docs/_build/html/usage/cli.html
 ls docs/_build/html/usage/model-xdm-generator.html
 ls docs/_build/html/usage/python-api.html
@@ -1977,14 +2003,19 @@ ls docs/_build/html/usage/python-api.html
 # Test examples
 ls docs/_build/html/examples/cli-usage.html
 ls docs/_build/html/examples/README.html
+ls docs/_build/html/examples/generator-basic.html
+ls docs/_build/html/examples/generator-advanced.html
 
-# Test api
+# Test api (including new generator)
 ls docs/_build/html/api/generator.html
+ls docs/_build/html/api/modules.html
 
 # Test requirements and testing
 ls docs/_build/html/requirements/index.html
 ls docs/_build/html/testing/index.html
 ```
+
+Expected: All files exist, no missing files listed
 
 - [ ] **Step 5: Open and visually inspect**
 
