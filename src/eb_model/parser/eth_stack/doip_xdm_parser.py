@@ -69,55 +69,45 @@ class DoIPXdmParser(AbstractEbModelParser):
             doip.setDoIPGeneral(general)
             self.logger.debug("Read DoIPGeneral")
 
+    def _read_doip_channels_generic(self, element: ET.Element, doip: DoIP,
+                                   container_name: str, channel_type_name: str):
+        """
+        Generic method for parsing DoIP channel configurations.
+
+        Implements: SWR_DOIP_00003 (DoIP Channel parsing)
+        """
+        config_set_lst = self.find_ctr_tag_list(element, "DoIPConfigSet")
+        if config_set_lst:
+            for lst_tag in config_set_lst:
+                for ctr_tag in self.find_ctr_tag_list(lst_tag, container_name):
+                    channel = DoIPChannel(doip, ctr_tag.attrib["name"])
+
+                    # Read RxPdu
+                    rx_pdu_ctr = self.find_ctr_tag(ctr_tag, "DoIPPduRRxPdu")
+                    if rx_pdu_ctr is not None:
+                        rx_pdu = DoIPPduRRxPdu(channel, rx_pdu_ctr.attrib["name"])
+                        channel.setDoIPPduRRxPdu(rx_pdu)
+
+                    # Read TxPdu
+                    tx_pdu_ctr = self.find_ctr_tag(ctr_tag, "DoIPPduRTxPdu")
+                    if tx_pdu_ctr is not None:
+                        tx_pdu = DoIPPduRTxPdu(channel, tx_pdu_ctr.attrib["name"])
+                        channel.setDoIPPduRTxPdu(tx_pdu)
+
+                    getattr(doip, f"add{channel_type_name}")(channel)
+                    self.logger.debug(f"Read {channel_type_name} <%s>" % channel.getName())
+
     def read_doip_channels(self, element: ET.Element, doip: DoIP):
         """
         Parse DoIP channel configurations.
 
         Implements: SWR_DOIP_00003
         """
-        config_set_lst = self.find_ctr_tag_list(element, "DoIPConfigSet")
-        if config_set_lst:
-            for lst_tag in config_set_lst:
-                for ctr_tag in self.find_ctr_tag_list(lst_tag, "DoIPChannel"):
-                    channel = DoIPChannel(doip, ctr_tag.attrib["name"])
-
-                    # Read RxPdu
-                    rx_pdu_ctr = self.find_ctr_tag(ctr_tag, "DoIPPduRRxPdu")
-                    if rx_pdu_ctr is not None:
-                        rx_pdu = DoIPPduRRxPdu(channel, rx_pdu_ctr.attrib["name"])
-                        channel.setDoIPPduRRxPdu(rx_pdu)
-
-                    # Read TxPdu
-                    tx_pdu_ctr = self.find_ctr_tag(ctr_tag, "DoIPPduRTxPdu")
-                    if tx_pdu_ctr is not None:
-                        tx_pdu = DoIPPduRTxPdu(channel, tx_pdu_ctr.attrib["name"])
-                        channel.setDoIPPduRTxPdu(tx_pdu)
-
-                    doip.addDoIPChannel(channel)
-                    self.logger.debug("Read DoIPChannel <%s>" % channel.getName())
+        self._read_doip_channels_generic(element, doip, "DoIPChannel", "DoIPChannel")
 
     def read_doip_custom_channels(self, element: ET.Element, doip: DoIP):
         """Parse DoIP custom channel configurations."""
-        config_set_lst = self.find_ctr_tag_list(element, "DoIPConfigSet")
-        if config_set_lst:
-            for lst_tag in config_set_lst:
-                for ctr_tag in self.find_ctr_tag_list(lst_tag, "DoIPCustomChannel"):
-                    channel = DoIPChannel(doip, ctr_tag.attrib["name"])
-
-                    # Read RxPdu
-                    rx_pdu_ctr = self.find_ctr_tag(ctr_tag, "DoIPPduRRxPdu")
-                    if rx_pdu_ctr is not None:
-                        rx_pdu = DoIPPduRRxPdu(channel, rx_pdu_ctr.attrib["name"])
-                        channel.setDoIPPduRRxPdu(rx_pdu)
-
-                    # Read TxPdu
-                    tx_pdu_ctr = self.find_ctr_tag(ctr_tag, "DoIPPduRTxPdu")
-                    if tx_pdu_ctr is not None:
-                        tx_pdu = DoIPPduRTxPdu(channel, tx_pdu_ctr.attrib["name"])
-                        channel.setDoIPPduRTxPdu(tx_pdu)
-
-                    doip.addDoIPCustomChannel(channel)
-                    self.logger.debug("Read DoIPCustomChannel <%s>" % channel.getName())
+        self._read_doip_channels_generic(element, doip, "DoIPCustomChannel", "DoIPCustomChannel")
 
     def read_doip_connections(self, element: ET.Element, doip: DoIP):
         """

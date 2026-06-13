@@ -34,7 +34,6 @@ class EthIfXdmParser(AbstractEbModelParser):
     def __init__(self) -> None:
         """Initialize the EthIf XDM parser."""
         super().__init__()
-        self.ethif = None
 
     def parse(self, element: ET.Element, doc: EBModel):
         """
@@ -50,8 +49,6 @@ class EthIfXdmParser(AbstractEbModelParser):
         self.read_version(element, ethif)
 
         self.logger.info("Parse EthIf ARVersion:<%s> SwVersion:<%s>" % (ethif.getArVersion().getVersion(), ethif.getSwVersion().getVersion()))
-
-        self.ethif = ethif
 
         self.read_ethif_general(element, ethif)
         self.read_ethif_defensive_programming(element, ethif)

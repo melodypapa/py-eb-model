@@ -31,6 +31,8 @@ class AbstractEbModelParser(metaclass=ABCMeta):
 
     # Pre-compiled regex for efficiency
     _ASPATH_PATTERN = re.compile(r'ASPath:(.*)')
+    # XML attribute constant for ENABLE disabled state
+    _ENABLE_FALSE = "FALSE"
 
     def __init__(self) -> None:
         """
@@ -132,7 +134,7 @@ class AbstractEbModelParser(metaclass=ABCMeta):
         if 'value' not in tag.attrib:
             return default_value
         enable = self.read_attrib(tag, 'ENABLE')
-        if enable is not None and enable.upper() == "FALSE":
+        if enable is not None and enable.upper() == self._ENABLE_FALSE:
             return default_value
         return self._convert_value(tag)
 
@@ -188,7 +190,7 @@ class AbstractEbModelParser(metaclass=ABCMeta):
         if 'value' not in tag.attrib:
             return None
         enable = self.read_attrib(tag, 'ENABLE')
-        if enable is not None and enable.upper() == "FALSE":
+        if enable is not None and enable.upper() == self._ENABLE_FALSE:
             return None
 
         return EcucRefType(self.read_ref_raw_value(tag.attrib['value']))
@@ -234,7 +236,7 @@ class AbstractEbModelParser(metaclass=ABCMeta):
         # ctr has the value if
         #   1. enable attribute do not exist
         #   2. enable attribute is not false
-        if enable is not None and enable.upper() == "FALSE":
+        if enable is not None and enable.upper() == self._ENABLE_FALSE:
             return None
         return tag
 

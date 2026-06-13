@@ -135,9 +135,20 @@ class EbParserFactory:
 
     @classmethod
     def get_component_name(cls, filename: str) -> str:
+        # Extract namespaces first (iterparse with start-ns yields (prefix, uri) tuples)
+        ns = {}
+        for _, elem in ET.iterparse(filename, events=['start-ns']):
+            prefix, uri = elem
+            if isinstance(prefix, bytes):
+                prefix = prefix.decode()
+            if isinstance(uri, bytes):
+                uri = uri.decode()
+            ns[prefix] = uri
+        # Now parse once with namespaces ready
         tree = ET.parse(filename)
-        ns = dict([node for _, node in ET.iterparse(filename, events=['start-ns'])])
         tag = tree.getroot().find(".//d:chc[@type='AR-ELEMENT'][@value='MODULE-CONFIGURATION']", ns)
+        if tag is None:
+            raise ValueError(f"Cannot find MODULE-CONFIGURATION in {filename}")
         return tag.attrib['name']
 
     @classmethod
