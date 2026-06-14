@@ -204,6 +204,7 @@ class DataGenerator:
                 elem = ET.SubElement(parent, '%schc' % d_prefix)
                 elem.set('name', chc.name)
                 elem.set('type', chc.chc_type)
+                elem.set('value', choice.name)
                 self._generate_ctr(choice, elem, d_prefix)
         else:
             # Other variants: generate first choice only
@@ -213,6 +214,7 @@ class DataGenerator:
 
             if chc.choices:
                 first = chc.choices[0]
+                elem.set('value', first.name)
                 self._generate_ctr(first, elem, d_prefix)
 
     def toString(self, tree: ET.ElementTree) -> str:
@@ -223,15 +225,16 @@ class DataGenerator:
         xml_bytes = ET.tostring(root, encoding='unicode', xml_declaration=False)
 
         # Build xmlns declarations for the root <datamodel> tag.
-        # ET already emits xmlns:d and xmlns:a (registered prefixes), so skip them here.
+        # ET already emits xmlns:d (registered prefix), so skip it here.
+        # Always emit xmlns:a even if unused - parser may need it for ENABLE attribute lookups.
         parts = []
         for prefix, uri in self._ns_for_output.items():
-            if prefix in ('d', 'a'):
+            if prefix == 'd':
                 continue
-            if prefix:
-                parts.append('xmlns:%s="%s"' % (prefix, uri))
-            else:
-                parts.append('xmlns="%s"' % uri)
+            # Skip if this xmlns already exists in the output (ET may have added it)
+            decl = 'xmlns:%s="%s"' % (prefix, uri) if prefix else 'xmlns="%s"' % uri
+            if decl not in xml_bytes:
+                parts.append(decl)
 
         ns_decls = '\n           '.join(parts)
         xml_bytes = xml_bytes.replace(
