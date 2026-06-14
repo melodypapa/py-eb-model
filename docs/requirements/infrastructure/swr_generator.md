@@ -65,12 +65,13 @@ Provide pluggable strategies for generating configuration values from schema met
 | DefaultsStrategy | Use DEFAULT attribute values from schema; type-specific fallbacks |
 | BoundaryStrategy | Generate boundary values (min from RANGE, true for BOOLEAN) |
 | RandomStrategy | Seeded random values within RANGE constraints |
+| CombinedStrategy | Cycle through defaults/boundary/random per element (idx % 3); activates optional elements via ENABLE=true |
 
 | Field | Multiplicity | Type | Description | Origin |
 | --- | --- | --- | --- | --- |
 | generateValue() | [1] | method | Generate value for SchemaVar based on strategy | Design Spec |
 | generateRefValue() | [1] | method | Generate mock ASPath reference for SchemaRef | Design Spec |
-| seed | [0..1] | int | Random seed for reproducible RandomStrategy output | Design Spec |
+| seed | [0..1] | int | Random seed for reproducible RandomStrategy/CombinedStrategy output | Design Spec |
 
 **Value Fallback Rules (no DEFAULT):**
 
@@ -80,9 +81,11 @@ Provide pluggable strategies for generating configuration values from schema met
 | INTEGER | `0` |
 | FLOAT | `0.0` |
 | STRING | `""` |
-| ENUMERATION | First value from RANGE |
+| MULTILINE-STRING | `""` |
+| ENUMERATION | First value from RANGE, else `""` |
 | FUNCTION-NAME | `""` |
-| REFERENCE | empty (no value) |
+| LINKER-SYMBOL | `""` |
+| REFERENCE | Mock ASPath from REF attr, else empty (no value) |
 
 **Implementation:** `generator/strategies.py`
 **Status:** Implemented
@@ -98,11 +101,11 @@ Convert schema model tree into `d:` prefix element tree following XDM data-node 
 | --- | --- | --- | --- | --- |
 | generate() | [1] | method | Generate complete model XDM ElementTree from SchemaRoot | XDM Spec 5.1.7 |
 | toString() | [1] | method | Serialize ElementTree to XML string with xmlns declarations | XDM Spec 5.1.2 |
-| _generate_var() | [0..*] | method | Generate d:var element with value from strategy | XDM Spec 5.1.7.4 |
-| _generate_ctr() | [0..*] | method | Generate d:ctr element with children | XDM Spec 5.1.7.1 |
+| _generate_var() | [0..*] | method | Generate d:var element with value from strategy; CombinedStrategy adds ENABLE=true | XDM Spec 5.1.7.4 |
+| _generate_ctr() | [0..*] | method | Generate d:ctr element with children; CombinedStrategy adds ENABLE=true | XDM Spec 5.1.7.1 |
 | _generate_lst() | [0..*] | method | Generate d:lst with MIN entries, unique names | XDM Spec 5.1.7.3 |
-| _generate_ref() | [0..*] | method | Generate d:ref with mock ASPath value | XDM Spec 5.1.7.5 |
-| _generate_chc() | [0..*] | method | Generate d:chc using first choice container | XDM Spec 5.1.7.2 |
+| _generate_ref() | [0..*] | method | Generate d:ref with mock ASPath value; CombinedStrategy adds ENABLE=true | XDM Spec 5.1.7.5 |
+| _generate_chc() | [0..*] | method | Generate d:chc with value=selected choice name. Non-combined: first choice only; CombinedStrategy: all choices as separate d:chc elements | XDM Spec 5.1.7.2 |
 
 **Output Wrapper Structure:**
 ```
@@ -124,7 +127,7 @@ Command-line interface for the XDM model generator tool.
 | --- | --- | --- | --- | --- |
 | input | [1] | positional | Path to schema XDM file | CLI Design |
 | --output / -o | [1] | option | Output path for generated model XDM | CLI Design |
-| --variant | [0..1] | option | Value generation variant: defaults/boundary/random | CLI Design |
+| --variant | [0..1] | option | Value generation variant: combined/defaults/boundary/random (default: combined) | CLI Design |
 | --seed | [0..1] | option | Random seed for reproducible output | CLI Design |
 | --list-entries | [0..1] | option | Override MIN entries per list | CLI Design |
 
@@ -144,7 +147,7 @@ Generated model XDM files must be detectable by the existing `eb-convert` tool. 
 | Module detection | [1] | verification | eb-convert detects correct module name from generated XDM | Design Spec |
 | Namespace readability | [1] | verification | Generated xmlns declarations readable via ET.iterparse start-ns | XDM Spec 5.1.2 |
 | Valid XML | [1] | verification | Output parses without error with ET.parse | Design Spec |
-| Multi-variant | [1] | verification | All three variants produce valid XML | Design Spec |
+| Multi-variant | [1] | verification | All four variants produce valid XML | Design Spec |
 
 **Implementation:** `tests/generator/test_eb_convert_verification.py`
 **Status:** Implemented
