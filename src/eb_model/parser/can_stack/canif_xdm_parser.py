@@ -29,7 +29,6 @@ class CanIfXdmParser(AbstractEbModelParser):
     def __init__(self) -> None:
         """Initialize the CanIf XDM parser."""
         super().__init__()
-        self.canif = None
 
     def parse(self, element: ET.Element, doc: EBModel):
         """
@@ -45,8 +44,6 @@ class CanIfXdmParser(AbstractEbModelParser):
         self.read_version(element, canif)
 
         self.logger.info("Parse CanIf ARVersion:<%s> SwVersion:<%s>" % (canif.getArVersion().getVersion(), canif.getSwVersion().getVersion()))
-
-        self.canif = canif
 
         self.read_canif_general(element, canif)
         self.read_canif_ctrl_cfgs(element, canif)

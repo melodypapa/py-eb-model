@@ -29,7 +29,7 @@ from eb_model.models.core.os_xdm import OsCoreConfig, OsAutosarCustomization
 from eb_model.models.core.os_xdm import OsScheduleTable
 from eb_model.models.core.os_xdm import OsTask, OsIsr, OsApplication, OsScheduleTableEventSetting
 from eb_model.models.core.os_xdm import OsScheduleTableExpiryPoint, OsScheduleTableTaskActivation
-from eb_model.models.core.os_xdm import OsScheduleTblAdjustableExpPoint, OsTaskAutostart
+from eb_model.models.core.os_xdm import OsScheduleTblAdjustableExpPoint, OsTaskAutostart, OsScheduleTableAutostart
 from eb_model.models.core.os_xdm import OsMicrokernel, MkMemoryProtection, MkMemoryRegion
 from eb_model.parser.core.eb_parser import AbstractEbModelParser
 
@@ -290,6 +290,27 @@ class OsXdmParser(AbstractEbModelParser):
 
             os_schedule_table.addOsScheduleTableExpiryPoint(expiry_point)
 
+    def read_os_schedule_table_autostart(self, element: ET.Element, os_schedule_table: OsScheduleTable):
+        """
+        Parse OsScheduleTableAutostart configuration for a schedule table.
+
+        Args:
+            element: XDM element containing OsScheduleTableAutostart container.
+            os_schedule_table: OsScheduleTable instance to update with autostart configuration.
+
+        Implements: SWR_OS_PARSER_00026 (Schedule Table Autostart Parsing)
+        """
+        ctr_tag = self.find_ctr_tag(element, "OsScheduleTableAutostart")
+        if ctr_tag is not None:
+            autostart = OsScheduleTableAutostart(os_schedule_table, ctr_tag.attrib["name"])
+            autostart.setOsScheduleTableAutostartType(self.read_value(ctr_tag, "OsScheduleTableAutostartType"))
+            autostart.setOsScheduleTableStartValue(self.read_value(ctr_tag, "OsScheduleTableStartValue"))
+
+            for app_mode_ref in self.read_ref_value_list(ctr_tag, "OsScheduleTableAppModeRef"):
+                autostart.addOsScheduleTableAppModeRef(app_mode_ref)
+
+            os_schedule_table.setOsScheduleTableAutostart(autostart)
+
     def read_os_schedule_tables(self, element: ET.Element, os: Os):
         """
         Parse all OsScheduleTable containers from XDM.
@@ -311,6 +332,7 @@ class OsXdmParser(AbstractEbModelParser):
                 .setOsTimeUnit(self.read_optional_value(ctr_tag, "OsTimeUnit"))
 
             self.read_os_schedule_table_expiry_points(ctr_tag, table)
+            self.read_os_schedule_table_autostart(ctr_tag, table)
 
             self.logger.debug("Read OsScheduleTable <%s>" % table.getName())
             os.addOsScheduleTable(table)

@@ -21,13 +21,13 @@ This document provides a comprehensive traceability matrix linking requirements 
 
 | Metric | Count | Percentage |
 |--------|-------|------------|
-| Total Requirements | 273 | 100% |
-| Requirements with Tests | 273 | 100% |
+| Total Requirements | 279 | 100% |
+| Requirements with Tests | 279 | 100% |
 | Requirements without Tests | 0 | 0% |
-| Total Test Cases | 765 | - |
-| Unit Tests (UTS) | 415 | 54% |
-| Integration Tests (ITS) | 250 | 33% |
-| System Tests (SYTS) | 100 | 13% |
+| Total Test Cases | 818 | - |
+| Unit Tests (UTS) | 455 | 56% |
+| Integration Tests (ITS) | 263 | 32% |
+| System Tests (SYTS) | 100 | 12% |
 
 ---
 
@@ -63,7 +63,8 @@ This document provides a comprehensive traceability matrix linking requirements 
 | J1939 Stack | 10 | 20 | 10 | 3 | 33 | 100% |
 | LIN Stack | 10 | 20 | 10 | 3 | 33 | 100% |
 | Infrastructure | 15 | 30 | 15 | 7 | 52 | 100% |
-| **Total** | **273** | **415** | **250** | **100** | **765** | **100%** |
+| **Generator** | **6** | **40** | **13** | **0** | **53** | **100%** |
+| **Total** | **279** | **455** | **263** | **100** | **818** | **100%** |
 
 ---
 
@@ -191,17 +192,32 @@ This document provides a comprehensive traceability matrix linking requirements 
 
 ---
 
+### Generator
+
+#### Generator Module
+
+| Requirement ID | Requirement Title | UTS Test Cases | ITS Test Cases | SYTS Test Cases | Coverage |
+|----------------|-------------------|----------------|----------------|-----------------|----------|
+| SWR_GEN_00001 | Schema Model Dataclasses | UTS_GEN_MODEL_00001 - UTS_GEN_MODEL_00010 | - | - | ✅ 100% |
+| SWR_GEN_00002 | Schema Parser | UTS_GEN_PARSER_00001 - UTS_GEN_PARSER_00007 | ITS_GEN_CANIF_00001, ITS_GEN_OS_00001 | - | ✅ 100% |
+| SWR_GEN_00003 | Value Generation Strategies | UTS_GEN_STRAT_00001 - UTS_GEN_STRAT_00022 | ITS_GEN_OS_00003 | - | ✅ 100% |
+| SWR_GEN_00004 | Data Generator | UTS_GEN_DATAGEN_00001 - UTS_GEN_DATAGEN_00007 | ITS_GEN_CANIF_00002 - ITS_GEN_CANIF_00005, ITS_GEN_OS_00002 | - | ✅ 100% |
+| SWR_GEN_00005 | CLI Entry Point | - | ITS_GEN_EBCONV_00001 - ITS_GEN_EBCONV_00002 | - | ✅ 100% |
+| SWR_GEN_00006 | eb-convert Verification | - | ITS_GEN_EBCONV_00003 - ITS_GEN_EBCONV_00005 | - | ✅ 100% |
+
+---
+
 ## Test Design Technique Distribution
 
 | Test Design Technique | Requirements | Test Cases | Coverage |
 |-----------------------|--------------|------------|----------|
-| Equivalence Partitioning | 218 | 436 | 80% |
+| Equivalence Partitioning | 224 | 448 | 80% |
 | Boundary Value Analysis | 33 | 66 | 12% |
 | Decision Table Testing | 12 | 24 | 4% |
 | Use Case Testing | 10 | 10 | 4% |
 | Performance Testing | 5 | 5 | 2% |
 | Error Guessing | 5 | 5 | 2% |
-| **Total** | **273** | **765** | **100%** |
+| **Total** | **279** | **818** | **100%** |
 
 ---
 
@@ -209,10 +225,10 @@ This document provides a comprehensive traceability matrix linking requirements 
 
 | Priority | Test Cases | Percentage |
 |----------|------------|------------|
-| Critical | 230 | 30% |
-| High | 383 | 50% |
-| Medium | 152 | 20% |
-| **Total** | **765** | **100%** |
+| Critical | 244 | 30% |
+| High | 409 | 50% |
+| Medium | 165 | 20% |
+| **Total** | **818** | **100%** |
 
 ---
 
@@ -226,7 +242,7 @@ This traceability matrix demonstrates compliance with:
 
 ### Coverage Metrics
 
-- **Requirements Coverage:** 100% (273/273 requirements have test cases)
+- **Requirements Coverage:** 100% (279/279 requirements have test cases)
 - **Test Type Coverage:** 100% (UTS, ITS, SYTS for all modules)
 - **Test Design Technique Coverage:** 100% (all techniques applied appropriately)
 - **Traceability Coverage:** 100% (all test cases trace to requirements)
@@ -238,6 +254,7 @@ This traceability matrix demonstrates compliance with:
 | Date | Version | Description | Author |
 |------|---------|-------------|--------|
 | 2026-05-27 | 1.0 | Initial traceability matrix | req-traceability skill |
+| 2026-06-07 | 1.1 | Added Generator module (SWR_GEN_00001-00006, 53 test cases) | generator implementation |
 
 ---
 
@@ -256,6 +273,7 @@ This traceability matrix demonstrates compliance with:
 9. [uts_can_stack_test-specs.md](file:///Users/ray/Workspace/py-eb-model/docs/tests/unit/uts_can_stack_test-specs.md)
 10. [uts_eth_stack_test-specs.md](file:///Users/ray/Workspace/py-eb-model/docs/tests/unit/uts_eth_stack_test-specs.md)
 11. [uts_remaining_modules_test-specs.md](file:///Users/ray/Workspace/py-eb-model/docs/tests/unit/uts_remaining_modules_test-specs.md)
+12. [uts_generator.md](file:///Users/ray/Workspace/py-eb-model/docs/tests/unit/uts_generator.md)
 
 ### Integration Test Specifications (ITS)
 
@@ -270,6 +288,7 @@ This traceability matrix demonstrates compliance with:
 9. [its_can_stack_test-specs.md](file:///Users/ray/Workspace/py-eb-model/docs/tests/integration/its_can_stack_test-specs.md)
 10. [its_eth_stack_test-specs.md](file:///Users/ray/Workspace/py-eb-model/docs/tests/integration/its_eth_stack_test-specs.md)
 11. [its_remaining_modules_test-specs.md](file:///Users/ray/Workspace/py-eb-model/docs/tests/integration/its_remaining_modules_test-specs.md)
+12. [its_generator.md](file:///Users/ray/Workspace/py-eb-model/docs/tests/integration/its_generator.md)
 
 ### System Test Specifications (SYTS)
 

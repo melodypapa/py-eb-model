@@ -5,8 +5,8 @@ Welcome to py-eb-model's Documentation
 
 py-eb-model is a Python library for parsing and converting EB Tresos XDM configuration files to various formats, including Excel spreadsheets. It provides comprehensive support for AUTOSAR OS modules and other automotive software components.
 
-**Current Version**: 1.0.0  
-**Python Requirements**: >= 3.8  
+**Current Version**: 1.3.1  
+**Python Requirements**: >= 3.9  
 **License**: MIT
 
 .. image:: https://badge.fury.io/py/eb-model.svg
@@ -128,6 +128,7 @@ Documentation Structure
    :maxdepth: 2
    :caption: User Guide
 
+   getting-started/index
    usage/cli
    requirements/index
    testing/index
