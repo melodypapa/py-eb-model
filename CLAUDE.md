@@ -50,6 +50,8 @@ The factory pattern in `EbParserFactory` inspects the XML root's MODULE-CONFIGUR
 - `<d:ref>`: References to other elements with ASPath format
 - `<a:a>`: Attributes including ENABLE, IMPORTER_INFO, and calculated values
 
+**Schema → Model Mapping**: See [docs/usage/xdm-mapping-rules.md](docs/usage/xdm-mapping-rules.md) for node type mapping rules (schema `v:` nodes → data `d:` nodes), based on EB Tresos Studio Developer's Guide section 5.2.
+
 ## Development Commands
 
 #### Testing
