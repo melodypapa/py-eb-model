@@ -83,7 +83,7 @@ model-xdm-generator Os.xdm -o Os_random.xdm --variant random --seed 42
 
 #### 4. Combined Variant (default)
 
-Cycles through defaults, boundary, and random strategies per element using `idx % 3`: index 0 uses defaults, 1 uses boundary, 2 uses random, then repeats. Enables all optional elements.
+Cycles through defaults, boundary, and random strategies per element using `idx % 3`: index 0 uses defaults, 1 uses boundary, 2 uses random, then repeats. Activates optional elements.
 
 ```bash
 model-xdm-generator Os.xdm -o Os_combined.xdm --variant combined
@@ -91,7 +91,7 @@ model-xdm-generator Os.xdm -o Os_combined.xdm --variant combined
 
 **Characteristics:**
 - Comprehensive coverage in single file
-- Activates optional elements (adds `ENABLE=true`)
+- Activates optional elements (adds `ENABLE=true` only to elements marked optional via `<a:a name="OPTIONAL" value="true"/>` or wrapped in list with `MIN=0 MAX=1` — see [Optional Elements](#optional-elements))
 - Default variant when `--variant` omitted
 
 ## Value Generation Rules
@@ -123,7 +123,8 @@ Example: `ASPath:/AUTOSAR/EcucDefs/Os/OsCounter`
 ### List Handling
 
 Lists are populated with multiple entries. Without `--list-entries`, the generator uses schema multiplicity:
-- `MIN == 0` → 2 entries (basic coverage)
+- Optional singleton (`MIN=0`, `MAX=1`): handled per [Optional Elements](#optional-elements) below
+- `MIN == 0` (non-singleton) → 2 entries (basic coverage)
 - `MIN > 0` → `max(MIN + 2, 3)` entries (capped at MAX if set)
 
 ```bash
@@ -134,6 +135,32 @@ model-xdm-generator Os.xdm -o Os_3tasks.xdm --list-entries 3
 List entry naming follows schema convention:
 - If schema defines `NAME_PATTERN`: pattern with `?` replaced by index
 - Otherwise: `<childName>_<index>` (e.g., `OsTask_0`, `OsTask_1`)
+
+### Container Type Mapping
+
+The generator applies schema-to-data node type rules from [XDM Mapping Rules](xdm-mapping-rules.md):
+
+- **`v:ctr type="MULTIPLE-CONFIGURATION-CONTAINER"`**: standalone occurrences are auto-wrapped in `d:lst` (per XDM Spec 5.2.5). When schema already wraps the container in `v:lst`, generator honors the existing wrap.
+- **`v:ctr type="INSTANCE"`**: preserves `TARGET` and `CONTEXT` data attributes, emitting them as `a:da` children on the `d:ctr`.
+- **`v:var` with `<a:a name="DERIVED" value="true"/>`**: emits matching `<a:a name="DERIVED" value="true"/>` on the `d:var`.
+- **Multiplicity auto-wrap** (XDM Spec 5.2.5): any `v:var`, `v:ctr`, or `v:ref` carrying `LOWER-MULTIPLICITY != 1` or `UPPER-MULTIPLICITY != 1` (without being inside a `v:lst`) is auto-wrapped in `d:lst` with the element's SHORT-NAME.
+- **Choice type default**: when a `v:chc` element lacks a `type` attribute, generator infers from schema namespace — `DataModel2/08` namespaces default to `type="CHOICE"` (AUTOSAR 2.x style); all others default to `type="IDENTIFIABLE"` (AUTOSAR 3.x+).
+
+### Optional Elements
+
+Optional elements follow XDM Spec 5.2.5.1. Two schema representations are recognized:
+
+- **New style**: `<a:a name="OPTIONAL" value="true"/>` plus `<a:da name="ENABLE" value="false"/>` on the element directly.
+- **Old style**: element wrapped in `<v:lst>` with `<a:da name="MIN" value="0"/>` and `<a:da name="MAX" value="1"/>`.
+
+Generator behavior by variant:
+
+| Variant | Optional element output |
+|---------|-------------------------|
+| `combined` | 1 entry with `<a:a name="ENABLE" value="true"/>` (element activated) |
+| Other variants | Element omitted (stays inactive) |
+
+For non-optional elements, no `ENABLE` attribute is emitted.
 
 ## Advanced Usage
 
