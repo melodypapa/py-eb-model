@@ -20,6 +20,18 @@ _XDM_NS = {
     'd': 'http://www.tresos.de/_projects/DataModel2/06/data.xsd',
 }
 
+# Schema/data attribute names and special values (avoid typo-driven divergence)
+_ATTR_ENABLE = 'ENABLE'
+_ATTR_DERIVED = 'DERIVED'
+_ATTR_TARGET = 'TARGET'
+_ATTR_CONTEXT = 'CONTEXT'
+_VALUE_TRUE = 'true'
+_CTR_MULTI_CONFIG = 'MULTIPLE-CONFIGURATION-CONTAINER'
+_CTR_INSTANCE = 'INSTANCE'
+_CHC_CHOICE = 'CHOICE'
+_CHC_IDENTIFIABLE = 'IDENTIFIABLE'
+_NS_LEGACY_VERSION = 'DataModel2/08/'
+
 
 class DataGenerator:
     """Generate d: element tree from schema model."""
@@ -86,16 +98,49 @@ class DataGenerator:
     def _generate_children(self, children, parent_elem, d_prefix: str) -> None:
         """Generate d: elements for schema children."""
         for child in children:
+            # Multiplicity auto-wrap rule (XDM Spec 5.2.5): any element with
+            # LOWER-MULTIPLICITY != 1 or UPPER-MULTIPLICITY != 1 is wrapped in d:lst.
+            if not isinstance(child, SchemaLst) and self._needs_multiplicity_wrap(child):
+                self._generate_wrapped(child, parent_elem, d_prefix)
+                continue
             if isinstance(child, SchemaVar):
                 self._generate_var(child, parent_elem, d_prefix)
             elif isinstance(child, SchemaCtr):
-                self._generate_ctr(child, parent_elem, d_prefix)
+                # Standalone MULTI-CONFIG-CONTAINER is always wrapped in d:lst (XDM Spec 5.2.5)
+                if child.ctr_type == _CTR_MULTI_CONFIG:
+                    wrap_lst = ET.SubElement(parent_elem, '%slst' % d_prefix)
+                    wrap_lst.set('name', child.name)
+                    self._generate_ctr(child, wrap_lst, d_prefix)
+                else:
+                    self._generate_ctr(child, parent_elem, d_prefix)
             elif isinstance(child, SchemaLst):
                 self._generate_lst(child, parent_elem, d_prefix)
             elif isinstance(child, SchemaRef):
                 self._generate_ref(child, parent_elem, d_prefix)
             elif isinstance(child, SchemaChc):
                 self._generate_chc(child, parent_elem, d_prefix)
+
+    @staticmethod
+    def _needs_multiplicity_wrap(child) -> bool:
+        """Check if a non-lst child has multiplicity requiring d:lst wrap."""
+        lower = getattr(child, 'lower_multiplicity', None)
+        upper = getattr(child, 'upper_multiplicity', None)
+        if lower is not None and lower != 1:
+            return True
+        if upper is not None and upper != 1:
+            return True
+        return False
+
+    def _generate_wrapped(self, child, parent_elem, d_prefix: str) -> None:
+        """Wrap a non-lst child in synthetic SchemaLst and emit via _generate_lst."""
+        synth_lst = SchemaLst(
+            name=child.name,
+            lst_type="MAP",
+            min_entries=getattr(child, 'lower_multiplicity', None) or 0,
+            max_entries=getattr(child, 'upper_multiplicity', None),
+            child=child,
+        )
+        self._generate_lst(synth_lst, parent_elem, d_prefix)
 
     def _generate_var(self, var: SchemaVar, parent: ET.Element, d_prefix: str) -> None:
         """Generate a d:var element."""
@@ -106,28 +151,37 @@ class DataGenerator:
         if value:
             elem.set('value', value)
 
-        # For combined variant, add ENABLE attribute to ensure optional items are active
-        if isinstance(self.strategy, CombinedStrategy):
-            a_ns = self._ns_for_output.get('a', '')
-            a_prefix = '{%s}' % a_ns if a_ns else ''
-            enable = ET.SubElement(elem, '%sa' % a_prefix)
-            enable.set('name', 'ENABLE')
-            enable.set('value', 'true')
+        if var.derived:
+            self._emit_attr(elem, 'a', _ATTR_DERIVED, var.derived)
+
+        # Combined variant activates optional elements via ENABLE=true (XDM Spec 5.2.5.1)
+        if isinstance(self.strategy, CombinedStrategy) and var.optional == _VALUE_TRUE:
+            self._emit_attr(elem, 'a', _ATTR_ENABLE, _VALUE_TRUE)
+
+    def _emit_attr(self, parent: ET.Element, tag: str, name: str, value: str) -> None:
+        """Emit <a:{tag} name=... value=.../> as child of parent. tag is 'a' or 'da'."""
+        a_ns = self._ns_for_output.get('a', '')
+        a_prefix = '{%s}' % a_ns if a_ns else ''
+        attr = ET.SubElement(parent, '%s%s' % (a_prefix, tag))
+        attr.set('name', name)
+        attr.set('value', value)
 
     def _generate_ctr(self, ctr: SchemaCtr, parent: ET.Element, d_prefix: str) -> None:
         """Generate a d:ctr element."""
         elem = ET.SubElement(parent, '%sctr' % d_prefix)
         elem.set('name', ctr.name)
         elem.set('type', ctr.ctr_type)
+        # INSTANCE containers carry TARGET/CONTEXT data attributes (XDM Spec 5.2.1.6.1)
+        if ctr.ctr_type == _CTR_INSTANCE:
+            if ctr.target:
+                self._emit_attr(elem, 'da', _ATTR_TARGET, ctr.target)
+            if ctr.context:
+                self._emit_attr(elem, 'da', _ATTR_CONTEXT, ctr.context)
         self._generate_children(ctr.children, elem, d_prefix)
 
-        # For combined variant, add ENABLE attribute to ensure optional items are active
-        if isinstance(self.strategy, CombinedStrategy):
-            a_ns = self._ns_for_output.get('a', '')
-            a_prefix = '{%s}' % a_ns if a_ns else ''
-            enable = ET.SubElement(elem, '%sa' % a_prefix)
-            enable.set('name', 'ENABLE')
-            enable.set('value', 'true')
+        # Combined variant activates optional elements via ENABLE=true (XDM Spec 5.2.5.1)
+        if isinstance(self.strategy, CombinedStrategy) and ctr.optional == _VALUE_TRUE:
+            self._emit_attr(elem, 'a', _ATTR_ENABLE, _VALUE_TRUE)
 
     def _generate_lst(self, lst: SchemaLst, parent: ET.Element, d_prefix: str) -> None:
         """Generate a d:lst element with entries."""
@@ -136,15 +190,23 @@ class DataGenerator:
         if lst.lst_type:
             elem.set('type', lst.lst_type)
 
-        # Determine number of entries
-        # If min_entries == 0: generate 2 entries (basic coverage)
-        # If min_entries > 0: generate min_entries + 2 (verify multiplicity)
-        # Cap at max_entries if set
-        if lst.min_entries == 0:
+        # Optional element old-style representation: list with MIN=0, MAX=1 (XDM Spec 5.2.5.1)
+        is_optional = lst.min_entries == 0 and lst.max_entries == 1
+        entry_optional = None
+        if is_optional:
+            if isinstance(self.strategy, CombinedStrategy):
+                num_entries = 1
+                entry_optional = _VALUE_TRUE
+            else:
+                # Non-combined: optional stays inactive by default
+                num_entries = 0
+        elif lst.min_entries == 0:
+            # Non-optional list with min=0: generate 2 entries (basic coverage)
             num_entries = 2
         else:
+            # min>0: generate min+2 (verify multiplicity), at least 3
             num_entries = max(lst.min_entries + 2, 3)
-        if lst.max_entries is not None:
+        if lst.max_entries is not None and not is_optional:
             num_entries = min(num_entries, lst.max_entries)
 
         # Override if explicit list_entries specified
@@ -161,6 +223,7 @@ class DataGenerator:
                         ctr_type=lst.child.ctr_type,
                         children=list(lst.child.children),
                         name_pattern=lst.child.name_pattern,
+                        optional=entry_optional,
                     )
                     self._generate_ctr(entry, elem, d_prefix)
                 elif isinstance(lst.child, SchemaVar):
@@ -169,6 +232,7 @@ class DataGenerator:
                         var_type=lst.child.var_type,
                         default=lst.child.default,
                         range_info=lst.child.range_info,
+                        optional=entry_optional,
                     )
                     self._generate_var(entry, elem, d_prefix)
                 elif isinstance(lst.child, SchemaRef):
@@ -176,6 +240,7 @@ class DataGenerator:
                         name=name,
                         ref_type=lst.child.ref_type,
                         ref_targets=list(lst.child.ref_targets),
+                        optional=entry_optional,
                     )
                     self._generate_ref(entry, elem, d_prefix)
 
@@ -188,34 +253,44 @@ class DataGenerator:
         if value:
             elem.set('value', value)
 
-        # For combined variant, add ENABLE attribute to ensure optional items are active
-        if isinstance(self.strategy, CombinedStrategy):
-            a_ns = self._ns_for_output.get('a', '')
-            a_prefix = '{%s}' % a_ns if a_ns else ''
-            enable = ET.SubElement(elem, '%sa' % a_prefix)
-            enable.set('name', 'ENABLE')
-            enable.set('value', 'true')
+        # Combined variant activates optional elements via ENABLE=true (XDM Spec 5.2.5.1)
+        if isinstance(self.strategy, CombinedStrategy) and ref.optional == _VALUE_TRUE:
+            self._emit_attr(elem, 'a', _ATTR_ENABLE, _VALUE_TRUE)
 
     def _generate_chc(self, chc: SchemaChc, parent: ET.Element, d_prefix: str) -> None:
         """Generate a d:chc element using first choice (or all for combined variant)."""
+        # Determine chc type, falling back to AUTOSAR-version-aware default if missing
+        chc_type = chc.chc_type or self._chc_default_type()
+
         # For combined variant, generate all choice options
         if isinstance(self.strategy, CombinedStrategy) and chc.choices:
             for choice in chc.choices:
                 elem = ET.SubElement(parent, '%schc' % d_prefix)
                 elem.set('name', chc.name)
-                elem.set('type', chc.chc_type)
+                elem.set('type', chc_type)
                 elem.set('value', choice.name)
                 self._generate_ctr(choice, elem, d_prefix)
         else:
             # Other variants: generate first choice only
             elem = ET.SubElement(parent, '%schc' % d_prefix)
             elem.set('name', chc.name)
-            elem.set('type', chc.chc_type)
+            elem.set('type', chc_type)
 
             if chc.choices:
                 first = chc.choices[0]
                 elem.set('value', first.name)
                 self._generate_ctr(first, elem, d_prefix)
+
+    def _chc_default_type(self) -> str:
+        """Return default chc type based on schema namespace version (XDM Spec 5.2.6).
+
+        DataModel2/08 namespaces → AUTOSAR 2.x style → 'CHOICE'.
+        DataModel2/16 (or unknown) → AUTOSAR 3.x+ → 'IDENTIFIABLE'.
+        """
+        for uri in self._ns_for_output.values():
+            if _NS_LEGACY_VERSION in uri:
+                return _CHC_CHOICE
+        return _CHC_IDENTIFIABLE
 
     def toString(self, tree: ET.ElementTree) -> str:
         """Serialize element tree to XML string with proper namespace declarations."""

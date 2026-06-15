@@ -243,3 +243,122 @@ class TestSchemaParserBasic:
         assert isinstance(chc, SchemaChc)
         assert chc.name == "Action"
         assert len(chc.choices) == 2
+
+    def test_parse_var_with_derived(self):
+        """Parse v:var with DERIVED a:a attribute."""
+        xml = """<datamodel version="7.0"
+            xmlns="http://www.tresos.de/_projects/DataModel2/16/root.xsd"
+            xmlns:a="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd"
+            xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+            xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+          <d:ctr type="AUTOSAR" factory="autosar">
+            <d:lst type="TOP-LEVEL-PACKAGES">
+              <d:ctr name="TestPkg" type="AR-PACKAGE">
+                <d:lst type="ELEMENTS">
+                  <d:chc name="TestMod" type="AR-ELEMENT" value="MODULE-DEF">
+                    <v:ctr type="MODULE-DEF">
+                      <v:var name="Computed" type="INTEGER">
+                        <a:a name="DERIVED" value="true"/>
+                      </v:var>
+                    </v:ctr>
+                  </d:chc>
+                </d:lst>
+              </d:ctr>
+            </d:lst>
+          </d:ctr>
+        </datamodel>"""
+        root = self._parse_xml(xml)
+        var = root.module_def.children[0]
+        assert isinstance(var, SchemaVar)
+        assert var.derived == "true"
+
+    def test_parse_var_with_optional(self):
+        """Parse v:var with OPTIONAL a:a attribute."""
+        xml = """<datamodel version="7.0"
+            xmlns="http://www.tresos.de/_projects/DataModel2/16/root.xsd"
+            xmlns:a="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd"
+            xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+            xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+          <d:ctr type="AUTOSAR" factory="autosar">
+            <d:lst type="TOP-LEVEL-PACKAGES">
+              <d:ctr name="TestPkg" type="AR-PACKAGE">
+                <d:lst type="ELEMENTS">
+                  <d:chc name="TestMod" type="AR-ELEMENT" value="MODULE-DEF">
+                    <v:ctr type="MODULE-DEF">
+                      <v:var name="OptParam" type="BOOLEAN">
+                        <a:a name="OPTIONAL" value="true"/>
+                        <a:da name="ENABLE" value="false"/>
+                      </v:var>
+                    </v:ctr>
+                  </d:chc>
+                </d:lst>
+              </d:ctr>
+            </d:lst>
+          </d:ctr>
+        </datamodel>"""
+        root = self._parse_xml(xml)
+        var = root.module_def.children[0]
+        assert isinstance(var, SchemaVar)
+        assert var.optional == "true"
+        assert var.enabled == "false"
+
+    def test_parse_var_with_multiplicity(self):
+        """Parse v:var with LOWER-MULTIPLICITY/UPPER-MULTIPLICITY."""
+        xml = """<datamodel version="7.0"
+            xmlns="http://www.tresos.de/_projects/DataModel2/16/root.xsd"
+            xmlns:a="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd"
+            xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+            xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+          <d:ctr type="AUTOSAR" factory="autosar">
+            <d:lst type="TOP-LEVEL-PACKAGES">
+              <d:ctr name="TestPkg" type="AR-PACKAGE">
+                <d:lst type="ELEMENTS">
+                  <d:chc name="TestMod" type="AR-ELEMENT" value="MODULE-DEF">
+                    <v:ctr type="MODULE-DEF">
+                      <v:var name="Multi" type="INTEGER">
+                        <a:da name="LOWER-MULTIPLICITY" value="2"/>
+                        <a:da name="UPPER-MULTIPLICITY" value="5"/>
+                      </v:var>
+                    </v:ctr>
+                  </d:chc>
+                </d:lst>
+              </d:ctr>
+            </d:lst>
+          </d:ctr>
+        </datamodel>"""
+        root = self._parse_xml(xml)
+        var = root.module_def.children[0]
+        assert isinstance(var, SchemaVar)
+        assert var.lower_multiplicity == 2
+        assert var.upper_multiplicity == 5
+
+    def test_parse_instance_ctr_with_target_context(self):
+        """Parse v:ctr type=INSTANCE with TARGET and CONTEXT a:da attributes."""
+        xml = """<datamodel version="7.0"
+            xmlns="http://www.tresos.de/_projects/DataModel2/16/root.xsd"
+            xmlns:a="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd"
+            xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+            xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+          <d:ctr type="AUTOSAR" factory="autosar">
+            <d:lst type="TOP-LEVEL-PACKAGES">
+              <d:ctr name="TestPkg" type="AR-PACKAGE">
+                <d:lst type="ELEMENTS">
+                  <d:chc name="TestMod" type="AR-ELEMENT" value="MODULE-DEF">
+                    <v:ctr type="MODULE-DEF">
+                      <v:ctr name="OsTask" type="INSTANCE">
+                        <a:da name="TARGET" value="ASPathDataOfSchema:/TestMod/OsTask"/>
+                        <a:da name="CONTEXT" value="ASPath:/TestMod/OsConfig"/>
+                      </v:ctr>
+                    </v:ctr>
+                  </d:chc>
+                </d:lst>
+              </d:ctr>
+            </d:lst>
+          </d:ctr>
+        </datamodel>"""
+        root = self._parse_xml(xml)
+        ctr = root.module_def.children[0]
+        assert isinstance(ctr, SchemaCtr)
+        assert ctr.ctr_type == "INSTANCE"
+        assert ctr.target == "ASPathDataOfSchema:/TestMod/OsTask"
+        assert ctr.context == "ASPath:/TestMod/OsConfig"

@@ -22,16 +22,16 @@ Define Python dataclasses representing XDM schema node structure for type-safe s
 | Field | Multiplicity | Type | Description | Origin |
 | --- | --- | --- | --- | --- |
 | SchemaRange | [1] | dataclass | RANGE constraints (min/max values, enum values, regex) | XDM Spec 5.1.6.4 |
-| SchemaVar | [1] | dataclass | Schema variable definition with name, type, default, range | XDM Spec 5.1.6.4 |
-| SchemaCtr | [1] | dataclass | Schema container with children list | XDM Spec 5.1.6.1 |
+| SchemaVar | [1] | dataclass | Schema variable definition with name, type, default, range, derived, optional, multiplicity | XDM Spec 5.1.6.4, 5.2.1.14.3, 5.2.5.1, 5.2.5 |
+| SchemaCtr | [1] | dataclass | Schema container with children list, optional, multiplicity, target/context (INSTANCE) | XDM Spec 5.1.6.1, 5.2.5.1, 5.2.5, 5.2.1.6.1 |
 | SchemaLst | [1] | dataclass | Schema list with MAP/empty type, MIN/MAX entries | XDM Spec 5.1.6.3 |
-| SchemaRef | [1] | dataclass | Schema reference with REF and RANGE targets | XDM Spec 5.1.6.5 |
+| SchemaRef | [1] | dataclass | Schema reference with REF and RANGE targets, optional, multiplicity | XDM Spec 5.1.6.5, 5.2.5.1, 5.2.5 |
 | SchemaChc | [1] | dataclass | Schema choice with alternative containers | XDM Spec 5.1.6.2 |
 | SchemaRoot | [1] | dataclass | Root holding module name, version, namespaces, module_def | XDM Spec 5.1.2 |
 
 **Implementation:** `generator/schema_model.py`
 **Status:** Implemented
-**Last Validated:** 2026-06-07
+**Last Validated:** 2026-06-15
 
 ---
 
@@ -52,7 +52,7 @@ Parse XDM schema files containing `v:` prefix nodes and build SchemaRoot model t
 
 **Implementation:** `generator/schema_parser.py`
 **Status:** Implemented
-**Last Validated:** 2026-06-07
+**Last Validated:** 2026-06-15
 
 ---
 
@@ -89,7 +89,7 @@ Provide pluggable strategies for generating configuration values from schema met
 
 **Implementation:** `generator/strategies.py`
 **Status:** Implemented
-**Last Validated:** 2026-06-07
+**Last Validated:** 2026-06-15
 
 ---
 
@@ -101,11 +101,14 @@ Convert schema model tree into `d:` prefix element tree following XDM data-node 
 | --- | --- | --- | --- | --- |
 | generate() | [1] | method | Generate complete model XDM ElementTree from SchemaRoot | XDM Spec 5.1.7 |
 | toString() | [1] | method | Serialize ElementTree to XML string with xmlns declarations | XDM Spec 5.1.2 |
-| _generate_var() | [0..*] | method | Generate d:var element with value from strategy; CombinedStrategy adds ENABLE=true | XDM Spec 5.1.7.4 |
-| _generate_ctr() | [0..*] | method | Generate d:ctr element with children; CombinedStrategy adds ENABLE=true | XDM Spec 5.1.7.1 |
-| _generate_lst() | [0..*] | method | Generate d:lst with MIN entries, unique names | XDM Spec 5.1.7.3 |
-| _generate_ref() | [0..*] | method | Generate d:ref with mock ASPath value; CombinedStrategy adds ENABLE=true | XDM Spec 5.1.7.5 |
-| _generate_chc() | [0..*] | method | Generate d:chc with value=selected choice name. Non-combined: first choice only; CombinedStrategy: all choices as separate d:chc elements | XDM Spec 5.1.7.2 |
+| _generate_var() | [0..*] | method | Generate d:var element with value from strategy; emit DERIVED attribute if present | XDM Spec 5.1.7.4, 5.2.1.14.3 |
+| _generate_ctr() | [0..*] | method | Generate d:ctr element with children; preserve INSTANCE TARGET/CONTEXT | XDM Spec 5.1.7.1, 5.2.1.6.1 |
+| _generate_lst() | [0..*] | method | Generate d:lst with MIN entries, unique names; special-case optional singleton (MIN=0, MAX=1) | XDM Spec 5.1.7.3, 5.2.5.1 |
+| _generate_ref() | [0..*] | method | Generate d:ref with mock ASPath value | XDM Spec 5.1.7.5 |
+| _generate_chc() | [0..*] | method | Generate d:chc with value=selected choice name. Non-combined: first choice only; CombinedStrategy: all choices. Type defaults via namespace-aware heuristic | XDM Spec 5.1.7.2, 5.2.6 |
+| _generate_children() | [0..*] | method | Dispatch per node type; auto-wrap MULTI-CONFIGURATION-CONTAINER and non-1 multiplicity in d:lst | XDM Spec 5.2.5 |
+| _emit_a_attr() | [0..*] | helper | Emit `<a:a name=... value=.../>` child element | XDM Spec 5.2.1.14 |
+| _emit_da_attr() | [0..*] | helper | Emit `<a:da name=... value=.../>` child element | XDM Spec 5.2.1.6.1 |
 
 **Output Wrapper Structure:**
 ```
@@ -115,7 +118,41 @@ datamodel → d:ctr(AUTOSAR) → d:lst(TOP-LEVEL-PACKAGES) → d:ctr(AR-PACKAGE)
 
 **Implementation:** `generator/data_generator.py`
 **Status:** Implemented
-**Last Validated:** 2026-06-07
+**Last Validated:** 2026-06-15
+
+---
+
+### SWR_GEN_00007 - Multiplicity Auto-Wrap Rules
+
+Apply XDM Spec 5.2.5 multiplicity wrapping rules during data-node generation.
+
+| Field | Multiplicity | Type | Description | Origin |
+| --- | --- | --- | --- | --- |
+| MULTI-CONFIG-CONTAINER wrap | [1] | rule | Standalone `v:ctr type="MULTIPLE-CONFIGURATION-CONTAINER"` emitted as `d:lst > d:ctr` | XDM Spec 5.2.5 |
+| Multiplicity auto-wrap | [1] | rule | Any non-lst element with `LOWER-MULTIPLICITY != 1` or `UPPER-MULTIPLICITY != 1` auto-wrapped in `d:lst` with element SHORT-NAME | XDM Spec 5.2.5 |
+| NAME_PATTERN substitution | [1] | rule | Entry naming: NAME_PATTERN with `?` replaced by index, else `<childName>_<index>` | XDM Spec 5.2.5 |
+
+**Implementation:** `generator/data_generator.py:_generate_children/_generate_wrapped`
+**Status:** Implemented
+**Last Validated:** 2026-06-15
+
+---
+
+### SWR_GEN_00008 - Optional Elements Handling
+
+Apply XDM Spec 5.2.5.1 optional-element semantics across new and old schema representations.
+
+| Field | Multiplicity | Type | Description | Origin |
+| --- | --- | --- | --- | --- |
+| OPTIONAL attribute parse | [1] | rule | Parse `<a:a name="OPTIONAL" value="true"/>` on v:var/v:ctr/v:ref | XDM Spec 5.2.5.1 |
+| Old-style optional detection | [1] | rule | Detect `v:lst` with `MIN=0`, `MAX=1` as optional singleton | XDM Spec 5.2.5.1 |
+| ENABLE=true scoping | [1] | rule | CombinedStrategy emits `<a:a name="ENABLE" value="true"/>` only on optional elements (not unconditional) | XDM Spec 5.2.5.1 |
+| Combined variant optional emission | [1] | rule | Optional singleton under CombinedStrategy: 1 entry + ENABLE=true | XDM Spec 5.2.5.1 |
+| Non-combined optional emission | [1] | rule | Optional singleton under non-combined variants: omitted (stays inactive) | XDM Spec 5.2.5.1 |
+
+**Implementation:** `generator/schema_parser.py:_parse_var/_parse_ctr/_parse_ref`, `generator/data_generator.py:_generate_lst`
+**Status:** Implemented
+**Last Validated:** 2026-06-15
 
 ---
 
@@ -134,7 +171,7 @@ Command-line interface for the XDM model generator tool.
 **Entry Point:** `model-xdm-generator` in `pyproject.toml`
 **Implementation:** `generator/cli.py`
 **Status:** Implemented
-**Last Validated:** 2026-06-07
+**Last Validated:** 2026-06-15
 
 ---
 
@@ -151,4 +188,4 @@ Generated model XDM files must be detectable by the existing `eb-convert` tool. 
 
 **Implementation:** `tests/generator/test_eb_convert_verification.py`
 **Status:** Implemented
-**Last Validated:** 2026-06-07
+**Last Validated:** 2026-06-15
