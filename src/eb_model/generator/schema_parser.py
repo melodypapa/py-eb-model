@@ -17,6 +17,9 @@ from .schema_model import (
 
 logger = logging.getLogger(__name__)
 
+# Schema ctr_type values that carry special semantics
+_INSTANCE = "INSTANCE"
+
 
 class SchemaParser:
     """Parse XDM schema files into schema model objects."""
@@ -127,6 +130,10 @@ class SchemaParser:
         ctr_type = element.get('type', 'IDENTIFIABLE')
         name_pattern = self._get_attribute_value(element, 'NAME_PATTERN')
         enabled = self._get_da_value(element, 'ENABLE')
+        optional, lower_mult, upper_mult = self._parse_multiplicity(element)
+        # INSTANCE containers carry TARGET/CONTEXT (XDM Spec 5.2.1.6.1)
+        target = self._get_da_value(element, 'TARGET') if ctr_type == _INSTANCE else None
+        context = self._get_da_value(element, 'CONTEXT') if ctr_type == _INSTANCE else None
 
         children = []
         for child in element:
@@ -148,6 +155,11 @@ class SchemaParser:
             children=children,
             name_pattern=name_pattern,
             enabled=enabled,
+            optional=optional,
+            lower_multiplicity=lower_mult,
+            upper_multiplicity=upper_mult,
+            target=target,
+            context=context,
         )
 
     def _parse_var(self, element: ET.Element) -> SchemaVar:
@@ -157,6 +169,8 @@ class SchemaParser:
         default = self._get_da_value(element, 'DEFAULT')
         label = self._get_attribute_value(element, 'LABEL')
         enabled = self._get_da_value(element, 'ENABLE')
+        derived = self._get_attribute_value(element, 'DERIVED')
+        optional, lower_mult, upper_mult = self._parse_multiplicity(element)
         range_info = self._parse_range(element)
 
         return SchemaVar(
@@ -166,6 +180,10 @@ class SchemaParser:
             range_info=range_info,
             label=label,
             enabled=enabled,
+            derived=derived,
+            optional=optional,
+            lower_multiplicity=lower_mult,
+            upper_multiplicity=upper_mult,
         )
 
     def _parse_lst(self, element: ET.Element) -> SchemaLst:
@@ -174,15 +192,8 @@ class SchemaParser:
         lst_type = element.get('type', '')
         name_pattern = self._get_attribute_value(element, 'NAME_PATTERN')
 
-        min_entries = 0
-        min_val = self._get_da_value(element, 'MIN')
-        if min_val is not None:
-            min_entries = int(min_val)
-
-        max_entries = None
-        max_val = self._get_da_value(element, 'MAX')
-        if max_val is not None:
-            max_entries = int(max_val)
+        min_entries = self._parse_int_da(element, 'MIN') or 0
+        max_entries = self._parse_int_da(element, 'MAX')
 
         # Parse child schema (first v: node child)
         child = None
@@ -212,6 +223,7 @@ class SchemaParser:
         name = element.get('name', '')
         ref_type = element.get('type', 'REFERENCE')
         enabled = self._get_da_value(element, 'ENABLE')
+        optional, lower_mult, upper_mult = self._parse_multiplicity(element)
 
         ref_targets = []
         range_targets = []
@@ -230,7 +242,27 @@ class SchemaParser:
             ref_targets=ref_targets,
             range_targets=range_targets,
             enabled=enabled,
+            optional=optional,
+            lower_multiplicity=lower_mult,
+            upper_multiplicity=upper_mult,
         )
+
+    def _parse_multiplicity(self, element: ET.Element):
+        """Extract OPTIONAL and LOWER/UPPER-MULTIPLICITY (XDM Spec 5.2.5, 5.2.5.1)."""
+        optional = self._get_attribute_value(element, 'OPTIONAL')
+        lower_mult = self._parse_int_da(element, 'LOWER-MULTIPLICITY')
+        upper_mult = self._parse_int_da(element, 'UPPER-MULTIPLICITY')
+        return optional, lower_mult, upper_mult
+
+    def _parse_int_da(self, element: ET.Element, attr_name: str) -> Optional[int]:
+        """Parse an a:da value as int, returning None if absent or non-numeric."""
+        raw = self._get_da_value(element, attr_name)
+        if raw is None:
+            return None
+        try:
+            return int(raw)
+        except (TypeError, ValueError):
+            return None
 
     def _parse_chc(self, element: ET.Element) -> SchemaChc:
         """Parse a v:chc element into SchemaChc."""

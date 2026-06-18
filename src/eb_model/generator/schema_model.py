@@ -26,6 +26,10 @@ class SchemaVar:
     label: Optional[str] = None
     desc: Optional[str] = None
     enabled: Optional[str] = None  # ENABLE data attribute value
+    derived: Optional[str] = None  # DERIVED attribute value (XDM Spec 5.2.1.14.3)
+    optional: Optional[str] = None  # OPTIONAL attribute value (XDM Spec 5.2.5.1)
+    lower_multiplicity: Optional[int] = None  # LOWER-MULTIPLICITY (XDM Spec 5.2.5)
+    upper_multiplicity: Optional[int] = None  # UPPER-MULTIPLICITY (XDM Spec 5.2.5)
 
 
 @dataclass
@@ -36,6 +40,9 @@ class SchemaRef:
     ref_targets: List[str] = field(default_factory=list)
     range_targets: List[str] = field(default_factory=list)
     enabled: Optional[str] = None  # ENABLE data attribute value
+    optional: Optional[str] = None  # OPTIONAL attribute value (XDM Spec 5.2.5.1)
+    lower_multiplicity: Optional[int] = None  # LOWER-MULTIPLICITY (XDM Spec 5.2.5)
+    upper_multiplicity: Optional[int] = None  # UPPER-MULTIPLICITY (XDM Spec 5.2.5)
 
 
 @dataclass
@@ -47,6 +54,11 @@ class SchemaCtr:
     name_pattern: Optional[str] = None
     label: Optional[str] = None
     enabled: Optional[str] = None  # ENABLE data attribute value
+    optional: Optional[str] = None  # OPTIONAL attribute value (XDM Spec 5.2.5.1)
+    lower_multiplicity: Optional[int] = None  # LOWER-MULTIPLICITY (XDM Spec 5.2.5)
+    upper_multiplicity: Optional[int] = None  # UPPER-MULTIPLICITY (XDM Spec 5.2.5)
+    target: Optional[str] = None  # INSTANCE TARGET (XDM Spec 5.2.1.6.1)
+    context: Optional[str] = None  # INSTANCE CONTEXT (XDM Spec 5.2.1.6.1)
 
 
 @dataclass

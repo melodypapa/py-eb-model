@@ -34,14 +34,13 @@ model-xdm-generator <schema_xdm> -o <output_xdm>
 | Option | Description | Default |
 |--------|-------------|---------|
 | `-o, --output` | Output file path | Required |
-| `--variant` | Value generation variant | defaults |
+| `--variant` | Value generation variant | combined |
 | `--seed` | Random seed for reproducibility | None |
-| `--list-entries` | Number of entries for lists | 5 |
-| `--verbose` | Enable verbose logging | False |
+| `--list-entries` | Number of entries per list (overrides MIN) | None |
 
 ### Variants
 
-The generator supports three value generation strategies:
+The generator supports four value generation strategies:
 
 #### 1. Defaults Variant
 
@@ -82,66 +81,88 @@ model-xdm-generator Os.xdm -o Os_random.xdm --variant random --seed 42
 - Reproducible with seed
 - Good for discovering bugs
 
+#### 4. Combined Variant (default)
+
+Cycles through defaults, boundary, and random strategies per element using `idx % 3`: index 0 uses defaults, 1 uses boundary, 2 uses random, then repeats. Activates optional elements.
+
+```bash
+model-xdm-generator Os.xdm -o Os_combined.xdm --variant combined
+```
+
+**Characteristics:**
+- Comprehensive coverage in single file
+- Activates optional elements (adds `ENABLE=true` only to elements marked optional via `<a:a name="OPTIONAL" value="true"/>` or wrapped in list with `MIN=0 MAX=1` — see [Optional Elements](#optional-elements))
+- Default variant when `--variant` omitted
+
 ## Value Generation Rules
 
 ### Primitive Types
 
 | Type | Defaults | Boundary | Random |
 |------|----------|----------|--------|
-| BOOLEAN | false | true/false | random |
-| INTEGER | 0 | min/max | random in range |
-| FLOAT | 0.0 | min/max | random in range |
-| STRING | "" | max length | random string |
-| ENUMERATION | first value | all values | random choice |
+| BOOLEAN | DEFAULT attr or false | true | random |
+| INTEGER | DEFAULT attr or 0 | min from RANGE | random in range |
+| FLOAT | DEFAULT attr or 0.0 | min from RANGE | random in range |
+| STRING | DEFAULT attr or "" | "" | random alphanumeric |
+| MULTILINE-STRING | DEFAULT attr or "" | "" | random alphanumeric |
+| ENUMERATION | DEFAULT attr or first RANGE value | first RANGE value | random from RANGE |
+| FUNCTION-NAME | DEFAULT attr or "" | `Func_<name>` | `<prefix>_<name>` |
+| LINKER-SYMBOL | DEFAULT attr or "" | `Func_<name>` | `<prefix>_<name>` |
+| REFERENCE | mock ASPath from REF attr | mock ASPath | mock ASPath |
 
 ### Reference Types
 
-References are generated as valid ASPath strings:
+References are generated as ASPath strings derived from the schema's `REF` data attribute. The generator strips the `ASPathDataOfSchema:` prefix and rewrites as `ASPath:`:
 
 ```
-/Module/Container/Element
+ASPath:/AUTOSAR/EcucDefs/<Module>/<Container>/<Element>
 ```
 
-Example: `/Os/OsTask/Task1`
+Example: `ASPath:/AUTOSAR/EcucDefs/Os/OsCounter`
 
 ### List Handling
 
-Lists are populated with multiple entries:
+Lists are populated with multiple entries. Without `--list-entries`, the generator uses schema multiplicity:
+- Optional singleton (`MIN=0`, `MAX=1`): handled per [Optional Elements](#optional-elements) below
+- `MIN == 0` (non-singleton) → 2 entries (basic coverage)
+- `MIN > 0` → `max(MIN + 2, 3)` entries (capped at MAX if set)
 
 ```bash
-# Generate 3 tasks
+# Override list size
 model-xdm-generator Os.xdm -o Os_3tasks.xdm --list-entries 3
 ```
 
-List elements are named:
-- `Element1`, `Element2`, `Element3`, ...
+List entry naming follows schema convention:
+- If schema defines `NAME_PATTERN`: pattern with `?` replaced by index
+- Otherwise: `<childName>_<index>` (e.g., `OsTask_0`, `OsTask_1`)
+
+### Container Type Mapping
+
+The generator applies schema-to-data node type rules from [XDM Mapping Rules](xdm-mapping-rules.md):
+
+- **`v:ctr type="MULTIPLE-CONFIGURATION-CONTAINER"`**: standalone occurrences are auto-wrapped in `d:lst` (per XDM Spec 5.2.5). When schema already wraps the container in `v:lst`, generator honors the existing wrap.
+- **`v:ctr type="INSTANCE"`**: preserves `TARGET` and `CONTEXT` data attributes, emitting them as `a:da` children on the `d:ctr`.
+- **`v:var` with `<a:a name="DERIVED" value="true"/>`**: emits matching `<a:a name="DERIVED" value="true"/>` on the `d:var`.
+- **Multiplicity auto-wrap** (XDM Spec 5.2.5): any `v:var`, `v:ctr`, or `v:ref` carrying `LOWER-MULTIPLICITY != 1` or `UPPER-MULTIPLICITY != 1` (without being inside a `v:lst`) is auto-wrapped in `d:lst` with the element's SHORT-NAME.
+- **Choice type default**: when a `v:chc` element lacks a `type` attribute, generator infers from schema namespace — `DataModel2/08` namespaces default to `type="CHOICE"` (AUTOSAR 2.x style); all others default to `type="IDENTIFIABLE"` (AUTOSAR 3.x+).
+
+### Optional Elements
+
+Optional elements follow XDM Spec 5.2.5.1. Two schema representations are recognized:
+
+- **New style**: `<a:a name="OPTIONAL" value="true"/>` plus `<a:da name="ENABLE" value="false"/>` on the element directly.
+- **Old style**: element wrapped in `<v:lst>` with `<a:da name="MIN" value="0"/>` and `<a:da name="MAX" value="1"/>`.
+
+Generator behavior by variant:
+
+| Variant | Optional element output |
+|---------|-------------------------|
+| `combined` | 1 entry with `<a:a name="ENABLE" value="true"/>` (element activated) |
+| Other variants | Element omitted (stays inactive) |
+
+For non-optional elements, no `ENABLE` attribute is emitted.
 
 ## Advanced Usage
-
-### Custom Configuration
-
-Create a configuration file for complex scenarios:
-
-```json
-{
-  "variant": "combined",
-  "list_entries": {
-    "OsTask": 10,
-    "OsIsr": 5,
-    "OsAlarm": 8
-  },
-  "value_overrides": {
-    "OsTaskPriority": 5,
-    "OsIsrPriority": 2
-  }
-}
-```
-
-Use it:
-
-```bash
-model-xdm-generator Os.xdm -o Os_custom.xdm --config generator_config.json
-```
 
 ### Batch Generation
 
@@ -168,6 +189,7 @@ Use in pytest fixtures:
 ```python
 import pytest
 from eb_model.parser import OsXdmParser
+from eb_model.models import EBModel
 
 @pytest.fixture
 def os_test_model(tmp_path):
@@ -185,8 +207,10 @@ def os_test_model(tmp_path):
     ])
 
     # Parse and return
+    doc = EBModel.getInstance()
     parser = OsXdmParser()
-    return parser.parse(str(output))
+    parser.parse_xdm(str(output), doc)
+    return doc.find("/Os/Os")
 
 def test_os_tasks(os_test_model):
     """Test OS task parsing"""
@@ -196,32 +220,28 @@ def test_os_tasks(os_test_model):
 
 ## Troubleshooting
 
-### Schema Not Found
+### Schema Parse Error
 
-**Error**: `Schema XDM file not found`
+**Error**: `Error parsing schema XDM: <details>`
 
-**Solution**: Ensure the schema file path is correct and the file exists.
+**Cause**: Schema file missing, unreadable, or invalid XML.
 
-### Invalid Schema Format
+**Solution**: Verify schema file path correct and file exists. Ensure schema XDM exported by EB Tresos with proper `v:` schema definitions.
 
-**Error**: `Invalid XDM schema format`
+### Output Write Error
 
-**Solution**: Verify the schema XDM was exported by EB Tresos and contains proper schema definitions.
+**Error**: `Error writing output: <details>`
 
-### Output Permission Denied
-
-**Error**: `Permission denied: output.xdm`
-
-**Solution**: Check write permissions for the output directory.
+**Solution**: Check write permissions for output directory and path validity.
 
 ### Missing Dependencies
 
 **Error**: `ModuleNotFoundError: No module named 'eb_model'`
 
-**Solution**: Install eb-model:
+**Solution**: Install py-eb-model:
 
 ```bash
-pip install eb-model
+pip install py-eb-model
 ```
 
 ## Best Practices
@@ -276,54 +296,36 @@ def test_os_scheduling():
 
 ### Python API
 
-Use the generator programmatically:
+Use the generator programmatically via `SchemaParser` + `DataGenerator`:
 
 ```python
-from eb_model.cli.model_xdm_generator import XdmModelGenerator
+import xml.etree.ElementTree as ET
+from eb_model.generator.schema_parser import SchemaParser
+from eb_model.generator.data_generator import DataGenerator
+from eb_model.generator.strategies import DefaultsStrategy, BoundaryStrategy, RandomStrategy, CombinedStrategy
 
-generator = XdmModelGenerator()
+# Parse schema XDM
+tree = ET.parse("Os.xdm")
+schema = SchemaParser().parse(tree.getroot())
 
-# Generate with defaults
-generator.generate(
-    schema_path="Os.xdm",
-    output_path="Os_model.xdm",
-    variant="defaults"
-)
+# Generate model XDM
+strategy = DefaultsStrategy()  # or BoundaryStrategy(), RandomStrategy(seed=42), CombinedStrategy(seed=42)
+generator = DataGenerator(strategy=strategy, list_entries=None)
+result_tree = generator.generate(schema)
 
-# Generate with custom config
-generator.generate(
-    schema_path="Os.xdm",
-    output_path="Os_custom.xdm",
-    variant="combined",
-    list_entries=10,
-    seed=42
-)
+# Serialize to string
+xml_str = generator.toString(result_tree)
+
+# Write to file
+with open("Os_model.xdm", "w") as f:
+    f.write(xml_str)
 ```
 
-### Configuration API
-
-Create custom configurations:
-
-```python
-from eb_model.cli.model_xdm_generator import GeneratorConfig
-
-config = GeneratorConfig(
-    variant="combined",
-    list_entries={
-        "OsTask": 5,
-        "OsIsr": 3
-    },
-    value_overrides={
-        "OsTaskPriority": 10
-    }
-)
-
-generator.generate_with_config(
-    schema_path="Os.xdm",
-    output_path="Os_custom.xdm",
-    config=config
-)
-```
+**Strategy classes** (`eb_model.generator.strategies`):
+- `DefaultsStrategy()` — use DEFAULT attributes
+- `BoundaryStrategy()` — min/max edge values
+- `RandomStrategy(seed=42)` — random within RANGE
+- `CombinedStrategy(seed=42)` — cycle through all three
 
 ## Examples
 
@@ -366,6 +368,7 @@ done
 
 ## Related Documentation
 
+- [Schema→Model XDM Mapping Rules](xdm-mapping-rules.md)
 - [Generator Quick Start](../getting-started/generator-quickstart.md)
 - [CLI Reference](../usage/cli.md)
 - [API Documentation](../api/modules.html)
