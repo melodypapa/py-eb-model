@@ -4,7 +4,7 @@ Implements: SWR_GEN_00004 (Data Generator)
 """
 
 import xml.etree.ElementTree as ET
-from typing import Optional
+from typing import Dict, Optional
 
 from .schema_model import (
     SchemaChc, SchemaCtr, SchemaLst, SchemaRef, SchemaRoot, SchemaVar,
@@ -20,12 +20,25 @@ _XDM_NS = {
     'd': 'http://www.tresos.de/_projects/DataModel2/06/data.xsd',
 }
 
+# Additional namespaces for AUTOSAR container element (authentic EB Tresos config format)
+_AUTOSAR_NS = {
+    'ad': 'http://www.tresos.de/_projects/DataModel2/08/admindata.xsd',
+    'ce': 'http://www.tresos.de/_projects/DataModel2/18/childenable.xsd',
+    'cd': 'http://www.tresos.de/_projects/DataModel2/08/customdata.xsd',
+    'f': 'http://www.tresos.de/_projects/DataModel2/14/formulaexpr.xsd',
+    'icc': 'http://www.tresos.de/_projects/DataModel2/08/implconfigclass.xsd',
+    'mt': 'http://www.tresos.de/_projects/DataModel2/11/multitest.xsd',
+    'variant': 'http://www.tresos.de/_projects/DataModel2/11/variant.xsd',
+}
+
 # Schema/data attribute names and special values (avoid typo-driven divergence)
 _ATTR_ENABLE = 'ENABLE'
 _ATTR_DERIVED = 'DERIVED'
 _ATTR_TARGET = 'TARGET'
 _ATTR_CONTEXT = 'CONTEXT'
+_ATTR_IMPORTER_INFO = 'IMPORTER_INFO'
 _VALUE_TRUE = 'true'
+_VALUE_DEF = '@DEF'
 _CTR_MULTI_CONFIG = 'MULTIPLE-CONFIGURATION-CONTAINER'
 _CTR_INSTANCE = 'INSTANCE'
 _CHC_CHOICE = 'CHOICE'
@@ -40,10 +53,20 @@ class DataGenerator:
         self.strategy = strategy or DefaultsStrategy()
         self.list_entries = list_entries
         self._ns_for_output = dict(_XDM_NS)
+        # Schema-source namespaces kept for AUTOSAR-version-aware logic (e.g. chc
+        # default type). Independent of output namespaces, which are always v16.
+        # See docs/usage/model-xdm-generator.md "Schema Version and Namespaces".
+        self._ns_for_schema_source: Dict[str, str] = {}
 
     def generate(self, schema_root: SchemaRoot) -> ET.ElementTree:
         """Generate a complete model XDM element tree from schema root."""
-        ns = schema_root.namespaces or _XDM_NS
+        # Output always declares the DataModel2/16 namespace set and version 7.0,
+        # regardless of what the schema source declares. Authentic EB Tresos
+        # config files use this version set; matching it is required for output
+        # to align with doc/config/* format.
+        # See docs/usage/model-xdm-generator.md "Schema Version and Namespaces".
+        ns = dict(_XDM_NS)
+        self._ns_for_schema_source = dict(schema_root.namespaces or {})
 
         d_ns = ns.get('d', '')
         d_prefix = '{%s}' % d_ns if d_ns else ''
@@ -55,16 +78,22 @@ class DataGenerator:
         a_ns = ns.get('a', '')
         if a_ns:
             ET.register_namespace('a', a_ns)
+        # Register AUTOSAR-specific namespace prefixes
+        for prefix, uri in _AUTOSAR_NS.items():
+            ET.register_namespace(prefix, uri)
         self._ns_for_output = dict(ns)
 
         # Build datamodel root
         datamodel = ET.Element('datamodel')
-        datamodel.set('version', schema_root.version)
+        datamodel.set('version', '7.0')
 
         # d:ctr AUTOSAR wrapper
         root_ctr = ET.SubElement(datamodel, '%sctr' % d_prefix)
         root_ctr.set('type', 'AUTOSAR')
         root_ctr.set('factory', 'autosar')
+        # Add AUTOSAR-specific namespace declarations (authentic EB Tresos config format)
+        for prefix, uri in _AUTOSAR_NS.items():
+            root_ctr.set('xmlns:%s' % prefix, uri)
 
         # d:lst TOP-LEVEL-PACKAGES
         top_lst = ET.SubElement(root_ctr, '%slst' % d_prefix)
@@ -154,9 +183,32 @@ class DataGenerator:
         if var.derived:
             self._emit_attr(elem, 'a', _ATTR_DERIVED, var.derived)
 
-        # Combined variant activates optional elements via ENABLE=true (XDM Spec 5.2.5.1)
-        if isinstance(self.strategy, CombinedStrategy) and var.optional == _VALUE_TRUE:
+        self._emit_enable_attribute(elem, var.optional)
+
+        # IMPORTER_INFO=@DEF marks values pulled from schema DEFAULT. Authentic
+        # config carries this attribute on defaulted elements. Emitted only when
+        # value equals the schema-declared default — type-based fallback values
+        # are not schema-declared so @DEF cannot be soundly claimed.
+        # See docs/usage/model-xdm-generator.md "IMPORTER_INFO Emission".
+        if var.default is not None and value == var.default:
+            self._emit_attr(elem, 'a', _ATTR_IMPORTER_INFO, _VALUE_DEF)
+
+    def _emit_enable_attribute(self, elem: ET.Element, optional: Optional[str]) -> None:
+        """Emit ENABLE attribute for optional elements, matching authentic config style.
+
+        - CombinedStrategy + optional → ENABLE=true (element activated)
+        - Other strategies + optional → ENABLE=false (element inactive but present)
+        - Non-optional → no ENABLE attribute
+
+        Always uses <a:a> tag in output, never <a:da> (which is schema-side only).
+        See docs/usage/model-xdm-generator.md "Optional Elements".
+        """
+        if optional != _VALUE_TRUE:
+            return
+        if isinstance(self.strategy, CombinedStrategy):
             self._emit_attr(elem, 'a', _ATTR_ENABLE, _VALUE_TRUE)
+        else:
+            self._emit_attr(elem, 'a', _ATTR_ENABLE, 'false')
 
     def _emit_attr(self, parent: ET.Element, tag: str, name: str, value: str) -> None:
         """Emit <a:{tag} name=... value=.../> as child of parent. tag is 'a' or 'da'."""
@@ -177,11 +229,9 @@ class DataGenerator:
                 self._emit_attr(elem, 'da', _ATTR_TARGET, ctr.target)
             if ctr.context:
                 self._emit_attr(elem, 'da', _ATTR_CONTEXT, ctr.context)
+        # Emit ENABLE attribute before children (matches authentic config format)
+        self._emit_enable_attribute(elem, ctr.optional)
         self._generate_children(ctr.children, elem, d_prefix)
-
-        # Combined variant activates optional elements via ENABLE=true (XDM Spec 5.2.5.1)
-        if isinstance(self.strategy, CombinedStrategy) and ctr.optional == _VALUE_TRUE:
-            self._emit_attr(elem, 'a', _ATTR_ENABLE, _VALUE_TRUE)
 
     def _generate_lst(self, lst: SchemaLst, parent: ET.Element, d_prefix: str) -> None:
         """Generate a d:lst element with entries."""
@@ -253,9 +303,7 @@ class DataGenerator:
         if value:
             elem.set('value', value)
 
-        # Combined variant activates optional elements via ENABLE=true (XDM Spec 5.2.5.1)
-        if isinstance(self.strategy, CombinedStrategy) and ref.optional == _VALUE_TRUE:
-            self._emit_attr(elem, 'a', _ATTR_ENABLE, _VALUE_TRUE)
+        self._emit_enable_attribute(elem, ref.optional)
 
     def _generate_chc(self, chc: SchemaChc, parent: ET.Element, d_prefix: str) -> None:
         """Generate a d:chc element using first choice (or all for combined variant)."""
@@ -284,10 +332,11 @@ class DataGenerator:
     def _chc_default_type(self) -> str:
         """Return default chc type based on schema namespace version (XDM Spec 5.2.6).
 
-        DataModel2/08 namespaces → AUTOSAR 2.x style → 'CHOICE'.
+        Uses schema-source namespaces (not output namespaces, which are always v16).
+        DataModel2/08 schema source → AUTOSAR 2.x style → 'CHOICE'.
         DataModel2/16 (or unknown) → AUTOSAR 3.x+ → 'IDENTIFIABLE'.
         """
-        for uri in self._ns_for_output.values():
+        for uri in self._ns_for_schema_source.values():
             if _NS_LEGACY_VERSION in uri:
                 return _CHC_CHOICE
         return _CHC_IDENTIFIABLE
@@ -299,23 +348,58 @@ class DataGenerator:
 
         xml_bytes = ET.tostring(root, encoding='unicode', xml_declaration=False)
 
-        # Build xmlns declarations for the root <datamodel> tag.
-        # ET already emits xmlns:d (registered prefix), so skip it here.
-        # Always emit xmlns:a even if unused - parser may need it for ENABLE attribute lookups.
-        parts = []
-        for prefix, uri in self._ns_for_output.items():
-            if prefix == 'd':
-                continue
-            # Skip if this xmlns already exists in the output (ET may have added it)
-            decl = 'xmlns:%s="%s"' % (prefix, uri) if prefix else 'xmlns="%s"' % uri
-            if decl not in xml_bytes:
-                parts.append(decl)
+        # Build xmlns declarations for the root <datamodel> tag in the correct order.
+        # Authentic EB Tresos config files use this specific order:
+        # 1. version="7.0"
+        # 2. xmlns (default namespace)
+        # 3. xmlns:a (attribute namespace)
+        # 4. xmlns:v (schema namespace)
+        # 5. xmlns:d (data namespace)
+        # ElementTree emits xmlns:a and xmlns:d automatically, but in wrong order.
+        # We need to rebuild the entire opening tag with correct ordering.
 
+        # Extract the closing part of the datamodel tag (after all attributes)
+        # Find where the opening tag ends (either > or />)
+        import re
+        match = re.search(r'<datamodel[^>]*(>|/>)', xml_bytes)
+        if not match:
+            # Fallback: just add namespaces if we can't parse
+            return "<?xml version='1.0'?>\n" + xml_bytes
+
+        tag_end = match.group(1)
+
+        # Build the correct datamodel opening tag
+        parts = ['version="7.0"']
+
+        # Add default namespace
+        default_ns = self._ns_for_output.get('', '')
+        if default_ns:
+            parts.append('xmlns="%s"' % default_ns)
+
+        # Add xmlns:a
+        a_ns = self._ns_for_output.get('a', '')
+        if a_ns:
+            parts.append('xmlns:a="%s"' % a_ns)
+
+        # Add xmlns:v
+        v_ns = self._ns_for_output.get('v', '')
+        if v_ns:
+            parts.append('xmlns:v="%s"' % v_ns)
+
+        # Add xmlns:d
+        d_ns = self._ns_for_output.get('d', '')
+        if d_ns:
+            parts.append('xmlns:d="%s"' % d_ns)
+
+        # Format with proper indentation (matching EB Tresos format)
         ns_decls = '\n           '.join(parts)
-        xml_bytes = xml_bytes.replace(
-            '<datamodel ',
-            '<datamodel %s\n           ' % ns_decls,
-            1,
-        )
+
+        # Build new opening tag
+        new_opening = '<datamodel %s%s' % (ns_decls, tag_end)
+
+        # Replace the old opening tag with the new one
+        # Find the complete old opening tag
+        old_opening_pattern = r'<datamodel[^>]*(>|/>)'
+        xml_bytes = re.sub(old_opening_pattern, new_opening, xml_bytes, count=1)
 
         return "<?xml version='1.0'?>\n" + xml_bytes

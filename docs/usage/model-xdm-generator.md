@@ -21,6 +21,30 @@ The model-xdm-generator creates model (instance) XDM files from schema XDM files
 | Documentation | Generator (clean examples) |
 | Production validation | Real XDM files |
 
+## Output Format Principles
+
+Authentic EB Tresos config files under `doc/config/` (e.g. `Os.xdm`, `CanIf.xdm`) are the canonical XDM format. Generated output matches this format in every aspect **except concrete data values**. Data values legitimately differ because the generator cannot know real ECU topology.
+
+### Aspects that align with `doc/config`
+
+| Aspect | Alignment |
+|---|---|
+| `<datamodel version>` | Always `7.0`, regardless of schema source version |
+| Namespace URIs | Always `DataModel2/16/*` set (root, attribute, schema, data) |
+| `xmlns:*` declarations on `<datamodel>` root | Full set per config style |
+| `<a:a name="IMPORTER_INFO" value="@DEF"/>` | Emitted on elements whose value came from schema `DEFAULT` |
+| `<a:a name="ENABLE" value="false"/>` format | Always `<a:a>` tag in output (never `<a:da>`, which is schema-side only) |
+| Element ordering within `MODULE-CONFIGURATION` | Preserved from schema source, which should match config layout (see [Element Ordering](#element-ordering)) |
+
+### Aspects that legitimately differ
+
+| Aspect | Reason |
+|---|---|
+| Container `<d:ctr name="...">` | Generator uses indexed names (`OsAlarm_0`, `OsTask_1`); authentic config uses ECU-specific names (`HOH_0_EcuTestNode`) |
+| Concrete values | Strategy-driven (`defaults` / `boundary` / `random` / `combined`) |
+| `<d:ref value="...">` cross-module targets | Generator cannot know ECU topology. Refs whose schema `REF` points to a definition path (`AUTOSAR/EcucDefs/...`) are emitted without a `value` attribute |
+| `IMPORTER_INFO` variants other than `@DEF` | `@CALC`, `@REC`, `ImportEcuConfig` are EB Tresos runtime artifacts that depend on real ECU state; generator never emits them |
+
 ## Command Line Interface
 
 ### Basic Usage
@@ -108,17 +132,20 @@ model-xdm-generator Os.xdm -o Os_combined.xdm --variant combined
 | ENUMERATION | DEFAULT attr or first RANGE value | first RANGE value | random from RANGE |
 | FUNCTION-NAME | DEFAULT attr or "" | `Func_<name>` | `<prefix>_<name>` |
 | LINKER-SYMBOL | DEFAULT attr or "" | `Func_<name>` | `<prefix>_<name>` |
-| REFERENCE | mock ASPath from REF attr | mock ASPath | mock ASPath |
+| REFERENCE | empty or mock ASPath (see [Reference Types](#reference-types)) | empty or mock ASPath | empty or mock ASPath |
 
 ### Reference Types
 
-References are generated as ASPath strings derived from the schema's `REF` data attribute. The generator strips the `ASPathDataOfSchema:` prefix and rewrites as `ASPath:`:
+Authentic config references point to real cross-module paths populated by EB Tresos from ECU topology (e.g. `ASPath:/Can/Can/CanConfigSet`, `ASPath:/EcuC/EcuC/EcucPduCollection/Pdu_CounterIn_256R`). The generator cannot know this topology, so reference handling follows this rule:
 
-```
-ASPath:/AUTOSAR/EcucDefs/<Module>/<Container>/<Element>
-```
+- **Schema `REF` attribute points to a definition path** (contains `AUTOSAR/EcucDefs/`, e.g. `ASPathDataOfSchema:/AUTOSAR/EcucDefs/Os/OsCounter`) → generator emits `<d:ref name="..." type="REFERENCE"/>` with **no** `value` attribute. This mirrors how authentic config marks unbound references (e.g. `CanIfHrhCanHandleTypeRef` at `doc/config/CanIf.xdm:73-77`).
+- **Schema `REF` points to a concrete config path** (rare) → generator strips `ASPathDataOfSchema:` prefix and rewrites as `ASPath:`.
 
-Example: `ASPath:/AUTOSAR/EcucDefs/Os/OsCounter`
+Emitted empty reference example (aligns with authentic style for unbound refs):
+
+```xml
+<d:ref name="OsAlarmCounterRef" type="REFERENCE" />
+```
 
 ### List Handling
 
@@ -138,7 +165,7 @@ List entry naming follows schema convention:
 
 ### Container Type Mapping
 
-The generator applies schema-to-data node type rules from [XDM Mapping Rules](xdm-mapping-rules.md):
+The generator applies schema-to-data node type rules from [XDM Mapping Rules](xdm-mapping-rules.md). See also [Output Format Principles](#output-format-principles) for overall alignment requirements.
 
 - **`v:ctr type="MULTIPLE-CONFIGURATION-CONTAINER"`**: standalone occurrences are auto-wrapped in `d:lst` (per XDM Spec 5.2.5). When schema already wraps the container in `v:lst`, generator honors the existing wrap.
 - **`v:ctr type="INSTANCE"`**: preserves `TARGET` and `CONTEXT` data attributes, emitting them as `a:da` children on the `d:ctr`.
@@ -153,14 +180,58 @@ Optional elements follow XDM Spec 5.2.5.1. Two schema representations are recogn
 - **New style**: `<a:a name="OPTIONAL" value="true"/>` plus `<a:da name="ENABLE" value="false"/>` on the element directly.
 - **Old style**: element wrapped in `<v:lst>` with `<a:da name="MIN" value="0"/>` and `<a:da name="MAX" value="1"/>`.
 
-Generator behavior by variant:
+In authentic config style, the output `ENABLE` attribute is always carried on the `<a:a>` tag (never `<a:da>`, which is schema-side only). Generator behavior by variant:
 
 | Variant | Optional element output |
 |---------|-------------------------|
-| `combined` | 1 entry with `<a:a name="ENABLE" value="true"/>` (element activated) |
-| Other variants | Element omitted (stays inactive) |
+| `combined` | Element populated, `<a:a name="ENABLE" value="true"/>` emitted |
+| `defaults` / `boundary` / `random` | Element skipped, `<a:a name="ENABLE" value="false"/>` emitted (matches authentic config style for inactive optional elements) |
 
 For non-optional elements, no `ENABLE` attribute is emitted.
+
+### Schema Version and Namespaces
+
+Generator output always declares the `DataModel2/16` namespace set on `<datamodel>`, regardless of what the schema source declares:
+
+```xml
+<datamodel version="7.0"
+           xmlns="http://www.tresos.de/_projects/DataModel2/16/root.xsd"
+           xmlns:a="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd"
+           xmlns:v="http://www.tresos.de/_projects/DataModel2/06/schema.xsd"
+           xmlns:d="http://www.tresos.de/_projects/DataModel2/06/data.xsd">
+```
+
+Some schema source files declare older versions (for example `doc/os/schema/Os.xdm` is `version="3.0"` with `DataModel2/08` URIs). The generator normalizes these to `7.0` / `DataModel2/16` on output so the generated file is byte-comparable to authentic config in all structural metadata.
+
+The inner `<d:ctr type="AUTOSAR" factory="autosar">` in authentic config also carries additional `xmlns:ad|ce|cd|f|icc|mt|variant` declarations. The generator should emit these declarations when matching authentic layout exactly; they are unused if no child element references them, so absence is not a correctness issue.
+
+### IMPORTER_INFO Emission
+
+Authentic config carries `<a:a name="IMPORTER_INFO" value="..."/>` attributes tracking value origin. The generator emits only the subset it can soundly claim from schema information:
+
+| Value | When emitted |
+|---|---|
+| `@DEF` | Element value equals the schema `DEFAULT` attribute (placed by `DefaultsStrategy`, or default fallback of other strategies) |
+| `@CALC(...)` | Never — calculated values depend on real ECU state |
+| `@REC` | Never — received-value marker is a Tresos runtime artifact |
+| `ImportEcuConfig` | Never — set by EB Tresos during ECU config import |
+
+Order of `<a:a>` children within `<d:var>` / `<d:ref>` / `<d:ctr>` (matching authentic config): `DEF` (root `MODULE-CONFIGURATION` only) → `ENABLE` → `IMPORTER_INFO`.
+
+### Element Ordering
+
+The generator preserves schema-declared child order. Schema source files must be maintained so their child order matches the corresponding `doc/config/<Module>.xdm` authentic layout — otherwise generated output will diverge in element ordering.
+
+Example: in `doc/config/Os.xdm:23-74`, the top-level order within `MODULE-CONFIGURATION` is:
+
+1. `POST_BUILD_VARIANT_USED`
+2. `OsPeripheralArea`
+3. `CommonPublishedInformation`
+4. `PublishedInformation`
+5. `IMPLEMENTATION_CONFIG_VARIANT`
+6. `OsOS` (and remaining containers)
+
+Schema source `doc/os/schema/Os.xdm` must declare `CommonPublishedInformation` and `PublishedInformation` near the top of the module definition (immediately after `POST_BUILD_VARIANT_USED`), not deep in the file. If a schema source is found to place containers in a different order than its authentic config counterpart, the schema source is the bug — fix the schema, not the generator.
 
 ## Advanced Usage
 
@@ -364,6 +435,35 @@ done
 - name: Run Tests
   run: |
     pytest tests/ --test-data-dir=test_data/
+```
+
+## Validation
+
+Verify generator output conforms to the [Output Format Principles](#output-format-principles) after every schema or generator change:
+
+```bash
+# Regenerate test fixtures
+bash scripts/generate_os_test_xdm.sh
+
+# Structural header should match doc/config (version + namespaces)
+diff <(head -10 doc/config/Os.xdm) <(head -10 tests/integration/data_files/generated/Os.xdm)
+diff <(head -10 doc/config/CanIf.xdm) <(head -10 tests/integration/data_files/generated/CanIf.xdm)
+
+# No AUTOSAR/EcucDefs definition paths in emitted ref values
+grep -c 'AUTOSAR/EcucDefs' tests/integration/data_files/generated/*.xdm  # expect 0
+
+# IMPORTER_INFO=@DEF should appear on defaulted elements
+grep -c 'name="IMPORTER_INFO" value="@DEF"' tests/integration/data_files/generated/*.xdm  # expect > 0
+
+# ENABLE attributes should use <a:a> tag, never <a:da>
+grep -c '<a:da name="ENABLE"' tests/integration/data_files/generated/*.xdm  # expect 0
+```
+
+Round-trip validation: parse the generated XDM with the module parser and confirm no exceptions:
+
+```bash
+eb-convert tests/integration/data_files/generated/Os.xdm /tmp/os_check.xlsx
+eb-convert tests/integration/data_files/generated/CanIf.xdm /tmp/canif_check.xlsx
 ```
 
 ## Related Documentation

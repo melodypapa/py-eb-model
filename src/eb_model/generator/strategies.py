@@ -23,13 +23,22 @@ _TYPE_DEFAULTS = {
 }
 
 _ASPATH_TRANSFORM = re.compile(r'^ASPath\w*:')
+_DEF_PATH_MARKER = 'AUTOSAR/EcucDefs/'
 
 
 def _generate_mock_refpath(targets: List[str], chooser) -> Optional[str]:
-    """Generate a mock ASPath reference value from target list."""
+    """Generate a mock ASPath reference value from target list.
+
+    Returns None when the chosen target is a schema-definition path (contains
+    `AUTOSAR/EcucDefs/`), because authentic EB Tresos config never carries
+    definition paths in ref values — only real cross-module config paths.
+    See docs/usage/model-xdm-generator.md "Reference Types".
+    """
     if not targets:
         return None
     target = chooser(targets)
+    if _DEF_PATH_MARKER in target:
+        return None
     return _ASPATH_TRANSFORM.sub('ASPath:', target)
 
 

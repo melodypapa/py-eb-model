@@ -376,3 +376,159 @@ class TestDataGeneratorCombined:
         gen = DataGenerator(CombinedStrategy(seed=42))
         xml_str = gen.toString(gen.generate(root))
         assert 'name="ENABLE"' not in xml_str
+
+
+class TestDataGeneratorConfigAlignment:
+    """Tests asserting generator output aligns with doc/config authentic format.
+
+    See docs/usage/model-xdm-generator.md "Output Format Principles" section.
+    Alignment covers schema version, namespaces, IMPORTER_INFO, ENABLE format,
+    and ref value handling. Concrete data values may legitimately differ.
+    """
+
+    @staticmethod
+    def _make_legacy_root(children=None):
+        """Create SchemaRoot declaring legacy DataModel2/08 / version 3.0."""
+        module_def = SchemaCtr(name="TestMod", ctr_type="MODULE-DEF", children=children or [])
+        return SchemaRoot(
+            module_name="TestMod",
+            module_def=module_def,
+            version="3.0",
+            namespaces={
+                '': 'http://www.tresos.de/_projects/DataModel2/08/root.xsd',
+                'a': 'http://www.tresos.de/_projects/DataModel2/08/attribute.xsd',
+                'v': 'http://www.tresos.de/_projects/DataModel2/08/schema.xsd',
+                'd': 'http://www.tresos.de/_projects/DataModel2/08/data.xsd',
+            },
+            ar_package_name="TestPkg",
+        )
+
+    def test_output_version_always_7_regardless_of_schema_source(self):
+        """datamodel version forced to 7.0 even when schema source is 3.0."""
+        root = self._make_legacy_root([])
+        gen = DataGenerator(DefaultsStrategy())
+        xml_str = gen.toString(gen.generate(root))
+        assert 'version="7.0"' in xml_str
+        assert 'version="3.0"' not in xml_str
+
+    def test_output_namespaces_always_data_model_16(self):
+        """Output uses DataModel2/16 URIs even when schema source is DataModel2/08."""
+        root = self._make_legacy_root([])
+        gen = DataGenerator(DefaultsStrategy())
+        xml_str = gen.toString(gen.generate(root))
+        # Main datamodel element should use DataModel2/16
+        assert 'DataModel2/16/root.xsd' in xml_str
+        assert 'DataModel2/16/attribute.xsd' in xml_str
+        # AUTOSAR container may have additional namespaces with older versions
+        # (admindata, childenable, customdata, formulaexpr, implconfigclass, multitest, variant)
+        # These are legitimate EB Tresos namespaces and should be allowed
+        # We only check that the main namespaces (root, attribute) are DataModel2/16
+        assert 'xmlns="http://www.tresos.de/_projects/DataModel2/16/root.xsd"' in xml_str
+        assert 'xmlns:a="http://www.tresos.de/_projects/DataModel2/16/attribute.xsd"' in xml_str
+
+    def test_importer_info_def_emitted_on_defaulted_var(self):
+        """Var whose value came from schema DEFAULT emits IMPORTER_INFO=@DEF."""
+        root = self._make_legacy_root([
+            SchemaVar(name="Enabled", var_type="BOOLEAN", default="true"),
+        ])
+        gen = DataGenerator(DefaultsStrategy())
+        xml_str = gen.toString(gen.generate(root))
+        assert 'name="IMPORTER_INFO"' in xml_str
+        assert 'value="@DEF"' in xml_str
+
+    def test_importer_info_def_not_emitted_when_no_default(self):
+        """Var without schema DEFAULT (strategy falls back to type default) does not emit @DEF.
+
+        Rationale: @DEF marks values pulled from schema DEFAULT. Type-based fallback
+        values are not schema-declared defaults, so generator cannot soundly claim @DEF.
+        """
+        root = self._make_legacy_root([
+            SchemaVar(name="Plain", var_type="INTEGER"),  # no default
+        ])
+        gen = DataGenerator(DefaultsStrategy())
+        xml_str = gen.toString(gen.generate(root))
+        assert 'name="IMPORTER_INFO"' not in xml_str
+
+    def test_importer_info_emitted_after_enable_attribute(self):
+        """IMPORTER_INFO comes after ENABLE in <a:a> child order (matches config)."""
+        root = self._make_legacy_root([
+            SchemaVar(name="Opt", var_type="BOOLEAN", default="true", optional="true"),
+        ])
+        gen = DataGenerator(CombinedStrategy(seed=42))
+        xml_str = gen.toString(gen.generate(root))
+        enable_idx = xml_str.find('name="ENABLE"')
+        importer_idx = xml_str.find('name="IMPORTER_INFO"')
+        assert enable_idx != -1
+        assert importer_idx != -1
+        assert enable_idx < importer_idx
+
+    def test_enable_false_emitted_on_skipped_optional_var_defaults(self):
+        """Optional var skipped by DefaultsStrategy emits ENABLE=false."""
+        root = self._make_legacy_root([
+            SchemaVar(name="Opt", var_type="BOOLEAN", default="true", optional="true"),
+        ])
+        gen = DataGenerator(DefaultsStrategy())
+        xml_str = gen.toString(gen.generate(root))
+        parsed = ET.fromstring(xml_str)
+        ns = {'a': 'http://www.tresos.de/_projects/DataModel2/16/attribute.xsd',
+              'd': 'http://www.tresos.de/_projects/DataModel2/06/data.xsd'}
+        opt_var = parsed.find('.//d:var[@name="Opt"]', ns)
+        assert opt_var is not None, "Optional var must still be emitted with ENABLE=false"
+        enable_attr = opt_var.find('a:a[@name="ENABLE"]', ns)
+        assert enable_attr is not None, "ENABLE attribute must be present on skipped optional"
+        assert enable_attr.get('value') == 'false'
+
+    def test_enable_uses_a_tag_not_da_tag_in_output(self):
+        """ENABLE attribute always on <a:a> tag, never <a:da>."""
+        root = self._make_legacy_root([
+            SchemaVar(name="Opt", var_type="BOOLEAN", default="true", optional="true"),
+        ])
+        gen = DataGenerator(DefaultsStrategy())
+        xml_str = gen.toString(gen.generate(root))
+        assert '<a:a name="ENABLE"' in xml_str
+        assert '<a:da name="ENABLE"' not in xml_str
+
+    def test_ref_to_autosar_ecuc_defs_emitted_without_value(self):
+        """Ref whose schema REF target contains AUTOSAR/EcucDefs emitted with no value."""
+        root = self._make_legacy_root([
+            SchemaRef(name="OsAlarmCounterRef", ref_type="REFERENCE",
+                      ref_targets=["ASPathDataOfSchema:/AUTOSAR/EcucDefs/Os/OsCounter"]),
+        ])
+        gen = DataGenerator(DefaultsStrategy())
+        xml_str = gen.toString(gen.generate(root))
+        parsed = ET.fromstring(xml_str)
+        ns = {'d': 'http://www.tresos.de/_projects/DataModel2/06/data.xsd'}
+        ref = parsed.find('.//d:ref[@name="OsAlarmCounterRef"]', ns)
+        assert ref is not None
+        assert ref.get('value') is None, \
+            "Ref to AUTOSAR/EcucDefs must not have value attribute, got: %s" % ref.get('value')
+
+    def test_ref_to_concrete_path_still_emits_value(self):
+        """Ref whose schema REF target is a concrete config path emits transformed value."""
+        root = self._make_legacy_root([
+            SchemaRef(name="CanIfInitRefCfgSet", ref_type="REFERENCE",
+                      ref_targets=["ASPathDataOfSchema:/Can/Can/CanConfigSet"]),
+        ])
+        gen = DataGenerator(DefaultsStrategy())
+        xml_str = gen.toString(gen.generate(root))
+        parsed = ET.fromstring(xml_str)
+        ns = {'d': 'http://www.tresos.de/_projects/DataModel2/06/data.xsd'}
+        ref = parsed.find('.//d:ref[@name="CanIfInitRefCfgSet"]', ns)
+        assert ref is not None
+        assert ref.get('value') == 'ASPath:/Can/Can/CanConfigSet'
+
+    def test_no_autosar_ecuc_defs_in_emitted_ref_values(self):
+        """Whole output must contain no AUTOSAR/EcucDefs in any emitted ref value.
+
+        Authentic config never carries schema-definition paths in ref values.
+        """
+        root = self._make_legacy_root([
+            SchemaRef(name="Ref1", ref_type="REFERENCE",
+                      ref_targets=["ASPathDataOfSchema:/AUTOSAR/EcucDefs/Os/OsTask"]),
+            SchemaRef(name="Ref2", ref_type="REFERENCE",
+                      ref_targets=["ASPathDataOfSchema:/AUTOSAR/EcucDefs/Os/OsAlarm"]),
+        ])
+        gen = DataGenerator(DefaultsStrategy())
+        xml_str = gen.toString(gen.generate(root))
+        # No value="ASPath:/AUTOSAR/EcucDefs/..." substring allowed anywhere
+        assert 'ASPath:/AUTOSAR/EcucDefs' not in xml_str
