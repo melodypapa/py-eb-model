@@ -617,7 +617,7 @@ class OsXdmParser(AbstractEbModelParser):
         """
         Parse OsHooks container from XDM.
 
-        Extracts hook function configuration including error hook, 
+        Extracts hook function configuration including error hook,
         pre/post task hooks, and startup/shutdown hooks.
 
         Args:
@@ -645,9 +645,8 @@ class OsXdmParser(AbstractEbModelParser):
         for ctr_tag in self.find_ctr_tag_list(element, "OsCoreConfig"):
             core_config = OsCoreConfig(os, ctr_tag.attrib["name"])
             core_config.setOsCoreId(self.read_value(ctr_tag, "OsCoreId"))
-            core_config.setOsCoreMainFunction(self.read_value(ctr_tag, "OsCoreMainFunction"))
-            core_config.setOsCoreStackStartAddress(self.read_value(ctr_tag, "OsCoreStackStartAddress"))
-            core_config.setOsCoreStackSize(self.read_value(ctr_tag, "OsCoreStackSize"))
+            core_config.setOsLogicalCoreId(self.read_optional_value(ctr_tag, "OsLogicalCoreId"))
+            core_config.setOsCORTEXMExecutionTimer(self.read_optional_value(ctr_tag, "OsCORTEXMExecutionTimer"))
             os.addOsCoreConfig(core_config)
             self.logger.debug("Read OsCoreConfig <%s>" % core_config.getName())
 

@@ -1335,7 +1335,7 @@ class TestOsXdmParser:
     def test_isr_platform_specific_fields_preserved(self):
         """
         Verify that platform-specific ISR fields are parsed correctly without overwriting.
-        
+
         Implements: UTS_OS_PARSER_00008 (ISR Platform-Specific Fields)
         """
         xml_content = """
@@ -1393,7 +1393,7 @@ class TestOsXdmParser:
     def test_task_event_ref_parsing(self):
         """
         Verify that OsTaskEventRef list is parsed correctly.
-        
+
         Implements: SWR_OS_PARSER_00003 (Task Parsing - Event References)
         """
         xml_content = """
@@ -1442,7 +1442,7 @@ class TestOsXdmParser:
     def test_resource_linked_ref_parsing(self):
         """
         Verify that OsLinkedResourceRef is parsed correctly for LINKED resources.
-        
+
         Implements: SWR_OS_PARSER_00009 (Resource Parsing - Linked Resources)
         """
         xml_content = """
@@ -1493,7 +1493,7 @@ class TestOsXdmParser:
     def test_alarm_autostart_parsing(self):
         """
         Verify that OsAlarmAutostart configuration is parsed correctly.
-        
+
         Implements: SWR_OS_PARSER_00008 (Alarm Parsing - Autostart)
         """
         xml_content = """
