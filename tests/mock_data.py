@@ -293,15 +293,13 @@ MOCK_OS_XDM = """<?xml version="1.0"?>
               <d:lst name="OsCoreConfig" type="MAP">
                 <d:ctr name="Core0">
                   <d:var name="OsCoreId" type="INTEGER" value="0"/>
-                  <d:var name="OsCoreMainFunction" type="STRING" value="Main_Core0"/>
-                  <d:var name="OsCoreStackStartAddress" type="INTEGER" value="536870912"/>
-                  <d:var name="OsCoreStackSize" type="INTEGER" value="4096"/>
+                  <d:var name="OsLogicalCoreId" type="INTEGER" value="0"/>
+                  <d:var name="OsCORTEXMExecutionTimer" type="ENUMERATION" value="TIMER0"/>
                 </d:ctr>
                 <d:ctr name="Core1">
                   <d:var name="OsCoreId" type="INTEGER" value="1"/>
-                  <d:var name="OsCoreMainFunction" type="STRING" value="Main_Core1"/>
-                  <d:var name="OsCoreStackStartAddress" type="INTEGER" value="536875008"/>
-                  <d:var name="OsCoreStackSize" type="INTEGER" value="4096"/>
+                  <d:var name="OsLogicalCoreId" type="INTEGER" value="1"/>
+                  <d:var name="OsCORTEXMExecutionTimer" type="ENUMERATION" value="TIMER1"/>
                 </d:ctr>
               </d:lst>
               <d:ctr name="OsAutosarCustomization">

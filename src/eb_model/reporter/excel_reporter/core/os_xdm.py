@@ -254,6 +254,7 @@ class OsXdmXlsWriter(ExcelReporter):
                 self.write_cell(sheet, row, 4, os_app.getOsAppEcucPartitionRef().getShortName())
             # self.write_cell(sheet, row, 5, os_app.getOsAppMkPermitShutdownAllCores())
             # self.write_cell(sheet, row, 6, os_app.getOsAppMkCreateMemoryRegion())
+            row += 1
 
             self.logger.debug("Write OsApplication <%s>" % os_app.getName())
 

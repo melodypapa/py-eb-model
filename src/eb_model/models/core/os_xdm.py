@@ -29,27 +29,27 @@ class OsAlarmAutostart(EcucParamConfContainerDef):
     def __init__(self, parent, name) -> None:
         super().__init__(parent, name)
 
-        self.osAlarmAlarmTime = None
-        self.osAlarmAutostartType = None
-        self.osAlarmCycleTime = None
-        self.osAlarmAppModeRefs = []
+        self.osAlarmAlarmTime: int = None
+        self.osAlarmAutostartType: str = None
+        self.osAlarmCycleTime: int = None
+        self.osAlarmAppModeRefs: List[EcucRefType] = []
 
     def getOsAlarmAlarmTime(self):
         return self.osAlarmAlarmTime
 
-    def setOsAlarmAlarmTime(self, value):
+    def setOsAlarmAlarmTime(self, value: int):
         self.osAlarmAlarmTime = value
 
     def getOsAlarmAutostartType(self):
         return self.osAlarmAutostartType
 
-    def setOsAlarmAutostartType(self, value):
+    def setOsAlarmAutostartType(self, value: str):
         self.osAlarmAutostartType = value
 
     def getOsAlarmCycleTime(self):
         return self.osAlarmCycleTime
 
-    def setOsAlarmCycleTime(self, value):
+    def setOsAlarmCycleTime(self, value: int):
         self.osAlarmCycleTime = value
 
     def getOsAlarmAppModeRefs(self) -> List[EcucRefType]:
@@ -60,10 +60,10 @@ class OsAlarmAutostart(EcucParamConfContainerDef):
 
 
 class OsAlarmActivateTask(OsAlarmAction):
-    def __init__(self, parent, name) -> None:
+    def __init__(self, parent, name: str) -> None:
         super().__init__(parent, name)
 
-        self.osAlarmActivateTaskRef = None
+        self.osAlarmActivateTaskRef: EcucRefType = None
 
     def getOsAlarmActivateTaskRef(self) -> EcucRefType:
         return self.osAlarmActivateTaskRef
@@ -74,7 +74,7 @@ class OsAlarmActivateTask(OsAlarmAction):
 
 
 class OsAlarmCallback(OsAlarmAction):
-    def __init__(self, parent, name) -> None:
+    def __init__(self, parent, name: str) -> None:
         super().__init__(parent, name)
 
         self.osAlarmCallbackName = None
@@ -1787,9 +1787,8 @@ class OsCoreConfig(EcucParamConfContainerDef):
         super().__init__(parent, name)
 
         self.osCoreId: int = None
-        self.osCoreMainFunction: str = None
-        self.osCoreStackStartAddress: int = None
-        self.osCoreStackSize: int = None
+        self.osLogicalCoreId: int = None
+        self.osCORTEXMExecutionTimer = None
 
     def getOsCoreId(self) -> int:
         return self.osCoreId
@@ -1799,28 +1798,20 @@ class OsCoreConfig(EcucParamConfContainerDef):
             self.osCoreId = value
         return self
 
-    def getOsCoreMainFunction(self) -> str:
-        return self.osCoreMainFunction
+    def getOsLogicalCoreId(self) -> int:
+        return self.osLogicalCoreId
 
-    def setOsCoreMainFunction(self, value: str):
+    def setOsLogicalCoreId(self, value: int):
         if value is not None:
-            self.osCoreMainFunction = value
+            self.osLogicalCoreId = value
         return self
 
-    def getOsCoreStackStartAddress(self) -> int:
-        return self.osCoreStackStartAddress
+    def getOsCORTEXMExecutionTimer(self):
+        return self.osCORTEXMExecutionTimer
 
-    def setOsCoreStackStartAddress(self, value: int):
+    def setOsCORTEXMExecutionTimer(self, value):
         if value is not None:
-            self.osCoreStackStartAddress = value
-        return self
-
-    def getOsCoreStackSize(self) -> int:
-        return self.osCoreStackSize
-
-    def setOsCoreStackSize(self, value: int):
-        if value is not None:
-            self.osCoreStackSize = value
+            self.osCORTEXMExecutionTimer = value
         return self
 
 

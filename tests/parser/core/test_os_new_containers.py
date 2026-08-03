@@ -307,15 +307,13 @@ class TestOsCoreConfig:
             <d:lst name="OsCoreConfig" type="MAP">
                 <d:ctr name="Core0">
                     <d:var name="OsCoreId" type="INTEGER" value="0"/>
-                    <d:var name="OsCoreMainFunction" type="STRING" value="Main_Core0"/>
-                    <d:var name="OsCoreStackStartAddress" type="INTEGER" value="536870912"/>
-                    <d:var name="OsCoreStackSize" type="INTEGER" value="4096"/>
+                    <d:var name="OsLogicalCoreId" type="INTEGER" value="0"/>
+                    <d:var name="OsCORTEXMExecutionTimer" type="ENUMERATION" value="TIMER0"/>
                 </d:ctr>
                 <d:ctr name="Core1">
                     <d:var name="OsCoreId" type="INTEGER" value="1"/>
-                    <d:var name="OsCoreMainFunction" type="STRING" value="Main_Core1"/>
-                    <d:var name="OsCoreStackStartAddress" type="INTEGER" value="536875008"/>
-                    <d:var name="OsCoreStackSize" type="INTEGER" value="4096"/>
+                    <d:var name="OsLogicalCoreId" type="INTEGER" value="1"/>
+                    <d:var name="OsCORTEXMExecutionTimer" type="ENUMERATION" value="TIMER1"/>
                 </d:ctr>
             </d:lst>
         </datamodel>
@@ -337,14 +335,12 @@ class TestOsCoreConfig:
         assert len(core_configs) == 2
         assert core_configs[0].getName() == "Core0"
         assert core_configs[0].getOsCoreId() == 0
-        assert core_configs[0].getOsCoreMainFunction() == "Main_Core0"
-        assert core_configs[0].getOsCoreStackStartAddress() == 536870912
-        assert core_configs[0].getOsCoreStackSize() == 4096
+        assert core_configs[0].getOsLogicalCoreId() == 0
+        assert core_configs[0].getOsCORTEXMExecutionTimer() == "TIMER0"
         assert core_configs[1].getName() == "Core1"
         assert core_configs[1].getOsCoreId() == 1
-        assert core_configs[1].getOsCoreMainFunction() == "Main_Core1"
-        assert core_configs[1].getOsCoreStackStartAddress() == 536875008
-        assert core_configs[1].getOsCoreStackSize() == 4096
+        assert core_configs[1].getOsLogicalCoreId() == 1
+        assert core_configs[1].getOsCORTEXMExecutionTimer() == "TIMER1"
 
 
 class TestOsPeripheralArea:
